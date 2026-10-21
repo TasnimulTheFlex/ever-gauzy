@@ -380,7 +380,7 @@ export class SeedDataService {
 			// Disconnect to database
 			await this.closeConnection();
 
-			console.log('Database Ever Seed Completed');
+			console.log('Database Base360 Seed Completed');
 		} catch (error) {
 			this.handleError(error);
 		}

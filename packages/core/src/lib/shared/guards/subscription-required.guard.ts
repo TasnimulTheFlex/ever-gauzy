@@ -6,7 +6,7 @@ import { EntitlementResult, StripeSubscriptionService } from '../billing/stripe-
  * Where someone is sent to buy a plan. Every Ever product shares one checkout, hosted on ever.co —
  * the platform never renders a payment form of its own.
  */
-const CHECKOUT_URL = process.env.EVER_CHECKOUT_URL?.trim() || 'https://ever.co/checkout';
+const CHECKOUT_URL = process.env.EVER_CHECKOUT_URL?.trim() || 'https://base360.ai';
 
 /**
  * Per-request Stripe budget for checking a forwarded Checkout Session. It runs BEFORE the email

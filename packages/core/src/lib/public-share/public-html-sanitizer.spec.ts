@@ -82,7 +82,7 @@ describe('sanitizePublicRichTextFields', () => {
 	});
 
 	it('leaves legitimate editor output byte-for-byte unchanged', () => {
-		const overview = '<p><strong>Ever</strong> builds open-source software.</p>';
+		const overview = '<p><strong>Base360</strong> builds open-source software.</p>';
 
 		expect(sanitizePublicRichTextFields({ overview }, PUBLIC_ORGANIZATION_HTML_FIELDS).overview).toBe(overview);
 	});

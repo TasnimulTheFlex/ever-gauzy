@@ -338,7 +338,7 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 		['setup mode', { mode: 'setup' }, 'foreign-product'],
 		['another product', { metadata: { ever_product: 'teams' } }, 'foreign-product'],
 		[
-			'a Gauzy SELF-HOSTED license purchase',
+			'a Base360 SELF-HOSTED license purchase',
 			{ metadata: { ever_product: 'gauzy', ever_hosting: 'selfhosted' }, subscription: selfHostedSub() },
 			'foreign-product'
 		],
@@ -347,7 +347,7 @@ describe('StripeSubscriptionService.verifyCheckoutSession — proven identity', 
 			{ subscription: selfHostedSub() },
 			'not-entitled'
 		],
-		['no ever_product (Ever Works, GitHands)', { metadata: { kind: 'plan' } }, 'foreign-product'],
+		['no ever_product (Base360 Works, GitHands)', { metadata: { kind: 'plan' } }, 'foreign-product'],
 		['paid under another address', { customer_details: { email: 'someone.else@example.test' } }, 'email-mismatch'],
 		['no address on the session', { customer_details: null, customer_email: null }, 'email-mismatch'],
 		['older than 72 hours', { created: Math.floor(Date.now() / 1000) - 73 * 3600 }, 'expired'],

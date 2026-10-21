@@ -106,14 +106,14 @@ describe('AuthService.sendWorkspaceSigninCode - links in the sign-in code email'
 			appMagicSignUrl: `${TEAMS}/auth/passcode`,
 			appLink: 'https://attacker.example/',
 			companyLink: 'javascript:alert(1)',
-			appName: 'Ever Teams'
+			appName: 'Base360 Teams'
 		});
 
 		expect(integration.appMagicSignUrl).toBe(`${TEAMS}/auth/passcode`);
 		expect(integration.appLink).toBe(configured.appLink);
 		expect(integration.companyLink).toBe(configured.companyLink);
 		// Branding text is not a link and stays the caller's.
-		expect(integration.appName).toBe('Ever Teams');
+		expect(integration.appName).toBe('Base360 Teams');
 	});
 
 	it('still answers nothing for an unknown address, whatever the link', async () => {

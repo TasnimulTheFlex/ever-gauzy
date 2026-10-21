@@ -59,8 +59,8 @@ if (process.env.IS_ELECTRON && process.env.GAUZY_USER_PATH) {
 export const environment: IEnvironment = {
 	port: process.env.API_PORT || 3000,
 	host: process.env.API_HOST || 'http://localhost',
-	baseUrl: process.env.API_BASE_URL || 'https://api.gauzy.co',
-	clientBaseUrl: process.env.CLIENT_BASE_URL || 'https://app.gauzy.co',
+	baseUrl: process.env.API_BASE_URL || 'https://time-api.base360.ai',
+	clientBaseUrl: process.env.CLIENT_BASE_URL || 'https://time.base360.ai',
 	production: true,
 	envName: 'prod',
 
@@ -352,25 +352,25 @@ export const environment: IEnvironment = {
 	 * Email Template Config
 	 */
 	appIntegrationConfig: {
-		appName: process.env.APP_NAME || 'Gauzy',
-		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL}/assets/images/logos/logo_Gauzy.png`,
-		appSignature: process.env.APP_SIGNATURE || 'Gauzy Team',
-		appLink: resolveAppLink('https://app.gauzy.co/'),
+		appName: process.env.APP_NAME || 'Base360 Time Tracker',
+		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL || 'https://time.base360.ai'}/assets/images/logos/logo_Gauzy.png`,
+		appSignature: process.env.APP_SIGNATURE || 'Base360 Team',
+		appLink: resolveAppLink('https://time.base360.ai'),
 		appEmailConfirmationUrl:
 			process.env.APP_EMAIL_CONFIRMATION_URL || `${process.env.CLIENT_BASE_URL}/#/auth/confirm-email`,
 		appMagicSignUrl: process.env.APP_MAGIC_SIGN_URL || `${process.env.CLIENT_BASE_URL}/#/auth/magic-sign-in`,
-		companyLink: process.env.COMPANY_LINK || 'https://ever.co',
-		companyName: process.env.COMPANY_NAME || 'Ever Co. LTD'
+		companyLink: process.env.COMPANY_LINK || 'https://base360.ai',
+		companyName: process.env.COMPANY_NAME || 'Base360'
 	},
 
 	demo: process.env.DEMO === 'true' ? true : false,
 
 	demoCredentialConfig: {
-		superAdminEmail: process.env.DEMO_SUPER_ADMIN_EMAIL || `admin@ever.co`,
+		superAdminEmail: process.env.DEMO_SUPER_ADMIN_EMAIL || `admin@base360.ai`,
 		superAdminPassword: process.env.DEMO_SUPER_ADMIN_PASSWORD || `admin`,
-		adminEmail: process.env.DEMO_ADMIN_EMAIL || `local.admin@ever.co`,
+		adminEmail: process.env.DEMO_ADMIN_EMAIL || `local.admin@base360.ai`,
 		adminPassword: process.env.DEMO_ADMIN_PASSWORD || `admin`,
-		employeeEmail: process.env.DEMO_EMPLOYEE_EMAIL || `employee@ever.co`,
+		employeeEmail: process.env.DEMO_EMPLOYEE_EMAIL || `employee@base360.ai`,
 		employeePassword: process.env.DEMO_EMPLOYEE_PASSWORD || `12345678`
 	}
 };

@@ -8,12 +8,12 @@ const GAUZY_DEPLOYMENT = {
 	appIntegrationConfig: {
 		appName: 'Gauzy',
 		appLogo: 'https://app.gauzy.co/assets/images/logos/logo_Gauzy.png',
-		appSignature: 'Gauzy Team',
+		appSignature: 'Base360 Team',
 		appLink: 'https://app.gauzy.co/',
 		appEmailConfirmationUrl: 'https://app.gauzy.co/#/auth/confirm-email',
 		appMagicSignUrl: 'https://app.gauzy.co/#/auth/magic-sign-in',
 		companyLink: 'https://ever.co',
-		companyName: 'Ever Co. LTD'
+		companyName: 'Base360'
 	}
 };
 const mockEnvironment = JSON.parse(JSON.stringify(GAUZY_DEPLOYMENT));
@@ -253,7 +253,7 @@ describe('withAllowedEmailLinks', () => {
 		const onRejected = jest.fn();
 		const result = withAllowedEmailLinks(
 			{
-				appName: 'Ever Teams',
+				appName: 'Base360 Teams',
 				appLogo: 'https://cdn.example/logo.png',
 				appMagicSignUrl: 'https://app.ever.team/auth/passcode',
 				appEmailConfirmationUrl: 'https://attacker.example/verify-email',
@@ -265,7 +265,7 @@ describe('withAllowedEmailLinks', () => {
 		);
 
 		expect(result).toEqual({
-			appName: 'Ever Teams',
+			appName: 'Base360 Teams',
 			appLogo: 'https://cdn.example/logo.png',
 			appMagicSignUrl: 'https://app.ever.team/auth/passcode',
 			appEmailConfirmationUrl: defaults.appEmailConfirmationUrl,
@@ -280,7 +280,7 @@ describe('withAllowedEmailLinks', () => {
 
 	it('leaves absent fields absent and quietly fills empty ones with the configured value', () => {
 		const onRejected = jest.fn();
-		expect(withAllowedEmailLinks({ appName: 'Ever Teams' }, onRejected, TEAMS)).toEqual({ appName: 'Ever Teams' });
+		expect(withAllowedEmailLinks({ appName: 'Base360 Teams' }, onRejected, TEAMS)).toEqual({ appName: 'Base360 Teams' });
 		expect(withAllowedEmailLinks({ appMagicSignUrl: '', appLink: null }, onRejected, TEAMS)).toEqual({
 			appMagicSignUrl: defaults.appMagicSignUrl,
 			appLink: defaults.appLink

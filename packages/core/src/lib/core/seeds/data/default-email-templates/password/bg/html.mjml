@@ -7,13 +7,13 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text>
 					<p>Здравейте {{userName}}!</p>
 					<p>
-						Получихме заявка за промяна на паролата за вашия Gauzy акаунт
+						Получихме заявка за промяна на паролата за вашия Base360 акаунт
 						{{#if tenantName}} за <strong>{{tenantName}}</strong>{{/if}}.
 					</p>
 					<p>Ако сте поискали да нулирате паролата си, щракнете върху бутона по-долу:</p>
@@ -21,7 +21,7 @@
 				<mj-button
 					href="{{ generatedUrl }}"
 					font-family="Helvetica"
-					background-color="#3366ff"
+					background-color="#064749"
 					color="white"
 				>
 					Нулиране на парола
@@ -35,14 +35,14 @@
 					<p>Тази връзка за повторно задаване на парола ще изтече скоро от съображения за сигурност.</p>
 				</mj-text>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica">
 					© 2019,
-					<a href="{{appLink}}" style="color: #598bff">{{appName}}</a>
+					<a href="{{appLink}}" style="color: #064749">{{appName}}</a>
 					by
-					<a href="{{companyLink}}" style="color: #598bff">{{companyName}}</a>
+					<a href="{{companyLink}}" style="color: #064749">{{companyName}}</a>
 					Всички права запазени.
 				</mj-text>
 			</mj-column>

@@ -7,7 +7,7 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text font-size="20px" font-family="helvetica"
@@ -24,19 +24,19 @@
 				</mj-text>
 				<mj-text font-size="16px" font-family="helvetica">
 					<p>С Най-Добри Пожелания,</p>
-					<p>Gauzy Team</p>
+					<p>Base360 Team</p>
 				</mj-text>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica"
 					>© 2019,
-					<a href="{{appLink}}" style="color: #598bff"
+					<a href="{{appLink}}" style="color: #064749"
 						>{{appName}}</a
 					>
 					by
-					<a href="{{companyLink}}" style="color: #598bff"
+					<a href="{{companyLink}}" style="color: #064749"
 						>{{companyName}}</a
 					>
 					All rights reserved.

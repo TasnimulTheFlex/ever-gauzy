@@ -7,13 +7,13 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text>
 					<p>Hello {{userName}}!</p>
 					<p>
-						We received a request to reset the password for your Gauzy account
+						We received a request to reset the password for your Base360 account
 						{{#if tenantName}} for <strong>{{tenantName}}</strong>{{/if}}.
 					</p>
 					<p>If you requested to reset your password, click the button below:</p>
@@ -21,7 +21,7 @@
 				<mj-button
 					href="{{ generatedUrl }}"
 					font-family="Helvetica"
-					background-color="#3366ff"
+					background-color="#064749"
 					color="white"
 				>
 					Reset Password
@@ -35,14 +35,14 @@
 					<p>This password reset link will expire shortly for security reasons.</p>
 				</mj-text>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica">
 					© 2019,
-					<a href="{{appLink}}" style="color: #598bff">{{appName}}</a>
+					<a href="{{appLink}}" style="color: #064749">{{appName}}</a>
 					by
-					<a href="{{companyLink}}" style="color: #598bff">{{companyName}}</a>
+					<a href="{{companyLink}}" style="color: #064749">{{companyName}}</a>
 					All rights reserved.
 				</mj-text>
 			</mj-column>

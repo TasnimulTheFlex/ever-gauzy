@@ -7,7 +7,7 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text font-size="20px" font-family="helvetica"
@@ -16,22 +16,22 @@
 				<mj-button
 					href="{{generatedUrl}}"
 					font-family="Helvetica"
-					background-color="#3366ff"
+					background-color="#064749"
 					color="white"
 				>
 					View your estimates
 				</mj-button>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica"
 					>© 2019,
-					<a href="{{appLink}}" style="color: #598bff"
+					<a href="{{appLink}}" style="color: #064749"
 						>{{appName}}</a
 					>
 					by
-					<a href="{{companyLink}}" style="color: #598bff"
+					<a href="{{companyLink}}" style="color: #064749"
 						>{{companyName}}</a
 					>
 					All rights reserved.

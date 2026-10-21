@@ -58,7 +58,7 @@ const ROUTES: ReadonlyArray<{ field: string; handler: string }> = [
 /** The row a scripted service answers with, as the delivered read returns it. */
 const ROW = {
 	id: TENANT,
-	name: 'Ever Technologies',
+	name: 'Base360',
 	logo: 'logo.png',
 	imageId: '00000000-0000-4000-8000-000000000020',
 	stripeCustomerId: 'cus_ABC123',
@@ -290,10 +290,10 @@ describe('TenantResolver — one concept, two protocols, the same operations', (
 		const { resolver, tenantService } = surfaces();
 		jest.spyOn(RequestContext, 'currentUser').mockReturnValue(null);
 
-		await resolver.createTenant({ name: 'Ever Technologies', logo: 'logo.png' });
+		await resolver.createTenant({ name: 'Base360', logo: 'logo.png' });
 
 		expect(tenantService.onboardTenant).toHaveBeenCalledTimes(1);
-		expect(tenantService.onboardTenant.mock.calls[0][0]).toEqual({ name: 'Ever Technologies', logo: 'logo.png' });
+		expect(tenantService.onboardTenant.mock.calls[0][0]).toEqual({ name: 'Base360', logo: 'logo.png' });
 	});
 
 	it('refuses a caller that already belongs to a tenant, as the delivered handler does', async () => {
@@ -310,12 +310,12 @@ describe('TenantResolver — one concept, two protocols, the same operations', (
 		const { resolver, tenantService } = surfaces();
 		jest.spyOn(RequestContext, 'currentTenantId').mockReturnValue(TENANT);
 
-		expect(await resolver.updateTenant({ name: 'Ever Technologies OÜ' })).toBe(ROW);
+		expect(await resolver.updateTenant({ name: 'Base360 OÜ' })).toBe(ROW);
 		// `PUT /api/tenant` edits through `updateProfile` — the method that owns the logo rules — so the
 		// field does too, rather than reaching past it to the generic `update`.
 		expect(tenantService.updateProfile).toHaveBeenCalledWith(
 			TENANT,
-			expect.objectContaining({ name: 'Ever Technologies OÜ' })
+			expect.objectContaining({ name: 'Base360 OÜ' })
 		);
 		expect(tenantService.update).not.toHaveBeenCalled();
 		// The delivered route answers the store's own update result; the field answers the tenant,
@@ -349,14 +349,14 @@ describe('TenantResolver — one concept, two protocols, the same operations', (
 		jest.spyOn(RequestContext, 'currentTenantId').mockReturnValue(TENANT);
 
 		await expect(
-			resolver.updateTenant({ name: 'Ever Technologies', imageId: FOREIGN_IMAGE })
+			resolver.updateTenant({ name: 'Base360', imageId: FOREIGN_IMAGE })
 		).rejects.toBeInstanceOf(BadRequestException);
 		expect(existsBy).toHaveBeenCalledWith({ id: FOREIGN_IMAGE, tenantId: TENANT });
 		expect(update).not.toHaveBeenCalled();
 
 		// The caller's own asset still links, through the same method.
-		expect(await resolver.updateTenant({ name: 'Ever Technologies', imageId: OWN_IMAGE })).toBe(ROW);
-		expect(update).toHaveBeenCalledWith(TENANT, { name: 'Ever Technologies', imageId: OWN_IMAGE });
+		expect(await resolver.updateTenant({ name: 'Base360', imageId: OWN_IMAGE })).toBe(ROW);
+		expect(update).toHaveBeenCalledWith(TENANT, { name: 'Base360', imageId: OWN_IMAGE });
 	});
 
 	it('removes the caller’s tenant through the same service method the route calls', async () => {

@@ -41,7 +41,7 @@ describe('TaskService.update — moving a task to another project', () => {
 			where.id === 'project-new' &&
 			where.tenantId === fixture.tenantId &&
 			where.organizationId === fixture.organizationId
-				? { id: 'project-new', name: 'Ever Works' }
+				? { id: 'project-new', name: 'Base360 Works' }
 				: null
 		);
 		jest.spyOn(TenantAwareCrudService.prototype, 'findOneByIdString').mockResolvedValue(stored as never);
