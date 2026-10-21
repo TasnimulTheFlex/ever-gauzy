@@ -44,9 +44,7 @@ export function initializeSentry(): Client<ClientOptions<BaseTransportOptions>> 
 		// Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
 		tracePropagationTargets: [
 			'localhost',
-			/^https:\/\/api\.gauzy\.co\/api/,
-			/^https:\/\/apistage\.gauzy\.co\/api/,
-			/^https:\/\/apidemo\.gauzy\.co\/api/
+			/^https:\/\/time-api\.base360\.ai\/api(?:\/|$)/
 		],
 
 		// Capture Replay for 10% of all sessions,

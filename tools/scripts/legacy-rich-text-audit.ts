@@ -460,7 +460,7 @@ Options
   --json <path>          Write the machine-readable report there.
   -h, --help             This text.
 
-Database connection uses the standard Gauzy variables — DB_TYPE, DB_HOST, DB_PORT,
+Database connection uses the standard Base360 variables — DB_TYPE, DB_HOST, DB_PORT,
 DB_NAME, DB_USER, DB_PASS, DB_SSL_MODE — against a production-representative SNAPSHOT.
 The script only ever issues SELECT statements.
 

@@ -17,11 +17,11 @@ import type { RegistryGuard } from './support/registry';
  * keeps the API database, the uploaded files, the app's user data and logs, and screenshots of each step.
  */
 const ADMIN = {
-	email: process.env['DESKTOP_E2E_ADMIN_EMAIL'] || 'admin@ever.co',
+	email: process.env['DESKTOP_E2E_ADMIN_EMAIL'] || 'admin@base360.ai',
 	password: process.env['DESKTOP_E2E_ADMIN_PASSWORD'] || 'admin'
 };
 const EMPLOYEE = {
-	email: process.env['DESKTOP_E2E_EMPLOYEE_EMAIL'] || 'employee@ever.co',
+	email: process.env['DESKTOP_E2E_EMPLOYEE_EMAIL'] || 'employee@base360.ai',
 	password: process.env['DESKTOP_E2E_EMPLOYEE_PASSWORD'] || '12345678'
 };
 

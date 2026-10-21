@@ -18,7 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class SplashScreenComponent implements OnInit {
 	private _application = {
-		name: 'gauzy-dev',
+		name: 'Base360',
 		version: 'dev',
 		iconPath: null
 	};

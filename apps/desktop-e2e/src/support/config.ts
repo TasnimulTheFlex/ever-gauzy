@@ -73,16 +73,16 @@ export const DIST_DIR: Record<DesktopAppName, string> = {
 };
 
 /** The deep-link protocol each app registers on its first start (Windows: `HKCU\Software\Classes\<protocol>`). */
-export const PROTOCOLS = ['gauzy-timer', 'gauzy-desktop', 'gauzy-server', 'gauzy-api-server', 'gauzy-agent', 'gauzy-mcp-server'];
+export const PROTOCOLS = ['base360-timer', 'base360-desktop', 'base360-server', 'base360-api-server', 'base360-agent', 'base360-mcp-server'];
 
 /** The app id each app is released with (`build.appId`), when its built manifest does not say. */
 const APP_IDS: Record<DesktopAppName, string> = {
-	'desktop-timer': 'com.ever.gauzydesktoptimer',
-	desktop: 'com.ever.gauzydesktop',
-	server: 'com.ever.gauzyserver',
-	'server-api': 'com.ever.gauzyapiserver',
-	agent: 'com.ever.gauzyagent',
-	'server-mcp': 'com.ever.gauzymcpserver'
+	'desktop-timer': 'com.base360.timetracker',
+	desktop: 'com.base360.desktop',
+	server: 'com.base360.server',
+	'server-api': 'com.base360.apiserver',
+	agent: 'com.base360.agent',
+	'server-mcp': 'com.base360.mcpserver'
 };
 
 interface BuiltManifest {

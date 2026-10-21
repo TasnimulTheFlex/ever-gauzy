@@ -195,7 +195,7 @@ function summary(result, count) {
 	let verdict = 'all public';
 	if (result.exit === 1) verdict = 'a private repository is referenced';
 	if (result.exit === 2) verdict = 'inconclusive';
-	return `check-private-deps: ${count} reference(s) to ${result.repos.length} ever-co repositories (${result.repos.join(', ') || 'none'}); ${verdict}\n`;
+	return `check-private-deps: ${count} reference(s) to ${result.repos.length} upstream repositories (${result.repos.join(', ') || 'none'}); ${verdict}\n`;
 }
 
 async function main(argv) {
