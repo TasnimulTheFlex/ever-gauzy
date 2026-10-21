@@ -69,7 +69,7 @@
 		"TO_INVOICE": "To invoice",
 		"PUBLIC_APPOINTMENT_BOOK": "Book Public Appointment",
 		"SAVE_AS_DRAFT": "Save as Draft",
-		"SAVE_AND_SEND_CONTACT": "Save and send to contact in gauzy",
+		"SAVE_AND_SEND_CONTACT": "שמירה ושליחה לאיש קשר ב־Base360",
 		"SAVE_AND_SEND_EMAIL": "Save and send via email",
 		"EVENT_TYPES": "Event Types",
 		"SEARCH": "Search",
@@ -814,7 +814,7 @@
 		"TOTAL_INCOME_OR_MONTHLY_INCOME": "Total Income/Monthly Income",
 		"PROFITS": "Profits",
 		"BONUSES_PAID": "Bonuses Paid",
-		"TOTAL_HOURS_WORKED_OVER_GAUZY": "Total Hours worked over Gauzy",
+		"TOTAL_HOURS_WORKED_OVER_GAUZY": "סך שעות העבודה ב־Base360",
 		"MINIMUM_PROJECT_SIZE": "Minimum Project Size",
 		"PROJECTS_COUNT": "Projects Count",
 		"CLIENTS_COUNT": "Clients Count",
@@ -857,7 +857,7 @@
 		"UPWORK": "Upwork",
 		"MAKE_COM": "Make.com",
 		"ZAPIER": "Zapier",
-		"GAUZY_AI": "Gauzy AI",
+		"GAUZY_AI": "Base360 AI",
 		"ACTIVEPIECES": "Activepieces",
 		"PROPOSALS": "Proposals",
 		"TIME_OFF": "Time Off",
@@ -908,12 +908,12 @@
 			"WRONG_FILE_NAME": "Wrong file name!!!",
 			"CORRECT_FILE_NAME": "The file name should be: \"archive.zip\"",
 			"DOWNLOAD_TEMPLATES": "Download templates",
-			"MIGRATE_TO_CLOUD": "Migrate to Ever Gauzy Cloud",
-			"IMPORT_INFO": "Click \"Import\" to import your data into Gauzy DB.",
-			"EXPORT_INFO": "Click \"Export\" to export data from Gauzy DB.",
-			"DOWNLOAD_TEMPLATES_INFO": "Click \"Download Templates\" to download Zip archive with CSV templates for the format of Gauzy data.",
-			"MIGRATE_TO_CLOUD_INFO": "Click \"Migrate to Ever Gauzy Cloud\" to migrate from self-hosted to cloud edition.",
-			"MIGRATE_SUCCESSFULLY": "Gauzy Cloud migration for '{{ tenant }}' successfully!",
+			"MIGRATE_TO_CLOUD": "מעבר לענן של Base360",
+			"IMPORT_INFO": "לחצו על \"ייבוא\" כדי לייבא את הנתונים שלכם למסד הנתונים של Base360.",
+			"EXPORT_INFO": "לחצו על \"ייצוא\" כדי לייצא נתונים ממסד הנתונים של Base360.",
+			"DOWNLOAD_TEMPLATES_INFO": "לחצו על \"הורדת תבניות\" כדי להוריד קובץ ZIP עם תבניות CSV בפורמט הנתונים של Base360.",
+			"MIGRATE_TO_CLOUD_INFO": "לחצו על \"מעבר לענן של Base360\" כדי לעבור מהגרסה באירוח עצמי לגרסת הענן.",
+			"MIGRATE_SUCCESSFULLY": "המעבר לענן של Base360 עבור '{{ tenant }}' הושלם בהצלחה!",
 			"ACCOUNTING_TEMPLATE": "Accounting Template",
 			"ACTIVITY": "Activity",
 			"APPROVAL_POLICY": "Approval Policy",
@@ -1161,7 +1161,7 @@
 		"ACCOUNTING_TEMPLATES": "Accounting Templates",
 		"FOCUS": "Focus",
 		"APPLICATIONS": "Applications",
-		"OPEN_GA_BROWSER": "פתח את Gauzy בדפדפן",
+		"OPEN_GA_BROWSER": "פתח את Base360 בדפדפן",
 		"START_SERVER": "התחל את השרת",
 		"STOP_SERVER": "עצור את השרת",
 		"DOCUMENTS": "מסמכים",
@@ -1237,8 +1237,8 @@
 		"CORPORATE": "Corporate",
 		"MATERIAL_LIGHT_THEME": "Material Light",
 		"MATERIAL_DARK_THEME": "Material Dark",
-		"GAUZY_LIGHT": "Gauzy Light",
-		"GAUZY_DARK": "Gauzy Dark",
+		"GAUZY_LIGHT": "Base360 בהיר",
+		"GAUZY_DARK": "Base360 כהה",
 		"LANGUAGE": "Language",
 		"ENGLISH": "אנגלית",
 		"FRENCH": "צָרְפָתִית",
@@ -1268,7 +1268,7 @@
 	"CHANGELOG_MENU": {
 		"HEADER": "What's new?",
 		"LEARN_MORE_URL": "Learn more",
-		"GAUZY_FEATURES": "Gauzy features"
+		"GAUZY_FEATURES": "יכולות Base360"
 	},
 	"REPORT_PAGE": {
 		"MEMBERS_WORKED": "Members Worked",
@@ -1333,7 +1333,7 @@
 			"MANUAL_ACTIVITY": "No records found. Please select date range, employee or project.",
 			"AMOUNT_OWED": "No Amount Owed",
 			"WEEKLY_TIME_AND_ACTIVITY": "You have not any tracked time and activity yet for these day's.",
-			"DAILY_TIME_AND_ACTIVITY": "There is no time and activity tracked yet for this day. Please use the <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Gauzy Desktop Timer App</a>.",
+			"DAILY_TIME_AND_ACTIVITY": "עדיין לא תועדו זמן ופעילות ליום זה. השתמשו ביישום <a href={{downloadURL}} rel=\"noopener\" target=\"_blank\">Base360 Timer</a>.",
 			"PROJECT_BUDGET": "You have not created any project with budget.",
 			"CLIENT_BUDGET": "You have not created any client with budget."
 		},
@@ -1353,7 +1353,7 @@
 			"DATE_RANGE_PLACEHOLDER": "Choose date between",
 			"CLIENT_ID": "Hubstaff Client ID",
 			"CLIENT_SECRET": "Hubstaff Client Secret",
-			"GRANT_PERMISSION": "Next you will be taken to Hubstaff to grant permission to Gauzy.",
+			"GRANT_PERMISSION": "כעת תועברו ל־Hubstaff כדי להעניק הרשאה ל־Base360.",
 			"ENTER_CLIENT_SECRET": "Enter client secret to get access token."
 		},
 		"UPWORK_PAGE": {
@@ -1363,7 +1363,7 @@
 			"SUCCESSFULLY_AUTHORIZED": "Successfully authorized",
 			"API_KEY": "Upwork API key",
 			"SECRET": "Upwork Secret",
-			"NEXT_STEP_INFO": "Next you will be taken to Upwork to grant permission to Gauzy.",
+			"NEXT_STEP_INFO": "כעת תועברו ל־Upwork כדי להעניק הרשאה ל־Base360.",
 			"CONTRACTS": "Contracts",
 			"SYNCED_CONTRACTS": "Synced Contracts",
 			"SELECT_DATE": "Date",
@@ -1507,9 +1507,9 @@
 				"SETTINGS": "הגדרות"
 			},
 			"TOOLTIP": {
-				"TRIGGERS": "טריגרים הם אירועים שמתרחשים ב-Gauzy וניתן להשתמש בהם כדי להפעיל פעולות ב-Zapier.",
-				"ACTIONS": "פעולות הן אירועים שמתרחשים ב-Zapier וניתן להשתמש בהם כדי להפעיל פעולות ב-Gauzy.",
-				"WEBHOOKS": "וובחוקים הם אירועים שמתרחשים ב-Zapier וניתן להשתמש בהם כדי להפעיל פעולות ב-Gauzy.",
+				"TRIGGERS": "טריגרים הם אירועים שמתרחשים ב-Base360 וניתן להשתמש בהם כדי להפעיל פעולות ב-Zapier.",
+				"ACTIONS": "פעולות הן אירועים שמתרחשים ב-Zapier וניתן להשתמש בהם כדי להפעיל פעולות ב-Base360.",
+				"WEBHOOKS": "וובחוקים הם אירועים שמתרחשים ב-Zapier וניתן להשתמש בהם כדי להפעיל פעולות ב-Base360.",
 				"SETTINGS": "הגדרות הן ההגדרות לשילוב Zapier."
 			},
 			"MESSAGE": {
@@ -1526,7 +1526,7 @@
 				"WEBHOOK_URL": "כתובת אתר של וובחוק",
 				"WEBHOOK_URL_PLACEHOLDER": "הזן כתובת אתר של וובחוק",
 				"WEBHOOK_URL_INVALID": "אנא הזן כתובת אתר חוקית של וובחוק",
-				"WEBHOOK_INFO": "וובחוק הוא כתובת אתר שמשמשת לעדכון נתונים ב-Gauzy בהתאם לאירוע מסוים ב-Zapier.",
+				"WEBHOOK_INFO": "וובחוק הוא כתובת אתר שמשמשת לעדכון נתונים ב-Base360 בהתאם לאירוע מסוים ב-Zapier.",
 				"SAVE": "שמור הגדרות"
 			},
 			"ACTIONS": {
@@ -1563,11 +1563,11 @@
 			}
 		},
 		"GAUZY_AI_PAGE": {
-			"TITLE": "Gauzy AI Integration",
-			"API_KEY": "Gauzy AI key",
-			"API_SECRET": "Gauzy AI Secret",
+			"TITLE": "שילוב Base360 AI",
+			"API_KEY": "מפתח Base360 AI",
+			"API_SECRET": "סוד Base360 AI",
 			"OPEN_AI_API_SECRET_KEY": "Open AI Secret Key",
-			"DESCRIPTION": "Activate Gauzy AI integration for smarter job hunting.",
+			"DESCRIPTION": "הפעילו את שילוב Base360 AI לחיפוש עבודה חכם יותר.",
 			"CONSUMER_KEYS": "Consumer Keys",
 			"GENERATED": "Generated",
 			"TAB": {
@@ -1579,7 +1579,7 @@
 				"API_SECRET": "ה-API Secret משמש כזהות האפליקציה שלך לבקשות API, נשמרת מסתירה לצמיתות, עם חלק מהתווים נראים.",
 				"OPEN_AI_API_SECRET_KEY": "ה-OpenAI API Secret משמש כזהות האפליקציה שלך לבקשות API, נשמרת מסתירה לצמיתות, עם חלק מהתווים נראים.",
 				"ENABLE_JOBS_SEARCH_MATCHING_ANALYSIS": "מאפשר ניתוח מתקדם של חיפוש והתאמה למשתמש לשיפור הדיוק. בהשבתה, פריטי התפריט 'גלישה' ו-'התאמה' בתפריט המשרות ייחבאו כדי להבטיח ממשק משתמש קל ופשוט.",
-				"ENABLE_EMPLOYEE_PERFORMANCE_ANALYSIS": "ניהול העברת מדדי עבודה של עובד, כולל קלטי מקלדת, תנועות עכבר וצילומי מסך, לניתוח על ידי Gauzy AI. הפעלה מאפשרת ניתוח ביצועים מקיף. בכיבוי, Gauzy AI לא יקבל ולא ינתח צילומי מסך או כל קלט פרטני נוסף, מבטיח פרטיות מחמירה ושליטה מוחלטת על שיתוף המידע."
+				"ENABLE_EMPLOYEE_PERFORMANCE_ANALYSIS": "ניהול העברת מדדי עבודה של עובד, כולל קלטי מקלדת, תנועות עכבר וצילומי מסך, לניתוח על ידי Base360 AI. הפעלה מאפשרת ניתוח ביצועים מקיף. בכיבוי, Base360 AI לא יקבל ולא ינתח צילומי מסך או כל קלט פרטני נוסף, מבטיח פרטיות מחמירה ושליטה מוחלטת על שיתוף המידע."
 			}
 		},
 		"GITHUB_PAGE": {
@@ -1999,8 +1999,8 @@
 		"KIND_HUMAN": "אנשים",
 		"KIND_AGENT": "סוכנים",
 		"AGENT_BADGE": "סוכן",
-		"MANAGED_BY_EVER_WORKS": "מנוהל על ידי Ever Works: השם והפרופיל של סוכן זה משתנים ב-Ever Works ומסונכרנים ל-Gauzy.",
-		"MANAGED_EXTERNALLY": "מנוהל חיצונית: השם והפרופיל של סוכן זה משתנים במערכת שממנה הוא מגיע ומסונכרנים ל-Gauzy.",
+		"MANAGED_BY_EVER_WORKS": "מנוהל חיצונית: השם והפרופיל של סוכן זה משתנים במערכת שממנה הוא מגיע ומסונכרנים ל-Base360.",
+		"MANAGED_EXTERNALLY": "מנוהל חיצונית: השם והפרופיל של סוכן זה משתנים במערכת שממנה הוא מגיע ומסונכרנים ל-Base360.",
 		"OPEN_MANAGED_AGENT": "פתח את דף הסוכן",
 		"HEADER": "Manage Employees",
 		"ADD_EMPLOYEE": "הוסף עובד",
@@ -4359,9 +4359,9 @@
 		"REDIRECT_TO_HOME": "תופנה לדף הבית בקרוב"
 	},
 	"HELP_PAGE": {
-		"INTRO": "מצאו תיעוד, קבלו תשובות וצרו קשר עם הצוות שמאחורי Gauzy.",
+		"INTRO": "מצאו תיעוד, קבלו תשובות וצרו קשר עם הצוות שמאחורי Base360.",
 		"DOCUMENTATION": "תיעוד",
-		"DOCUMENTATION_DESC": "מדריכים ותיעוד לכל יכולת ב-Gauzy.",
+		"DOCUMENTATION_DESC": "מדריכים ותיעוד לכל יכולת ב-Base360.",
 		"FAQ": "שאלות נפוצות",
 		"FAQ_DESC": "תשובות לשאלות הנפוצות ביותר.",
 		"SUPPORT_CHAT": "צ'אט תמיכה",
@@ -4370,9 +4370,9 @@
 		"REPORT_ISSUE_DESC": "מצאתם באג? פתחו issue ב-GitHub.",
 		"GITHUB": "GitHub",
 		"GITHUB_DESC": "קוד מקור, גרסאות ודיונים.",
-		"WEBSITE": "אתר Gauzy",
-		"WEBSITE_DESC": "מידע נוסף על פלטפורמת Gauzy.",
-		"ABOUT_LINK": "אודות Gauzy",
+		"WEBSITE": "אתר Base360",
+		"WEBSITE_DESC": "מידע נוסף על פלטפורמת Base360.",
+		"ABOUT_LINK": "אודות Base360",
 		"ABOUT_LINK_DESC": "פרטי גרסה, רישיון וקישורים.",
 		"HELP": "עזרה",
 		"KNOWLEDGE_BASE": "Knowledge base",
@@ -4814,8 +4814,8 @@
 		}
 	},
 	"ABOUT_PAGE": {
-		"COPYRIGHT": "‏Copyright © 2019-{{year}}, Ever Co. LTD. כל הזכויות שמורות.",
-		"DESCRIPTION": "‏Ever® Gauzy™ היא פלטפורמה פתוחה לניהול עסקי עבור כלכלות שיתופיות ולפי דרישה — ERP, CRM, HRM, ATS וניהול פרויקטים עם מעקב זמן מובנה.",
+		"COPYRIGHT": "‏Copyright © 2019-{{year}}, Base360. כל הזכויות שמורות.",
+		"DESCRIPTION": "‏Base360 Time Tracker היא פלטפורמה פתוחה לניהול עסקי עבור כלכלות שיתופיות ולפי דרישה — ERP, CRM, HRM, ATS וניהול פרויקטים עם מעקב זמן מובנה.",
 		"LICENSE": "קוד פתוח, משוחרר תחת רישיון",
 		"VERSION_DETAILS": "פרטי גרסה",
 		"VERSION_MISMATCH": "אפליקציית הווב וה-API נבנו מקומיטים שונים — ייתכן שפריסה מתבצעת כעת.",
@@ -4827,7 +4827,7 @@
 		"ABOUT": "עלינו",
 		"GITHUB": {
 			"TITLE": "ב-GitHub",
-			"DESCRIPTION": "Ever Gauzy מפותח בקוד פתוח: עקבו אחר הגרסאות, דווחו על בעיה או תרמו.",
+			"DESCRIPTION": "Base360 מפותח בקוד פתוח: עקבו אחר הגרסאות, דווחו על בעיה או תרמו.",
 			"RELEASES": "גרסאות",
 			"ISSUES": "בעיות",
 			"PULL_REQUESTS": "בקשות משיכה",
@@ -5293,19 +5293,19 @@
 		"WAIT_FOR": "ממתין ש-{{ name }} יתחיל...",
 		"SETUP": {
 			"WELCOME": "ברוכים הבאים",
-			"TITLE": "ברוכים הבאים ל־Ever® Gauzy™ - פלטפורמת ניהול העסק (ERP/CRM/HRM) הפתוחה-מקור",
-			"LABEL": "יישום לשולחן העבודה Gauzy מספק את כל הפונקציות המלאות של פלטפורמת Gauzy, הזמינה ישירות במחשב שולחן העבודה או במחשב נייד. בנוסף, התוכנה מאפשרת מעקב אחר זמן העבודה, הקלטת פעילות ואת היכולת לקבל תזכורות/הודעות בנושא מעקב.",
-			"TITLE_SERVER": "אשף התקנת שרת Gauzy",
-			"LABEL_SERVER": "יישום לשולחן העבודה Gauzy מספק את כל הפונקציות המלאות של פלטפורמת Gauzy, הזמינה ישירות במחשב שולחן העבודה או במחשב נייד. בנוסף, התוכנה מאפשרת מעקב אחר זמן העבודה, הקלטת פעילות ואת היכולת לקבל תזכורות/הודעות בנושא מעקב.",
+			"TITLE": "ברוכים הבאים ל־Base360 Time Tracker - פלטפורמת ניהול העסק (ERP/CRM/HRM) הפתוחה-מקור",
+			"LABEL": "יישום לשולחן העבודה Base360 Timer מספק את כל הפונקציות המלאות של פלטפורמת Base360, הזמינה ישירות במחשב שולחן העבודה או במחשב נייד. בנוסף, התוכנה מאפשרת מעקב אחר זמן העבודה, הקלטת פעילות ואת היכולת לקבל תזכורות/הודעות בנושא מעקב.",
+			"TITLE_SERVER": "אשף התקנת שרת Base360",
+			"LABEL_SERVER": "יישום לשולחן העבודה Base360 Timer מספק את כל הפונקציות המלאות של פלטפורמת Base360, הזמינה ישירות במחשב שולחן העבודה או במחשב נייד. בנוסף, התוכנה מאפשרת מעקב אחר זמן העבודה, הקלטת פעילות ואת היכולת לקבל תזכורות/הודעות בנושא מעקב.",
 			"FUNCTIONALITIES": "פונקציות",
 			"WHAT_WOULD_LIKE_USE": "מה תרצה להשתמש בו?",
 			"SELECT_MULTIPLE_OPTIONS": "תוכל לבחור רק אפשרות אחת או שתיים.",
 			"TIME_ACTIVITY_FEATURES": "תכונות מעקב אחר זמן ופעילות",
-			"GP_FEATURES": "תכונות פלטפורמת Gauzy",
-			"HOW_GONNA_USE_GP": "איך תשתמש בפלטפורמה של Gauzy?",
+			"GP_FEATURES": "תכונות פלטפורמת Base360",
+			"HOW_GONNA_USE_GP": "איך תשתמש בפלטפורמה של Base360?",
 			"SELECT_ONE_OPTION": "עליך לבחור רק אחת מהאפשרויות הבאות.",
 			"INTEGRATED": "משולב",
-			"INSTALL_GP_LOCAL": "התקן והפעל את פלטפורמת Gauzy במחשב המקומי שלך.",
+			"INSTALL_GP_LOCAL": "התקן והפעל את פלטפורמת Base360 במחשב המקומי שלך.",
 			"CUSTOM_NETWORK": "מותאם אישית / מרשת",
 			"SEPARATE_SERVER": "התחבר לשרת נפרד ברשת העבודה שלך.",
 			"LIVE": "חיים",
@@ -5315,7 +5315,7 @@
 			"LEGAL_NOTE": "משפטי: שמות המוצרים, שמות המותגים, הלוגואים, הסימנים המסחריים והסימנים המוגנים בזכות יוצרים הינם רכושם הבלעדי של בעלי הזכויות המתאימים. אין לנו קשר, אישור, שיתוף פעולה או תמיכה מרשתות החברות, מותגים, מוצרים, אתרים או שירותים של צד ג' שהזכויות משמעו מוגנות. קישורים לתוכנה מצד שלישי נמסרים בכדי להסיק נוחות ולמרכז ידע בלבד, ואין בהם המלצה או אישור של כל מוצר, שירות או דעה של החברה או הארגון או היחיד/ה. אנו משתמשים בלוגואים ושמות מותגים המתאימים רק למטרה פרסומתית, על מנת לכבד שימוש ועבודה עם מוצרים תואמים או טכנולוגיות תואמות או השילוב המובנה בין שירותים תואמים.",
 			"SETTING": "הגדרה",
 			"READY_FOR_ADVANCED_SETTINGS": "האם אתה מוכן להגדרות מתקדמות?",
-			"FINAL_STEP_GP": "זהו השלב הסופי בו תוכל להתעמק בפרטים הקטנים של הפלטפורמה Gauzy שלך.",
+			"FINAL_STEP_GP": "זהו השלב הסופי בו תוכל להתעמק בפרטים הקטנים של הפלטפורמה Base360 שלך.",
 			"PORT": "פורט",
 			"PORT_API": "פורט API",
 			"UI": "ממשק משתמש",
@@ -5326,8 +5326,8 @@
 			"USER": "משתמש",
 			"PASSWORD": "סיסמה",
 			"UI_HOSTNAME": "שם מארח יישום ממשק משתמש / כתובת IP",
-			"TITLE_SERVER_API": "אשף התקנת שרת API של Ever Gauzy",
-			"LABEL_SERVER_API": "Ever Gauzy API Server Desktop App מספקת את הפונקציונליות המלאה של פלטפורמת Gauzy הזמינה ישירות במחשב השולחני או במחשב הנייד שלך. בנוסף, הוא מאפשר מעקב אחר זמן עבודה, רישום פעילות ויכולת לקבל תזכורות/הודעות מעקב.",
+			"TITLE_SERVER_API": "אשף התקנת שרת API של Base360",
+			"LABEL_SERVER_API": "יישום שולחן העבודה של שרת ה־API של Base360 מספק את כל יכולות הפלטפורמה במחשב השולחני או הנייד. הוא מאפשר גם מעקב אחר זמן העבודה, רישום פעילות וקבלת תזכורות והתראות.",
 			"UNABLE_TO_CONNECT": "Unable to connect to the server. Please check your API host or internet connection.",
 			"JWT_SECRET": "סוד JWT",
 			"JWT_SECRET_PLACEHOLDER": "הזן מפתח סודי עבור JWT",
@@ -5499,7 +5499,7 @@
 			"ERROR_OCCURRED": "אירעה שגיאה",
 			"DB_CLEANUP_TITLE": "גרסת בסיס הנתונים קרוב לוודאי ישנה",
 			"DB_CLEANUP_MESSAGE": "זוהתה גרסא חדשה של האפליקציה. כדי להימנע מבעיות תאימות, האם ברצונך למחוק את בסיס הנתונים המקומי ולהתחיל בבסיס נתונים חדש?",
-			"DB_CLEANUP_DETAIL": "הסרת בסיס הנתונים תמחק נתונים שנשמרו במטמון המקומי. נתונים שכבר סונכרנו עם השרת יישמרו בבטחה בענן Gauzy.",
+			"DB_CLEANUP_DETAIL": "הסרת בסיס הנתונים תמחק נתונים שנשמרו במטמון המקומי. נתונים שכבר סונכרנו עם השרת יישמרו בבטחה בענן Base360.",
 			"DB_CLEANUP_REMOVE": "הסר מסד נתונים",
 			"DB_CLEANUP_KEEP": "שמור",
 			"DB_CLEANUP_UNSYNCED_TITLE": "זוהו נתונים לא מסונכרנים",
@@ -5580,7 +5580,7 @@
 		"PERMISSIONS": {
 			"MENU_LABEL": "הרשאות מערכת",
 			"TITLE": "הרשאות מערכת",
-			"DESCRIPTION": "Gauzy דורש הרשאות macOS מסוימות כדי לעקוב אחר עבודתך במדויק. סקור אותן ונהל אותן כאן.",
+			"DESCRIPTION": "Base360 דורש הרשאות macOS מסוימות כדי לעקוב אחר עבודתך במדויק. סקור אותן ונהל אותן כאן.",
 			"SCREEN_RECORDING": "הקלטת מסך",
 			"SCREEN_RECORDING_DESC": "נדרש לצלם צילומי מסך אוטומטיים במהלך סשני העבודה המעוקבים שלך.",
 			"STATUS": "סטטוס",
@@ -5598,7 +5598,7 @@
 			"RELAUNCH": "הפעל מחדש",
 			"RELAUNCH_DESC": "הרשאה ניתנה אך עדיין לא ניתן לצלם את המסך? לחץ על הפעל מחדש כדי להחיל את השינויים.",
 			"DIALOG_TITLE": "נדרשת הרשאה להקלטת מסך",
-			"DIALOG_DESC": "Gauzy זקוק להרשאת הקלטת מסך כדי לצלם מסכים במהלך סשן העבודה שלך. אנא אשר גישה להמשך.",
+			"DIALOG_DESC": "Base360 זקוק להרשאת הקלטת מסך כדי לצלם מסכים במהלך סשן העבודה שלך. אנא אשר גישה להמשך.",
 			"POLLING_HINT": "תיבת הדו-שיח תיסגר אוטומטית לאחר מתן ההרשאה.",
 			"START_ANYWAY": "התחל ללא צילום מסך",
 			"ACCESSIBILITY": "נגישות",
@@ -6098,7 +6098,7 @@
 			},
 			"SUGGESTED_ENDPOINT": "נקודת קצה לאזור זה:",
 			"USE_SUGGESTION": "השתמש",
-			"SAVE_NOTE": "בעת השמירה, Gauzy משתמש בפרטי הגישה האלה כדי ליצור את הבאקט ב-Wasabi. אם Wasabi דוחה את הבקשה, ההגדרות אינן נשמרות.",
+			"SAVE_NOTE": "בעת השמירה, Base360 משתמש בפרטי הגישה האלה כדי ליצור את הבאקט ב-Wasabi. אם Wasabi דוחה את הבקשה, ההגדרות אינן נשמרות.",
 			"LABELS": {
 				"ACCESS_KEY_ID": "מזהה מפתח גישה",
 				"SECRET_ACCESS_KEY": "מפתח גישה סודי",
@@ -6337,7 +6337,7 @@
 		"DO_NOT_HAVE_ACCOUNT_TITLE": "Don't have an account?",
 		"FORGOT_PASSWORD_TITLE": "Forgot Password?",
 		"OR_SIGN_IN_WITH": "או להתחבר עם",
-		"SIGN_IN_WITH_EVER_ID": "התחברות עם Ever ID",
+		"SIGN_IN_WITH_EVER_ID": "התחברות עם Base360",
 		"LOGIN_WITH_EVER_ID": "התחברות עם {{ everId }}",
 		"SIGN_IN_WITH_KEYCLOAK": "התחברות עם Keycloak",
 		"FORGOT_EMAIL_TITLE": "שכחת כתובת דואר אלקטרוני?",
@@ -6606,7 +6606,7 @@
 			"SOURCE_TYPES": {
 				"CDN": "CDN",
 				"NPM": "NPM",
-				"GAUZY": "Gauzy"
+				"GAUZY": "Base360"
 			},
 			"CDN": {
 				"URL": "כתובת CDN",
@@ -6783,7 +6783,7 @@
 	},
 	"OAUTH_CLIENTS": {
 		"TITLE": "לקוחות OAuth",
-		"SUBTITLE": "רשום ונהל אפליקציות צד שלישי שיכולות לבקש גישה ל-Ever Gauzy בשם המשתמשים שלך.",
+		"SUBTITLE": "רשום ונהל אפליקציות צד שלישי שיכולות לבקש גישה ל-Base360 בשם המשתמשים שלך.",
 		"STATUS": {
 			"ACTIVE": "פעיל",
 			"INACTIVE": "לא פעיל"
