@@ -38,9 +38,9 @@
 		"EMAIL": "Email"
 	},
 	"SOURCE": {
-		"EVER_WORKS": "Ever Works",
+		"EVER_WORKS": "Connected workspace",
 		"EMAIL": "Email",
-		"GAUZY": "Gauzy",
+		"GAUZY": "Base360",
 		"SYSTEM": "System"
 	},
 	"STATUS": {
@@ -250,15 +250,15 @@
 			"MAKE_DEFAULT_ON_CREATE": "Make it the owner's default mailbox",
 			"IS_DEFAULT_TOGGLE": "The owner's default mailbox",
 			"LIST_UNAVAILABLE": "This list could not be loaded (it needs the permission to view it).",
-			"AGENT_TITLE": "Ever Works",
-			"AGENT": "Hand the mail to an Ever Works agent",
+			"AGENT_TITLE": "Connected workspace",
+			"AGENT": "Hand the mail to a connected workspace agent",
 			"NO_AGENT": "No agent",
-			"AGENT_HINT": "Every message this mailbox receives is passed to the agent, which works on it in Ever Works.",
+			"AGENT_HINT": "Every message this mailbox receives is passed to the agent, which works on it in the connected workspace.",
 			"AGENTS_UNAVAILABLE": "The agents could not be listed.",
-			"NO_AGENTS": "No Ever Works agent in this organization: connect Ever Works in Integrations first.",
-			"AGENT_MIRROR_HINT": "To also see the agents' own mail in the Inbox, switch on \"Agent email\" on Integrations → Ever Works → Entities and directions.",
+			"NO_AGENTS": "No connected workspace agent in this organization: set up Workspace integration in Integrations first.",
+			"AGENT_MIRROR_HINT": "To also see the agents' own mail in the Inbox, switch on \"Agent email\" on Integrations → Workspace integration → Entities and directions.",
 			"PLATFORM_DOMAIN": "Platform addresses are allocated on {{ domain }}.",
-			"NO_PLATFORM_DOMAIN": "This server has no platform mail domain (GAUZY_INBOX_DOMAIN): only custom-domain mailboxes can be added.",
+			"NO_PLATFORM_DOMAIN": "This server has no platform mail domain: only custom-domain mailboxes can be added.",
 			"AUTO_PROVISION": "Create a mailbox for every new employee",
 			"PROVISION_EMPLOYEES": "Create the missing employee mailboxes now",
 			"PROVISION_DEFAULT": "Create the default organization mailbox",
