@@ -44,7 +44,7 @@ export const STATS_LEASE_MS = 15 * 60 * 1000;
  * repository, at the release of `@ever-co/connect-contracts` this plugin pins (ts-v1.0.0-rc.6).
  */
 export const STATS_SCHEMA_URL =
-	'https://github.com/TasnimulTheFlex/ever-gauzy/blob/base360/packages/plugins/ever-stats/src/lib/schema/stats-schema.ts';
+	'https://github.com/TasnimulTheFlex/base360-time-tracker/blob/base360/packages/plugins/ever-stats/src/lib/schema/stats-schema.ts';
 
 /** The largest answer body read from Ever Platform; a longer one is not read further. */
 export const MAX_STATS_RESPONSE_BYTES = 64 * 1024;

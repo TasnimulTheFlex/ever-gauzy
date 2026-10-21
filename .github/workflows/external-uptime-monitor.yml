@@ -371,7 +371,7 @@ jobs:
               # "the origin answered with an error".
               w=$(curl -4 -sS -L --max-redirs 5 \
                     --connect-timeout "${CONNECT_TIMEOUT}" --max-time "${MAX_TIME}" \
-                    -A 'base360-external-uptime-monitor (+https://github.com/TasnimulTheFlex/ever-gauzy)' \
+                    -A 'base360-external-uptime-monitor (+https://github.com/TasnimulTheFlex/base360-time-tracker)' \
                     -D "$body.hdr" \
                     -o "$body" \
                     -w '%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_starttransfer}|%{time_total}|%{remote_ip}' \

@@ -7,10 +7,10 @@
 	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
+		"url": "https://github.com/TasnimulTheFlex/base360-time-tracker"
 	},
 	"bugs": {
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
+		"url": "https://github.com/TasnimulTheFlex/base360-time-tracker"
 	},
 	"private": true,
 	"author": {
@@ -46,7 +46,7 @@
 			{
 				"provider": "github",
 				"owner": "TasnimulTheFlex",
-				"repo": "ever-gauzy",
+				"repo": "base360-time-tracker",
 				"releaseType": "release"
 			}
 		],

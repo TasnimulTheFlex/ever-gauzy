@@ -117,7 +117,7 @@ jest.mock('./decorators', () => {
 
 const HOUR = 60 * 60 * 1000;
 const CONFIG = { owner: 'TasnimulTheFlex', repository: 'ever-gauzy', typeRelease: 'releases' };
-const FEED = 'https://github.com/TasnimulTheFlex/ever-gauzy/releases/download/';
+const FEED = 'https://time.base360.ai/downloads/download/';
 const ALL_FILES = [
 	'latest-x64.yml',
 	'latest-arm64.yml',

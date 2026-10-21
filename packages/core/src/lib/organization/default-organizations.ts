@@ -24,7 +24,7 @@ export const DEFAULT_ORGANIZATIONS = [
 		name: 'Base360',
 		currency: CurrenciesEnum.USD,
 		defaultValueDateType: DefaultValueDateTypeEnum.TODAY,
-		imageUrl: 'assets/images/logos/logo_Gauzy.svg',
+		imageUrl: 'assets/images/logos/logo_Base360.svg',
 		isDefault: true,
 		totalEmployees: 1
 	}

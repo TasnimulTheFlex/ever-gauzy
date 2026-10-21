@@ -324,7 +324,7 @@ export const environment: IEnvironment = {
 	 */
 	appIntegrationConfig: {
 		appName: process.env.APP_NAME || 'Base360 Time Tracker',
-		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL || 'https://time.base360.ai'}/assets/images/logos/logo_Gauzy.png`,
+		appLogo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL || 'https://time.base360.ai'}/assets/images/logos/logo_Base360.png`,
 		appSignature: process.env.APP_SIGNATURE || 'Base360 Team',
 		appLink: resolveAppLink('http://localhost:4200/'),
 		appEmailConfirmationUrl:

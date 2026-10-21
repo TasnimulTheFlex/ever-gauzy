@@ -20,4 +20,4 @@ The API runs at `http://localhost:3000` and the web app at `http://localhost:420
 
 Optional platform connections and usage statistics require an operator-configured endpoint through `EVER_PLATFORM_API_URL` or `EVER_STATS_API_URL`.
 
-Source: [TasnimulTheFlex/ever-gauzy](https://github.com/TasnimulTheFlex/ever-gauzy). Licensed under [AGPL-3.0](LICENSE); see also [third-party licenses](LICENSES.md) and [credits](CREDITS.md).
+Source: [TasnimulTheFlex/base360-time-tracker](https://github.com/TasnimulTheFlex/base360-time-tracker). Licensed under [AGPL-3.0](LICENSE); see also [third-party licenses](LICENSES.md) and [credits](CREDITS.md).

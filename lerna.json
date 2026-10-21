@@ -2,7 +2,7 @@
 	"npmClient": "yarn",
 	"version": "0.1.0",
 	"changelog": {
-		"repo": "TasnimulTheFlex/ever-gauzy",
+		"repo": "TasnimulTheFlex/base360-time-tracker",
 		"cacheDir": ".changelog",
 		"labels": {}
 	},

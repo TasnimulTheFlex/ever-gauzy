@@ -67,7 +67,7 @@ export const DEFAULT_SYSTEM_INTEGRATIONS = [
 export const DEFAULT_AI_INTEGRATIONS = [
 	{
 		name: 'Base360 AI',
-		imgSrc: 'gauzy-ai.svg',
+		imgSrc: 'base360-ai.svg',
 		isComingSoon: false,
 		integrationTypesMap: <string[]>[IntegrationTypeEnum.ALL_INTEGRATIONS],
 		order: 3,

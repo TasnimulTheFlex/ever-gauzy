@@ -218,16 +218,16 @@ export const env: Env = cleanEnv(
 
 		PLATFORM_WEBSITE_URL: str({ default: 'https://base360.ai' }),
 		PLATFORM_WEBSITE_DOWNLOAD_URL: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
+			default: 'https://time.base360.ai/downloads'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_APPLE: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
+			default: 'https://time.base360.ai/downloads'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_WINDOWS: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
+			default: 'https://time.base360.ai/downloads'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_LINUX: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
+			default: 'https://time.base360.ai/downloads'
 		}),
 		MOBILE_APP_DOWNLOAD_LINK: str({
 			default: 'https://base360.ai'
@@ -284,7 +284,7 @@ export const env: Env = cleanEnv(
 
 		// Set default platform logo
 		PLATFORM_LOGO: str({
-			default: 'assets/images/logos/logo_Gauzy.svg'
+			default: 'assets/images/logos/logo_Base360.svg'
 		}),
 
 		//Set default gauzy desktop logo 512x512 pixels
@@ -315,10 +315,10 @@ export const env: Env = cleanEnv(
 			default: 'https://base360.ai'
 		}),
 		COMPANY_GITHUB_LINK: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy'
+			default: 'https://github.com/TasnimulTheFlex/base360-time-tracker'
 		}),
 		COMPANY_GITLAB_LINK: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy'
+			default: 'https://github.com/TasnimulTheFlex/base360-time-tracker'
 		}),
 		COMPANY_FACEBOOK_LINK: str({
 			default: 'https://base360.ai'
@@ -330,10 +330,10 @@ export const env: Env = cleanEnv(
 			default: 'https://base360.ai'
 		}),
 		NO_INTERNET_LOGO: str({
-			default: 'assets/images/logos/logo_Gauzy.svg'
+			default: 'assets/images/logos/logo_Base360.svg'
 		}),
 		PROJECT_REPO: str({
-			default: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+			default: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
 		}),
 
 		DESKTOP_TIMER_APP_NAME: str({

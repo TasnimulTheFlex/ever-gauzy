@@ -22,7 +22,7 @@
  *   (a bolt, a microphone, a server, a waveform and a plug). These are
  *   descriptive pictograms, not the projects' own logos.
  * - `gauzy-ai` is this repository's own logo — the very artwork the Integrations
- *   page renders (apps/api/src/assets/seed/integrations/gauzy-ai.svg). It is
+ *   page renders (apps/api/src/assets/seed/integrations/base360-ai.svg). It is
  *   copied here instead of referenced, because that file is served by the API
  *   and a settings tile must not depend on an API asset URL to draw.
  *

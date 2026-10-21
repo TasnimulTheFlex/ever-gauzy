@@ -10,11 +10,11 @@
 	"license": "AGPL-3.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/base360-time-tracker",
 		"directory": "packages/plugins/posthog-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
+		"url": "https://github.com/TasnimulTheFlex/base360-time-tracker"
 	},
 	"homepage": "https://base360.ai",
 	"private": true,

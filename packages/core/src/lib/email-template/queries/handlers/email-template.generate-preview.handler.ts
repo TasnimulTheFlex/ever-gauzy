@@ -74,7 +74,7 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 			task_status: 'In Progress',
 			task_update_project: 'Base360 Project',
 			task_update_assign_by: 'Ruslan Konviser',
-			task_update_url: 'https://github.com/TasnimulTheFlex/ever-gauzy/issues/1688',
+			task_update_url: 'https://github.com/TasnimulTheFlex/base360-time-tracker/issues/1688',
 			inviteCode: generateAlphaNumericCode(),
 			teams: 'Base360 Team',
 			verificationCode: generateAlphaNumericCode(),
@@ -86,7 +86,7 @@ export class EmailTemplateGeneratePreviewHandler implements IQueryHandler<EmailT
 				{
 					tenantName: 'Default',
 					userName: 'Default',
-					resetLink: 'https://github.com/TasnimulTheFlex/ever-gauzy'
+					resetLink: 'https://github.com/TasnimulTheFlex/base360-time-tracker'
 				}
 			],
 			companyLink,

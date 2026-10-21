@@ -1,7 +1,7 @@
 {
 	"name": "gauzy",
 	"version": "0.1.0",
-	"repository": "https://github.com/TasnimulTheFlex/ever-gauzy",
+	"repository": "https://github.com/TasnimulTheFlex/base360-time-tracker",
 	"private": true,
 	"resolutions": {},
 	"workspaces": [

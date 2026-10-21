@@ -70,7 +70,7 @@ export class FooterComponent extends TranslationBaseComponent implements OnInit 
 	) {
 		super(translationService);
 
-		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/TasnimulTheFlex/ever-gauzy.git').replace(/\.git$/, '');
+		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/TasnimulTheFlex/base360-time-tracker.git').replace(/\.git$/, '');
 		this.web = { version: environment.version ?? '', commit: environment.commit ?? '' };
 	}
 

@@ -35,7 +35,7 @@ export const SEED_ISSUES_TIMEOUT_MS = 10_000;
  * @returns The issues, never empty.
  */
 export async function loadSeedIssues(httpService: HttpService = new HttpService()): Promise<ISeedIssue[]> {
-	const url = `${GITHUB_API_URL}/repos/TasnimulTheFlex/ever-gauzy/issues`;
+	const url = `${GITHUB_API_URL}/repos/TasnimulTheFlex/base360-time-tracker/issues`;
 
 	try {
 		const issues = await lastValueFrom(

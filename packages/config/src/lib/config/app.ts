@@ -21,5 +21,5 @@ export default registerAs('app', () => ({
      * If not provided through the environment variable APP_LOGO,
      * defaults to a URL constructed using the CLIENT_BASE_URL environment variable.
      */
-    app_logo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL || 'https://time.base360.ai'}/assets/images/logos/logo_Gauzy.png`,
+    app_logo: process.env.APP_LOGO || `${process.env.CLIENT_BASE_URL || 'https://time.base360.ai'}/assets/images/logos/logo_Base360.png`,
 }));

@@ -45,7 +45,7 @@ export abstract class UpdateStrategy implements IDesktopUpdate {
 
 	public async checkUpdate() {
 		if (process.env.APP_ID?.startsWith('com.base360.')) {
-			throw new Error('Base360 updates must be installed manually: https://github.com/TasnimulTheFlex/ever-gauzy/releases');
+			throw new Error('Base360 updates must be installed manually: https://time.base360.ai/downloads');
 		}
 		try {
 			autoUpdater.autoDownload = false;

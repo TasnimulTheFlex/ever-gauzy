@@ -19,8 +19,8 @@ installers, OS app name, tray, notifications, window titles, browser tab, API do
 | Primary color | #064749 (tint rgba(6,71,73,0.10)) |
 | Desktop app id | com.base360.timetracker |
 | Desktop deep-link protocol | base360-timer |
-| Releases / update source | GitHub TasnimulTheFlex/ever-gauzy (never ever-co) |
-| Source code (AGPL §13) | https://github.com/TasnimulTheFlex/ever-gauzy |
+| Releases / update source | GitHub TasnimulTheFlex/base360-time-tracker (never ever-co) |
+| Source code (AGPL §13) | https://github.com/TasnimulTheFlex/base360-time-tracker |
 
 Assets in this folder: `base360-logo.svg` (the mark, 25×25), `icon-512.png`, `icon-192.png`, `icon-maskable-512.png`,
 `apple-touch-icon.png`, `favicon.ico/.svg/.png`. A wordmark = the mark + the text "Base360" in #064749, semibold.

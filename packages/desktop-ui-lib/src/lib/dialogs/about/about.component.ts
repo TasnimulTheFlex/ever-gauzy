@@ -48,7 +48,7 @@ export class AboutComponent implements OnInit {
 				await this._electronService.shell.openExternal(this._environment.COMPANY_LINK || 'https://base360.ai');
 				break;
 			case 'SOURCE':
-				await this._electronService.shell.openExternal('https://github.com/TasnimulTheFlex/ever-gauzy');
+				await this._electronService.shell.openExternal('https://github.com/TasnimulTheFlex/base360-time-tracker');
 				break;
 			case 'TOS':
 				await this._electronService.shell.openExternal(this._environment.PLATFORM_TOS_URL || 'https://base360.ai/legal');

@@ -149,8 +149,8 @@ export class SetupComponent implements OnInit, OnDestroy {
 	buttonSave = false;
 	gauzyIcon: SafeResourceUrl =
 		this.isDesktopTimer || this.isServer
-			? './assets/images/logos/logo_Gauzy.svg'
-			: '../assets/images/logos/logo_Gauzy.svg';
+			? './assets/images/logos/logo_Base360.svg'
+			: '../assets/images/logos/logo_Base360.svg';
 	desktopFeatures: any = {
 		gauzyPlatform: !this.isDesktopTimer,
 		timeTracking: !this.isServer

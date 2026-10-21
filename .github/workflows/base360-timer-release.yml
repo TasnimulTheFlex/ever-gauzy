@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.repository == 'TasnimulTheFlex/ever-gauzy'
+    if: github.repository == 'TasnimulTheFlex/base360-time-tracker'
     strategy:
       fail-fast: false
       matrix:
@@ -53,13 +53,13 @@ jobs:
       USE_HARD_LINKS: 'false'
       RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
       API_BASE_URL: https://time-api.base360.ai
-      PROJECT_REPO: https://github.com/TasnimulTheFlex/ever-gauzy.git
+      PROJECT_REPO: https://github.com/TasnimulTheFlex/base360-time-tracker.git
       DESKTOP_TIMER_APP_NAME: base360-timer
       DESKTOP_TIMER_APP_DESCRIPTION: Base360 Timer
       DESKTOP_TIMER_APP_ID: com.base360.timetracker
       DESKTOP_TIMER_APP_PROTOCOL: base360-timer
       DESKTOP_TIMER_APP_REPO_OWNER: TasnimulTheFlex
-      DESKTOP_TIMER_APP_REPO_NAME: ever-gauzy
+      DESKTOP_TIMER_APP_REPO_NAME: base360-time-tracker
       COMPANY_NAME: Base360
       COMPANY_SITE_LINK: https://base360.ai
     steps:
@@ -77,13 +77,13 @@ jobs:
           const assert = require('node:assert/strict');
           const fs = require('node:fs');
           assert.match(process.env.RELEASE_TAG, /^v\d+\.\d+\.\d+$/);
-          assert.equal(process.env.GITHUB_REPOSITORY, 'TasnimulTheFlex/ever-gauzy');
+          assert.equal(process.env.GITHUB_REPOSITORY, 'TasnimulTheFlex/base360-time-tracker');
           const file = 'apps/desktop-timer/src/package.json';
           const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
           pkg.version = process.env.RELEASE_TAG.slice(1);
           assert.equal(pkg.build.appId, 'com.base360.timetracker');
           assert.equal(pkg.build.publish[0].owner, 'TasnimulTheFlex');
-          assert.equal(pkg.build.publish[0].repo, 'ever-gauzy');
+          assert.equal(pkg.build.publish[0].repo, 'base360-time-tracker');
           fs.writeFileSync(file, JSON.stringify(pkg, null, '\t') + '\n');
           NODE
       - name: Enable Yarn Classic

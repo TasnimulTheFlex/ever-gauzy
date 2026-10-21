@@ -122,8 +122,8 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	menus = [];
 	gauzyIcon: SafeResourceUrl =
 		this.isDesktopTimer || this.isServer || this.isAgent
-			? './assets/images/logos/logo_Gauzy.svg'
-			: '../assets/images/logos/logo_Gauzy.svg';
+			? './assets/images/logos/logo_Base360.svg'
+			: '../assets/images/logos/logo_Base360.svg';
 
 	private _monitorsOption$: BehaviorSubject<any> = new BehaviorSubject([
 		{
@@ -1119,7 +1119,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	checkForUpdate() {
-		this.electronService.shell.openExternal('https://github.com/TasnimulTheFlex/ever-gauzy/releases');
+		this.electronService.shell.openExternal('https://time.base360.ai/downloads');
 	}
 
 	public async restartAndUpdate(): Promise<void> {

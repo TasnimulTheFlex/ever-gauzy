@@ -22,7 +22,7 @@
 FROM node:26.11.1-alpine3.24 AS dependencies
 
 LABEL maintainer="support@base360.ai"
-LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/ever-gauzy"
+LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/base360-time-tracker"
 
 ENV CI=true
 
@@ -528,7 +528,7 @@ CMD [ "node", "main.js" ]
 
 ENV APP_NAME="Base360 Time Tracker"
 ENV APP_SIGNATURE="Base360 Team"
-ENV APP_LOGO="https://time.base360.ai/assets/images/logos/logo_Gauzy.png"
+ENV APP_LOGO="https://time.base360.ai/assets/images/logos/logo_Base360.png"
 ENV COMPANY_NAME="Base360"
 ENV COMPANY_LINK="https://base360.ai"
 ENV MAIL_FROM_ADDRESS="Base360 <support@base360.ai>"

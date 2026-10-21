@@ -37,7 +37,7 @@ export class ServerDashboardComponent implements OnInit, AfterViewInit {
 	@ViewChild('logBox') logBox: ElementRef;
 	@ViewChild('logServer') logAccordion;
 	active_index: any;
-	gauzyIcon: SafeResourceUrl = './assets/images/logos/logo_Gauzy.svg';
+	gauzyIcon: SafeResourceUrl = './assets/images/logos/logo_Base360.svg';
 	running = false;
 	loading = false;
 	restart = false;

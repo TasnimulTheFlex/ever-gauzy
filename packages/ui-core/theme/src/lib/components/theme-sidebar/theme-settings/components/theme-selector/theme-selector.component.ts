@@ -28,12 +28,12 @@ export class ThemeSelectorComponent implements OnInit {
 			light: {
 				value: GAUZY_LIGHT.name,
 				name: 'SETTINGS_MENU.GAUZY_LIGHT',
-				imageUrl: 'assets/images/themes/gauzy_light.png'
+				imageUrl: 'assets/images/themes/base360_light.png'
 			},
 			dark: {
 				value: GAUZY_DARK.name,
 				name: 'SETTINGS_MENU.GAUZY_DARK',
-				imageUrl: 'assets/images/themes/gauzy_dark.png'
+				imageUrl: 'assets/images/themes/base360_dark.png'
 			}
 		},
 		{

@@ -35,7 +35,7 @@ pipeline {
         stage("Clone") {
             steps{
                 git branch: 'base360',
-                    url: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+                    url: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
 
                 sh """
                     curl 'https://api.github.com/repos/TasnimulTheFlex/${REPO_NAME}/statuses/$GIT_COMMIT' -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Content-Type: application/json' -X POST -d '{"state": "pending", "context": "Jenkins", "description": "Jenkins pipeline is running", "target_url": "${CI_URL}job/${JOB_NAME}/$BUILD_NUMBER/console"}'

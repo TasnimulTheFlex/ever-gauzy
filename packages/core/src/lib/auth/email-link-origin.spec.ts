@@ -7,7 +7,7 @@ const GAUZY_DEPLOYMENT = {
 	clientBaseUrl: 'https://app.gauzy.co',
 	appIntegrationConfig: {
 		appName: 'Gauzy',
-		appLogo: 'https://app.gauzy.co/assets/images/logos/logo_Gauzy.png',
+		appLogo: 'https://app.gauzy.co/assets/images/logos/logo_Base360.png',
 		appSignature: 'Base360 Team',
 		appLink: 'https://app.gauzy.co/',
 		appEmailConfirmationUrl: 'https://app.gauzy.co/#/auth/confirm-email',

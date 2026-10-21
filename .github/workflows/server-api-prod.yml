@@ -200,7 +200,7 @@ jobs:
             console.log(script.serverapi(true))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
           DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
           DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
@@ -466,7 +466,7 @@ jobs:
             console.log(script.serverapi(true))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
           DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
           DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
@@ -663,7 +663,7 @@ jobs:
             console.log(script.serverapi(true))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
           DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
           DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
@@ -924,7 +924,7 @@ jobs:
           AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'base360' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
           DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
           DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
@@ -1245,7 +1245,7 @@ jobs:
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/base360-time-tracker.git'
           DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
           DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
