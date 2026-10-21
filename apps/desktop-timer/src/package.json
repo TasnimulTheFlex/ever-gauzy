@@ -1,7 +1,7 @@
 {
 	"name": "gauzy-desktop-timer",
 	"productName": "Base360 Timer",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Base360 Timer",
 	"license": "AGPL-3.0",
 	"homepage": "https://base360.ai",
@@ -73,14 +73,25 @@
 				"NSMicrophoneUsageDescription": "Please allow access to the device's microphone to capture audio and voice recordings.",
 				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos.",
 				"CFBundleName": "Base360 Timer",
-				"CFBundleDisplayName": "Base360 Timer"
+				"CFBundleDisplayName": "Base360 Timer",
+				"CFBundleURLTypes": [
+					{
+						"CFBundleURLName": "base360-timer Protocol",
+						"CFBundleURLSchemes": [
+							"base360-timer"
+						],
+						"CFBundleTypeRole": "Editor"
+					}
+				]
 			}
 		},
 		"win": {
 			"target": "nsis",
 			"icon": "icon.ico",
-			"publisherName": "Base360",
-			"verifyUpdateCodeSignature": false
+			"verifyUpdateCodeSignature": false,
+			"signtoolOptions": {
+				"publisherName": "Base360"
+			}
 		},
 		"snap": {
 			"base": "core22"
@@ -98,7 +109,10 @@
 			"executableName": "base360-timer",
 			"artifactName": "base360-timer-${arch}-${version}.${ext}",
 			"synopsis": "Desktop",
-			"category": "Development"
+			"category": "Development",
+			"mimeTypes": [
+				"x-scheme-handler/base360-timer"
+			]
 		},
 		"rpm": {
 			"fpm": [
@@ -157,7 +171,7 @@
 		"executableName": "base360-timer",
 		"protocols": [
 			{
-				"name": "Base360 Timer Protocol",
+				"name": "base360-timer Protocol",
 				"schemes": [
 					"base360-timer"
 				],

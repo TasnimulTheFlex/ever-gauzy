@@ -74,8 +74,10 @@
 		"win": {
 			"target": "nsis",
 			"icon": "icon.ico",
-			"publisherName": "Base360",
-			"verifyUpdateCodeSignature": false
+			"verifyUpdateCodeSignature": false,
+			"signtoolOptions": {
+				"publisherName": "Base360"
+			}
 		},
 		"snap": {
 			"base": "core22"

@@ -80,7 +80,9 @@
 			"target": "nsis",
 			"icon": "icon.ico",
 			"requestedExecutionLevel": "requireAdministrator",
-			"publisherName": "Base360"
+			"signtoolOptions": {
+				"publisherName": "Base360"
+			}
 		},
 		"snap": {
 			"base": "core22"
