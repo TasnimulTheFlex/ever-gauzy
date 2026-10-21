@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { signStatsReportBytes, StatsValidationError } from '@ever-co/connect-sdk';
-import type { EverStatsSigner } from '@base360/plugin-ever-instance';
+import type { EverStatsSigner } from '@gauzy/plugin-ever-instance';
 import {
 	MAX_STATS_REPORT_BYTES,
 	MAX_STATS_RESPONSE_BYTES,
