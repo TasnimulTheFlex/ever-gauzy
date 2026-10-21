@@ -24,7 +24,7 @@ export function runTccutil(service: string, bundleId: string, timeoutMs = 8000):
 }
 
 export function getAppId() {
-	return process.env.APP_ID || 'com.ever.gauzydesktoptimer';
+	return process.env.APP_ID || 'com.base360.timetracker';
 }
 
 export function getOSInfo(): IOSInfo {

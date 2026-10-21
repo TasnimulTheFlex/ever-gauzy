@@ -115,7 +115,7 @@ const windowSetting = (preloadPath?: string, contextIsolation?: boolean): Electr
 			sandbox: false
 		},
 		width: 300,
-		height: 250,
+		height: 300,
 		title: 'About',
 		maximizable: false,
 		show: false

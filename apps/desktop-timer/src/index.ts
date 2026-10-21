@@ -6,9 +6,7 @@ import { logger as log, store, IConfig } from '@gauzy/desktop-core';
 // Set the app name first — app.getPath('userData') derives its path from
 // app.getName(), so this must happen before any getPath() call.
 Object.assign(process.env, environment);
-if (process.env.NAME) {
-	app.setName(process.env.NAME);
-}
+app.setName(process.env.DESCRIPTION || 'Base360 Timer');
 
 // app.disableHardwareAcceleration() must be called before app.ready.
 // app.setName() above ensures app.getPath('userData') resolves correctly,
@@ -144,7 +142,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-timer';
+const appProtocol = process.env.PROTOCOL || 'base360-timer';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);
@@ -778,7 +776,7 @@ app.on('before-quit', async (e) => {
 			try {
 				serverGauzy.kill();
 			} catch (error) {
-				console.error('ERROR: Occurred while serverGauzy stop:' + error);
+				console.error('ERROR: Occurred while stopping the local server:' + error);
 			}
 		}
 

@@ -1,34 +1,34 @@
 {
 	"name": "gauzy-desktop-timer",
-	"productName": "Gauzy Desktop Timer",
+	"productName": "Base360 Timer",
 	"version": "0.1.0",
-	"description": "Gauzy Desktop Timer",
+	"description": "Base360 Timer",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy.git"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy/issues"
 	},
 	"private": true,
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"main": "index.js",
 	"build": {
-		"appId": "com.ever.gauzydesktoptimer",
-		"artifactName": "${name}-${arch}-${version}.${ext}",
-		"productName": "Gauzy Desktop Timer",
-		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
+		"appId": "com.base360.timetracker",
+		"artifactName": "base360-timer-${arch}-${version}.${ext}",
+		"productName": "Base360 Timer",
+		"copyright": "Copyright © 2019-Present. Base360",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
 		"dmg": {
 			"sign": false,
-			"artifactName": "${name}-${arch}-${version}.${ext}"
+			"artifactName": "base360-timer-${arch}-${version}.${ext}"
 		},
 		"asar": true,
 		"npmRebuild": true,
@@ -45,7 +45,8 @@
 		"publish": [
 			{
 				"provider": "github",
-				"repo": "ever-gauzy-desktop-timer",
+				"owner": "TasnimulTheFlex",
+				"repo": "ever-gauzy",
 				"releaseType": "release"
 			}
 		],
@@ -61,7 +62,7 @@
 				]
 			},
 			"asarUnpack": "**/*.node",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"artifactName": "base360-timer-${arch}-${version}.${ext}",
 			"hardenedRuntime": true,
 			"gatekeeperAssess": false,
 			"entitlements": "tools/build/entitlements.mas.plist",
@@ -70,12 +71,16 @@
 				"NSAppleEventsUsageDescription": "This app requires access to script browser applications to detect the current URL when triggering instant lookup.",
 				"NSCameraUsageDescription": "Please allow access to the device camera to capture images and videos.",
 				"NSMicrophoneUsageDescription": "Please allow access to the device's microphone to capture audio and voice recordings.",
-				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos."
+				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos.",
+				"CFBundleName": "Base360 Timer",
+				"CFBundleDisplayName": "Base360 Timer"
 			}
 		},
 		"win": {
 			"target": "nsis",
-			"icon": "icon.ico"
+			"icon": "icon.ico",
+			"publisherName": "Base360",
+			"verifyUpdateCodeSignature": false
 		},
 		"snap": {
 			"base": "core22"
@@ -90,8 +95,8 @@
 				"AppImage",
 				"flatpak"
 			],
-			"executableName": "gauzy-desktop-timer",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"executableName": "base360-timer",
+			"artifactName": "base360-timer-${arch}-${version}.${ext}",
 			"synopsis": "Desktop",
 			"category": "Development"
 		},
@@ -134,7 +139,7 @@
 			"allowToChangeInstallationDirectory": true,
 			"allowElevation": true,
 			"installerIcon": "icon.ico",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"artifactName": "base360-timer-${arch}-${version}.${ext}",
 			"deleteAppDataOnUninstall": true,
 			"menuCategory": true
 		},
@@ -148,6 +153,16 @@
 		],
 		"extraFiles": [
 			"./**/desktop-lib/**/migrations/*"
+		],
+		"executableName": "base360-timer",
+		"protocols": [
+			{
+				"name": "Base360 Timer Protocol",
+				"schemes": [
+					"base360-timer"
+				],
+				"role": "Editor"
+			}
 		]
 	},
 	"dependencies": {

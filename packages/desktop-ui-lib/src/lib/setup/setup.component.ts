@@ -88,8 +88,8 @@ export class SetupComponent implements OnInit, OnDestroy {
 			this.desktopFeatures.gauzyPlatform = arg.gauzyWindow;
 			this.desktopFeatures.timeTracking = arg.timeTrackerWindow;
 			this.connectivity.integrated = arg.isLocalServer;
-			this.connectivity.custom = !arg.isLocalServer && arg.serverUrl !== 'https://api.gauzy.co';
-			this.connectivity.live = arg.serverUrl && arg.serverUrl === 'https://api.gauzy.co';
+			this.connectivity.custom = !arg.isLocalServer && arg.serverUrl !== 'https://time-api.base360.ai';
+			this.connectivity.live = arg.serverUrl && arg.serverUrl === 'https://time-api.base360.ai';
 			this.thirdParty.activityWatch = arg.aw;
 			this.databaseDriver.sqlite = arg.db === 'sqlite';
 			this.databaseDriver.postgre = arg.db === 'postgres';
@@ -183,7 +183,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 			port: '3000'
 		},
 		live: {
-			url: 'https://api.gauzy.co'
+			url: 'https://time-api.base360.ai'
 		}
 	};
 

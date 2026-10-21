@@ -24,7 +24,7 @@ function applyWindowsSigning(pkg) {
 			...(pkg.build.win.azureSignOptions || {}),
 			publisherName,
 			endpoint: process.env.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/',
-			codeSigningAccountName: process.env.AZURE_CODE_SIGNING_ACCOUNT || 'ever',
+			codeSigningAccountName: process.env.AZURE_CODE_SIGNING_ACCOUNT || 'base360',
 			certificateProfileName
 		};
 		// Azure signing supersedes the PFX/signtool path; drop it so only one signer is configured.
@@ -151,7 +151,6 @@ module.exports.serverapi = async (isProd) => {
 			console.log('Latest tag is not found. Build Desktop API Server App with default version', currentVersion);
 		}
 
-		package.name = appName;
 		package.productName = process.env.DESKTOP_API_SERVER_APP_DESCRIPTION;
 		package.description = process.env.DESKTOP_API_SERVER_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -160,8 +159,8 @@ module.exports.serverapi = async (isProd) => {
 		package.build.productName = process.env.DESKTOP_API_SERVER_APP_DESCRIPTION;
 		package.build.linux.executableName = appName;
 
-		const appRepoName = process.env.DESKTOP_API_SERVER_REPO_NAME || appName;
-		const appRepoOwner = process.env.DESKTOP_API_SERVER_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.DESKTOP_API_SERVER_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.DESKTOP_API_SERVER_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 
@@ -220,7 +219,6 @@ module.exports.server = async (isProd) => {
 			console.log('Latest tag is not found. Build Desktop Server App with default version', currentVersion);
 		}
 
-		package.name = appName;
 		package.productName = process.env.DESKTOP_SERVER_APP_DESCRIPTION;
 		package.description = process.env.DESKTOP_SERVER_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -229,8 +227,8 @@ module.exports.server = async (isProd) => {
 		package.build.productName = process.env.DESKTOP_SERVER_APP_DESCRIPTION;
 		package.build.linux.executableName = appName;
 
-		const appRepoName = process.env.DESKTOP_SERVER_REPO_NAME || appName;
-		const appRepoOwner = process.env.DESKTOP_SERVER_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.DESKTOP_SERVER_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.DESKTOP_SERVER_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 
@@ -289,7 +287,6 @@ module.exports.servermcp = async (isProd) => {
 			console.log('Latest tag is not found. Build Desktop MCP Server App with default version', currentVersion);
 		}
 
-		package.name = appName;
 		package.productName = process.env.DESKTOP_MCP_SERVER_APP_DESCRIPTION;
 		package.description = process.env.DESKTOP_MCP_SERVER_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -298,8 +295,8 @@ module.exports.servermcp = async (isProd) => {
 		package.build.productName = process.env.DESKTOP_MCP_SERVER_APP_DESCRIPTION;
 		package.build.linux.executableName = appName;
 
-		const appRepoName = process.env.DESKTOP_MCP_SERVER_REPO_NAME || appName;
-		const appRepoOwner = process.env.DESKTOP_MCP_SERVER_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.DESKTOP_MCP_SERVER_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.DESKTOP_MCP_SERVER_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 
@@ -358,7 +355,6 @@ module.exports.desktop = async (isProd) => {
 			console.log('Latest tag is not found. Build Desktop App with default version', currentVersion);
 		}
 
-		package.name = appName;
 		package.productName = process.env.DESKTOP_APP_DESCRIPTION;
 		package.description = process.env.DESKTOP_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -367,8 +363,8 @@ module.exports.desktop = async (isProd) => {
 		package.build.productName = process.env.DESKTOP_APP_DESCRIPTION;
 		package.build.linux.executableName = appName;
 
-		const appRepoName = process.env.DESKTOP_APP_REPO_NAME || appName;
-		const appRepoOwner = process.env.DESKTOP_APP_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.DESKTOP_APP_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.DESKTOP_APP_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 
@@ -427,7 +423,6 @@ module.exports.desktopTimer = async (isProd) => {
 			console.log('Latest tag is not found. Build Desktop Timer App with default version', currentVersion);
 		}
 
-		package.name = timerAppName;
 		package.productName = process.env.DESKTOP_TIMER_APP_DESCRIPTION;
 		package.description = process.env.DESKTOP_TIMER_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -436,8 +431,8 @@ module.exports.desktopTimer = async (isProd) => {
 		package.build.productName = process.env.DESKTOP_TIMER_APP_DESCRIPTION;
 		package.build.linux.executableName = timerAppName;
 
-		const appRepoName = process.env.DESKTOP_TIMER_APP_REPO_NAME || timerAppName;
-		const appRepoOwner = process.env.DESKTOP_TIMER_APP_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.DESKTOP_TIMER_APP_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.DESKTOP_TIMER_APP_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 
@@ -496,7 +491,6 @@ module.exports.agent = async (isProd) => {
 			console.log('Latest tag is not found. Build Agent App with default version', currentVersion);
 		}
 
-		package.name = appName;
 		package.productName = process.env.AGENT_APP_DESCRIPTION;
 		package.description = process.env.AGENT_APP_DESCRIPTION;
 		package.homepage = process.env.COMPANY_SITE_LINK;
@@ -505,8 +499,8 @@ module.exports.agent = async (isProd) => {
 		package.build.productName = process.env.AGENT_APP_DESCRIPTION;
 		package.build.linux.executableName = appName;
 
-		const appRepoName = process.env.AGENT_APP_REPO_NAME || appName;
-		const appRepoOwner = process.env.AGENT_APP_REPO_OWNER || 'ever-co';
+		const appRepoName = process.env.AGENT_APP_REPO_NAME || 'ever-gauzy';
+		const appRepoOwner = process.env.AGENT_APP_REPO_OWNER || 'TasnimulTheFlex';
 
 		// For GitHub options see https://www.electron.build/configuration/publish.html
 

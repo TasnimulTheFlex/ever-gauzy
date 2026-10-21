@@ -78,7 +78,7 @@ export class AutomaticUpdate {
 
 	public get isEnabled(): boolean {
 		const setting = LocalStore.getStore('appSetting');
-		return setting?.automaticUpdate == true;
+		return !process.env.APP_ID?.startsWith('com.base360.') && setting?.automaticUpdate == true;
 	}
 
 	/**

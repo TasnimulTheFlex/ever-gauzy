@@ -4,7 +4,6 @@ import { BasePackager } from './base-packager';
 
 export class AgentPackager extends BasePackager {
 	public prepare(pkg: IPackage): IPackage {
-		pkg.name = env.AGENT_APP_NAME || pkg.name;
 		pkg.productName = env.AGENT_APP_DESCRIPTION || pkg.productName;
 		pkg.description = env.AGENT_APP_DESCRIPTION || pkg.description;
 		pkg.homepage = env.COMPANY_SITE_LINK || pkg.homepage;
@@ -13,7 +12,7 @@ export class AgentPackager extends BasePackager {
 			env.AGENT_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.AGENT_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.AGENT_APP_PROTOCOL || 'gauzy-agent';
+		const protocol = env.AGENT_APP_PROTOCOL || 'base360-agent';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

@@ -1,5 +1,5 @@
 import { RegisteredWindow } from '@gauzy/desktop-core';
-import { ipcMain, nativeImage, Tray } from 'electron';
+import { app, ipcMain, nativeImage, Tray } from 'electron';
 import * as path from 'node:path';
 import { PluginEventManager } from '../plugin-system/events/plugin-event.manager';
 import { TrayIPCHandler } from './handlers/tray-ipc-handler';
@@ -91,10 +91,12 @@ export class TrayIcon implements ILanguageObserver {
 
 	private createTray(iconPath: string): Tray {
 		const iconDir = path.dirname(iconPath);
-		const normalIcon = path.join(iconDir, 'icon_gray.png');
-		const iconNativePath = nativeImage.createFromPath(normalIcon);
-		iconNativePath.resize({ width: 16, height: 16 });
-		return new Tray(iconNativePath);
+		const normalIcon = path.join(iconDir, process.platform === 'darwin' ? 'iconTemplate.png' : 'icon_gray.png');
+		const iconNativePath = nativeImage.createFromPath(normalIcon).resize({ width: 16, height: 16 });
+		iconNativePath.setTemplateImage(process.platform === 'darwin');
+		const tray = new Tray(iconNativePath);
+		tray.setToolTip(process.env.DESCRIPTION || app.getName());
+		return tray;
 	}
 
 	private setupLanguageChangeListener(): void {

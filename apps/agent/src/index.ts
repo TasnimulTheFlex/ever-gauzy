@@ -5,6 +5,7 @@ import * as path from 'path';
 import { environment } from './environments/environment';
 import { InitApplication } from './main/init';
 Object.assign(process.env, environment);
+app.setName(process.env.DESCRIPTION || 'Base360 Agent');
 
 let popupWin: BrowserWindow | null = null;
 
@@ -21,7 +22,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-agent';
+const appProtocol = process.env.PROTOCOL || 'base360-agent';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);

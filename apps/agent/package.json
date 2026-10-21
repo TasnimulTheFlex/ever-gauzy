@@ -1,19 +1,19 @@
 {
 	"name": "@gauzy/agent",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Agent",
+	"description": "Base360 Agent",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
-	"homepage": "https://gauzy.co",
+	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy.git"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy/issues"
 	},
 	"license": "AGPL-3.0",
 	"private": true,

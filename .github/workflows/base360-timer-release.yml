@@ -1,0 +1,144 @@
+name: Base360 Timer Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag, for example v1.2.3'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: base360-timer-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'TasnimulTheFlex/ever-gauzy'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            arch: arm64
+            platform: mac
+            targets: dmg zip
+          - os: macos-15-intel
+            arch: x64
+            platform: mac
+            targets: dmg zip
+          - os: windows-latest
+            arch: x64
+            platform: win
+            targets: nsis
+          - os: ubuntu-24.04
+            arch: x64
+            platform: linux
+            targets: AppImage deb tar.gz
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 360
+    defaults:
+      run:
+        shell: bash
+    env:
+      NX_DAEMON: 'false'
+      NX_NO_CLOUD: 'true'
+      NX_ISOLATE_PLUGINS: 'false'
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      USE_HARD_LINKS: 'false'
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+      API_BASE_URL: https://time-api.base360.ai
+      PROJECT_REPO: https://github.com/TasnimulTheFlex/ever-gauzy.git
+      DESKTOP_TIMER_APP_NAME: base360-timer
+      DESKTOP_TIMER_APP_DESCRIPTION: Base360 Timer
+      DESKTOP_TIMER_APP_ID: com.base360.timetracker
+      DESKTOP_TIMER_APP_PROTOCOL: base360-timer
+      DESKTOP_TIMER_APP_REPO_OWNER: TasnimulTheFlex
+      DESKTOP_TIMER_APP_REPO_NAME: ever-gauzy
+      COMPANY_NAME: Base360
+      COMPANY_SITE_LINK: https://base360.ai
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          architecture: ${{ matrix.arch }}
+      - name: Validate release and stamp Timer version
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const fs = require('node:fs');
+          assert.match(process.env.RELEASE_TAG, /^v\d+\.\d+\.\d+$/);
+          assert.equal(process.env.GITHUB_REPOSITORY, 'TasnimulTheFlex/ever-gauzy');
+          const file = 'apps/desktop-timer/src/package.json';
+          const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+          pkg.version = process.env.RELEASE_TAG.slice(1);
+          assert.equal(pkg.build.appId, 'com.base360.timetracker');
+          assert.equal(pkg.build.publish[0].owner, 'TasnimulTheFlex');
+          assert.equal(pkg.build.publish[0].repo, 'ever-gauzy');
+          fs.writeFileSync(file, JSON.stringify(pkg, null, '\t') + '\n');
+          NODE
+      - name: Enable Yarn Classic
+        run: |
+          npm install --global yarn@1.22.22 --force
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
+      - name: Apply repository postinstall
+        run: yarn postinstall.manual
+      - name: Build Timer through the repository Nx pipeline
+        run: yarn build:desktop-timer
+      - name: Check Base360 desktop branding
+        run: node --test .scripts/base360-desktop-branding.test.cjs
+      - name: Package unsigned Timer
+        run: >-
+          yarn electron-builder -c.electronVersion=44.7.0
+          --project dist/apps/desktop-timer
+          --${{ matrix.platform }} ${{ matrix.targets }} --${{ matrix.arch }}
+          --publish never
+      - name: Keep installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: base360-timer-${{ matrix.platform }}-${{ matrix.arch }}
+          if-no-files-found: error
+          path: |
+            dist/apps/desktop-timer-packages/base360-timer-*.dmg
+            dist/apps/desktop-timer-packages/base360-timer-*.zip
+            dist/apps/desktop-timer-packages/base360-timer-*.exe
+            dist/apps/desktop-timer-packages/base360-timer-*.AppImage
+            dist/apps/desktop-timer-packages/base360-timer-*.deb
+            dist/apps/desktop-timer-packages/base360-timer-*.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: base360-timer-*
+          path: release-assets
+          merge-multiple: true
+      - name: Publish installers to this fork
+        shell: bash
+        run: |
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 ||
+            gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
+              --title "Base360 Timer $RELEASE_TAG" \
+              --notes 'Base360 Timer for macOS (Apple Silicon and Intel), Windows and Linux. These installers are unsigned. Automatic updates are disabled; install updates from this release page.'
+          gh release upload "$RELEASE_TAG" release-assets/* --repo "$GITHUB_REPOSITORY" --clobber

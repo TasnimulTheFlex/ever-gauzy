@@ -18,6 +18,8 @@ export abstract class UpdateStrategy implements IDesktopUpdate {
 	}
 
 	public update(): void {
+		// shortcut: unsigned Base360 apps share a release feed; enable installs after signing and product-specific manifests exist.
+		if (process.env.APP_ID?.startsWith('com.base360.')) return;
 		autoUpdater.autoDownload = !this._isUpdateTriggered;
 		if (this.url) {
 			autoUpdater.setFeedURL({
@@ -42,6 +44,9 @@ export abstract class UpdateStrategy implements IDesktopUpdate {
 	}
 
 	public async checkUpdate() {
+		if (process.env.APP_ID?.startsWith('com.base360.')) {
+			throw new Error('Base360 updates must be installed manually: https://github.com/TasnimulTheFlex/ever-gauzy/releases');
+		}
 		try {
 			autoUpdater.autoDownload = false;
 			autoUpdater.setFeedURL({

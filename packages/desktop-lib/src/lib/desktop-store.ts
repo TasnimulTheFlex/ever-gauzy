@@ -33,7 +33,7 @@ export const LocalStore = {
 
 		return config?.isLocalServer
 			? `http://localhost:${config?.port ?? 3000}` // Defaults to port 3000 if missing
-			: config?.serverUrl ?? 'https://api.gauzy.co'; // Default external server URL
+			: config?.serverUrl ?? 'https://time-api.base360.ai'; // Default external server URL
 	},
 
 	/**
@@ -47,7 +47,7 @@ export const LocalStore = {
 			return {
 				apiHost: config.isLocalServer
 					? `http://localhost:${config.port ?? 3000}`
-					: config.serverUrl ?? 'https://api.gauzy.co',
+					: config.serverUrl ?? 'https://time-api.base360.ai',
 				token: auth?.token || null,
 				employeeId: auth?.employeeId || null,
 				organizationId: auth?.organizationId || null,

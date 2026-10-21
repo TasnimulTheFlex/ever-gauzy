@@ -210,30 +210,30 @@ export const env: Env = cleanEnv(
 
 		IS_DOCKER: bool({ default: false }),
 
-		COOKIE_DOMAIN: str({ default: '.gauzy.co' }),
+		COOKIE_DOMAIN: str({ default: '.base360.ai' }),
 
 		CLIENT_BASE_URL: str({ default: 'http://localhost:4200' }),
 
 		API_BASE_URL: str({ default: 'http://localhost:3000' }),
 
-		PLATFORM_WEBSITE_URL: str({ default: 'https://gauzy.co' }),
+		PLATFORM_WEBSITE_URL: str({ default: 'https://base360.ai' }),
 		PLATFORM_WEBSITE_DOWNLOAD_URL: str({
-			default: 'https://gauzy.co/downloads'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_APPLE: str({
-			default: 'https://gauzy.co/downloads#desktop/apple'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_WINDOWS: str({
-			default: 'https://gauzy.co/downloads#desktop/windows'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
 		}),
 		DESKTOP_APP_DOWNLOAD_LINK_LINUX: str({
-			default: 'https://gauzy.co/downloads#desktop/linux'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy/releases'
 		}),
 		MOBILE_APP_DOWNLOAD_LINK: str({
-			default: 'https://gauzy.co/downloads#mobile'
+			default: 'https://base360.ai'
 		}),
 		EXTENSION_DOWNLOAD_LINK: str({
-			default: 'https://gauzy.co/downloads#extensions'
+			default: 'https://base360.ai'
 		}),
 
 		SENTRY_DSN: str({ default: '' }),
@@ -259,18 +259,18 @@ export const env: Env = cleanEnv(
 
 		DEMO: bool({ default: false }),
 
-		DEMO_SUPER_ADMIN_EMAIL: str({ default: 'admin@ever.co' }),
+		DEMO_SUPER_ADMIN_EMAIL: str({ default: 'admin@base360.ai' }),
 		DEMO_SUPER_ADMIN_PASSWORD: str({ default: 'admin' }),
 
-		DEMO_ADMIN_EMAIL: str({ default: 'local.admin@ever.co' }),
+		DEMO_ADMIN_EMAIL: str({ default: 'local.admin@base360.ai' }),
 		DEMO_ADMIN_PASSWORD: str({ default: 'admin' }),
 
-		DEMO_EMPLOYEE_EMAIL: str({ default: 'employee@ever.co' }),
+		DEMO_EMPLOYEE_EMAIL: str({ default: 'employee@base360.ai' }),
 		DEMO_EMPLOYEE_PASSWORD: str({ default: '12345678' }),
 
 		CHATWOOT_SDK_TOKEN: str({ default: '' }),
 		CHAT_MESSAGE_GOOGLE_MAP: str({ default: '' }),
-		GAUZY_CLOUD_APP: str({ default: 'https://app.gauzy.co/#' }),
+		GAUZY_CLOUD_APP: str({ default: 'https://time.base360.ai/#' }),
 
 		FILE_PROVIDER: str({ default: 'LOCAL' }),
 
@@ -294,98 +294,98 @@ export const env: Env = cleanEnv(
 
 		// Set default platform privacy link
 		PLATFORM_PRIVACY_URL: str({
-			default: 'https://gauzy.co/privacy'
+			default: 'https://base360.ai/legal#privacy'
 		}),
 
 		// Set default platform terms of services link
 		PLATFORM_TOS_URL: str({
-			default: 'https://gauzy.co/tos'
+			default: 'https://base360.ai/legal'
 		}),
 
 		COMPANY_NAME: str({
-			default: 'Ever Co. LTD'
+			default: 'Base360'
 		}),
 		COMPANY_LINK: str({
-			default: 'https://ever.co'
+			default: 'https://base360.ai'
 		}),
 		COMPANY_SITE_NAME: str({
-			default: 'Gauzy'
+			default: 'Base360'
 		}),
 		COMPANY_SITE_LINK: str({
-			default: 'https://gauzy.co'
+			default: 'https://base360.ai'
 		}),
 		COMPANY_GITHUB_LINK: str({
-			default: 'https://github.com/ever-co'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy'
 		}),
 		COMPANY_GITLAB_LINK: str({
-			default: 'https://gitlab.com/ever-co'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy'
 		}),
 		COMPANY_FACEBOOK_LINK: str({
-			default: 'https://www.facebook.com/gauzyplatform'
+			default: 'https://base360.ai'
 		}),
 		COMPANY_TWITTER_LINK: str({
-			default: 'https://twitter.com/gauzyplatform'
+			default: 'https://base360.ai'
 		}),
 		COMPANY_IN_LINK: str({
-			default: 'https://www.linkedin.com/company/everhq'
+			default: 'https://base360.ai'
 		}),
 		NO_INTERNET_LOGO: str({
 			default: 'assets/images/logos/logo_Gauzy.svg'
 		}),
 		PROJECT_REPO: str({
-			default: 'https://github.com/ever-co/ever-gauzy.git'
+			default: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
 		}),
 
 		DESKTOP_TIMER_APP_NAME: str({
-			default: 'gauzy-desktop-timer'
+			default: 'base360-timer'
 		}),
 		DESKTOP_TIMER_APP_DESCRIPTION: str({
-			default: 'Gauzy Desktop Timer'
+			default: 'Base360 Timer'
 		}),
 		DESKTOP_TIMER_APP_ID: str({
-			default: 'com.ever.gauzydesktoptimer'
+			default: 'com.base360.timetracker'
 		}),
 		DESKTOP_TIMER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-desktop-timer'
+			default: 'ever-gauzy'
 		}),
-		DESKTOP_TIMER_APP_REPO_OWNER: str({ default: 'ever-co' }),
+		DESKTOP_TIMER_APP_REPO_OWNER: str({ default: 'TasnimulTheFlex' }),
 		DESKTOP_TIMER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_TIMER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_TIMER_APP_PROTOCOL: str({ default: 'gauzy-timer' }),
+		DESKTOP_TIMER_APP_PROTOCOL: str({ default: 'base360-timer' }),
 
 		DESKTOP_APP_NAME: str({
-			default: 'gauzy-desktop'
+			default: 'base360-desktop'
 		}),
 		DESKTOP_APP_DESCRIPTION: str({
-			default: 'Gauzy Desktop'
+			default: 'Base360 Desktop'
 		}),
 		DESKTOP_APP_ID: str({
-			default: 'com.ever.gauzydesktop'
+			default: 'com.base360.desktop'
 		}),
 		DESKTOP_APP_REPO_NAME: str({
-			default: 'ever-gauzy-desktop'
+			default: 'ever-gauzy'
 		}),
-		DESKTOP_APP_REPO_OWNER: str({ default: 'ever-co' }),
+		DESKTOP_APP_REPO_OWNER: str({ default: 'TasnimulTheFlex' }),
 		DESKTOP_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_APP_PROTOCOL: str({ default: 'gauzy-desktop' }),
+		DESKTOP_APP_PROTOCOL: str({ default: 'base360-desktop' }),
 
 		DESKTOP_SERVER_APP_NAME: str({
-			default: 'gauzy-server'
+			default: 'base360-server'
 		}),
 		DESKTOP_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy Server'
+			default: 'Base360 Server'
 		}),
 		DESKTOP_SERVER_APP_ID: str({
-			default: 'com.ever.gauzyserver'
+			default: 'com.base360.server'
 		}),
 		DESKTOP_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-server'
+			default: 'ever-gauzy'
 		}),
-		DESKTOP_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
+		DESKTOP_SERVER_APP_REPO_OWNER: str({ default: 'TasnimulTheFlex' }),
 		DESKTOP_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_SERVER_APP_PROTOCOL: str({ default: 'gauzy-server' }),
+		DESKTOP_SERVER_APP_PROTOCOL: str({ default: 'base360-server' }),
 
 		I18N_FILES_URL: str({ default: '' }),
 		AWHost: str({ default: 'http://localhost:5600' }),
@@ -394,53 +394,53 @@ export const env: Env = cleanEnv(
 		SCREENSHOTS_ENGINE_METHOD: str({ default: 'ScreenshotDesktopLib' }),
 
 		DESKTOP_API_SERVER_APP_NAME: str({
-			default: 'gauzy-api-server'
+			default: 'base360-api-server'
 		}),
 		DESKTOP_API_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy API Server'
+			default: 'Base360 API Server'
 		}),
 		DESKTOP_API_SERVER_APP_ID: str({
-			default: 'com.ever.gauzyapiserver'
+			default: 'com.base360.apiserver'
 		}),
 		DESKTOP_API_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-api-server'
+			default: 'ever-gauzy'
 		}),
-		DESKTOP_API_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
+		DESKTOP_API_SERVER_APP_REPO_OWNER: str({ default: 'TasnimulTheFlex' }),
 		DESKTOP_API_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_API_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
-		DESKTOP_API_SERVER_APP_PROTOCOL: str({ default: 'gauzy-api-server' }),
+		DESKTOP_API_SERVER_APP_PROTOCOL: str({ default: 'base360-api-server' }),
 		DESKTOP_MCP_SERVER_APP_NAME: str({
-			default: 'gauzy-mcp-server'
+			default: 'base360-mcp-server'
 		}),
 		DESKTOP_MCP_SERVER_APP_DESCRIPTION: str({
-			default: 'Gauzy MCP Server'
+			default: 'Base360 MCP Server'
 		}),
 		DESKTOP_MCP_SERVER_APP_ID: str({
-			default: 'com.ever.gauzymcpserver'
+			default: 'com.base360.mcpserver'
 		}),
 		DESKTOP_MCP_SERVER_APP_REPO_NAME: str({
-			default: 'ever-gauzy-mcp-server'
+			default: 'ever-gauzy'
 		}),
-		DESKTOP_MCP_SERVER_APP_REPO_OWNER: str({ default: 'ever-co' }),
+		DESKTOP_MCP_SERVER_APP_REPO_OWNER: str({ default: 'TasnimulTheFlex' }),
 		DESKTOP_MCP_SERVER_APP_WELCOME_TITLE: str({ default: '' }),
 		DESKTOP_MCP_SERVER_APP_WELCOME_CONTENT: str({ default: '' }),
 
-		REGISTER_URL: str({ default: 'https://app.gauzy.co/#/auth/register' }),
-		FORGOT_PASSWORD_URL: str({ default: 'https://app.gauzy.co/#/auth/request-password' }),
+		REGISTER_URL: str({ default: 'https://time.base360.ai/#/auth/register' }),
+		FORGOT_PASSWORD_URL: str({ default: 'https://time.base360.ai/#/auth/request-password' }),
 		AGENT_APP_NAME: str({
-			default: 'gauzy-agent'
+			default: 'base360-agent'
 		}),
 		AGENT_APP_ID: str({
-			default: 'com.ever.gauzyagent'
+			default: 'com.base360.agent'
 		}),
 		AGENT_APP_DESCRIPTION: str({
-			default: 'Gauzy Agent'
+			default: 'Base360 Agent'
 		}),
 		AGENT_APP_REPO_NAME: str({
-			default: 'ever-gauzy-agent'
+			default: 'ever-gauzy'
 		}),
 		AGENT_APP_REPO_OWNER: str({
-			default: 'ever-co'
+			default: 'TasnimulTheFlex'
 		}),
 		AGENT_APP_WELCOME_TITLE: str({
 			default: ''
@@ -449,7 +449,7 @@ export const env: Env = cleanEnv(
 			default: ''
 		}),
 		AGENT_APP_PROTOCOL: str({
-			default: 'gauzy-agent'
+			default: 'base360-agent'
 		}),
 		AGENT_POOL_ACTIVITY_INTERVAL: num({
 			default: 5000

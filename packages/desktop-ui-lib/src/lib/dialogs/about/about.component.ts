@@ -17,10 +17,10 @@ import { IOSInfo } from '@gauzy/contracts';
 })
 export class AboutComponent implements OnInit {
 	private _application = {
-		name: 'gauzy-dev',
+		name: 'Base360 Timer',
 		version: 'dev',
 		iconPath: null,
-		companyName: 'Ever Co. LTD.',
+		companyName: 'Base360',
 		arch: ''
 	};
 	private platformInfo: Partial<IOSInfo> = {}
@@ -45,13 +45,16 @@ export class AboutComponent implements OnInit {
 	public async openLink(link: string) {
 		switch (link) {
 			case 'EVER':
-				await this._electronService.shell.openExternal(this._environment.COMPANY_LINK);
+				await this._electronService.shell.openExternal(this._environment.COMPANY_LINK || 'https://base360.ai');
+				break;
+			case 'SOURCE':
+				await this._electronService.shell.openExternal('https://github.com/TasnimulTheFlex/ever-gauzy');
 				break;
 			case 'TOS':
-				await this._electronService.shell.openExternal(this._environment.PLATFORM_TOS_URL);
+				await this._electronService.shell.openExternal(this._environment.PLATFORM_TOS_URL || 'https://base360.ai/legal');
 				break;
 			case 'PRIVACY':
-				await this._electronService.shell.openExternal(this._environment.PLATFORM_PRIVACY_URL);
+				await this._electronService.shell.openExternal(this._environment.PLATFORM_PRIVACY_URL || 'https://base360.ai/legal#privacy');
 				break;
 			default:
 				break;
@@ -61,14 +64,10 @@ export class AboutComponent implements OnInit {
 	public get application() {
 		this._application = {
 			...this._application,
-			name: this._electronService?.remote?.app
-				.getName()
-				.split('-')
-				.join(' ')
-				.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase()),
+			name: this._environment.DESCRIPTION || this._electronService?.remote?.app.getName(),
 			version: this._electronService?.remote?.app?.getVersion(),
 			iconPath: this._domSanitizer.bypassSecurityTrustResourceUrl(this._environment.GAUZY_DESKTOP_LOGO_512X512),
-			companyName: this._environment.COMPANY_NAME
+			companyName: this._environment.COMPANY_NAME || 'Base360'
 		};
 		return this._application;
 	}

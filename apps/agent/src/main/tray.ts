@@ -64,8 +64,11 @@ class TrayMenu {
 	}
 
 	nativeIconPath() {
-		const iconNativePath = nativeImage.createFromPath(this.trayIconPath);
-		iconNativePath.resize(this.trayIconSize);
+		const iconPath = process.platform === 'darwin'
+			? path.join(path.dirname(this.trayIconPath), 'iconTemplate.png')
+			: this.trayIconPath;
+		const iconNativePath = nativeImage.createFromPath(iconPath).resize(this.trayIconSize);
+		iconNativePath.setTemplateImage(process.platform === 'darwin');
 		return iconNativePath;
 	}
 
@@ -204,7 +207,7 @@ class TrayMenu {
 		this.tray.setTitle('State: Startup', {
 			fontType: 'monospacedDigit'
 		});
-		this.tray.setToolTip(`Agent is starting up
+		this.tray.setToolTip(`Base360 Agent is starting up
 ${this.monitoringText()}`);
 	}
 
@@ -263,7 +266,7 @@ ${this.monitoringText()}`);
 	}
 
 	private updateToolTip() {
-		this.tray?.setToolTip(`Agent is ${this.status}
+		this.tray?.setToolTip(`Base360 Agent is ${this.status}
 ${this.monitoringText()}`);
 	}
 

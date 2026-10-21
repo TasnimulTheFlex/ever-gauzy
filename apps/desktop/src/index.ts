@@ -18,7 +18,7 @@ console.log('Desktop Node Modules Path', path.join(__dirname, 'node_modules'));
 
 Object.assign(process.env, environment);
 
-app.setName(process.env.NAME);
+app.setName(process.env.DESCRIPTION || 'Base360 Desktop');
 
 remoteMain.initialize();
 
@@ -185,7 +185,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-desktop';
+const appProtocol = process.env.PROTOCOL || 'base360-desktop';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);

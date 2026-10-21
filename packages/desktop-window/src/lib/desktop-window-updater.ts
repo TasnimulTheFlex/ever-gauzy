@@ -92,7 +92,7 @@ const windowSetting = (preloadPath: string): Electron.BrowserWindowConstructorOp
 		},
 		width: 700,
 		height: 600,
-		title: 'Gauzy Updater',
+		title: 'Base360 Updater',
 		maximizable: false,
 		show: false
 	};
