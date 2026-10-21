@@ -87,8 +87,8 @@ ARG NX_BRANCH
 
 FROM node:26.11.1-alpine3.24 AS dependencies
 
-LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL maintainer="support@base360.ai"
+LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/ever-gauzy"
 
 RUN apk add --no-cache python3 python3-dev py3-pip py3-setuptools build-base gcc g++ make autoconf automake git \
     && npm install --quiet node-gyp@10.2.0 -g \
@@ -248,19 +248,19 @@ ENV MCP_CORS_CREDENTIALS=${MCP_CORS_CREDENTIALS:-true}
 
 # AUTH
 ENV MCP_AUTH_ENABLED=${MCP_AUTH_ENABLED:-true}
-ENV MCP_AUTH_RESOURCE_URI=${MCP_AUTH_RESOURCE_URI:-https://mcpdemo.gauzy.co}
+ENV MCP_AUTH_RESOURCE_URI=${MCP_AUTH_RESOURCE_URI:-https://time-api.base360.ai}
 ENV MCP_AUTH_REQUIRED_SCOPES=${MCP_AUTH_REQUIRED_SCOPES:-mcp.read,mcp.write}
 ENV MCP_AUTH_SERVERS=${MCP_AUTH_SERVERS:-"[]"}
 
 # JWT validation options
-ENV MCP_AUTH_JWT_AUDIENCE=${MCP_AUTH_JWT_AUDIENCE:-https://mcp.gauzy.co}
-ENV MCP_AUTH_JWT_ISSUER=${MCP_AUTH_JWT_ISSUER:-https://auth.gauzy.co}
+ENV MCP_AUTH_JWT_AUDIENCE=${MCP_AUTH_JWT_AUDIENCE:-https://time-api.base360.ai}
+ENV MCP_AUTH_JWT_ISSUER=${MCP_AUTH_JWT_ISSUER:-https://time-api.base360.ai}
 ENV MCP_AUTH_JWT_ALGORITHMS=${MCP_AUTH_JWT_ALGORITHMS:-RS256,ES256}
-ENV MCP_AUTH_JWT_JWKS_URI=${MCP_AUTH_JWT_JWKS_URI:-https://auth.gauzy.co/.well-known/jwks.json}
+ENV MCP_AUTH_JWT_JWKS_URI=${MCP_AUTH_JWT_JWKS_URI:-https://time-api.base360.ai/.well-known/jwks.json}
 ENV MCP_AUTH_JWT_PUBLIC_KEY=${MCP_AUTH_JWT_PUBLIC_KEY}
 
 # Token Introspection (Alternative to JWT validation)
-ENV MCP_AUTH_INTROSPECTION_ENDPOINT=${MCP_AUTH_INTROSPECTION_ENDPOINT:-https://auth.gauzy.co/token/introspect}
+ENV MCP_AUTH_INTROSPECTION_ENDPOINT=${MCP_AUTH_INTROSPECTION_ENDPOINT:-https://time-api.base360.ai/token/introspect}
 ENV MCP_AUTH_INTROSPECTION_CLIENT_ID=${MCP_AUTH_INTROSPECTION_CLIENT_ID}
 ENV MCP_AUTH_INTROSPECTION_CLIENT_SECRET=${MCP_AUTH_INTROSPECTION_CLIENT_SECRET}
 
@@ -290,7 +290,7 @@ ENV THROTTLE_LIMIT=${THROTTLE_LIMIT:-100}
 ENV MCP_TRUSTED_PROXIES=${MCP_TRUSTED_PROXIES:-192.168.1.1,10.0.0.1}
 
 # Required Gauzy API settings
-ENV API_BASE_URL=${API_BASE_URL:-https://apidemo.gauzy.co}
+ENV API_BASE_URL=${API_BASE_URL:-https://time-api.base360.ai}
 ENV GAUZY_AUTH_EMAIL=${GAUZY_AUTH_EMAIL}
 ENV GAUZY_AUTH_PASSWORD=${GAUZY_AUTH_PASSWORD}
 ENV GAUZY_AUTO_LOGIN=${GAUZY_AUTO_LOGIN:-true}

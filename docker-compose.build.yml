@@ -4,7 +4,7 @@ include:
 services:
   api:
     container_name: api
-    image: gauzy-api:latest
+    image: ghcr.io/tasnimultheflex/base360-time-api:latest
     build:
       context: .
       dockerfile: .deploy/api/Dockerfile
@@ -56,7 +56,7 @@ services:
 
   webapp:
     container_name: webapp
-    image: gauzy-webapp:latest
+    image: ghcr.io/tasnimultheflex/base360-time-webapp:latest
     build:
       context: .
       dockerfile: .deploy/webapp/Dockerfile

@@ -1,0 +1,60 @@
+name: Build and publish Base360 images
+
+on:
+  push:
+    branches: [base360]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: base360-images-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOCKER_BUILD_RECORD_UPLOAD: false
+  DOCKER_BUILD_SUMMARY: false
+
+jobs:
+  publish:
+    name: Base360 ${{ matrix.image }}
+    runs-on: ${{ vars.RUNNER_LINUX_X64_8 || 'ubuntu-latest' }}
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [api, webapp]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./.deploy/${{ matrix.image }}/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/tasnimultheflex/base360-time-${{ matrix.image }}:latest
+            ghcr.io/tasnimultheflex/base360-time-${{ matrix.image }}:${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/tasnimultheflex/base360-time-${{ matrix.image }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/tasnimultheflex/base360-time-${{ matrix.image }}:buildcache,mode=max
+          build-args: |
+            NODE_ENV=production
+            NODE_OPTIONS=--max-old-space-size=6144
+            DEMO=false
+            NX_BRANCH=${{ github.ref_name }}
+            GAUZY_APP_COMMIT=${{ github.sha }}

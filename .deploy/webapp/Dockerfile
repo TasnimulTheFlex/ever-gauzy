@@ -19,8 +19,8 @@
 
 FROM node:26.11.1-alpine3.24 AS dependencies
 
-LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL maintainer="support@base360.ai"
+LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/ever-gauzy"
 
 ENV CI=true
 
@@ -238,6 +238,60 @@ ENV IS_DOCKER=true
 ENV NX_NO_CLOUD=true
 ENV NX_BRANCH=${NX_BRANCH}
 
+# Values interpolated into the web bundle at build time.
+ENV COMPANY_NAME="Base360"
+ENV COMPANY_LINK="https://base360.ai"
+ENV COMPANY_SITE_NAME="Base360"
+ENV COMPANY_SITE_LINK="https://base360.ai"
+ENV COMPANY_GITHUB_LINK="https://github.com/TasnimulTheFlex/ever-gauzy"
+ENV PLATFORM_WEBSITE_URL="https://base360.ai"
+ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV PLATFORM_PRIVACY_URL="https://base360.ai/legal#privacy"
+ENV PLATFORM_TOS_URL="https://base360.ai/legal"
+ENV PROJECT_REPO="https://github.com/TasnimulTheFlex/ever-gauzy"
+ENV GAUZY_CLOUD_APP="https://time.base360.ai"
+ENV GAUZY_CLOUD_ENDPOINT="https://time-api.base360.ai"
+ENV AGENT_APP_PROTOCOL="base360-timer"
+ENV AGENT_APP_NAME="Base360 Timer"
+ENV AGENT_APP_DESCRIPTION="Base360 Timer"
+ENV AGENT_APP_ID="com.base360.timetracker"
+ENV COMPANY_GITLAB_LINK=""
+ENV COMPANY_FACEBOOK_LINK=""
+ENV COMPANY_TWITTER_LINK=""
+ENV COMPANY_IN_LINK=""
+ENV DESKTOP_APP_DOWNLOAD_LINK_APPLE="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_APP_DOWNLOAD_LINK_WINDOWS="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_APP_DOWNLOAD_LINK_LINUX="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_TIMER_APP_NAME="Base360 Timer"
+ENV DESKTOP_TIMER_APP_DESCRIPTION="Base360 Timer"
+ENV DESKTOP_TIMER_APP_ID="com.base360.timetracker"
+ENV DESKTOP_TIMER_APP_PROTOCOL="base360-timer"
+ENV DESKTOP_TIMER_APP_REPO_OWNER="TasnimulTheFlex"
+ENV DESKTOP_TIMER_APP_REPO_NAME="ever-gauzy"
+ENV DESKTOP_APP_NAME="Base360 Timer"
+ENV DESKTOP_APP_DESCRIPTION="Base360 Timer"
+ENV DESKTOP_APP_ID="com.base360.timetracker"
+ENV DESKTOP_APP_PROTOCOL="base360-timer"
+ENV DESKTOP_APP_REPO_OWNER="TasnimulTheFlex"
+ENV DESKTOP_APP_REPO_NAME="ever-gauzy"
+ENV DESKTOP_SERVER_APP_NAME="Base360 Timer"
+ENV DESKTOP_SERVER_APP_DESCRIPTION="Base360 Timer"
+ENV DESKTOP_SERVER_APP_ID="com.base360.timetracker"
+ENV DESKTOP_SERVER_APP_PROTOCOL="base360-timer"
+ENV DESKTOP_SERVER_APP_REPO_OWNER="TasnimulTheFlex"
+ENV DESKTOP_SERVER_APP_REPO_NAME="ever-gauzy"
+ENV DESKTOP_API_SERVER_APP_NAME="Base360 Timer"
+ENV DESKTOP_API_SERVER_APP_DESCRIPTION="Base360 Timer"
+ENV DESKTOP_API_SERVER_APP_ID="com.base360.timetracker"
+ENV DESKTOP_API_SERVER_APP_PROTOCOL="base360-timer"
+ENV DESKTOP_API_SERVER_APP_REPO_OWNER="TasnimulTheFlex"
+ENV DESKTOP_API_SERVER_APP_REPO_NAME="ever-gauzy"
+ENV AGENT_APP_REPO_OWNER="TasnimulTheFlex"
+ENV AGENT_APP_REPO_NAME="ever-gauzy"
+ENV DEMO_SUPER_ADMIN_EMAIL="admin@base360.ai"
+ENV DEMO_ADMIN_EMAIL="local.admin@base360.ai"
+ENV DEMO_EMPLOYEE_EMAIL="employee@base360.ai"
+
 # The multi-GB root node_modules is bind-mounted from the dependencies stage for this RUN
 # only — it never lands in a persisted layer (this was the main cause of the 44GB+
 # build-time disk footprint, see issue #9791). `rw` allows transient cache writes into
@@ -289,8 +343,8 @@ ENV NODE_ENV=production
 ENV API_HOST=api
 ENV API_PORT=3000
 
-ENV API_BASE_URL=http://localhost:3000
-ENV CLIENT_BASE_URL=http://localhost:4200
+ENV API_BASE_URL=https://time-api.base360.ai
+ENV CLIENT_BASE_URL=https://time.base360.ai
 ENV WEB_HOST=0.0.0.0
 ENV WEB_PORT=4200
 ENV DEMO=false
@@ -301,31 +355,31 @@ ENV GOOGLE_PLACE_AUTOCOMPLETE=false
 ENV DEFAULT_LATITUDE=42.6459136
 ENV DEFAULT_LONGITUDE=23.3332736
 ENV DEFAULT_CURRENCY=USD
-ENV GAUZY_CLOUD_APP="https://app.gauzy.co"
-ENV GAUZY_CLOUD_ENDPOINT="https://api.gauzy.co"
+ENV GAUZY_CLOUD_APP="https://time.base360.ai"
+ENV GAUZY_CLOUD_ENDPOINT="https://time-api.base360.ai"
 ENV NO_INTERNET_LOGO="assets/images/logos/logo_Gauzy.svg"
 ENV FILE_PROVIDER="LOCAL"
 ENV PLATFORM_LOGO="assets/images/logos/logo_Gauzy.svg"
 ENV GAUZY_DESKTOP_LOGO_512X512="assets/icons/icon_512x512.png"
-ENV PLATFORM_PRIVACY_URL="https://gauzy.co/privacy"
-ENV PLATFORM_TOS_URL="https://gauzy.co/tos"
-ENV PROJECT_REPO="https://github.com/ever-co/ever-gauzy.git"
-ENV COMPANY_NAME="Ever Co. LTD"
-ENV COMPANY_LINK="https://ever.co"
-ENV COMPANY_SITE_NAME="Gauzy"
-ENV COMPANY_SITE_LINK="https://gauzy.co"
-ENV COMPANY_GITHUB_LINK="https://github.com/ever-co"
-ENV COMPANY_GITLAB_LINK="https://gitlab.com/ever-co"
-ENV COMPANY_FACEBOOK_LINK="https://www.facebook.com/gauzyplatform"
-ENV COMPANY_TWITTER_LINK="https://twitter.com/gauzyplatform"
-ENV COMPANY_IN_LINK="https://www.linkedin.com/company/everhq"
-ENV PLATFORM_WEBSITE_URL="https://gauzy.co"
-ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://gauzy.co/downloads"
-ENV DESKTOP_APP_DOWNLOAD_LINK_APPLE="https://gauzy.co/downloads#desktop/apple"
-ENV DESKTOP_APP_DOWNLOAD_LINK_WINDOWS="https://gauzy.co/downloads#desktop/windows"
-ENV DESKTOP_APP_DOWNLOAD_LINK_LINUX="https://gauzy.co/downloads#desktop/linux"
-ENV MOBILE_APP_DOWNLOAD_LINK="https://gauzy.co/downloads#mobile"
-ENV EXTENSION_DOWNLOAD_LINK="https://gauzy.co/downloads#extensions"
+ENV PLATFORM_PRIVACY_URL="https://base360.ai/legal#privacy"
+ENV PLATFORM_TOS_URL="https://base360.ai/legal"
+ENV PROJECT_REPO="https://github.com/TasnimulTheFlex/ever-gauzy"
+ENV COMPANY_NAME="Base360"
+ENV COMPANY_LINK="https://base360.ai"
+ENV COMPANY_SITE_NAME="Base360"
+ENV COMPANY_SITE_LINK="https://base360.ai"
+ENV COMPANY_GITHUB_LINK="https://github.com/TasnimulTheFlex/ever-gauzy"
+ENV COMPANY_GITLAB_LINK=""
+ENV COMPANY_FACEBOOK_LINK=""
+ENV COMPANY_TWITTER_LINK=""
+ENV COMPANY_IN_LINK=""
+ENV PLATFORM_WEBSITE_URL="https://base360.ai"
+ENV PLATFORM_WEBSITE_DOWNLOAD_URL="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_APP_DOWNLOAD_LINK_APPLE="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_APP_DOWNLOAD_LINK_WINDOWS="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV DESKTOP_APP_DOWNLOAD_LINK_LINUX="https://github.com/TasnimulTheFlex/ever-gauzy/releases"
+ENV MOBILE_APP_DOWNLOAD_LINK=""
+ENV EXTENSION_DOWNLOAD_LINK=""
 
 EXPOSE ${WEB_PORT}
 
