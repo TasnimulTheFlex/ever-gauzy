@@ -152,7 +152,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 		const scope = await this.scope(organizationId);
 		const integration = await this.find(scope);
 		if (!integration?.id || !integration.tenantId || !integration.organizationId)
-			throw new NotFoundException('Ever Async is not configured for this organization.');
+			throw new NotFoundException('Base360 Async is not configured for this organization.');
 		return integration as IntegrationTenant & { id: ID; tenantId: ID; organizationId: ID };
 	}
 
@@ -197,10 +197,10 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 
 	private serverUrl(input: string) {
 		const reason = getUnsafeOutboundUrlReason(input);
-		if (reason) throw new BadRequestException(`Invalid Ever Async URL: ${reason}`);
+		if (reason) throw new BadRequestException(`Invalid Base360 Async URL: ${reason}`);
 		const url = new URL(input);
 		if (url.search || url.hash)
-			throw new BadRequestException('Ever Async URL must not contain a query or fragment.');
+			throw new BadRequestException('Base360 Async URL must not contain a query or fragment.');
 		return url.toString().replace(/\/+$/, '');
 	}
 
@@ -257,7 +257,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 				});
 			}
 			if (await this.find(scope, manager))
-				throw new ConflictException('Ever Async is already configured for this organization.');
+				throw new ConflictException('Base360 Async is already configured for this organization.');
 			const integration = manager.create(IntegrationTenant, {
 				id: randomUUID(),
 				...scope,
@@ -318,7 +318,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 			}
 			const integration = await this.find(scope, manager);
 			if (!integration?.id || !integration.tenantId || !integration.organizationId)
-				throw new NotFoundException('Ever Async is not configured for this organization.');
+				throw new NotFoundException('Base360 Async is not configured for this organization.');
 			return change(integration as IntegrationTenant & { id: ID; tenantId: ID; organizationId: ID }, manager);
 		});
 	}
@@ -372,7 +372,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 	async removeIntegration(integrationTenantId: ID, organizationId?: ID) {
 		return this.mutate(organizationId, async (integration, manager) => {
 			if (integration.id !== integrationTenantId)
-				throw new NotFoundException('Ever Async integration not found.');
+				throw new NotFoundException('Base360 Async integration not found.');
 			integration.isActive = false;
 			integration.isArchived = true;
 			this.set(integration, { [Setting.IS_ENABLED]: 'false' }, manager);
@@ -397,7 +397,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 				throw new Error('Unexpected health response');
 			return { ok: true, serverUrl: target };
 		} catch {
-			throw new BadGatewayException('The Ever Async server did not return a valid health response.');
+			throw new BadGatewayException('The Base360 Async server did not return a valid health response.');
 		}
 	}
 
@@ -445,7 +445,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 			throw new UnauthorizedException('Invalid connector credentials.');
 		}
 		if (settings[Setting.IS_ENABLED] !== 'true')
-			throw new ForbiddenException('Ever Async integration is disabled.');
+			throw new ForbiddenException('Base360 Async integration is disabled.');
 		return {
 			integrationTenantId: integration.id,
 			tenantId: integration.tenantId,

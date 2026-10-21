@@ -4,7 +4,7 @@ import { ArrayMaxSize, IsArray, IsBoolean, IsEnum, IsNotEmpty, IsObject, IsStrin
 import { IntegrationEntity } from '@gauzy/contracts';
 
 export class EverWorksCreateMappingDto {
-	@ApiProperty({ description: 'A pinned Ever Works organization of the connected key (from whoami).' })
+	@ApiProperty({ description: 'A pinned Base360 Works organization of the connected key (from whoami).' })
 	@IsNotEmpty()
 	@IsString()
 	@MaxLength(64)

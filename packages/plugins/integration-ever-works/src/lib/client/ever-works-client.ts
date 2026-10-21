@@ -39,7 +39,7 @@ export class EverWorksApiError extends Error {
 /** No response from Ever Works (DNS, connection, TLS, timeout, size cap, SSRF block). */
 export class EverWorksNetworkError extends Error {
 	constructor(readonly reason: string) {
-		super(`Ever Works could not be reached (${reason}).`);
+		super(`Base360 Works could not be reached (${reason}).`);
 		this.name = 'EverWorksNetworkError';
 	}
 }
@@ -130,7 +130,7 @@ export function normaliseApiBaseUrl(raw: string, options: { allowInsecure?: bool
 /** An API base URL that cannot be used. The message is safe to show. */
 export class EverWorksUrlError extends Error {
 	constructor(reason: string) {
-		super(`Invalid Ever Works API URL: ${reason}.`);
+		super(`Invalid Base360 Works API URL: ${reason}.`);
 		this.name = 'EverWorksUrlError';
 	}
 }
@@ -278,7 +278,7 @@ export class EverWorksClient {
 		const code =
 			typeof error?.code === 'string' && /^[a-z_]{1,64}$/.test(error.code) ? error.code : EverWorksClient.fallbackCode(response.status);
 		const message =
-			typeof error?.message === 'string' && error.message.length <= 2000 ? error.message : `Ever Works answered ${response.status}.`;
+			typeof error?.message === 'string' && error.message.length <= 2000 ? error.message : `Base360 Works answered ${response.status}.`;
 		const details = error?.details && typeof error.details === 'object' ? (error.details as Record<string, unknown>) : undefined;
 		return new EverWorksApiError(response.status, code, message, details, EverWorksClient.retryAfter(response.headers['retry-after']));
 	}

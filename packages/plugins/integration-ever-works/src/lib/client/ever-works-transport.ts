@@ -58,7 +58,7 @@ export function loopbackOnlyLookup(
 			const allowed = list.filter(({ address }) => address === '127.0.0.1' || address === '::1');
 			if (!allowed.length || allowed.length !== list.length) {
 				return callback(
-					Object.assign(new Error('Ever Works loopback host does not resolve to a loopback address.'), {
+					Object.assign(new Error('Base360 Works loopback host does not resolve to a loopback address.'), {
 						code: 'ESSRF'
 					}),
 					'',
@@ -122,7 +122,7 @@ export class AxiosEverWorksTransport implements EverWorksTransport {
 		const loopback = this.loopback !== null && isEverWorksLoopbackUrl(request.url);
 		if (!loopback && !request.url.startsWith('https://')) {
 			// The URL was validated when it was stored; this is the last line, never reached in practice.
-			throw Object.assign(new Error('Ever Works is reached over HTTPS only.'), { code: 'EINSECURE' });
+			throw Object.assign(new Error('Base360 Works is reached over HTTPS only.'), { code: 'EINSECURE' });
 		}
 		const response = await (loopback ? this.loopback : this.http).request({
 			method: request.method,

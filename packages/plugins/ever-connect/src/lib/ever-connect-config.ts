@@ -84,13 +84,13 @@ function parseApiUrl(env: Env, warn: Warn): string | null {
 	try {
 		url = new URL(configured);
 	} catch {
-		warn('EVER_PLATFORM_API_URL is not a URL; the Ever Platform connection sends nothing until it is corrected.');
+		warn('EVER_PLATFORM_API_URL is not a URL; the Base360 Platform connection sends nothing until it is corrected.');
 		return null;
 	}
 	const okProtocol = url.protocol === 'https:' || (url.protocol === 'http:' && isLocalHost(url.hostname));
 	if (!okProtocol || url.username || url.password || url.search || url.hash) {
 		warn(
-			'EVER_PLATFORM_API_URL must be https (plain http only for a local or private address) and carry no credential, query or fragment; the Ever Platform connection sends nothing until it is corrected.'
+			'EVER_PLATFORM_API_URL must be https (plain http only for a local or private address) and carry no credential, query or fragment; the Base360 Platform connection sends nothing until it is corrected.'
 		);
 		return null;
 	}

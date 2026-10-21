@@ -216,7 +216,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 		// A second push of the same message (a re-queued change) sends nothing.
 		expect(await service.push(change, pushContext)).toMatchObject({
 			status: 'skipped',
-			message: 'already handed to Ever Works'
+			message: 'already handed to Base360 Works'
 		});
 		expect(email.received).toHaveLength(1);
 	});
@@ -243,7 +243,7 @@ describe('EverWorksAgentEmailService — a Gauzy mailbox routed to an Ever Works
 		const stranger = setup({ stored: message({ mailboxSettings: { everWorksAgentId: 'ew-agent-unknown' } }) });
 		expect(await stranger.service.push(stranger.change, stranger.pushContext)).toMatchObject({
 			status: 'skipped',
-			message: expect.stringContaining('no Ever Works agent paired')
+			message: expect.stringContaining('no Base360 Works agent paired')
 		});
 
 		const unlinked = setup();

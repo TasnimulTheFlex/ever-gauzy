@@ -79,7 +79,7 @@ async function closedPort(): Promise<number> {
 	return port;
 }
 
-suite('against the Ever Platform mock', () => {
+suite('against the Base360 Platform mock', () => {
 	let dataSource: DataSource;
 
 	beforeEach(async () => {

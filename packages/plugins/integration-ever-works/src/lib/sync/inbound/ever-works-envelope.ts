@@ -3,7 +3,7 @@ import type { EverWorksEventEnvelope } from '../../client/ever-works-client.type
 /** Why an envelope is refused (safe to log: never echoes the payload). */
 export class EverWorksEnvelopeError extends Error {
 	constructor(reason: string) {
-		super(`Invalid Ever Works event envelope: ${reason}.`);
+		super(`Invalid Base360 Works event envelope: ${reason}.`);
 		this.name = 'EverWorksEnvelopeError';
 	}
 }

@@ -143,9 +143,9 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 			t.accounts.addUser({ email: 'branded@example.test' });
 			const response = await post({
 				id_token: await teamsIdToken('branded', 'branded@example.test'),
-				appName: 'Ever Teams',
+				appName: 'Base360 Teams',
 				appLogo: 'https://teams.example.test/logo.png',
-				appSignature: 'The Ever Teams team',
+				appSignature: 'The Base360 Teams team',
 				appLink: 'https://teams.example.test',
 				companyName: 'Ever',
 				companyLink: 'http://ever.example.test',
@@ -157,9 +157,9 @@ describe('Token route for first-party clients (HTTP, against a mock OpenID Provi
 			// No https: the company link is left to Gauzy's default; the magic link is never taken from a request.
 			expect(t.gauzyAuth.sentInputs).toEqual([
 				{
-					appName: 'Ever Teams',
+					appName: 'Base360 Teams',
 					appLogo: 'https://teams.example.test/logo.png',
-					appSignature: 'The Ever Teams team',
+					appSignature: 'The Base360 Teams team',
 					appLink: 'https://teams.example.test/',
 					companyName: 'Ever'
 				}

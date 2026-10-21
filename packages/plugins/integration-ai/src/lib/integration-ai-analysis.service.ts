@@ -102,7 +102,7 @@ export class IntegrationAIAnalysisService {
 
 					return analysis;
 				} catch (error) {
-					console.log('Error while getting Integration for Gauzy AI', error.message);
+					console.log('Error while getting Integration for Base360 AI', error.message);
 					return null;
 				}
 			}

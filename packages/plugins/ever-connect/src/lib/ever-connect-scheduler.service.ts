@@ -146,7 +146,7 @@ export class EverConnectScheduler implements OnModuleInit, OnModuleDestroy {
 				.catch((error) => {
 					this.feedFailures += 1;
 					if (!this.running) return;
-					this.logger.warn(`The Ever Platform event feed could not be read (${errorCode(error)}).`);
+					this.logger.warn(`The Base360 Platform event feed could not be read (${errorCode(error)}).`);
 					this.scheduleFeed(Math.min(FEED_RETRY_MS * 2 ** (this.feedFailures - 1), FEED_INTERVAL_MS));
 				});
 		}, delayMs);

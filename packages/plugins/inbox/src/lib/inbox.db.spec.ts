@@ -671,7 +671,7 @@ describe('Inbox on SQLite', () => {
 		});
 
 		it('when the source refuses, the reply is released and the item is open again', async () => {
-			const refusal = new ConflictException('Already decided in Ever Works');
+			const refusal = new ConflictException('Already decided in Base360 Works');
 			const onReply = jest.fn().mockRejectedValueOnce(refusal).mockRejectedValueOnce(new Error('socket hang up'));
 			registry.register({ source: InboxItemSourceEnum.EVER_WORKS, onReply });
 			const { item } = await service.upsertExternal({
@@ -835,7 +835,7 @@ describe('Inbox on SQLite', () => {
 		it('tells the source of each item read in bulk (in the background), as for one item', async () => {
 			const onStateChange = jest.fn(async () => undefined);
 			registry.register({ source: InboxItemSourceEnum.EVER_WORKS, onReply: jest.fn(), onStateChange });
-			const sourced = await question({ source: InboxItemSourceEnum.EVER_WORKS, title: 'From Ever Works' });
+			const sourced = await question({ source: InboxItemSourceEnum.EVER_WORKS, title: 'From Base360 Works' });
 			await question({ title: 'Local' });
 
 			await expect(service.markAllRead()).resolves.toEqual({ updated: 2 });

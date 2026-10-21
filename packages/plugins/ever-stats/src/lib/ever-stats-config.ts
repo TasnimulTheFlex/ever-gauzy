@@ -39,7 +39,7 @@ function parseServes(raw: string | undefined, warn: Warn = () => undefined): Sta
 	const parts = raw.split(',').map((part) => part.trim());
 	const known = parts.every((part) => part === 'gauzy' || part === 'teams') && new Set(parts).size === parts.length;
 	if (!known) {
-		warn('EVER_STATS_SERVES is not gauzy, teams or gauzy,teams; using gauzy.');
+		warn('EVER_STATS_SERVES is invalid; using the default product.');
 		return ['gauzy'];
 	}
 	return (['gauzy', 'teams'] as const).filter((product) => parts.includes(product));

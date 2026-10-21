@@ -23,13 +23,13 @@ import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksInitiativesService } from './ever-works-initiatives.service';
 
 export class EverWorksInitiativeLinkDto {
-	@ApiProperty({ description: 'Ever Works mission id (a mission of the mapped organization).' })
+	@ApiProperty({ description: 'Base360 Works mission id (a mission of the mapped organization).' })
 	@IsString()
 	@MaxLength(64)
 	readonly ewMissionId!: string;
 
 	@ApiProperty({
-		description: 'Gauzy strategic initiative id (an initiative of this organization, not leadership-scoped).'
+		description: 'Base360 strategic initiative id (an initiative of this organization, not leadership-scoped).'
 	})
 	@IsUUID()
 	readonly initiativeId!: string;
@@ -46,7 +46,7 @@ export class EverWorksInitiativesDecisionDto {
 
 	@ApiPropertyOptional({
 		type: [String],
-		description: 'Ever Works mission ids whose pairing is removed (neither record changes).'
+		description: 'Base360 Works mission ids whose pairing is removed (neither record changes).'
 	})
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
@@ -60,7 +60,7 @@ export class EverWorksInitiativesDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works mission ids to create as Gauzy initiatives.' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 Works mission ids to create as Base360 initiatives.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
@@ -71,7 +71,7 @@ export class EverWorksInitiativesDecisionDto {
 	@ApiPropertyOptional({
 		type: [String],
 		description:
-			'Gauzy initiative ids to create in Ever Works (as paused missions; needs the missions direction "both").'
+			'Base360 initiative ids to create in Base360 Works (as paused missions; needs the missions direction "both").'
 	})
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
@@ -85,7 +85,7 @@ export class EverWorksInitiativesDecisionDto {
  * "Initiatives ↔ Missions" tab of G-P1-11). Same guards and organization-membership check as every
  * management route.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/mappings/:integrationTenantId`)
@@ -96,7 +96,7 @@ export class EverWorksInitiativesController {
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
 	@ApiOperation({
 		summary:
-			'Ever Works missions with their paired initiative or a same-title suggestion, and the unmatched initiatives.'
+			'Base360 Works missions with their paired initiative or a same-title suggestion, and the unmatched initiatives.'
 	})
 	list(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.initiatives.initiatives(id, organizationId);

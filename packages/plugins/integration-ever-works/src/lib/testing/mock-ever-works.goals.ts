@@ -208,7 +208,7 @@ export class MockEverWorksGoals {
 			| { source?: string; installationId?: string | null; externalId?: string; externalUrl?: string | null }
 			| undefined;
 		if (ref && ref.source !== 'gauzy')
-			return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "gauzy".');
+			return MockEverWorksServer.error(400, 'validation_failed', 'externalRef.source must be "Base360".');
 		if (ref?.externalId) {
 			const existing = this.visible(context).find((goal) =>
 				((goal['externalLinks'] as Array<Record<string, unknown>>) ?? []).some(

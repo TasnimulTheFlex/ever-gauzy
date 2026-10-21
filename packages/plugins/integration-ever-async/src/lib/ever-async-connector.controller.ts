@@ -35,7 +35,7 @@ export class EverAsyncConnectorGuard implements CanActivate {
 /** Public bypasses the user JWT guard only; the dedicated credential guard is mandatory. */
 @Public()
 @UseGuards(EverAsyncRateLimitGuard, EverAsyncConnectorGuard)
-@ApiTags('Ever Async Connector')
+@ApiTags('Base360 Async Connector')
 @ApiHeader({ name: 'X-INTEGRATION-ID', required: true })
 @ApiHeader({ name: 'X-APP-ID', required: true })
 @ApiHeader({ name: 'X-API-KEY', required: true })

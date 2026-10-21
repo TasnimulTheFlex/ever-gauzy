@@ -180,7 +180,7 @@ describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox c
 			taskId: 'task-1',
 			agentEmployeeId: 'emp-agent',
 			metadata: {
-				mailbox: 'Ever Works — Builder',
+				mailbox: 'Base360 Works — Builder',
 				readOnly: true,
 				from: 'builder@agents.example.test',
 				direction: 'outbound'
@@ -228,7 +228,7 @@ describe('EverWorksAgentEmailMirror — EW agent mail as read-only Gauzy Inbox c
 		});
 		(links.find((l) => l['entityType'] === EverWorksLinkType.AGENT) as Row)['state'] = EverWorksLinkState.UNLINKED;
 		expect(await mirror.apply(envelope(message()) as never, applyContext)).toMatchObject({ status: 'applied' });
-		expect(upserts[0]).toMatchObject({ agentEmployeeId: null, metadata: { mailbox: 'Ever Works — agent' } });
+		expect(upserts[0]).toMatchObject({ agentEmployeeId: null, metadata: { mailbox: 'Base360 Works — agent' } });
 	});
 
 	it('never addresses a copy to a user of another tenant (the paired employee’s user is checked)', async () => {

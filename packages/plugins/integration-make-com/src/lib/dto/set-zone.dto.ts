@@ -19,7 +19,7 @@ export class SetZoneDTO {
 	@IsIn(MAKE_COM_ZONES)
 	zone: MakeComZone;
 
-	@ApiPropertyOptional({ type: String, description: 'Optional Gauzy organization ID' })
+	@ApiPropertyOptional({ type: String, description: 'Optional Base360 organization ID' })
 	@IsOptional()
 	@IsUUID()
 	organizationId?: string;

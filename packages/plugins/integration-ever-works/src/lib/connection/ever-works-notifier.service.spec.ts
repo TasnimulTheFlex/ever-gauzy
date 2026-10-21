@@ -110,7 +110,7 @@ describe('EverWorksNotifier', () => {
 			expect(saved).toEqual([
 				expect.objectContaining({
 					receiverEmployeeId: EMPLOYEE,
-					title: 'Ever Works needs a new key',
+					title: 'Base360 Works needs a new key',
 					entityId: ORG
 				})
 			]);
@@ -146,7 +146,7 @@ describe('EverWorksNotifier', () => {
 			priority: InboxItemPriorityEnum.NORMAL,
 			metadata: expect.objectContaining({ direction: 'outbound', entityType: 'team', recordId: 'team-9' })
 		});
-		expect(calls[0].body).toContain('to Ever Works: team team-9');
+		expect(calls[0].body).toContain('to Base360 Works: team team-9');
 
 		// The Inbox refuses: no employee notification for a dead letter (it would flood the bell).
 		const refusing = fakeInbox('throws');

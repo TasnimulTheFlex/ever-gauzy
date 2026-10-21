@@ -24,7 +24,7 @@ import {
 import { EverAsyncIntegrationService } from './ever-async-integration.service';
 import { ConfigureEverAsyncIntegrationDto, UpdateEverAsyncSettingsDto, VerifyEverAsyncConnectionDto } from './dto';
 
-@ApiTags('Ever Async Integration')
+@ApiTags('Base360 Async Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller('/integration/ever-async')
@@ -35,7 +35,7 @@ export class EverAsyncController {
 	@Permissions(PermissionsEnum.INTEGRATION_ADD)
 	@UseValidationPipe()
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Connect Ever Async and return its read-only credential once.' })
+	@ApiOperation({ summary: 'Connect Base360 Async and return its read-only credential once.' })
 	setupIntegration(@Body() dto: ConfigureEverAsyncIntegrationDto, @Query('organizationId') organizationId?: ID) {
 		return this.service.setupIntegration(dto, organizationId);
 	}

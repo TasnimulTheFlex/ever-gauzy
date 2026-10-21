@@ -163,7 +163,7 @@ export class MockEverWorksServer {
 		this.keys.set(key, {
 			key,
 			keyId: options.keyId ?? randomUUID(),
-			keyName: options.keyName ?? 'Ever Gauzy — test',
+			keyName: options.keyName ?? 'Base360 — test',
 			scopes: options.scopes ?? [...MOCK_PRESET_SCOPES],
 			organizations: options.organizations ?? [{ id: randomUUID(), slug: 'acme', displayName: 'Acme Inc.' }],
 			revoked: false,

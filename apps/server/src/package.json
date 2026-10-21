@@ -1,16 +1,16 @@
 {
 	"name": "gauzy-server",
-	"productName": "Gauzy Server",
+	"productName": "Base360 Server",
 	"version": "0.1.0",
-	"description": "Gauzy Server",
+	"description": "Base360 Server",
 	"license": "AGPL-3.0",
-	"homepage": "https://gauzy.co",
+	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy.git"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy/issues"
 	},
 	"private": true,
 	"author": {
@@ -24,15 +24,15 @@
 		"npmArgs": [
 			"--production"
 		],
-		"appId": "com.ever.gauzyserver",
-		"artifactName": "${name}-${arch}-${version}.${ext}",
-		"productName": "Gauzy Server",
+		"appId": "com.base360.server",
+		"artifactName": "base360-server-${arch}-${version}.${ext}",
+		"productName": "Base360 Server",
 		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
 		"dmg": {
 			"sign": false,
-			"artifactName": "${name}-${arch}-${version}.${ext}"
+			"artifactName": "base360-server-${arch}-${version}.${ext}"
 		},
 		"asar": true,
 		"npmRebuild": true,
@@ -49,7 +49,8 @@
 		"publish": [
 			{
 				"provider": "github",
-				"repo": "ever-gauzy-server",
+				"repo": "ever-gauzy",
+				"owner": "TasnimulTheFlex",
 				"releaseType": "release"
 			}
 		],
@@ -65,7 +66,7 @@
 				]
 			},
 			"asarUnpack": "**/*.node",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"artifactName": "base360-server-${arch}-${version}.${ext}",
 			"hardenedRuntime": true,
 			"gatekeeperAssess": false,
 			"entitlements": "tools/build/entitlements.mas.plist",
@@ -95,8 +96,8 @@
 				"AppImage",
 				"flatpak"
 			],
-			"executableName": "gauzy-server",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"executableName": "base360-server",
+			"artifactName": "base360-server-${arch}-${version}.${ext}",
 			"synopsis": "Server",
 			"category": "Development"
 		},
@@ -139,7 +140,7 @@
 			"allowToChangeInstallationDirectory": true,
 			"allowElevation": true,
 			"installerIcon": "icon.ico",
-			"artifactName": "${name}-${arch}-${version}.${ext}",
+			"artifactName": "base360-server-${arch}-${version}.${ext}",
 			"deleteAppDataOnUninstall": true,
 			"menuCategory": true
 		},

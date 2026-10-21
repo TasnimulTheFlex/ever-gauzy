@@ -355,7 +355,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 			status: 'applied'
 		});
 		expect(projects).toHaveLength(1);
-		expect(projects[0]['name']).toBe('Ever Works — Ideas');
+		expect(projects[0]['name']).toBe('Base360 Works — Ideas');
 		expect(settings.find((s) => s['settingsName'] === 'IDEAS_PROJECT_ID')?.['settingsValue']).toBe(
 			projects[0]['id']
 		);
@@ -381,7 +381,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 	it('only what changed in Ever Works is written; a failure is posted as a comment; an older event is skipped', async () => {
 		const { service, tasks, comments, commandBus } = setup();
 		await service.apply(envelope('idea.created', idea, 1) as never, applyContext);
-		tasks[0]['title'] = 'Renamed in Gauzy';
+		tasks[0]['title'] = 'Renamed in Base360';
 		commandBus.execute.mockClear();
 		await service.apply(
 			envelope(
@@ -391,7 +391,7 @@ describe('EverWorksIdeasService — EW → G', () => {
 			) as never,
 			applyContext
 		);
-		expect(tasks[0]).toMatchObject({ title: 'Renamed in Gauzy', status: 'blocked', taskStatusId: 'st-blocked' });
+		expect(tasks[0]).toMatchObject({ title: 'Renamed in Base360', status: 'blocked', taskStatusId: 'st-blocked' });
 		expect(comments[0]['comment']).toContain('Build ran out of budget');
 		expect(
 			await service.apply(envelope('idea.updated', { ...idea, title: 'Old' }, 2) as never, applyContext)
@@ -540,10 +540,10 @@ describe('EverWorksIdeasService — G → EW', () => {
 		const row = ideas.ideas.get(links[0]['ewId']) as Row;
 		// Ever Works changed the title (its event not applied yet); then a Gauzy user changed it too.
 		Object.assign(row, { title: 'Portal (EW)', version: Number(row['version']) + 1 });
-		tasks[0]['title'] = 'Portal (Gauzy)';
+		tasks[0]['title'] = 'Portal (Base360)';
 		expect(await service.push(change('task-g'), pushContext)).toMatchObject({ status: 'pushed' });
-		expect(tasks[0]['title']).toBe('Portal (Gauzy)');
-		expect(row['title']).toBe('Portal (Gauzy)');
+		expect(tasks[0]['title']).toBe('Portal (Base360)');
+		expect(row['title']).toBe('Portal (Base360)');
 	});
 
 	it('a dismiss whose answer shows an Ever Works edit made meanwhile applies it, never skipping it as applied (review F86)', async () => {

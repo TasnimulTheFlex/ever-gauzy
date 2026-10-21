@@ -83,7 +83,7 @@ export class ZitadelFlowService {
 			if (error instanceof NotFoundException) {
 				throw error;
 			}
-			this.logger.warn(`Ever ID sign-in could not start: ${isOidcError(error) ? error.code : 'unexpected error'}`);
+			this.logger.warn(`Base360 ID sign-in could not start: ${isOidcError(error) ? error.code : 'unexpected error'}`);
 			return this.errorUrl('signin', 'sign_in_failed');
 		}
 	}
@@ -108,7 +108,7 @@ export class ZitadelFlowService {
 			if (error instanceof NotFoundException) {
 				throw error;
 			}
-			this.logger.warn(`Ever ID link could not start: ${isOidcError(error) ? error.code : 'unexpected error'}`);
+			this.logger.warn(`Base360 ID link could not start: ${isOidcError(error) ? error.code : 'unexpected error'}`);
 			return this.errorUrl('link', 'link_failed');
 		}
 	}
@@ -142,7 +142,7 @@ export class ZitadelFlowService {
 			const outcome = await this.signin.decide(idToken, 'browser', { redirect });
 			return this.outcomeUrl(outcome, redirect);
 		} catch (error) {
-			this.logger.warn(`Ever ID callback failed: ${isOidcError(error) ? error.code : 'unexpected error'}`);
+			this.logger.warn(`Base360 ID callback failed: ${isOidcError(error) ? error.code : 'unexpected error'}`);
 			return this.errorUrl(mode, 'sign_in_failed');
 		}
 	}

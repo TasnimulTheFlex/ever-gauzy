@@ -18,6 +18,6 @@ export function isEverConnectEnabled(
 	if (raw === 'true') {
 		return true;
 	}
-	warn('EVER_CONNECT_ENABLED is neither "true" nor "false"; the Ever Platform connection stays off (the default).');
+	warn('EVER_CONNECT_ENABLED is neither "true" nor "false"; the Base360 Platform connection stays off (the default).');
 	return false;
 }

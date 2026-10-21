@@ -61,10 +61,10 @@ import {
 export const INITIATIVE_SWEEP_MS = 10 * 60_000;
 
 /** Why a TEAM-scoped initiative with no paired team to scope its mission to is not created in Ever Works (review F24). */
-export const TEAM_SCOPE_WAITS = 'a team-scoped initiative goes to Ever Works once it is linked to a paired team';
+export const TEAM_SCOPE_WAITS = 'a team-scoped initiative goes to Base360 Works once it is linked to a paired team';
 
 /** Why a mission is not created as a Gauzy initiative yet: none of its teams is paired (review F89). */
-export const MISSION_TEAMS_WAIT = "waiting for the mission's Ever Works team to be paired (teams first)";
+export const MISSION_TEAMS_WAIT = "waiting for the mission's Base360 Works team to be paired (teams first)";
 
 /** What only Ever Works has, kept on the link (fields one side lacks are preserved, never nulled). */
 interface MissionEverWorksOnly {
@@ -271,12 +271,12 @@ export class EverWorksInitiativesService
 			);
 		if (decision.createInGauzy?.length && !fromEverWorks(context.directions.missions)) {
 			throw new BadRequestException(
-				'Missions are not synced from Ever Works for this mapping, so they cannot be created as initiatives.'
+				'Missions are not synced from Base360 Works for this mapping, so they cannot be created as initiatives.'
 			);
 		}
 		if (decision.createInEverWorks?.length && !toEverWorks(context.directions.missions)) {
 			throw new BadRequestException(
-				'Initiatives are not pushed to Ever Works for this mapping (missions direction "both"), so they cannot be created as missions.'
+				'Initiatives are not pushed to Base360 Works for this mapping (missions direction "both"), so they cannot be created as missions.'
 			);
 		}
 		const missions = await this.missions(context);
@@ -311,7 +311,7 @@ export class EverWorksInitiativesService
 		for (const pair of pairs) {
 			if (!byEw.has(pair.ewMissionId))
 				throw new BadRequestException(
-					`${pair.ewMissionId} is not a mission of the mapped Ever Works organization.`
+					`${pair.ewMissionId} is not a mission of the mapped Base360 Works organization.`
 				);
 			if (!initiatives.has(pair.initiativeId))
 				throw new BadRequestException(`${pair.initiativeId} is not an active initiative of this organization.`);
@@ -330,7 +330,7 @@ export class EverWorksInitiativesService
 		}
 		for (const id of decision.createInGauzy ?? []) {
 			if (!byEw.has(id))
-				throw new BadRequestException(`${id} is not a mission of the mapped Ever Works organization.`);
+				throw new BadRequestException(`${id} is not a mission of the mapped Base360 Works organization.`);
 			if (await this.teamsWait(context, byEw.get(id) as EverWorksMission))
 				throw new BadRequestException(`${id}: ${MISSION_TEAMS_WAIT}.`);
 		}
@@ -341,7 +341,7 @@ export class EverWorksInitiativesService
 			if (eligible === 'leadership')
 				throw new BadRequestException(`${id} is a leadership initiative; leadership initiatives never sync.`);
 			if (eligible === 'draft')
-				throw new BadRequestException(`${id} is a draft; an initiative goes to Ever Works once it is active.`);
+				throw new BadRequestException(`${id} is a draft; an initiative goes to Base360 Works once it is active.`);
 			const prepared = await this.prepare(context, row, null);
 			if ('outcome' in prepared && prepared.outcome.message === TEAM_SCOPE_WAITS)
 				throw new BadRequestException(`${id}: ${TEAM_SCOPE_WAITS}.`);
@@ -429,10 +429,10 @@ export class EverWorksInitiativesService
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!fromEverWorks(context.directions.missions))
-			return { status: 'skipped', message: 'missions are not synced from Ever Works' };
+			return { status: 'skipped', message: 'missions are not synced from Base360 Works' };
 		const link = await this.links.byEw(
 			context.integrationTenantId,
 			EverWorksLinkType.INITIATIVE_MISSION,
@@ -453,12 +453,12 @@ export class EverWorksInitiativesService
 					{ id: link.gauzyId, tenantId: context.tenantId } as never,
 					{ state: OrganizationStrategicStateEnum.RETIRED, isArchived: true, archivedAt: new Date() } as never
 				);
-			await this.links.unlink(link, 'deleted in Ever Works; the initiative is retired and archived');
+			await this.links.unlink(link, 'deleted in Base360 Works; the initiative is retired and archived');
 			return { status: 'applied' };
 		}
 		if (data['visibility'] !== undefined && !isSyncedVisibility(data['visibility'] as string)) {
-			if (!link) return { status: 'skipped', message: 'the mission is private in Ever Works' };
-			await this.links.unlink(link, 'private in Ever Works; no longer shared from Ever Works');
+			if (!link) return { status: 'skipped', message: 'the mission is private in Base360 Works' };
+			await this.links.unlink(link, 'private in Base360 Works; no longer shared from Base360 Works');
 			return { status: 'applied', message: 'the mission turned private; it is no longer synced' };
 		}
 		if (!link) {
@@ -539,10 +539,10 @@ export class EverWorksInitiativesService
 	): Promise<EverWorksApplyOutcome> {
 		const initiativeId = link.gauzyId as ID;
 		const row = await this.initiative(context, initiativeId, true);
-		if (!row) return { status: 'skipped', message: 'the Gauzy initiative is gone' };
+		if (!row) return { status: 'skipped', message: 'the Base360 initiative is gone' };
 		if (initiativeEligibility(row) === 'leadership') {
 			await this.flagLeadership(context, link);
-			return { status: 'skipped', message: 'the initiative is leadership-scoped in Gauzy; it no longer syncs' };
+			return { status: 'skipped', message: 'the initiative is leadership-scoped in Base360; it no longer syncs' };
 		}
 		const before = this.links.snapshot<MissionShared>(link);
 		const ew = this.ewOnlyOf(link);
@@ -677,7 +677,7 @@ export class EverWorksInitiativesService
 			'inbound'
 		);
 		this.logger.log(
-			`Ever Works mission ${mission.id} created as Gauzy initiative ${id} (organization ${context.organizationId}).`
+			`Base360 Works mission ${mission.id} created as Base360 initiative ${id} (organization ${context.organizationId}).`
 		);
 		return id;
 	}
@@ -722,7 +722,7 @@ export class EverWorksInitiativesService
 		}
 		if (mapped.outcome)
 			next.strategicNotes =
-				`Ever Works mission ${mapped.outcome.replace(/_/g, ' ')}.${next.strategicNotes ? `\n\n${next.strategicNotes}` : ''}`.slice(
+				`Base360 Works mission ${mapped.outcome.replace(/_/g, ' ')}.${next.strategicNotes ? `\n\n${next.strategicNotes}` : ''}`.slice(
 					0,
 					5000
 				);
@@ -962,7 +962,7 @@ export class EverWorksInitiativesService
 		if (!toEverWorks(context.directions.missions))
 			return {
 				status: 'skipped',
-				message: 'initiatives are not pushed to Ever Works (missions direction "both")'
+				message: 'initiatives are not pushed to Base360 Works (missions direction "both")'
 			};
 		const link = await this.links.byGauzy(
 			context.integrationTenantId,
@@ -980,7 +980,7 @@ export class EverWorksInitiativesService
 			if (before.status === 'completed' || before.status === 'failed')
 				return { status: 'skipped', message: 'the mission is finished already' };
 			await this.write(context, client, link, 'PATCH', '', { status: 'completed', outcome: 'cancelled' });
-			await this.links.unlink(link, 'the initiative was removed in Gauzy; its mission is completed as cancelled');
+			await this.links.unlink(link, 'the initiative was removed in Base360; its mission is completed as cancelled');
 			return { status: 'pushed', message: 'the initiative was removed; the mission is completed as cancelled' };
 		}
 		if (!link && !this.createdAfterMapping(row, context))
@@ -999,10 +999,10 @@ export class EverWorksInitiativesService
 		const eligible = initiativeEligibility(row);
 		if (eligible === 'leadership') {
 			if (link) await this.flagLeadership(context, link);
-			return { status: 'skipped', message: 'leadership initiatives are never pushed to Ever Works' };
+			return { status: 'skipped', message: 'leadership initiatives are never pushed to Base360 Works' };
 		}
 		if (!link && eligible === 'draft')
-			return { status: 'skipped', message: 'a draft initiative goes to Ever Works once it is active' };
+			return { status: 'skipped', message: 'a draft initiative goes to Base360 Works once it is active' };
 		const prepared = await this.prepare(context, row, link);
 		if ('outcome' in prepared) return prepared.outcome;
 		const { now } = prepared;
@@ -1061,10 +1061,10 @@ export class EverWorksInitiativesService
 				{ representedGoals: await this.representedGoals(context, row.id as ID) },
 				'outbound'
 			);
-			this.logger.log(`Gauzy initiative ${row.id} created in Ever Works as a paused mission ${created.id}.`);
+			this.logger.log(`Base360 initiative ${row.id} created in Base360 Works as a paused mission ${created.id}.`);
 			// The works, goals and a finished state follow as updates (the create takes none of them).
 			await this.update(context, client, row, now, finish, pair);
-			return { status: 'pushed', message: 'created in Ever Works (paused)' };
+			return { status: 'pushed', message: 'created in Base360 Works (paused)' };
 		}
 		const before = this.links.snapshot<MissionShared>(link);
 		const plan = missionPushPlan(now, before, finish);
@@ -1188,7 +1188,7 @@ export class EverWorksInitiativesService
 			return {
 				outcome: {
 					status: 'deferred',
-					message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+					message: `waiting for the Base360 team ${scope.waitingFor} to be paired (teams first)`
 				}
 			};
 		const workOf = new Map(
@@ -1261,7 +1261,7 @@ export class EverWorksInitiativesService
 	private async flagLeadership(context: EverWorksMappingContext, link: EverWorksEntityLink): Promise<void> {
 		await this.links.unlink(
 			link,
-			'the initiative is leadership-scoped in Gauzy; leadership initiatives never sync'
+			'the initiative is leadership-scoped in Base360; leadership initiatives never sync'
 		);
 		await this.log.write({
 			tenantId: context.tenantId,
@@ -1275,7 +1275,7 @@ export class EverWorksInitiativesService
 			action: 'unlinked_leadership',
 			status: 'skipped',
 			message:
-				'The initiative became leadership-scoped, so it no longer syncs with its Ever Works mission (both are kept).'
+				'The initiative became leadership-scoped, so it no longer syncs with its Base360 Works mission (both are kept).'
 		});
 	}
 

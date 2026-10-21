@@ -470,7 +470,7 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 		if (spec.kind === 'mapping_only') return { import: false, export: false, done: true, note: 'people are paired on the People tab; nobody is created' };
 		if (spec.kind === 'included') return { import: false, export: false, done: true, note: 'carried by the task records' };
 		const missingScope = spec.scope && !this.scopesOf(context.connection).includes(spec.scope);
-		if (missingScope) return { import: false, export: false, note: `the Ever Works key lacks ${spec.scope}` };
+		if (missingScope) return { import: false, export: false, note: `the Base360 Works key lacks ${spec.scope}` };
 		// Works are link only: the import refreshes paired projects from Ever Works.
 		const reads = fromEverWorks(direction) || direction === 'link_only';
 		const canImport = reads && !!spec.aggregateType && this.applier.hasHandler(spec.aggregateType);
@@ -584,8 +584,8 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 
 	/** Why a list Ever Works refuses or does not serve skips its phase, or `null` for any other failure. */
 	private skipReason(error: unknown): string | null {
-		if (error instanceof EverWorksApiError && error.status === 404) return 'this Ever Works does not serve it yet; a later resync picks it up';
-		if (error instanceof EverWorksApiError && error.status === 403) return `Ever Works refused the list (${error.code})`;
+		if (error instanceof EverWorksApiError && error.status === 404) return 'this Base360 Works does not serve it yet; a later resync picks it up';
+		if (error instanceof EverWorksApiError && error.status === 403) return `Base360 Works refused the list (${error.code})`;
 		return null;
 	}
 
@@ -809,7 +809,7 @@ export class EverWorksInitialSyncService implements EverWorksSyncSweeper {
 		try {
 			feedHead = String((await this.connections.client(context.connection).whoami()).feedHead ?? '0');
 		} catch (error) {
-			throw new BadGatewayException(`Ever Works did not answer (${describeSyncError(error)}); nothing was started.`);
+			throw new BadGatewayException(`Base360 Works did not answer (${describeSyncError(error)}); nothing was started.`);
 		}
 		const phases: EverWorksSyncPhaseState[] = EVER_WORKS_SYNC_PHASE_SPECS.map((spec) => ({
 			name: spec.name,

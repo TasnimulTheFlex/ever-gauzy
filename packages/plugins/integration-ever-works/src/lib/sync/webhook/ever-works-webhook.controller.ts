@@ -76,7 +76,7 @@ export class EverWorksWebhookController {
 		const secret = this.connections.webhookSecret(connection);
 		const body = raw.toString('utf8');
 		if (!secret || !signature || !this.verified(secret, body, signature)) {
-			throw new UnauthorizedException('Invalid or missing Ever Works webhook signature.');
+			throw new UnauthorizedException('Invalid or missing Base360 Works webhook signature.');
 		}
 		let envelope;
 		try {
@@ -85,10 +85,10 @@ export class EverWorksWebhookController {
 			throw new BadRequestException(error instanceof EverWorksEnvelopeError ? error.message : 'The webhook body is not JSON.');
 		}
 		if (envelope.tenantId !== connection.ewTenantId) {
-			this.logger.warn(`Connection ${connection.id}: a signed event names another Ever Works tenant; refused.`);
-			throw new BadRequestException('The event belongs to another Ever Works tenant.');
+			this.logger.warn(`Connection ${connection.id}: a signed event names another Base360 Works tenant; refused.`);
+			throw new BadRequestException('The event belongs to another Base360 Works tenant.');
 		}
-		if (eventIdHeader && eventIdHeader !== envelope.id) throw new BadRequestException('X-Ever-Works-Event-Id does not match the event.');
+		if (eventIdHeader && eventIdHeader !== envelope.id) throw new BadRequestException('Webhook event header does not match the event.');
 		const { duplicate } = await this.inbound.record(connection, envelope, 'webhook');
 		// Only a hint for the feed poller's cadence; a lost update costs one extra poll.
 		void this.dataSource

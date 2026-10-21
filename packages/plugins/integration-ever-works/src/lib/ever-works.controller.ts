@@ -28,7 +28,7 @@ export interface EverWorksStatusResponse {
  * with the integration permissions; where the plugin is not loaded (the default) the routes do not
  * exist and answer 404, which is how the web app tells the integration is switched off.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(EVER_WORKS_ROUTE_PREFIX)
@@ -38,7 +38,7 @@ export class EverWorksController {
 	@Get('/status')
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Whether the Ever Works integration is loaded, and what the connect form offers.' })
+	@ApiOperation({ summary: 'Whether the Base360 Works integration is loaded, and what the connect form offers.' })
 	status(): EverWorksStatusResponse {
 		return {
 			enabled: true,

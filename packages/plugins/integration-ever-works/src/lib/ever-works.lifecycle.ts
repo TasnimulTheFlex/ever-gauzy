@@ -28,11 +28,11 @@ export class EverWorksLifecycle implements OnApplicationBootstrap {
 		}
 		try {
 			await this.catalog.ensure();
-			this.logger.log('The Ever Works integration is loaded (EVER_WORKS_ENABLED=true).');
+			this.logger.log('The Base360 Works integration is loaded (EVER_WORKS_ENABLED=true).');
 		} catch (error) {
 			// Never stop the API: the catalog row is written again at the next start.
 			this.logger.warn(
-				`The Ever Works catalog entry could not be written (${error instanceof Error ? error.name : 'error'}).`
+				`The Base360 Works catalog entry could not be written (${error instanceof Error ? error.name : 'error'}).`
 			);
 		}
 	}

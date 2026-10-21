@@ -167,7 +167,7 @@ export const inboxEmailSchemaExtensions = gql`
 		autoProvisioned: Boolean!
 		lastMessageAt: DateTime
 		messageCount: Int!
-		"Free settings; everWorksAgentId routes the mailbox's mail to that Ever Works agent."
+		"Free settings; everWorksAgentId routes the mailbox's mail to that Base360 Works agent."
 		settings: JSON
 	}
 
@@ -214,7 +214,7 @@ export const inboxEmailSchemaExtensions = gql`
 		autoProvisioned: Boolean!
 		lastMessageAt: DateTime
 		messageCount: Int!
-		"Free settings; everWorksAgentId routes the mailbox's mail to that Ever Works agent."
+		"Free settings; everWorksAgentId routes the mailbox's mail to that Base360 Works agent."
 		settings: JSON
 		"Custom domains only: the TXT record to create, then verifyInboxMailboxDomain."
 		verification: InboxMailboxDomainVerification
@@ -251,7 +251,7 @@ export const inboxEmailSchemaExtensions = gql`
 		autoProvisioned: Boolean!
 		lastMessageAt: DateTime
 		messageCount: Int!
-		"Free settings; everWorksAgentId routes the mailbox's mail to that Ever Works agent."
+		"Free settings; everWorksAgentId routes the mailbox's mail to that Base360 Works agent."
 		settings: JSON
 		"How to forward an existing mailbox to this address (platform and forwarding mailboxes)."
 		forwardingInstructions: String
@@ -384,7 +384,7 @@ export const inboxEmailSchemaExtensions = gql`
 		"null = the platform route."
 		providerAccountId: ID
 		isDefault: Boolean
-		"Free settings; everWorksAgentId routes the mailbox's mail to that Ever Works agent."
+		"Free settings; everWorksAgentId routes the mailbox's mail to that Base360 Works agent."
 		settings: JSON
 	}
 

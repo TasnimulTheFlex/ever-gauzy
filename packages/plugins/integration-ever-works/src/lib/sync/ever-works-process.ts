@@ -50,7 +50,7 @@ export interface EverWorksSyncRequestUser {
 export function syncRequestUser(
 	scope: { tenantId: ID; organizationId: ID },
 	userId: ID | null | undefined,
-	name = 'Ever Works'
+	name = 'Base360 Works'
 ): EverWorksSyncRequestUser {
 	return {
 		id: userId ?? undefined,

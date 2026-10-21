@@ -298,7 +298,7 @@ describe('EverWorksTeamsService', () => {
 		person('emp-ann', 'ew-user-ann');
 		expect(
 			await service.apply(envelope('team.member.added', { teamId: 'ew-team-1', memberType: 'user', memberId: 'ew-user-ann', role: 'member' }, 4) as never, applyContext)
-		).toEqual({ status: 'skipped', message: 'the Gauzy team is gone' });
+		).toEqual({ status: 'skipped', message: 'the Base360 team is gone' });
 		expect(memberships).toHaveLength(0);
 		expect(links.find((l) => l.entityType === EverWorksLinkType.TEAM)?.state).toBe(EverWorksLinkState.UNLINKED);
 	});
@@ -553,9 +553,9 @@ describe('EverWorksTeamsService', () => {
 		await expect(service.decide('m1' as never, { createInEverWorks: ['g-1' as never] })).rejects.toThrow('The mapping is disabled');
 		context.isEnabled = true;
 		context.directions.teams = 'gauzy_to_ew';
-		await expect(service.decide('m1' as never, { createInGauzy: ['ew-team-1'] })).rejects.toThrow('not synced from Ever Works');
+		await expect(service.decide('m1' as never, { createInGauzy: ['ew-team-1'] })).rejects.toThrow('not synced from Base360 Works');
 		context.directions.teams = 'ew_to_gauzy';
-		await expect(service.decide('m1' as never, { createInEverWorks: ['g-1' as never] })).rejects.toThrow('not pushed to Ever Works');
+		await expect(service.decide('m1' as never, { createInEverWorks: ['g-1' as never] })).rejects.toThrow('not pushed to Base360 Works');
 		expect(teams).toHaveLength(1);
 		expect(client.request).not.toHaveBeenCalled();
 	});

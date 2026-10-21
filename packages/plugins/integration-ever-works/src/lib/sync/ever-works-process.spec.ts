@@ -113,8 +113,8 @@ describe('the sync writes in any process', () => {
 			id: undefined,
 			tenantId: 'tenant-1',
 			lastOrganizationId: 'org-1',
-			name: 'Ever Works',
-			firstName: 'Ever Works',
+			name: 'Base360 Works',
+			firstName: 'Base360 Works',
 			lastName: '',
 			employeeId: undefined,
 			permissions: []

@@ -21,10 +21,10 @@ export class AuthZitadelPlugin implements IOnPluginBootstrap, IOnPluginDestroy {
 	private readonly logger = new Logger(AuthZitadelPlugin.name);
 
 	onPluginBootstrap(): void {
-		this.logger.log('Ever ID sign-in is enabled.');
+		this.logger.log('Base360 ID sign-in is enabled.');
 	}
 
 	onPluginDestroy(): void {
-		this.logger.log('Ever ID sign-in is shutting down.');
+		this.logger.log('Base360 ID sign-in is shutting down.');
 	}
 }

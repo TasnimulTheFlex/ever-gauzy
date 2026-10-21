@@ -141,10 +141,10 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!fromEverWorks(context.directions.ideas))
-			return { status: 'skipped', message: 'ideas are not synced from Ever Works' };
+			return { status: 'skipped', message: 'ideas are not synced from Base360 Works' };
 		const link = await this.links.byEw(
 			context.integrationTenantId,
 			EverWorksLinkType.IDEA_TASK,
@@ -159,8 +159,8 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		if (envelope.type === 'idea.deleted') return this.archive(context, link);
 		// Private ideas never sync (01 §2a rule 5): one that turned private stops syncing; the task is kept.
 		if (!isSyncedVisibility(idea.visibility)) {
-			if (!link) return { status: 'skipped', message: 'the idea is private in Ever Works' };
-			await this.links.unlink(link, 'private in Ever Works; no longer shared from Ever Works');
+			if (!link) return { status: 'skipped', message: 'the idea is private in Base360 Works' };
+			await this.links.unlink(link, 'private in Base360 Works; no longer shared from Base360 Works');
 			return { status: 'applied', message: 'the idea turned private; it is no longer synced' };
 		}
 		if (
@@ -179,11 +179,11 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				);
 			} catch (error) {
 				if (error instanceof EverWorksApiError && error.status === 404)
-					return { status: 'skipped', message: 'the idea is not visible in Ever Works' };
+					return { status: 'skipped', message: 'the idea is not visible in Base360 Works' };
 				throw error;
 			}
 			if (!isSyncedVisibility(idea.visibility))
-				return { status: 'skipped', message: 'the idea is private in Ever Works' };
+				return { status: 'skipped', message: 'the idea is private in Base360 Works' };
 		}
 		try {
 			return await this.applyIdea(context, link, idea, version, actorUserId);
@@ -222,13 +222,13 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 					gauzyTeamsFor(next.teamIds, teamMap).unmapped,
 					'inbound'
 				);
-				return { status: 'applied', message: 'linked to the Gauzy task it was created from' };
+				return { status: 'applied', message: 'linked to the Base360 task it was created from' };
 			}
 			return this.createTask(context, idea, next, status, version, actorUserId, teamMap);
 		}
 		const taskId = link.gauzyId as ID;
 		const task = await this.task(context, taskId);
-		if (!task) return { status: 'skipped', message: 'the Gauzy task is gone' };
+		if (!task) return { status: 'skipped', message: 'the Base360 task is gone' };
 		// `keepGauzy`: fields Gauzy changed after the last sync and is pushing now — its edit is the later one
 		// (a 412 retry), so Ever Works' older value is not written over it; the snapshot still moves to Ever
 		// Works' value, so the retry pushes Gauzy's.
@@ -313,7 +313,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			await this.resourceLink(
 				context,
 				taskId,
-				'Ever Works idea',
+				'Base360 Works idea',
 				idea.webUrl,
 				stableUuid(`${seed}:${taskId}:web-url`) as ID
 			);
@@ -321,7 +321,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			await this.comment(context, taskId, idea.failureMessage, stableUuid(`${seed}:${taskId}:failure`) as ID);
 		await this.record(context, taskId, idea, version, { ...next, status }, null, teams.unmapped, 'inbound');
 		this.logger.log(
-			`Ever Works idea ${idea.id} created as Gauzy task ${taskId} (organization ${context.organizationId}).`
+			`Base360 Works idea ${idea.id} created as Base360 task ${taskId} (organization ${context.organizationId}).`
 		);
 		return { status: 'applied' };
 	}
@@ -375,7 +375,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				{ id: link.gauzyId, tenantId: context.tenantId } as never,
 				{ isArchived: true, archivedAt: new Date() } as never
 			);
-		await this.links.unlink(link, 'deleted in Ever Works; the Gauzy task is archived');
+		await this.links.unlink(link, 'deleted in Base360 Works; the Base360 task is archived');
 		return { status: 'applied' };
 	}
 
@@ -388,7 +388,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!toEverWorks(context.directions.ideas))
-			return { status: 'skipped', message: 'ideas are not pushed to Ever Works' };
+			return { status: 'skipped', message: 'ideas are not pushed to Base360 Works' };
 		const link = await this.links.byGauzy(
 			context.integrationTenantId,
 			EverWorksLinkType.IDEA_TASK,
@@ -411,7 +411,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		if (!isIdeaTask(task, this.setting(context, EverWorksSettingName.IDEA_ISSUE_TYPE_ID))) {
 			if (!link) return { status: 'skipped', message: 'not an idea' };
 			// 01 §8: changing the type away from Idea unlinks it, with a warning; neither side is deleted.
-			await this.links.unlink(link, 'the Gauzy task is no longer an Idea; the Ever Works idea is kept');
+			await this.links.unlink(link, 'the Base360 task is no longer an Idea; the Base360 Works idea is kept');
 			await this.log.write({
 				tenantId: context.tenantId,
 				organizationId: context.organizationId,
@@ -424,7 +424,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				action: 'unlinked',
 				status: 'skipped',
 				message:
-					'The task is no longer of the Idea type, so it no longer syncs with its Ever Works idea (both are kept).'
+					'The task is no longer of the Idea type, so it no longer syncs with its Base360 Works idea (both are kept).'
 			});
 			return { status: 'skipped', message: 'no longer an idea: unlinked' };
 		}
@@ -436,7 +436,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		if (!scope.scope)
 			return {
 				status: 'deferred',
-				message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+				message: `waiting for the Base360 team ${scope.waitingFor} to be paired (teams first)`
 			};
 		const now = gauzyTaskToIdea(task, scope.scope, this.ewOnlyOf(link).unmappedTeams ?? []);
 		try {
@@ -494,7 +494,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 		// A repeat of the same externalRef answers the existing idea: never re-pair one another task holds.
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.IDEA_TASK, created.id);
 		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== task.id) {
-			return { status: 'skipped', message: `the Ever Works idea ${created.id} is paired with another task` };
+			return { status: 'skipped', message: `the Base360 Works idea ${created.id} is paired with another task` };
 		}
 		// The snapshot is what was sent (the agreed value), so the next Gauzy change is diffed against it.
 		const snapshot: IdeaSnapshot = {
@@ -513,11 +513,11 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			[],
 			'outbound'
 		);
-		this.logger.log(`Gauzy idea task ${task.id} created in Ever Works as idea ${created.id}.`);
+		this.logger.log(`Base360 idea task ${task.id} created in Base360 Works as idea ${created.id}.`);
 		// An idea task created cancelled is dismissed at once (the only status move Gauzy makes).
 		if (ideaStatusAction(snapshot.status, task.status, this.flagsOf(task)) === 'dismiss')
 			link = (await this.move(context, client, link, 'dismiss')) ?? link;
-		return { status: 'pushed', message: 'created in Ever Works' };
+		return { status: 'pushed', message: 'created in Base360 Works' };
 	}
 
 	private async update(
@@ -613,7 +613,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				if (!scope.scope)
 					return {
 						status: 'deferred',
-						message: `waiting for the Gauzy team ${scope.waitingFor} to be paired (teams first)`
+						message: `waiting for the Base360 team ${scope.waitingFor} to be paired (teams first)`
 					};
 				now = gauzyTaskToIdea(freshTask, scope.scope, this.ewOnlyOf(fresh).unmappedTeams ?? []);
 			}
@@ -733,7 +733,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 				ewId: link.ewId,
 				action: `${action}_refused`,
 				status: 'conflict',
-				message: `Ever Works kept the idea ${kept || 'as it is'}: ${error.message}`.slice(0, 2000)
+				message: `Base360 Works kept the idea ${kept || 'as it is'}: ${error.message}`.slice(0, 2000)
 			});
 			return null;
 		}
@@ -889,7 +889,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 			id: id ?? randomUUID(),
 			entity: BaseEntityEnum.Task,
 			entityId: taskId,
-			comment: `Ever Works could not build this idea: ${failureMessage}`.slice(0, 5000),
+			comment: `Base360 Works could not build this idea: ${failureMessage}`.slice(0, 5000),
 			actorType: ActorTypeEnum.System,
 			tenantId: context.tenantId,
 			organizationId: context.organizationId
@@ -944,7 +944,7 @@ export class EverWorksIdeasService implements EverWorksInboundHandler, EverWorks
 						name: EVER_WORKS_IDEAS_PROJECT_NAME,
 						tenantId: context.tenantId,
 						organizationId: context.organizationId,
-						description: 'Created by the Ever Works integration.'
+						description: 'Created by the Base360 Works integration.'
 					} as never)
 				)
 			)) as OrganizationProject);

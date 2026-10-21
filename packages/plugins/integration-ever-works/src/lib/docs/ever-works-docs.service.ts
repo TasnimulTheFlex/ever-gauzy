@@ -136,9 +136,9 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 
 	async apply(envelope: EverWorksEventEnvelope, applyContext: EverWorksApplyContext): Promise<EverWorksApplyOutcome> {
 		const context = envelope.organizationId ? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId) : null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!fromEverWorks(context.directions.docs)) return { status: 'skipped', message: 'docs are not synced from Ever Works' };
+		if (!fromEverWorks(context.directions.docs)) return { status: 'skipped', message: 'docs are not synced from Base360 Works' };
 		if (!this.store.available()) return { status: 'deferred', message: 'the Docs plugin is not loaded in this process', retryInMs: NO_REQUEST_CONTEXT_RETRY_MS };
 		const actorUserId = await gauzyUserOfActor(this.dataSource, this.links, context, envelope.actor);
 		try {
@@ -163,17 +163,17 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		// A page made PRIVATE in Gauzy (or put in a private folder) no longer syncs either way.
 		const hidden = link ? await this.privateReason(context, link.gauzyId as ID, 'page') : null;
 		if (link && hidden) {
-			await this.links.unlink(link, 'private in Gauzy; no longer shared with Ever Works');
+			await this.links.unlink(link, 'private in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: hidden };
 		}
 		const data = { ...((envelope.data ?? {}) as unknown as EverWorksKbDocument), id: ewId };
-		if (envelope.type === 'kb.document.deleted' || data.deleted) return this.archivePage(context, link, 'deleted in Ever Works; the Gauzy page is archived');
+		if (envelope.type === 'kb.document.deleted' || data.deleted) return this.archivePage(context, link, 'deleted in Base360 Works; the Base360 page is archived');
 		if (!DOCUMENT_EVENTS.has(envelope.type)) return { status: 'skipped', message: `${envelope.type} is not synced` };
 		let document: EverWorksKbDocument = data;
 		// An event over the body limit carries no body (CR-7): read the document itself.
 		if (document.body == null || document.bodyOmitted || document.title === undefined) {
 			const fetched = await this.fetchDocument(context, ewId);
-			if (!fetched) return { status: 'skipped', message: 'the document is not visible in Ever Works' };
+			if (!fetched) return { status: 'skipped', message: 'the document is not visible in Base360 Works' };
 			document = fetched;
 		}
 		return this.applyDocument(context, link, document, version ?? document.version ?? null, new Set());
@@ -197,8 +197,8 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		let page = link ? await this.store.load(context, link.gauzyId as ID, true) : null;
 		// The sync's own page of this document (a lost link) is found by its provenance.
 		if (!page) page = await this.store.byExternalId(context, document.id);
-		if (page && (page as { deletedAt?: Date | null }).deletedAt) return { status: 'skipped', message: 'the Gauzy page was deleted; it is not brought back' };
-		if (!page && archived) return { status: 'skipped', message: 'archived in Ever Works; nothing to create' };
+		if (page && (page as { deletedAt?: Date | null }).deletedAt) return { status: 'skipped', message: 'the Base360 page was deleted; it is not brought back' };
+		if (!page && archived) return { status: 'skipped', message: 'archived in Base360 Works; nothing to create' };
 		const [resolveWikilink, resolveMention] = await this.resolvers(context, document);
 		const { contentJson, contentHtml } = markdownToDocument(document.body ?? '', { resolveWikilink });
 		const eHash = markdownHash(document.body ?? '');
@@ -218,15 +218,15 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 			};
 			const id = await this.store.createPage(context, parentId, document.id, fields);
 			await this.record(context, id, document, version, { ...this.snapshotOf(document, eHash, written(contentJson)), jHash: contentJsonHash(contentJson) }, 'inbound');
-			this.logger.log(`Ever Works document ${document.id} created as Gauzy page ${id} (organization ${context.organizationId}).`);
+			this.logger.log(`Base360 Works document ${document.id} created as Base360 page ${id} (organization ${context.organizationId}).`);
 			return { status: 'applied' };
 		}
 
 		// A page moved out of the synced folders in Gauzy is no longer synced: Ever Works' edits never follow it.
 		const root = link ? await this.store.existingRoot(context) : null;
 		if (link && (!root || !(await this.store.ancestry(context, page, root)).underRoot)) {
-			await this.links.unlink(link, 'moved out of the synced folders in Gauzy; both documents are kept');
-			return { status: 'skipped', message: 'the Gauzy page was moved out of the synced folders; it is no longer synced' };
+			await this.links.unlink(link, 'moved out of the synced folders in Base360; both documents are kept');
+			return { status: 'skipped', message: 'the Base360 page was moved out of the synced folders; it is no longer synced' };
 		}
 		const fields: Partial<DocsPageFields> = { metadata: mergeMetadata(page.metadata, everWorksMetadataOf(document)) };
 		const next: DocSnapshot = { ...before, ewFolderId: document.folderId ?? null, status: document.status, reviewState: document.reviewState, locked: !!document.locked, eHash };
@@ -237,9 +237,9 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 			const gauzyChanged = before.gHash !== undefined && gauzyHash !== before.gHash;
 			if (gauzyChanged) {
 				// Both changed: Ever Works' version wins, Gauzy's edit is kept as a version (plan 05 §3).
-				const versionId = await this.store.snapshot(context, page, 'Gauzy edit (conflict)');
+				const versionId = await this.store.snapshot(context, page, 'Base360 edit (conflict)');
 				await this.recordBodyConflict(context, page, document, versionId);
-				message = 'both sides changed the body: Ever Works wins, the Gauzy edit is kept as a version';
+				message = 'both sides changed the body: Base360 Works wins, the Base360 edit is kept as a version';
 			} else {
 				// Every write keeps the page's previous content restorable: an edit made since the last sync write (one
 				// the Markdown cannot show, such as an uploaded image) is kept even inside the snapshot window (review F92).
@@ -288,7 +288,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		// A folder made PRIVATE in Gauzy (or inside a private folder) no longer syncs either way.
 		const hidden = link ? await this.privateReason(context, link.gauzyId as ID, 'folder') : null;
 		if (link && hidden) {
-			await this.links.unlink(link, 'private in Gauzy; no longer shared with Ever Works');
+			await this.links.unlink(link, 'private in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: hidden };
 		}
 		const data = { ...((envelope.data ?? {}) as unknown as EverWorksKbFolder), id: ewId };
@@ -296,14 +296,14 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 			if (!link) return { status: 'skipped', message: 'the folder is not linked' };
 			// Its documents move to Unfiled on their own (`kb.document.moved`); the Gauzy folder is archived, never deleted.
 			await this.store.archive(context, link.gauzyId as ID);
-			await this.links.unlink(link, 'deleted in Ever Works; the Gauzy folder is archived');
+			await this.links.unlink(link, 'deleted in Base360 Works; the Base360 folder is archived');
 			return { status: 'applied' };
 		}
 		if (!['kb.folder.created', 'kb.folder.updated'].includes(envelope.type)) return { status: 'skipped', message: `${envelope.type} is not synced` };
 		let folder: EverWorksKbFolder = data;
 		if (!folder.name) {
 			const fetched = await this.fetchFolder(context, ewId);
-			if (!fetched) return { status: 'skipped', message: 'the folder is not visible in Ever Works' };
+			if (!fetched) return { status: 'skipped', message: 'the folder is not visible in Base360 Works' };
 			folder = fetched;
 		}
 		await this.ensureFolder(context, folder, link, version ?? folder.version ?? null, 0);
@@ -411,7 +411,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id) return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!toEverWorks(context.directions.docs)) return { status: 'skipped', message: 'docs are not pushed to Ever Works' };
+		if (!toEverWorks(context.directions.docs)) return { status: 'skipped', message: 'docs are not pushed to Base360 Works' };
 		if (!this.store.available()) return { status: 'deferred', message: 'the Docs plugin is not loaded in this process', retryInMs: NO_REQUEST_CONTEXT_RETRY_MS };
 		try {
 			// A push may write Gauzy too (a 412 merge): as the admin who connected.
@@ -443,12 +443,12 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		}
 		// A PRIVATE folder's name is metadata that must not leak (the Docs plugin's §3.2 rule): nothing under one syncs.
 		if ('privateFolder' in placement) {
-			if (link) await this.links.unlink(link, 'in a private folder in Gauzy; no longer shared with Ever Works');
+			if (link) await this.links.unlink(link, 'in a private folder in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: 'pages in a private folder never sync' };
 		}
 		if ('waitingFor' in placement) return { status: 'deferred', message: `waiting for the folder ${placement.waitingFor} to sync first` };
 		if (page.visibility === DocumentVisibilityEnum.PRIVATE) {
-			if (link) await this.links.unlink(link, 'private in Gauzy; no longer shared with Ever Works');
+			if (link) await this.links.unlink(link, 'private in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: 'private pages never sync' };
 		}
 		const [, resolveMention] = await this.resolvers(context, null);
@@ -493,15 +493,15 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				if (error instanceof EverWorksApiError && error.status === 409 && attempt + 1 < PATH_RETRY_ATTEMPTS) continue;
 				if (error instanceof EverWorksApiError && (error.status === 422 || error.status === 400)) {
 					await this.logRefusal(context, 'outbound', EverWorksLinkType.DOC, page.id as ID, null, 'create_refused', error);
-					return { status: 'skipped', message: `Ever Works refused the document: ${error.message}` };
+					return { status: 'skipped', message: `Base360 Works refused the document: ${error.message}` };
 				}
 				throw error;
 			}
 		}
-		if (!created) return { status: 'skipped', message: 'no free path for the document in Ever Works' };
+		if (!created) return { status: 'skipped', message: 'no free path for the document in Base360 Works' };
 		// A repeat of the same externalRef answers the existing document: never re-pair one another page holds.
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.DOC, created.id);
-		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== page.id) return { status: 'skipped', message: `the Ever Works document ${created.id} is paired with another page` };
+		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== page.id) return { status: 'skipped', message: `the Base360 Works document ${created.id} is paired with another page` };
 		await this.record(context, page.id as ID, created, created.version ?? null, {
 			title: page.name,
 			description: page.description ?? null,
@@ -513,8 +513,8 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 			reviewState: created.reviewState,
 			locked: !!created.locked
 		}, 'outbound');
-		this.logger.log(`Gauzy page ${page.id} created in Ever Works as document ${created.id}.`);
-		return { status: 'pushed', message: 'created in Ever Works' };
+		this.logger.log(`Base360 page ${page.id} created in Base360 Works as document ${created.id}.`);
+		return { status: 'pushed', message: 'created in Base360 Works' };
 	}
 
 	private async updateDocument(
@@ -535,7 +535,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 			if (movedAcross && !before.movedAcross) {
 				// Ever Works moves a document only between library folders, never between the library and a Work. The move
 				// is logged once; the page's content keeps syncing where it is in Ever Works (review F95).
-				await this.log.write({ ...this.logBase(context), direction: 'outbound', entityType: EverWorksLinkType.DOC, gauzyId: page.id as ID, ewId: pair.ewId, action: 'move_not_synced', status: 'skipped', message: 'The page moved between the organization documents and a Work (or between Works); Ever Works cannot move it there, so it stays where it is in Ever Works.' });
+				await this.log.write({ ...this.logBase(context), direction: 'outbound', entityType: EverWorksLinkType.DOC, gauzyId: page.id as ID, ewId: pair.ewId, action: 'move_not_synced', status: 'skipped', message: 'The page moved between the organization documents and a Work (or between Works); Base360 Works cannot move it there, so it stays where it is in Base360 Works.' });
 			}
 			const gHash = markdownHash(markdown);
 			const patch: EverWorksKbDocumentUpdate = {};
@@ -560,7 +560,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 						direction: 'outbound'
 					});
 				}
-				return { status: 'skipped', message: movedAcross ? 'moved across areas: not representable in Ever Works' : 'nothing changed' };
+				return { status: 'skipped', message: movedAcross ? 'moved across areas: not representable in Base360 Works' : 'nothing changed' };
 			}
 			const id = encodeURIComponent(pair.ewId);
 			try {
@@ -593,20 +593,20 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				return { status: 'pushed' };
 			} catch (error) {
 				if (error instanceof EverWorksApiError && error.status === 404) {
-					await this.links.unlink(pair, 'gone in Ever Works; the Gauzy page is kept');
-					return { status: 'skipped', message: 'the document is gone in Ever Works' };
+					await this.links.unlink(pair, 'gone in Base360 Works; the Base360 page is kept');
+					return { status: 'skipped', message: 'the document is gone in Base360 Works' };
 				}
 				if (error instanceof EverWorksApiError && error.status === 422) {
 					// A locked document, or a write the person may not make there: Ever Works keeps its version.
 					await this.logRefusal(context, 'outbound', EverWorksLinkType.DOC, page.id as ID, pair.ewId, 'update_refused', error);
-					return { status: 'skipped', message: `Ever Works refused the edit: ${error.message}` };
+					return { status: 'skipped', message: `Base360 Works refused the edit: ${error.message}` };
 				}
 				if (!(error instanceof EverWorksApiError && error.status === 412) || attempt === 1) throw error;
 				// 412: Ever Works moved on. Its newer state is applied first (as the sync, so it is not captured
 				// back): fields only Gauzy changed are kept for the retry; a body both sides changed goes to Ever
 				// Works, with Gauzy's edit kept as a version (plan 05 §3).
 				const remote = await this.fetchDocument(context, pair.ewId);
-				if (!remote) return { status: 'skipped', message: 'the document is no longer visible in Ever Works' };
+				if (!remote) return { status: 'skipped', message: 'the document is no longer visible in Base360 Works' };
 				if (!fromEverWorks(context.directions.docs)) {
 					// Gauzy is the source (docs `gauzy_to_ew`, review F27): nothing of Ever Works is written into Gauzy.
 					// Only its newer version (and body) is recorded on the link, keeping Gauzy's snapshot fields, so the
@@ -645,7 +645,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 	private async archiveInEverWorks(context: EverWorksMappingContext, client: EverWorksClient, link: EverWorksEntityLink | null, change: EverWorksOutboundChange): Promise<EverWorksPushOutcome> {
 		if (!link) return { status: 'skipped', message: 'not linked' };
 		const before = this.links.snapshot<DocSnapshot>(link);
-		if (before.status === 'archived') return { status: 'skipped', message: 'already archived in Ever Works' };
+		if (before.status === 'archived') return { status: 'skipped', message: 'already archived in Base360 Works' };
 		const actAs = await everWorksUserOfGauzyUser(this.dataSource, this.links, context, (change.actorUserId as ID | null) ?? null);
 		try {
 			const archived = await this.asPersonElseKey(actAs, (asUser) => client.request<EverWorksKbDocument>('POST', `/kb/documents/${encodeURIComponent(link.ewId)}/archive`, { actAsUserId: asUser }));
@@ -661,11 +661,11 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				snapshot: { ...before, status: 'archived' } as unknown as Record<string, unknown>,
 				direction: 'outbound'
 			});
-			return { status: 'pushed', message: 'the page was removed in Gauzy; the document is archived in Ever Works' };
+			return { status: 'pushed', message: 'the page was removed in Base360; the document is archived in Base360 Works' };
 		} catch (error) {
 			if (error instanceof EverWorksApiError && error.status === 404) {
-				await this.links.unlink(link, 'gone in Ever Works');
-				return { status: 'skipped', message: 'the document is gone in Ever Works' };
+				await this.links.unlink(link, 'gone in Base360 Works');
+				return { status: 'skipped', message: 'the document is gone in Base360 Works' };
 			}
 			throw error;
 		}
@@ -676,19 +676,19 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 		if (link?.state === EverWorksLinkState.UNLINKED) return { status: 'skipped', message: 'the folder is no longer synced' };
 		const folder = await this.store.load(context, change.gauzyId as ID, true);
 		if (change.op === 'delete' || !folder || (folder as { deletedAt?: Date | null }).deletedAt || folder.isArchived)
-			return { status: 'skipped', message: 'a Gauzy folder delete is not pushed (nothing is deleted in Ever Works)' };
+			return { status: 'skipped', message: 'a Base360 folder delete is not pushed (nothing is deleted in Base360 Works)' };
 		if (folder.kind !== DocumentKindEnum.FOLDER) return { status: 'skipped', message: 'not a folder' };
 		if (folder.externalSource === EVER_WORKS_DOCS_SOURCE && String(folder.externalId ?? '').startsWith('tree:')) return { status: 'skipped', message: 'a folder of the synced tree' };
 		// A PRIVATE folder (or one inside a private folder) never syncs: its name must not leak (the Docs plugin's §3.2 rule).
 		if (folder.visibility === DocumentVisibilityEnum.PRIVATE) {
-			if (link) await this.links.unlink(link, 'private in Gauzy; no longer shared with Ever Works');
+			if (link) await this.links.unlink(link, 'private in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: 'private folders never sync' };
 		}
 		const root = await this.store.existingRoot(context);
 		if (!root) return { status: 'skipped', message: 'not in the synced folders' };
 		const { folders, underRoot } = await this.store.ancestry(context, folder, root);
 		if (folders.some((above) => above.visibility === DocumentVisibilityEnum.PRIVATE) || (await this.isPrivateFolder(context, root))) {
-			if (link) await this.links.unlink(link, 'in a private folder in Gauzy; no longer shared with Ever Works');
+			if (link) await this.links.unlink(link, 'in a private folder in Base360; no longer shared with Base360 Works');
 			return { status: 'skipped', message: 'folders in a private folder never sync' };
 		}
 		const top = folders[folders.length - 1];
@@ -733,11 +733,11 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				const sibling = await this.siblingNamed(client, ewParentId, name);
 				if (!sibling) throw error;
 				const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.DOC_FOLDER, sibling.id);
-				if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== folder.id) return { status: 'skipped', message: `the Ever Works folder ${sibling.id} is paired with another folder` };
+				if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== folder.id) return { status: 'skipped', message: `the Base360 Works folder ${sibling.id} is paired with another folder` };
 				created = sibling;
 			}
 			await this.recordFolder(context, folder.id as ID, created, folder.name, 'outbound');
-			return { status: 'pushed', message: 'created in Ever Works' };
+			return { status: 'pushed', message: 'created in Base360 Works' };
 		}
 		const before = this.links.snapshot<FolderSnapshot>(link);
 		const patch: { name?: string; parentId?: string | null } = {};
@@ -763,21 +763,21 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 						await this.recordFolder(context, folder.id as ID, retried, folder.name, 'outbound');
 						return { status: 'pushed' };
 					} catch (retryError) {
-						if (retryError instanceof EverWorksApiError && retryError.status === 412) return { status: 'deferred', message: 'Ever Works changed the folder again; the Gauzy change is retried', retryInMs: 60_000 };
+						if (retryError instanceof EverWorksApiError && retryError.status === 412) return { status: 'deferred', message: 'Base360 Works changed the folder again; the Base360 change is retried', retryInMs: 60_000 };
 						throw retryError;
 					}
 				}
 				// Ever Works changed the folder meanwhile: its rename or move wins (as for document fields).
 				if (remote) await EverWorksSyncContext.run({ connectionId: context.connection.id as ID, eventId: `folder-412:${link.ewId}` }, () => this.ensureFolder(context, remote, link, remote.version ?? null, 0));
-				return { status: 'skipped', message: 'Ever Works changed the folder meanwhile; its version is kept' };
+				return { status: 'skipped', message: 'Base360 Works changed the folder meanwhile; its version is kept' };
 			}
 			if (error instanceof EverWorksApiError && (error.status === 409 || error.status === 422)) {
 				await this.logRefusal(context, 'outbound', EverWorksLinkType.DOC_FOLDER, folder.id as ID, link.ewId, 'update_refused', error);
-				return { status: 'skipped', message: `Ever Works refused the folder change: ${error.message}` };
+				return { status: 'skipped', message: `Base360 Works refused the folder change: ${error.message}` };
 			}
 			if (error instanceof EverWorksApiError && error.status === 404) {
-				await this.links.unlink(link, 'gone in Ever Works');
-				return { status: 'skipped', message: 'the folder is gone in Ever Works' };
+				await this.links.unlink(link, 'gone in Base360 Works');
+				return { status: 'skipped', message: 'the folder is gone in Base360 Works' };
 			}
 			throw error;
 		}
@@ -1013,12 +1013,12 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				gauzyId: page.id as ID,
 				ewId: document.id,
 				field: 'body',
-				gauzyValue: { versionId, label: 'Gauzy edit (conflict)' },
+				gauzyValue: { versionId, label: 'Base360 edit (conflict)' },
 				everWorksValue: { revision: document.revision, revisionAt: document.revisionAt },
 				winner: 'ever_works',
 				gauzyAt: page.updatedAt ? new Date(page.updatedAt).toISOString() : null,
 				everWorksAt: document.revisionAt ?? document.updatedAt ?? null,
-				message: `Both Gauzy and Ever Works changed "${cut(page.name, 120)}". Ever Works' version is the current content; the Gauzy edit is kept in the page's history as "Gauzy edit (conflict)".`
+				message: `Both Base360 and Base360 Works changed "${cut(page.name, 120)}". Base360 Works' version is the current content; the Base360 edit is kept in the page's history as "Base360 edit (conflict)".`
 			})
 			.catch((error) => this.logger.warn(`Page ${page.id}: the conflict could not be logged (${error instanceof Error ? error.name : 'error'}).`));
 		await this.noticeConflict(context, page, versionId);
@@ -1058,8 +1058,8 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 				source: InboxItemSourceEnum.SYSTEM,
 				externalSource: DOCS_NOTICE_SOURCE,
 				externalId: `${page.id}:conflict`,
-				title: cut(`Ever Works replaced your edit of "${page.name}"`, 200),
-				body: 'Both you and Ever Works changed this page since the last sync. Ever Works\' version is now the current content; your edit is kept in the page\'s version history as "Gauzy edit (conflict)", and you can restore it from there.',
+				title: cut(`Base360 Works replaced your edit of "${page.name}"`, 200),
+				body: 'Both you and Base360 Works changed this page since the last sync. Base360 Works\' version is now the current content; your edit is kept in the page\'s version history as "Base360 edit (conflict)", and you can restore it from there.',
 				priority: InboxItemPriorityEnum.NORMAL,
 				entity: BaseEntityEnum.Document,
 				entityId: page.id as ID,
@@ -1072,7 +1072,7 @@ export class EverWorksDocsService implements EverWorksInboundHandler, EverWorksO
 	}
 
 	private async logRefusal(context: EverWorksMappingContext, direction: 'inbound' | 'outbound', entityType: EverWorksLinkType, gauzyId: ID, ewId: string | null, action: string, error: EverWorksApiError): Promise<void> {
-		await this.log.write({ ...this.logBase(context), direction, entityType, gauzyId, ewId, action, status: 'conflict', message: `Ever Works refused it (${error.status} ${error.code}): ${error.message}`.slice(0, 2000) });
+		await this.log.write({ ...this.logBase(context), direction, entityType, gauzyId, ewId, action, status: 'conflict', message: `Base360 Works refused it (${error.status} ${error.code}): ${error.message}`.slice(0, 2000) });
 	}
 
 	private logBase(context: EverWorksMappingContext) {

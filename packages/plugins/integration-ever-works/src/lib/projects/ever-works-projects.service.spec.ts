@@ -192,14 +192,14 @@ describe('EverWorksProjectsService', () => {
 
 	it('pairing changes neither record; afterwards only what changed in Ever Works is written', async () => {
 		const { service, projects, client, members, projectTeams, addLink } = setup();
-		projects.push({ id: 'p1', name: 'Our name', description: 'Gauzy text', status: 'open' });
+		projects.push({ id: 'p1', name: 'Our name', description: 'Base360 text', status: 'open' });
 		addLink(EverWorksLinkType.MEMBER, 'emp-ann', 'ew-ann');
 		addLink(EverWorksLinkType.MEMBER, 'emp-bob', 'ew-bob');
 		addLink(EverWorksLinkType.TEAM, 'g-team-1', 'ew-team-1');
 		addLink(EverWorksLinkType.TEAM, 'g-team-2', 'ew-team-2');
 		client.request.mockResolvedValue({ data: [{ id: 'ew-work-1', ...work, description: 'EW text', version: 2 }], nextCursor: null, hasMore: false });
 		await service.decide('m1' as never, { links: [{ ewWorkId: 'ew-work-1', projectId: 'p1' }] });
-		expect(projects[0]).toMatchObject({ name: 'Our name', description: 'Gauzy text' });
+		expect(projects[0]).toMatchObject({ name: 'Our name', description: 'Base360 text' });
 		// Ever Works renames the work, adds Bob as manager and moves it to another team; the description is unchanged.
 		const outcome = await service.apply(
 			envelope('work.updated', {
@@ -212,7 +212,7 @@ describe('EverWorksProjectsService', () => {
 			applyContext
 		);
 		expect(outcome).toEqual({ status: 'applied' });
-		expect(projects[0]).toMatchObject({ name: 'Acme Website', description: 'Gauzy text' });
+		expect(projects[0]).toMatchObject({ name: 'Acme Website', description: 'Base360 text' });
 		expect(members).toEqual([expect.objectContaining({ organizationProjectId: 'p1', employeeId: 'emp-bob', isManager: true })]);
 		expect([...(projectTeams.get('p1') ?? [])]).toEqual(['g-team-2']);
 	});

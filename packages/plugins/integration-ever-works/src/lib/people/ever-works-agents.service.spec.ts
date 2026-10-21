@@ -202,7 +202,7 @@ describe('EverWorksAgentsService', () => {
 		});
 		expect(await service.apply(envelope('agent.created', agent, 1) as never, applyContext)).toEqual({
 			status: 'skipped',
-			message: 'the agent is not visible in Ever Works (private or gone)'
+			message: 'the agent is not visible in Base360 Works (private or gone)'
 		});
 		expect(client.request).toHaveBeenCalledWith('GET', '/agents/AG-1');
 		expect(employees.createAgentEmployee).not.toHaveBeenCalled();

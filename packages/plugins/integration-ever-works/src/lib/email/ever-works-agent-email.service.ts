@@ -144,7 +144,7 @@ export class EverWorksAgentEmailService
 			entityType: EverWorksLinkType.AGENT_EMAIL,
 			gauzyId: email.emailId
 		});
-		if (!queued) this.logger.debug?.(`Inbox email ${email.emailId}: its organization has no Ever Works mapping.`);
+		if (!queued) this.logger.debug?.(`Inbox email ${email.emailId}: its organization has no Base360 Works mapping.`);
 	}
 
 	/**
@@ -199,25 +199,25 @@ export class EverWorksAgentEmailService
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		const emailId = change.gauzyId as ID;
 		const done = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, emailId);
-		if (done) return { status: 'skipped', message: 'already handed to Ever Works' };
+		if (done) return { status: 'skipped', message: 'already handed to Base360 Works' };
 		if (!this.handoffs) {
 			// The Inbox email features are not loaded in this process: a process that hosts them takes it.
 			return {
 				status: 'deferred',
-				message: 'the Gauzy Inbox email features are not loaded in this process',
+				message: 'the Base360 Inbox email features are not loaded in this process',
 				retryInMs: AGENT_EMAIL_WAIT_MS
 			};
 		}
 		const email = await this.handoffs.read(context.tenantId, emailId);
 		if (!email) return { status: 'skipped', message: 'the message is gone, or it was not delivered' };
 		const routed = agentOfMailbox(email.mailboxSettings);
-		if (!routed) return { status: 'skipped', message: 'the mailbox is no longer routed to an Ever Works agent' };
+		if (!routed) return { status: 'skipped', message: 'the mailbox is no longer routed to a Base360 Works agent' };
 		const agentId = await this.everWorksAgentOf(context, routed);
 		if (!agentId) {
 			return this.refused(
 				context,
 				change,
-				`the mailbox names ${routed}, which is no Ever Works agent paired with this organization`
+				`the mailbox names ${routed}, which is no Base360 Works agent paired with this organization`
 			);
 		}
 		if (!this.hasScope(context, EVER_WORKS_EMAIL_WRITE_SCOPE)) {
@@ -268,7 +268,7 @@ export class EverWorksAgentEmailService
 			ewId: message?.id ?? null,
 			action: 'agent_email',
 			status: 'ok',
-			message: `handed to Ever Works agent ${agentId} (${result?.dispatch?.mode ?? 'delivered'})`
+			message: `handed to Base360 Works agent ${agentId} (${result?.dispatch?.mode ?? 'delivered'})`
 		});
 		return { status: 'pushed', message: `handed to agent ${agentId}` };
 	}
@@ -312,7 +312,7 @@ export class EverWorksAgentEmailService
 			status: 'skipped',
 			message: reason
 		});
-		this.logger.warn(`Inbox email ${change.gauzyId}: not handed to Ever Works — ${reason}.`);
+		this.logger.warn(`Inbox email ${change.gauzyId}: not handed to Base360 Works — ${reason}.`);
 		return { status: 'skipped', message: reason };
 	}
 }

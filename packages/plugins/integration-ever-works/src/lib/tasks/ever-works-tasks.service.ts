@@ -83,7 +83,7 @@ export const TASK_WAIT_MS = 60_000;
 /** A task write this process cannot make (no request context) is retried after this long. */
 export const TASK_NO_CONTEXT_RETRY_MS = 5 * 60_000;
 
-const NO_LONGER_SHARED = 'no longer shared from Ever Works (private)';
+const NO_LONGER_SHARED = 'no longer shared from Base360 Works (private)';
 
 /** How often the task sweep (watchers and linked issues changed without a captured event) runs per connection. */
 export const TASK_SWEEP_MS = 10 * 60_000;
@@ -250,13 +250,13 @@ function heldParentKeyOf(out: TaskOutgoing, own: TaskEverWorksOnly): string {
 }
 
 const SUBTASKS_DETACHED_MESSAGE =
-	'Ever Works keeps a task in the team and work of its sub-tasks, and the task moved in Gauzy: its synced sub-tasks were detached from it in Ever Works (each keeps its own team; Gauzy keeps them under it), and the task moved. A sub-task gets its parent back in Ever Works once it is in the same team and work.';
+	'Base360 Works keeps a task in the team and work of its sub-tasks, and the task moved in Base360: its synced sub-tasks were detached from it in Base360 Works (each keeps its own team; Base360 keeps them under it), and the task moved. A sub-task gets its parent back in Base360 Works once it is in the same team and work.';
 
 const OWNER_CHANGE_HELD_MESSAGE =
-	'Ever Works keeps a task in the team and work of its sub-tasks, and this task has sub-tasks there that Gauzy does not sync: its team / project change is not sent (the rest is). It is sent again with a later change of the task, once those sub-tasks are moved or detached in Ever Works.';
+	'Base360 Works keeps a task in the team and work of its sub-tasks, and this task has sub-tasks there that Base360 does not sync: its team / project change is not sent (the rest is). It is sent again with a later change of the task, once those sub-tasks are moved or detached in Base360 Works.';
 
 const PARENT_HELD_MESSAGE =
-	'Ever Works keeps a sub-task in its parent’s work and team, and the Gauzy parent is in another one: the task syncs without its parent in Ever Works. The parent is sent again with a later change of the task once the task or the parent has moved.';
+	'Base360 Works keeps a sub-task in its parent’s work and team, and the Base360 parent is in another one: the task syncs without its parent in Base360 Works. The parent is sent again with a later change of the task once the task or the parent has moved.';
 
 @Injectable()
 export class EverWorksTasksService implements EverWorksInboundHandler, EverWorksOutboundHandler, EverWorksSyncSweeper {
@@ -281,9 +281,9 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 	/** Inbound handler: `task.*`. */
 	async apply(envelope: EverWorksEventEnvelope, applyContext: EverWorksApplyContext): Promise<EverWorksApplyOutcome> {
 		const context = envelope.organizationId ? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId) : null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!fromEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not synced from Ever Works' };
+		if (!fromEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not synced from Base360 Works' };
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.TASK, envelope.aggregate.id);
 		const data = (envelope.data ?? {}) as Record<string, unknown>;
 		if (link?.state === EverWorksLinkState.UNLINKED) {
@@ -366,7 +366,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		if (!link) {
 			const adopted = await this.adoptOwn(context, task, version);
 			if (!adopted) return this.createFromEverWorks(context, task, version, actor, depth);
-			if (adopted === 'adopted') return { status: 'applied', message: 'linked to the Gauzy task it was created from; the Gauzy values are pushed' };
+			if (adopted === 'adopted') return { status: 'applied', message: 'linked to the Base360 task it was created from; the Base360 values are pushed' };
 			link = adopted;
 		}
 		return this.updateFromEverWorks(context, link, task, version, envelope.occurredAt, actor, depth);
@@ -451,7 +451,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		depth: number
 	): Promise<EverWorksApplyOutcome> {
 		const projectId = await this.placement(context, task, actor);
-		if (!projectId) return { status: 'deferred', message: 'no Gauzy project to place the task in yet', retryInMs: TASK_WAIT_MS };
+		if (!projectId) return { status: 'deferred', message: 'no Base360 project to place the task in yet', retryInMs: TASK_WAIT_MS };
 		const teams = await this.gauzyTeamsOf(context, task.teamIds ?? []);
 		const members = await this.gauzyMembersOf(context, (task.assignees ?? []).map(principalKey));
 		const parent = task.parentTaskId ? await this.ensureTaskLinked(context, task.parentTaskId, depth + 1) : null;
@@ -481,7 +481,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		// A parent that could not be linked yet stays a difference on the Ever Works side: the next change retries it.
 		const e = { ...everWorksSideOf(task), ...(task.parentTaskId && !parent ? { parentTaskId: null } : {}) };
 		const fresh = await this.store.load(context.tenantId, taskId);
-		if (!fresh) throw new Error(`The Gauzy task created for Ever Works task ${task.id} cannot be read back.`);
+		if (!fresh) throw new Error(`The Base360 task created for Base360 Works task ${task.id} cannot be read back.`);
 		// The link is recorded before the edges are followed: an edge back to this task (two new tasks that
 		// relate to each other) then finds it instead of importing it a second time. Its watchers and edges are
 		// not on the Gauzy side yet, so they count as Ever Works' change below — and it has no version yet, so
@@ -505,7 +505,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		});
 		await this.syncResourceLinks(context, taskId, task, {});
 		await this.putExternalLink(context, task.id, taskId);
-		this.logger.log(`Ever Works task ${task.id} created as Gauzy task ${taskId} (organization ${context.organizationId}).`);
+		this.logger.log(`Base360 Works task ${task.id} created as Base360 task ${taskId} (organization ${context.organizationId}).`);
 		return { status: 'applied' };
 	}
 
@@ -519,8 +519,8 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		depth: number
 	): Promise<EverWorksApplyOutcome> {
 		const row = await this.store.load(context.tenantId, link.gauzyId as ID);
-		if (!row) return { status: 'skipped', message: 'the Gauzy task is gone' };
-		if ((row as { deletedAt?: Date | null }).deletedAt) return { status: 'skipped', message: 'the Gauzy task was deleted (its delete is pushed)' };
+		if (!row) return { status: 'skipped', message: 'the Base360 task is gone' };
+		if ((row as { deletedAt?: Date | null }).deletedAt) return { status: 'skipped', message: 'the Base360 task was deleted (its delete is pushed)' };
 		if (row.organizationId !== context.organizationId) return { status: 'skipped', message: TASK_IN_ANOTHER_ORGANIZATION };
 		const snapshot = parseTaskSnapshot(this.links.snapshot<TaskSnapshot>(link));
 		const prevE = snapshot.e;
@@ -614,7 +614,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			// `undefined`: the parent cannot be linked right now; the next change of the task tries again.
 			if (parentId !== undefined && parentId !== (row.parentId ?? null)) {
 				if (parentId && (await this.store.isSelfOrAncestor(row.id as ID, parentId))) {
-					await this.logConflict(context, row.id as ID, task.id, 'parent_cycle_refused', 'The Ever Works parent would make a cycle in Gauzy; it is not applied.');
+					await this.logConflict(context, row.id as ID, task.id, 'parent_cycle_refused', 'The Base360 Works parent would make a cycle in Base360; it is not applied.');
 				} else {
 					input.parentId = parentId as never;
 					applied.add('parentId');
@@ -681,8 +681,8 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			// Nothing is lost: the version the later edit replaced is kept as a comment (plan 03 §C.5).
 			const note =
 				lostDescription.side === 'gauzy'
-					? `Conflicting edit: this description was replaced by a later edit from Ever Works at ${occurredAt ?? 'an unknown time'}. The Gauzy version was:`
-					: `Conflicting edit: a later Gauzy edit replaced this Ever Works description (edited at ${occurredAt ?? 'an unknown time'}). The Ever Works version was:`;
+					? `Conflicting edit: this description was replaced by a later edit from Base360 Works at ${occurredAt ?? 'an unknown time'}. The Base360 version was:`
+					: `Conflicting edit: a later Base360 edit replaced this Base360 Works description (edited at ${occurredAt ?? 'an unknown time'}). The Base360 Works version was:`;
 			await this.store.addComment(context, row.id as ID, `<p><em>${escapeHtml(note)}</em></p>${lostDescription.html}`, ActorTypeEnum.System);
 		}
 		// The Gauzy snapshot moves only for what was applied here: a Gauzy edit not pushed yet stays a difference.
@@ -712,7 +712,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		);
 		await this.syncResourceLinks(context, row.id as ID, task, ewOnly);
 		for (const conflict of conflicts) {
-			await this.logConflict(context, row.id as ID, task.id, `conflict:${conflict.field}`, `Both sides changed ${conflict.field}; the later edit (${conflict.winner === 'gauzy' ? 'Gauzy' : 'Ever Works'}) won.`, conflict);
+			await this.logConflict(context, row.id as ID, task.id, `conflict:${conflict.field}`, `Both sides changed ${conflict.field}; the later edit (${conflict.winner === 'gauzy' ? 'Base360' : 'Base360 Works'}) won.`, conflict);
 		}
 		if (conflicts.some((conflict) => conflict.winner === 'gauzy')) {
 			// Gauzy's later value goes out: its change is (still) a difference from the snapshot.
@@ -908,7 +908,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		const knownOf = (id: string | undefined, owned: boolean | undefined) => (id ? { id: id as ID, owned: owned !== false } : null);
 		const webUrl = task.webUrl ?? null;
 		if (webUrl && isSafeUrl(webUrl, false)) {
-			const row = await this.store.upsertResourceLink(scope, taskId, `Ever Works task${task.slug ? ` ${task.slug}` : ''}`, webUrl, knownOf(known.task, known.taskOwned));
+			const row = await this.store.upsertResourceLink(scope, taskId, `Base360 Works task${task.slug ? ` ${task.slug}` : ''}`, webUrl, knownOf(known.task, known.taskOwned));
 			Object.assign(result, { task: row.id, taskOwned: row.owned });
 		}
 		const prUrl = task.runtime?.prUrl ?? null;
@@ -944,7 +944,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		if (!link) return { status: 'skipped', message: 'the task is not linked' };
 		const row = await this.store.load(context.tenantId, link.gauzyId as ID);
 		if (row && row.organizationId !== context.organizationId) {
-			const reason = `deleted in Ever Works; ${TASK_IN_ANOTHER_ORGANIZATION} and is kept`;
+			const reason = `deleted in Base360 Works; ${TASK_IN_ANOTHER_ORGANIZATION} and is kept`;
 			await this.links.unlink(link, reason);
 			return { status: 'skipped', message: reason };
 		}
@@ -952,7 +952,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			const actor = await this.actorOf(context, envelope.actor);
 			await this.store.asActor(context, actor, () => this.store.softDelete(row.id as ID));
 		}
-		await this.links.unlink(link, 'deleted in Ever Works; the Gauzy task is deleted (soft, restorable)');
+		await this.links.unlink(link, 'deleted in Base360 Works; the Base360 task is deleted (soft, restorable)');
 		return { status: 'applied' };
 	}
 
@@ -974,7 +974,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 	/** Reads the task from Ever Works and applies it whole. */
 	private async refetch(context: EverWorksMappingContext, link: EverWorksEntityLink | null, envelope: EverWorksEventEnvelope): Promise<EverWorksApplyOutcome> {
 		const task = await this.fetchTask(context, envelope.aggregate.id);
-		if (!task) return { status: 'skipped', message: 'the task is not visible in Ever Works any more' };
+		if (!task) return { status: 'skipped', message: 'the task is not visible in Base360 Works any more' };
 		return this.applyTask(context, link, task, task.version ?? envelope.aggregate.version ?? null, envelope, 0);
 	}
 
@@ -1040,11 +1040,11 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			const link = await this.links.byEw(context.integrationTenantId, type, actor.id);
 			if (link && link.state !== EverWorksLinkState.UNLINKED) {
 				const user = await this.store.userOfEmployee(link.gauzyId as ID);
-				if (user.userId) return { userId: user.userId, name: user.name ?? actor.label ?? 'Ever Works', agent: type === EverWorksLinkType.AGENT, employeeId: link.gauzyId as ID };
+				if (user.userId) return { userId: user.userId, name: user.name ?? actor.label ?? 'Base360 Works', agent: type === EverWorksLinkType.AGENT, employeeId: link.gauzyId as ID };
 			}
 		}
 		// An unmapped person, the integration or the system: the admin who connected Ever Works.
-		return { userId: (context.connection.connectedByUserId as ID) ?? null, name: actor?.label || 'Ever Works', agent: false, employeeId: null };
+		return { userId: (context.connection.connectedByUserId as ID) ?? null, name: actor?.label || 'Base360 Works', agent: false, employeeId: null };
 	}
 
 	// ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
@@ -1054,7 +1054,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id) return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!toEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not pushed to Ever Works' };
+		if (!toEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not pushed to Base360 Works' };
 		const link = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.TASK, change.gauzyId as ID);
 		if (link?.state === EverWorksLinkState.UNLINKED) return { status: 'skipped', message: 'the task is no longer synced' };
 		const task = await this.store.load(context.tenantId, change.gauzyId as ID);
@@ -1088,7 +1088,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			if (link && link.state !== EverWorksLinkState.UNLINKED) teamOf.set(teamId as ID, link.ewId);
 		}
 		const scope = teamScopeFor((g.teamIds ?? []) as ID[], teamOf);
-		if (!scope.scope) return { wait: `the team ${scope.waitingFor} is not linked to Ever Works yet` };
+		if (!scope.scope) return { wait: `the team ${scope.waitingFor} is not linked to Base360 Works yet` };
 		let parentTaskId: string | null = null;
 		let parentOwners: Array<string | null> = [];
 		if (g.parentId) {
@@ -1101,7 +1101,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 				const parent = await this.store.load(context.tenantId, g.parentId as ID);
 				if (parent && !(parent as { deletedAt?: Date | null }).deletedAt && parent.organizationId === context.organizationId && !(await this.excluded(context, parent))) {
 					await this.queue.enqueue({ tenantId: context.tenantId, organizationId: context.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: parent.id as ID, op: 'upsert' });
-					return { wait: `the parent task ${parent.id} is not in Ever Works yet` };
+					return { wait: `the parent task ${parent.id} is not in Base360 Works yet` };
 				}
 			}
 		}
@@ -1190,7 +1190,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			// Without the start, the due date still goes out if it fits Ever Works' own start.
 			if (sendDue && after(prevE.startAt ?? null, dueAt)) hold.add('dueDate');
 			if (!sendStart && sendDue) hold.add('dueDate');
-			void this.logConflict(context, taskId, '', 'start_after_due', 'The start date would be after the due date in Ever Works, which refuses that; it is not sent until the dates fit.');
+			void this.logConflict(context, taskId, '', 'start_after_due', 'The start date would be after the due date in Base360 Works, which refuses that; it is not sent until the dates fit.');
 		}
 		if (sendDue && !hold.has('dueDate')) fields.dueAt = dueAt;
 		if (sendStart && !hold.has('startDate')) fields.startAt = startAt;
@@ -1327,8 +1327,8 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			heldParent
 		});
 		await this.syncResourceLinks(context, task.id as ID, dto, {});
-		this.logger.log(`Gauzy task ${task.id} created in Ever Works as ${dto.id}.`);
-		return { status: 'pushed', message: 'created in Ever Works' };
+		this.logger.log(`Base360 task ${task.id} created in Base360 Works as ${dto.id}.`);
+		return { status: 'pushed', message: 'created in Base360 Works' };
 	}
 
 	private async updateInEverWorks(context: EverWorksMappingContext, client: EverWorksClient, task: Task, link: EverWorksEntityLink, actAs: string | null): Promise<EverWorksPushOutcome> {
@@ -1543,7 +1543,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 				// 412: Ever Works moved on. When tasks sync from Ever Works its newer state is applied to Gauzy first
 				// (as the sync, so it is not captured back), then this push is merged again on top of it (§C.3).
 				const remote = await this.fetchTask(context, pair.ewId);
-				if (!remote) return { status: 'skipped', message: 'the task is not visible in Ever Works any more' };
+				if (!remote) return { status: 'skipped', message: 'the task is not visible in Base360 Works any more' };
 				if (fromEverWorks(context.directions.tasks)) {
 					await EverWorksSyncContext.run({ connectionId: context.connection.id as ID, eventId: `task-412:${pair.ewId}` }, () =>
 						this.applyTask(context, pair, remote, remote.version ?? null, { occurredAt: remote.updatedAt ?? new Date().toISOString(), actor: { type: 'system', id: null } }, 0)
@@ -1606,7 +1606,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 	 * comment, and the link stops syncing. Nothing is deleted in Ever Works.
 	 */
 	private async pushDelete(context: EverWorksMappingContext, link: EverWorksEntityLink | null, change: EverWorksOutboundChange): Promise<EverWorksPushOutcome> {
-		if (!link) return { status: 'skipped', message: 'the task is not in Ever Works' };
+		if (!link) return { status: 'skipped', message: 'the task is not in Base360 Works' };
 		const client = this.client(context);
 		const connectionId = context.connection.id as ID;
 		const ewTaskId = encodeURIComponent(link.ewId);
@@ -1619,7 +1619,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 				});
 			}
 			await client.request('POST', `/tasks/${ewTaskId}/comments`, {
-				body: { body: 'This task was deleted in Ever Gauzy. It is cancelled here and no longer synced.', externalAuthor: { name: 'Ever Gauzy', source: EVER_WORKS_LINK_SOURCE } },
+				body: { body: 'This task was deleted in Base360. It is cancelled here and no longer synced.', externalAuthor: { name: 'Base360', source: EVER_WORKS_LINK_SOURCE } },
 				idempotencyKey: createHash('sha256').update(`${connectionId}:${EverWorksLinkType.TASK}:${change.gauzyId}:deleted`).digest('hex')
 			});
 			// No longer synced: the task stops showing the Gauzy task (this installation's link only, contract CR-2(3)).
@@ -1627,8 +1627,8 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 		} catch (error) {
 			if (!(error instanceof EverWorksApiError && error.status === 404)) throw error;
 		}
-		await this.links.unlink(link, 'deleted in Gauzy; cancelled in Ever Works');
-		return { status: 'pushed', message: 'cancelled in Ever Works (delete policy)' };
+		await this.links.unlink(link, 'deleted in Base360; cancelled in Base360 Works');
+		return { status: 'pushed', message: 'cancelled in Base360 Works (delete policy)' };
 	}
 
 	// ── Sweep ──────────────────────────────────────────────────────────────────────────────────────
@@ -1657,7 +1657,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 					const id = link.gauzyId as ID;
 					if (!present.has(id)) {
 						const queued = await this.queue.enqueue({ tenantId: context.tenantId, organizationId: context.organizationId, entityType: EverWorksLinkType.TASK, gauzyId: id, op: 'delete' });
-						if (queued) await this.links.markOrphaned(link, 'the Gauzy task is gone without a captured delete; its delete is pushed');
+						if (queued) await this.links.markOrphaned(link, 'the Base360 task is gone without a captured delete; its delete is pushed');
 						continue;
 					}
 					const g = parseTaskSnapshot(this.links.snapshot<TaskSnapshot>(link)).g;
@@ -1760,7 +1760,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 			return await call(actAs);
 		} catch (error) {
 			if (!actAs || !(error instanceof EverWorksApiError && error.status === 403 && error.code === 'act_as_forbidden')) throw error;
-			this.logger.warn('Ever Works refused the act-as user; the write is attributed to the integration.');
+			this.logger.warn('Base360 Works refused the act-as user; the write is attributed to the integration.');
 			return call(null);
 		}
 	}
@@ -1776,7 +1776,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 
 	/** The admin who connected Ever Works (the sync's own writes in Gauzy are attributed to them). */
 	private async adminActor(context: EverWorksMappingContext): Promise<EverWorksTaskActor> {
-		return { userId: (context.connection.connectedByUserId as ID) ?? null, name: 'Ever Works', agent: false, employeeId: null };
+		return { userId: (context.connection.connectedByUserId as ID) ?? null, name: 'Base360 Works', agent: false, employeeId: null };
 	}
 
 	/** The Ever Works principal of a Gauzy employee (a linked person or agent), or `null`. */
@@ -1866,7 +1866,7 @@ export class EverWorksTasksService implements EverWorksInboundHandler, EverWorks
 				body: { externalId: taskId, installationId: context.connection.id }
 			});
 		} catch (error) {
-			this.logger.warn(`The Ever Works task ${everWorksTaskId} was not linked back to Gauzy (${error instanceof EverWorksApiError ? `${error.status} ${error.code}` : 'network'}).`);
+			this.logger.warn(`The Base360 Works task ${everWorksTaskId} was not linked back to Base360 (${error instanceof EverWorksApiError ? `${error.status} ${error.code}` : 'network'}).`);
 		}
 	}
 

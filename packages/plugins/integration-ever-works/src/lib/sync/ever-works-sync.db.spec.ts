@@ -347,7 +347,7 @@ describe('Ever Works sync engine on SQLite', () => {
 			expect(seen).toEqual(['10', '20', '30']);
 			const bySeq = Object.fromEntries((await events().find()).map((e) => [String(e.seq), e]));
 			expect(bySeq['40']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'own origin' });
-			expect(bySeq['50']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Gauzy organization' });
+			expect(bySeq['50']).toMatchObject({ status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Base360 organization' });
 			expect(bySeq['60']).toMatchObject({ status: EverWorksInboundStatus.DEFERRED, error: 'no handler for goal yet' });
 			expect(EverWorksSyncContext.isApplying()).toBe(false);
 		});

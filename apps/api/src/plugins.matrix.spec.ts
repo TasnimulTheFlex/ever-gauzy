@@ -125,7 +125,7 @@ describe('API plugin list: optional sign-in plugins', () => {
 
 	it.each([
 		['both off (defaults)', {}, false, false],
-		['Ever ID on', { ZITADEL_ENABLED: 'true' }, true, false],
+		['Base360 ID on', { ZITADEL_ENABLED: 'true' }, true, false],
 		['Keycloak on', { KEYCLOAK_ENABLED: 'true', ...keycloakConfigured }, false, true],
 		['both on', { ZITADEL_ENABLED: 'true', KEYCLOAK_ENABLED: 'true', ...keycloakConfigured }, true, true],
 		['Keycloak configured but not switched on', { ...keycloakConfigured }, false, false],
@@ -184,7 +184,7 @@ describe('API plugin list: Ever Platform connection', () => {
 	const combinations = [false, true].flatMap((stats) =>
 		[false, true].flatMap((connect) => [false, true].flatMap((zitadel) => [false, true].map((keycloak) => ({ stats, connect, zitadel, keycloak }))))
 	);
-	it.each(combinations)('statistics $stats, connection $connect, Ever ID $zitadel, Keycloak $keycloak', ({ stats, connect, zitadel, keycloak }) => {
+	it.each(combinations)('statistics $stats, connection $connect, Base360 ID $zitadel, Keycloak $keycloak', ({ stats, connect, zitadel, keycloak }) => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
 			const plugins = loadPlugins({
@@ -235,7 +235,7 @@ describe('API plugin list: Ever Works integration', () => {
 		[false, true],
 		[true, false],
 		[true, true]
-	])('Ever Works %s, Ever Platform connection %s', (works, connect) => {
+	])('Base360 Works %s, Base360 Platform connection %s', (works, connect) => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
 			const plugins = loadPlugins({
@@ -275,7 +275,7 @@ describe('API plugin list: Inbox', () => {
 		[false, true],
 		[true, false],
 		[true, true]
-	])('Inbox %s, Ever Works %s', (inbox, works) => {
+	])('Inbox %s, Base360 Works %s', (inbox, works) => {
 		const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 		try {
 			const plugins = loadPlugins({

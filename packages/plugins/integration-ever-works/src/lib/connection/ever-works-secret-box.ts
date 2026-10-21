@@ -25,15 +25,15 @@ export class EverWorksSecretError extends Error {
 	private static describe(code: EverWorksSecretError['code']): string {
 		switch (code) {
 			case 'encryption_key_malformed':
-				return 'ENCRYPTION_KEY is set but is not a base64-encoded 32-byte key; the Ever Works key cannot be stored. Generate one with `openssl rand -base64 32`.';
+				return 'ENCRYPTION_KEY is set but is not a base64-encoded 32-byte key; the Base360 Works key cannot be stored. Generate one with `openssl rand -base64 32`.';
 			case 'encryption_key_default':
-				return 'ENCRYPTION_KEY is a value published in the Gauzy repository; the Ever Works key cannot be stored safely.';
+				return 'ENCRYPTION_KEY is a value published in the Base360 repository; the Base360 Works key cannot be stored safely.';
 			case 'no_secret':
-				return 'Set ENCRYPTION_KEY (a base64-encoded 32-byte key) on the API before connecting Ever Works: its key is stored encrypted.';
+				return 'Set ENCRYPTION_KEY (a base64-encoded 32-byte key) on the API before connecting Base360 Works: its key is stored encrypted.';
 			case 'jwt_secret_default':
-				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the Gauzy repository; set ENCRYPTION_KEY before connecting Ever Works.';
+				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the Base360 repository; set ENCRYPTION_KEY before connecting Base360 Works.';
 			default:
-				return `A stored Ever Works secret cannot be read (${code}).`;
+				return `A stored Base360 Works secret cannot be read (${code}).`;
 		}
 	}
 }

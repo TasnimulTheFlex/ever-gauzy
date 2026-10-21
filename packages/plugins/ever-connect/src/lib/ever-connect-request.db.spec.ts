@@ -65,7 +65,7 @@ const ALL = ['INTEGRATION_VIEW', 'INTEGRATION_ADD', 'INTEGRATION_EDIT', 'INTEGRA
  * Every request the module could make is recorded (`EVER_CONNECT_FETCH` and the global `fetch`);
  * none is expected in this suite.
  */
-describe.each(TEST_TARGETS)('Ever Platform routes on $name', (target) => {
+describe.each(TEST_TARGETS)('Base360 Platform routes on $name', (target) => {
 	let dataSource: DataSource;
 	let app: INestApplication | undefined;
 	let acme: SeededTenant;
@@ -229,7 +229,7 @@ describe.each(TEST_TARGETS)('Ever Platform routes on $name', (target) => {
 		['a super admin not listed', { EVER_OPERATOR_EMAILS: 'someone@else.example' }, 'operator'],
 		['any super admin of a two-tenant installation without a list', {}, 'operator'],
 		[
-			'the listed operator on Ever Cloud',
+			'the listed operator on Base360 Cloud',
 			{ EVER_INSTALL_SOURCE: 'cloud', EVER_OPERATOR_USER_IDS: 'x' },
 			'operator'
 		],

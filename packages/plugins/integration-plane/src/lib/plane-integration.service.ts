@@ -8,9 +8,9 @@ import { ConfigurePlaneIntegrationDto } from './dto/configure-plane-integration.
 import { UpdatePlaneSettingsDto } from './dto/update-plane-settings.dto';
 
 /** Global hosted Ever Gauzy PM UI URLs used when the integration runs in "shared" mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+const SHARED_PLANE_WEB_URL = '';
 const SHARED_PLANE_ADMIN_URL = ''; // admin (god-mode) not offered in shared mode
-const SHARED_PLANE_SPACE_URL = 'https://pm-space.gauzy.co';
+const SHARED_PLANE_SPACE_URL = '';
 
 @Injectable()
 export class PlaneIntegrationService {

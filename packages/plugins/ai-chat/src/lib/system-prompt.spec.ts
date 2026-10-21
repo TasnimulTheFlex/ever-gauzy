@@ -34,8 +34,8 @@ describe('buildSystemPrompt', () => {
 		});
 
 		it('should include the organization line only when an organization is set', () => {
-			const withOrg = buildSystemPrompt({ organizationName: 'Ever Co.' });
-			expect(withOrg).toContain('Active organization: Ever Co..');
+			const withOrg = buildSystemPrompt({ organizationName: 'Base360' });
+			expect(withOrg).toContain('Active organization: Base360.');
 			expect(buildSystemPrompt({})).not.toContain('Active organization');
 		});
 
@@ -93,7 +93,7 @@ describe('buildSystemPrompt', () => {
 				{
 					userName: 'Jane Roe',
 					roleName: 'EMPLOYEE',
-					organizationName: 'Ever Co.',
+					organizationName: 'Base360',
 					tenantName: 'Ever',
 					employeeId: 'emp-42',
 					permissions: ['ORG_TASK_VIEW'],

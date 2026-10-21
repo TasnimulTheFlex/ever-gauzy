@@ -56,13 +56,13 @@ interface CommentEverWorksOnly {
 
 /** Ever Works' task chat limit (contract v1, CR-2): a longer Gauzy comment is cut, with a note. */
 export const EVER_WORKS_COMMENT_LIMIT = 16384;
-const CUT_NOTE = '\n\n… (cut to fit Ever Works; the full comment is in Gauzy)';
+const CUT_NOTE = '\n\n… (cut to fit Base360 Works; the full comment is in Base360)';
 /** A comment waiting for its task to be linked is retried after this long. */
 export const COMMENT_WAIT_MS = 60_000;
 /** How long a comment waits for its task to reach Ever Works before it stops (review F22). */
 export const COMMENT_MAX_WAIT_MS = 24 * 60 * 60_000;
 /** The wait of a comment whose task is not in Ever Works yet (its retries do not queue the task again). */
-const WAITING_FOR_TASK = 'the task is not in Ever Works yet';
+const WAITING_FOR_TASK = 'the task is not in Base360 Works yet';
 /** How often the comment sweep (edits and deletes the ORM hooks cannot see) runs per connection. */
 export const COMMENT_SWEEP_MS = 10 * 60_000;
 const COMMENT_SWEEP_PAGE = 200;
@@ -78,7 +78,7 @@ export function commentBodyForEverWorks(html: string | null | undefined): string
  * The line `htmlOf` puts in front of the comment of an Ever Works author Gauzy cannot attribute, as Markdown. The name
  * may carry escaped Markdown (`Ops\*Bot` for `Ops*Bot`, #11079 review).
  */
-const ATTRIBUTION = /^\*\*(?:\\.|[^*\\\n])+\*\* \(Ever Works\):\n+/;
+const ATTRIBUTION = /^\*\*(?:\\.|[^*\\\n])+\*\* \((?:Base360|Ever) Works\):\n+/;
 
 /**
  * The attribution line in front of the synced Gauzy text of a comment, when it is Gauzy's own (Ever Works' text does
@@ -149,7 +149,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		if (envelope.type === 'task.comment.deleted' || comment.deleted) {
 			if (!link) return { status: 'skipped', message: 'the comment is not linked' };
 			await this.store.softDeleteComment(link.gauzyId as ID);
-			await this.links.unlink(link, 'deleted in Ever Works; the Gauzy comment is deleted (soft)');
+			await this.links.unlink(link, 'deleted in Base360 Works; the Base360 comment is deleted (soft)');
 			return { status: 'applied' };
 		}
 		// Comments have no version of their own: an older event (a late delivery) never overwrites a newer one.
@@ -171,7 +171,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 				!(await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.COMMENT, mine.id))
 			) {
 				await this.record(context, mine.id, comment, { g: { body: htmlToMarkdown(mine.comment) }, e: { body } }, 'inbound');
-				return { status: 'applied', message: 'linked back to the Gauzy comment it came from' };
+				return { status: 'applied', message: 'linked back to the Base360 comment it came from' };
 			}
 			const author = await this.authorOf(context, comment);
 			const html = this.htmlOf(body, author);
@@ -184,12 +184,12 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		const snapshot = this.snapshotOf(link);
 		if ((snapshot.e?.body ?? null) === body) return { status: 'skipped', message: 'the comment did not change' };
 		const row = await this.store.loadComment(context.tenantId, link.gauzyId as ID);
-		if (!row || row.deletedAt) return { status: 'skipped', message: 'the Gauzy comment is gone' };
+		if (!row || row.deletedAt) return { status: 'skipped', message: 'the Base360 comment is gone' };
 		const current = htmlToMarkdown(row.comment);
 		if (snapshot.g?.body !== undefined && current !== snapshot.g.body) {
 			// Edited in Gauzy too: the Gauzy edit stays (it is pushed, or kept and logged when Ever Works refuses it).
 			await this.record(context, link.gauzyId as ID, comment, { g: snapshot.g, e: { body } }, 'inbound', link);
-			return { status: 'skipped', message: 'edited on both sides; the Gauzy edit is kept' };
+			return { status: 'skipped', message: 'edited on both sides; the Base360 edit is kept' };
 		}
 		const author = await this.authorOf(context, comment);
 		const html = this.htmlOf(body, author);
@@ -205,12 +205,12 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		if (link && link.state !== EverWorksLinkState.UNLINKED) {
 			const user = await this.store.userOfEmployee(link.gauzyId as ID);
 			return {
-				actor: { userId: user.userId, name: user.name ?? 'Ever Works', agent: type === EverWorksLinkType.AGENT, employeeId: link.gauzyId as ID },
+				actor: { userId: user.userId, name: user.name ?? 'Base360 Works', agent: type === EverWorksLinkType.AGENT, employeeId: link.gauzyId as ID },
 				actorType: type === EverWorksLinkType.AGENT ? ActorTypeEnum.Agent : ActorTypeEnum.User,
 				named: null
 			};
 		}
-		const named = comment.externalAuthor?.name || (comment.authorType === 'agent' ? 'An Ever Works agent' : comment.authorType === 'user' ? 'An Ever Works member' : 'Ever Works');
+		const named = comment.externalAuthor?.name || (comment.authorType === 'agent' ? 'A Base360 Works agent' : comment.authorType === 'user' ? 'A Base360 Works member' : 'Base360 Works');
 		return {
 			actor: { userId: (context.connection.connectedByUserId as ID) ?? null, name: named, agent: comment.authorType === 'agent', employeeId: null },
 			actorType: comment.authorType === 'agent' ? ActorTypeEnum.Agent : ActorTypeEnum.System,
@@ -221,7 +221,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 	/** The Gauzy HTML of a comment; an author Gauzy cannot attribute is named in front of the text. */
 	private htmlOf(body: string, author: { named: string | null }): string {
 		const html = markdownToHtml(body);
-		return author.named ? `<p><strong>${escapeHtml(author.named)}</strong> (Ever Works):</p>${html}` : html;
+		return author.named ? `<p><strong>${escapeHtml(author.named)}</strong> (Base360 Works):</p>${html}` : html;
 	}
 
 	// ── G → EW ─────────────────────────────────────────────────────────────────────────────────────
@@ -231,7 +231,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id) return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!toEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not pushed to Ever Works' };
+		if (!toEverWorks(context.directions.tasks)) return { status: 'skipped', message: 'tasks are not pushed to Base360 Works' };
 		if (!entitySynced(context, IntegrationEntity.COMMENT)) return { status: 'skipped', message: COMMENTS_NOT_SYNCED };
 		const link = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.COMMENT, change.gauzyId as ID);
 		if (link?.state === EverWorksLinkState.UNLINKED) return { status: 'skipped', message: 'the comment is no longer synced' };
@@ -251,10 +251,10 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 				const task = await this.store.load(context.tenantId, row.entityId as ID);
 				if (!task || (task as { deletedAt?: Date | null }).deletedAt) return { status: 'skipped', message: 'the task is gone' };
 				const excluded = await taskSyncExclusion(this.links, context, task);
-				if (excluded) return { status: 'skipped', message: `the task does not sync to Ever Works: ${excluded}` };
+				if (excluded) return { status: 'skipped', message: `the task does not sync to Base360 Works: ${excluded}` };
 				const since = (change as { createdAt?: Date | string | null }).createdAt;
 				if (since && Date.now() - new Date(since).getTime() > COMMENT_MAX_WAIT_MS) {
-					return { status: 'skipped', message: 'its task has not reached Ever Works in 24 hours; the comment is not sent' };
+					return { status: 'skipped', message: 'its task has not reached Base360 Works in 24 hours; the comment is not sent' };
 				}
 				// The comment waits for its task, which is queued (it goes first) — once: the comment's retries do not
 				// queue it again (the task's own change retries; the queue keeps one waiting change per record).
@@ -289,7 +289,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		// no employee of their own may set any employeeId (review F21). Else the integration, with `externalAuthor`.
 		const actAs = await this.everWorksUserOf(context, writerUserId);
 		const idempotencyKey = createHash('sha256').update(`${connectionId}:${EverWorksLinkType.COMMENT}:${commentId}:create`).digest('hex');
-		const name = row.employeeId ? ((await this.store.userOfEmployee(row.employeeId as ID)).name ?? 'Ever Gauzy') : 'Ever Gauzy';
+		const name = row.employeeId ? ((await this.store.userOfEmployee(row.employeeId as ID)).name ?? 'Base360') : 'Base360';
 		const path = `/tasks/${encodeURIComponent(taskLink.ewId)}/comments`;
 		const send = (actor: string | null) =>
 			client.request<EverWorksComment>('POST', path, {
@@ -310,7 +310,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		}
 		// The Gauzy side is the whole comment (Ever Works may have got it cut).
 		await this.record(context, commentId, { ...created, taskId: taskLink.ewId }, { g: { body: full }, e: { body: normaliseMarkdown(created.body) } }, 'outbound');
-		return { status: 'pushed', message: 'posted to the Ever Works task chat' };
+		return { status: 'pushed', message: 'posted to the Base360 Works task chat' };
 	}
 
 	private async pushEdit(
@@ -324,7 +324,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		const snapshot = this.snapshotOf(link);
 		const ewOnly = this.everWorksOnly(link);
 		if ((snapshot.g?.body ?? null) === full) return { status: 'skipped', message: 'nothing changed' };
-		if ((ewOnly.refusedBody ?? null) === full) return { status: 'skipped', message: 'Ever Works refused this edit before; it stays in Gauzy' };
+		if ((ewOnly.refusedBody ?? null) === full) return { status: 'skipped', message: 'Base360 Works refused this edit before; it stays in Base360' };
 		const path = `/tasks/${encodeURIComponent(taskLink.ewId)}/comments/${encodeURIComponent(link.ewId)}`;
 		// The Gauzy copy of an unattributed author's comment starts with Gauzy's attribution line: Ever Works gets the
 		// edited text without it (review F84).
@@ -346,7 +346,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 			// edit as Gauzy's; the refused text is remembered so it is not sent again.
 			await this.record(context, link.gauzyId as ID, null, snapshot, 'outbound', link, full);
 			await this.logRefusal(context, link, 'comment_edit_refused', error.message);
-			return { status: 'skipped', message: 'Ever Works keeps the comment as it was (edit refused); the Gauzy edit is logged' };
+			return { status: 'skipped', message: 'Base360 Works keeps the comment as it was (edit refused); the Base360 edit is logged' };
 		}
 	}
 
@@ -356,7 +356,7 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 		link: EverWorksEntityLink | null,
 		deletedByUserIds: ReadonlyArray<ID | null | undefined>
 	): Promise<EverWorksPushOutcome> {
-		if (!link) return { status: 'skipped', message: 'the comment is not in Ever Works' };
+		if (!link) return { status: 'skipped', message: 'the comment is not in Base360 Works' };
 		const ewOnly = this.everWorksOnly(link);
 		let refused: string | null = null;
 		if (ewOnly.taskId) {
@@ -372,10 +372,10 @@ export class EverWorksTaskCommentsService implements EverWorksOutboundHandler, E
 				}
 			}
 		}
-		await this.links.unlink(link, refused ? `deleted in Gauzy; Ever Works refused the delete (${refused.slice(0, 200)})` : 'deleted in Gauzy');
+		await this.links.unlink(link, refused ? `deleted in Base360; Base360 Works refused the delete (${refused.slice(0, 200)})` : 'deleted in Base360');
 		return refused
-			? { status: 'skipped', message: 'deleted in Gauzy; Ever Works refused the delete, so its copy stays (logged)' }
-			: { status: 'pushed', message: 'deleted in Ever Works' };
+			? { status: 'skipped', message: 'deleted in Base360; Base360 Works refused the delete, so its copy stays (logged)' }
+			: { status: 'pushed', message: 'deleted in Base360 Works' };
 	}
 
 	// ── Sweep ──────────────────────────────────────────────────────────────────────────────────────

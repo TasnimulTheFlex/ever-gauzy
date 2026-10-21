@@ -153,7 +153,7 @@ export class ZitadelLinkService {
 
 		const existing = await this.accounts.listForUser(user.id);
 		if (existing.some((link) => link.issuer === pending.identity.issuer && link.subject !== pending.identity.subject)) {
-			throw new ConflictException({ code: 'already_linked', message: 'This account is already connected to another Ever ID.' });
+			throw new ConflictException({ code: 'already_linked', message: 'This account is already connected to another Base360 ID.' });
 		}
 
 		const eligible = new Map((await this.accounts.findSiblings(user, pending.identity)).map((sibling) => [sibling.id, sibling]));

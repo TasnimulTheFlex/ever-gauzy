@@ -63,7 +63,7 @@ export async function everWorksUserOfGauzyUser(
  */
 export class EverWorksNoRequestContextError extends Error {
 	constructor() {
-		super('This process cannot make Gauzy writes (no request context or no platform write path); the sync retries it.');
+		super('This process cannot make Base360 writes (no request context or no platform write path); the sync retries it.');
 		this.name = 'EverWorksNoRequestContextError';
 	}
 }

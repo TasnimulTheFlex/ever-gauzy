@@ -36,7 +36,7 @@ export function readEverWorksAllowLoopback(
 		return false;
 	}
 	warn(
-		'EVER_WORKS_ALLOW_LOOPBACK is on: loopback Ever Works and webhook addresses are accepted (local development only).'
+		'EVER_WORKS_ALLOW_LOOPBACK is on: loopback Base360 Works and webhook addresses are accepted (local development only).'
 	);
 	return true;
 }

@@ -67,9 +67,9 @@ export class EverWorksNotifier {
 	async needsReauth(connection: EverWorksConnection): Promise<boolean> {
 		return this.notify(connection, {
 			kind: 'needs_reauth',
-			title: 'Ever Works needs a new key',
+			title: 'Base360 Works needs a new key',
 			message:
-				'Ever Works no longer accepts the integration key of this Gauzy tenant, so the sync is paused. Open Integrations → Ever Works and enter a new integration key.',
+				'Base360 Works no longer accepts the integration key of this Base360 tenant, so the sync is paused. Open Integrations → Base360 Works and enter a new integration key.',
 			priority: InboxItemPriorityEnum.HIGH,
 			metadata: { status: connection.status }
 		});
@@ -82,13 +82,13 @@ export class EverWorksNotifier {
 	 */
 	async deadLetter(connection: EverWorksConnection, letter: EverWorksDeadLetter): Promise<boolean> {
 		if (!this.inbox) return false;
-		const record = `${letter.direction === 'inbound' ? 'from Ever Works' : 'to Ever Works'}: ${letter.entityType}${letter.recordId ? ` ${letter.recordId}` : ''}`;
+		const record = `${letter.direction === 'inbound' ? 'from Base360 Works' : 'to Base360 Works'}: ${letter.entityType}${letter.recordId ? ` ${letter.recordId}` : ''}`;
 		return this.notify(
 			connection,
 			{
 				kind: 'dead_letter',
-				title: 'Ever Works sync stopped on a record',
-				message: `A change could not be synced and will not be retried (${record}). Reason: ${letter.reason.slice(0, 500)}. Open Integrations → Ever Works → Activity to see every stopped change.`,
+				title: 'Base360 Works sync stopped on a record',
+				message: `A change could not be synced and will not be retried (${record}). Reason: ${letter.reason.slice(0, 500)}. Open Integrations → Base360 Works → Activity to see every stopped change.`,
 				priority: InboxItemPriorityEnum.NORMAL,
 				metadata: {
 					direction: letter.direction,

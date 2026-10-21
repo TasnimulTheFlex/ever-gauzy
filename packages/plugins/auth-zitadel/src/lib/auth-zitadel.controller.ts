@@ -72,7 +72,7 @@ const SHARED_ADDRESS_LIMIT = { default: { limit: 120, ttl: MINUTE_MS } };
  * Ever ID sign-in routes, under `/api/auth/zitadel`. They exist only while the plugin is loaded
  * (`ZITADEL_ENABLED=true`); every existing `/api/auth/*` route is untouched.
  */
-@ApiTags('Ever ID sign-in')
+@ApiTags('Base360 ID sign-in')
 @Controller('/auth/zitadel')
 @UseInterceptors(ZitadelRetryAfterInterceptor)
 export class AuthZitadelController {

@@ -28,11 +28,11 @@ export class InboxSecretError extends Error {
 			case 'encryption_key_malformed':
 				return 'ENCRYPTION_KEY is set but is not a base64-encoded 32-byte key; provider credentials cannot be stored. Generate one with `openssl rand -base64 32`.';
 			case 'encryption_key_default':
-				return 'ENCRYPTION_KEY is a value published in the Gauzy repository; provider credentials cannot be stored safely.';
+				return 'ENCRYPTION_KEY is a value published in the Base360 repository; provider credentials cannot be stored safely.';
 			case 'no_secret':
 				return 'Set ENCRYPTION_KEY (a base64-encoded 32-byte key) on the API before adding an email provider account: its credentials are stored encrypted.';
 			case 'jwt_secret_default':
-				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the Gauzy repository; set ENCRYPTION_KEY before adding an email provider account.';
+				return 'ENCRYPTION_KEY is unset and JWT_SECRET is a value published in the Base360 repository; set ENCRYPTION_KEY before adding an email provider account.';
 			default:
 				return `A stored email provider credential cannot be read (${code}).`;
 		}

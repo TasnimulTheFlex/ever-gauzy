@@ -151,7 +151,7 @@ export class ZitadelSessionService implements OnModuleInit, OnModuleDestroy, Zit
 			if (attempt < BIND_RETRY_DELAYS_MS.length) {
 				this.later(() => this.bindRefreshToken(token, attempt + 1), BIND_RETRY_DELAYS_MS[attempt]);
 			} else {
-				this.logger.error(`Could not bind an Ever ID session to its sign-in: ${error?.message ?? error}`);
+				this.logger.error(`Could not bind a Base360 ID session to its sign-in: ${error?.message ?? error}`);
 			}
 		}
 	}
@@ -256,7 +256,7 @@ export class ZitadelSessionService implements OnModuleInit, OnModuleDestroy, Zit
 		}
 		const result = await this.tokens.update(
 			{ id: In([...ids]), status: 'ACTIVE' as Token['status'] },
-			{ status: 'REVOKED' as Token['status'], revokedAt: new Date(), revokedReason: 'Signed out of Ever ID' }
+			{ status: 'REVOKED' as Token['status'], revokedAt: new Date(), revokedReason: 'Signed out of Base360 ID' }
 		);
 		return result?.affected ?? 0;
 	}
@@ -269,7 +269,7 @@ export class ZitadelSessionService implements OnModuleInit, OnModuleDestroy, Zit
 	private revokeWithFollowUps(rootIds: ID[], now = true): void {
 		const run = () =>
 			this.revokeChains(rootIds).catch((error) =>
-				this.logger.error(`Could not end a session that Ever ID had signed out: ${error?.message ?? error}`)
+				this.logger.error(`Could not end a session that Base360 ID had signed out: ${error?.message ?? error}`)
 			);
 		if (now) {
 			void run();

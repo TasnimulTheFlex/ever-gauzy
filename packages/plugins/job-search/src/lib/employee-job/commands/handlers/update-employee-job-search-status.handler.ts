@@ -70,15 +70,15 @@ export class UpdateEmployeeJobSearchStatusHandler implements ICommandHandler<Upd
 					console.log('Employee synced and job search status updated successfully.');
 				} catch (error) {
 					// Handle errors during the status update operation
-					console.error('Error while updating employee job search status with Gauzy AI:', error.message);
+					console.error('Error while updating employee job search status with Base360 AI:', error.message);
 				}
 			} else {
 				// Sync was not successful
-				console.log('Employee sync with Gauzy AI failed.');
+				console.log('Employee sync with Base360 AI failed.');
 			}
 		} catch (error) {
 			// Handle errors during the sync operation
-			console.error('Error while syncing employee with Gauzy AI:', error.message);
+			console.error('Error while syncing employee with Base360 AI:', error.message);
 		}
 
 		// Update the employee's job search status locally — scoped to the tenant explicitly (the

@@ -18,7 +18,7 @@ export class PlatformUnavailableError extends Error {
 	constructor(
 		readonly code: 'platform_url_unusable' | 'no_connect_key' | 'platform_unreachable' | 'keys_unverifiable'
 	) {
-		super(`Ever Platform is not available (${code}).`);
+		super(`Base360 Platform is not available (${code}).`);
 		this.name = 'PlatformUnavailableError';
 	}
 }
@@ -155,7 +155,7 @@ export class EverConnectPlatformService {
 		} catch (error) {
 			if (this.keySet) {
 				// The current set stays in use until a newer manifest verifies.
-				this.logger.warn(`Ever Platform's key manifest could not be refreshed (${errorCode(error)}).`);
+				this.logger.warn(`Base360 Platform's key manifest could not be refreshed (${errorCode(error)}).`);
 				return this.keySet;
 			}
 			if (error instanceof KeyManifestError) {

@@ -13,7 +13,7 @@ import { EverWorksInboundStore } from '../sync/inbound/ever-works-inbound.store'
 import { EverWorksLinkService } from '../sync/links/ever-works-link.service';
 import { isSyncedVisibility } from '../teams/ever-works-team-scope';
 
-const NO_LONGER_SHARED = 'no longer shared from Ever Works (private)';
+const NO_LONGER_SHARED = 'no longer shared from Base360 Works (private)';
 
 /** An Ever Works agent (contract v1 agent DTO). */
 export interface EverWorksAgent {
@@ -138,7 +138,7 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (context.directions.agents === 'off') return { status: 'skipped', message: 'agents are not synced' };
 		const data = envelope.data as unknown as EverWorksAgent & { visibility?: string };
@@ -175,9 +175,9 @@ export class EverWorksAgentsService implements EverWorksInboundHandler {
 			// is read from Ever Works first and applied as it is now. Ever Works never answers a private agent, so an
 			// event or list entry older than a private notice Gauzy had nothing to end for never brings it in.
 			const current = await this.fetchAgent(context, envelope.aggregate.id);
-			if (!current) return { status: 'skipped', message: 'the agent is not visible in Ever Works (private or gone)' };
+			if (!current) return { status: 'skipped', message: 'the agent is not visible in Base360 Works (private or gone)' };
 			if (current.visibility !== undefined && !isSyncedVisibility(current.visibility)) {
-				return { status: 'skipped', message: 'the agent is not visible in Ever Works (private or gone)' };
+				return { status: 'skipped', message: 'the agent is not visible in Base360 Works (private or gone)' };
 			}
 			agent = { ...current, id: envelope.aggregate.id, version: current.version ?? envelope.aggregate.version };
 		}

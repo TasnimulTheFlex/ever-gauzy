@@ -19,6 +19,6 @@ export function isEverWorksEnabled(
 	if (raw === 'true') {
 		return true;
 	}
-	warn('EVER_WORKS_ENABLED is neither "true" nor "false"; the Ever Works integration stays off (the default).');
+	warn('EVER_WORKS_ENABLED is neither "true" nor "false"; the Base360 Works integration stays off (the default).');
 	return false;
 }

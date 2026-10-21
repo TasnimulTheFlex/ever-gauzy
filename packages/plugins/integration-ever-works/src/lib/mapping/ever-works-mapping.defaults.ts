@@ -105,7 +105,7 @@ export function entitySynced(context: { entitySync?: EverWorksEntitySync | null 
 export const EVER_WORKS_IDEA_ISSUE_TYPE = {
 	name: 'Idea',
 	value: 'Idea',
-	description: '💡 An idea: a proposal that may become work. Ideas sync with Ever Works ideas; accepting and building them stays in Ever Works.',
+	description: '💡 An idea: a proposal that may become work. Ideas sync with Base360 Works ideas; accepting and building them stays in Base360 Works.',
 	icon: 'task-issue-types/memo.svg',
 	color: '#F5B700'
 } as const;
@@ -113,9 +113,9 @@ export const EVER_WORKS_IDEA_ISSUE_TYPE = {
 /** The seeded saved view of Ideas (plan 01 §8). */
 export const EVER_WORKS_IDEAS_VIEW = {
 	name: 'Ideas',
-	description: 'Tasks of the issue type Idea (synced with Ever Works ideas).'
+	description: 'Tasks of the issue type Idea (synced with Base360 Works ideas).'
 } as const;
 
 /** The projects created when needed (plan 06 G-P1-4). */
-export const EVER_WORKS_DEFAULT_PROJECT_NAME = 'Ever Works';
-export const EVER_WORKS_IDEAS_PROJECT_NAME = 'Ever Works — Ideas';
+export const EVER_WORKS_DEFAULT_PROJECT_NAME = 'Base360 Works';
+export const EVER_WORKS_IDEAS_PROJECT_NAME = 'Base360 Works — Ideas';

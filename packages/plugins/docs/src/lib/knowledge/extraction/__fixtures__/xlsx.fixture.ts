@@ -37,7 +37,7 @@ export async function createMultiSheetXlsx(): Promise<Buffer> {
 	formulaRow.getCell(2).value = { formula: 'SUM(B2:B4)', result: 3630 } as ExcelJS.CellFormulaValue;
 	formulaRow.getCell(3).value = {
 		text: 'acme dashboard',
-		hyperlink: 'https://ever.co/acme'
+		hyperlink: 'https://base360.ai/acme'
 	} as ExcelJS.CellHyperlinkValue;
 	detail.addRow(['Globex', 'tier a | tier b', 'n/a']);
 

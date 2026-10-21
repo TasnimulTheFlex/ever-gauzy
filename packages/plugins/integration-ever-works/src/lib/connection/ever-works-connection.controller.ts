@@ -12,7 +12,7 @@ import { EverWorksConnectionService } from './ever-works-connection.service';
  * (`organizationId` query parameter, else the selected one). Keys are write-only; no response carries
  * the key or the webhook secret, and every response is `Cache-Control: no-store`.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/connections`)
@@ -22,7 +22,7 @@ export class EverWorksConnectionController {
 	@Get()
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: "This tenant's active Ever Works connection, or null." })
+	@ApiOperation({ summary: "This tenant's active Base360 Works connection, or null." })
 	current(@Query('organizationId') organizationId?: ID) {
 		return this.connections.current(organizationId);
 	}
@@ -32,7 +32,7 @@ export class EverWorksConnectionController {
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Describe an Ever Works integration key (whoami) without storing anything.' })
+	@ApiOperation({ summary: 'Describe a Base360 Works integration key (whoami) without storing anything.' })
 	validate(@Body() dto: EverWorksConnectDto, @Query('organizationId') organizationId?: ID) {
 		return this.connections.validate(dto, organizationId);
 	}
@@ -41,7 +41,7 @@ export class EverWorksConnectionController {
 	@Permissions(PermissionsEnum.INTEGRATION_ADD)
 	@UseValidationPipe({ whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Connect this tenant to Ever Works with an integration key (validated, stored encrypted).' })
+	@ApiOperation({ summary: 'Connect this tenant to Base360 Works with an integration key (validated, stored encrypted).' })
 	connect(@Body() dto: EverWorksConnectDto, @Query('organizationId') organizationId?: ID) {
 		return this.connections.connect(dto, organizationId);
 	}
@@ -57,7 +57,7 @@ export class EverWorksConnectionController {
 	@Permissions(PermissionsEnum.INTEGRATION_EDIT)
 	@UseValidationPipe({ whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Swap in a new integration key of the same Ever Works tenant (rotation or re-authentication).' })
+	@ApiOperation({ summary: 'Swap in a new integration key of the same Base360 Works tenant (rotation or re-authentication).' })
 	rotateKey(@Param('id', UUIDValidationPipe) id: ID, @Body() dto: EverWorksKeyDto, @Query('organizationId') organizationId?: ID) {
 		return this.connections.rotateKey(id, dto, organizationId);
 	}
@@ -91,7 +91,7 @@ export class EverWorksConnectionController {
 	@Permissions(PermissionsEnum.INTEGRATION_EDIT)
 	@HttpCode(HttpStatus.OK)
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Register (or replace) the Ever Works webhook subscription of this connection.' })
+	@ApiOperation({ summary: 'Register (or replace) the Base360 Works webhook subscription of this connection.' })
 	registerWebhook(@Param('id', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.connections.registerWebhook(id, organizationId);
 	}

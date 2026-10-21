@@ -247,28 +247,28 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 		const seenEw = new Set<string>();
 		const seenGauzy = new Set<string>();
 		for (const pair of pairs) {
-			if (!byEw.has(pair.ewWorkId)) throw new BadRequestException(`${pair.ewWorkId} is not a work of the mapped Ever Works organization.`);
-			if (!isSyncedVisibility(byEw.get(pair.ewWorkId)?.visibility)) throw new BadRequestException(`${pair.ewWorkId} is private in Ever Works; private works never sync.`);
+			if (!byEw.has(pair.ewWorkId)) throw new BadRequestException(`${pair.ewWorkId} is not a work of the mapped Base360 Works organization.`);
+			if (!isSyncedVisibility(byEw.get(pair.ewWorkId)?.visibility)) throw new BadRequestException(`${pair.ewWorkId} is private in Base360 Works; private works never sync.`);
 			if (!projects.has(pair.projectId)) throw new BadRequestException(`${pair.projectId} is not an active project of this organization.`);
 			if (seenEw.has(pair.ewWorkId) || seenGauzy.has(pair.projectId)) throw new BadRequestException('Each project and each work can be paired once.');
 			seenEw.add(pair.ewWorkId);
 			seenGauzy.add(pair.projectId);
 		}
 		for (const ewWorkId of decision.createInGauzy ?? []) {
-			if (!byEw.has(ewWorkId)) throw new BadRequestException(`${ewWorkId} is not a work of the mapped Ever Works organization.`);
-			if (!isSyncedVisibility(byEw.get(ewWorkId)?.visibility)) throw new BadRequestException(`${ewWorkId} is private in Ever Works; private works never sync.`);
+			if (!byEw.has(ewWorkId)) throw new BadRequestException(`${ewWorkId} is not a work of the mapped Base360 Works organization.`);
+			if (!isSyncedVisibility(byEw.get(ewWorkId)?.visibility)) throw new BadRequestException(`${ewWorkId} is private in Base360 Works; private works never sync.`);
 		}
 		for (const projectId of createInEverWorks) {
 			if (!projects.has(projectId)) throw new BadRequestException(`${projectId} is not an active project of this organization.`);
-			if (seenGauzy.has(projectId)) throw new BadRequestException(`${projectId} is paired in this request; it cannot also be created in Ever Works.`);
+			if (seenGauzy.has(projectId)) throw new BadRequestException(`${projectId} is paired in this request; it cannot also be created in Base360 Works.`);
 			const paired = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.PROJECT_WORK, projectId);
 			if (paired && paired.state !== EverWorksLinkState.UNLINKED && !(decision.unlinks ?? []).includes(paired.ewId)) {
-				throw new BadRequestException(`${projectId} is already paired with an Ever Works work.`);
+				throw new BadRequestException(`${projectId} is already paired with a Base360 Works work.`);
 			}
 			// Teams first (D11 rule 4): a project on a team that is not paired yet would go out organization-wide.
 			const scope = await this.teamScopeOfProject(context, projectId);
 			if (scope.waitingFor) {
-				throw new BadRequestException(`${projectId} is on the Gauzy team ${scope.waitingFor}, which is not paired with an Ever Works team yet; pair the team first.`);
+				throw new BadRequestException(`${projectId} is on the Base360 team ${scope.waitingFor}, which is not paired with a Base360 Works team yet; pair the team first.`);
 			}
 		}
 		// The works whose pair this request removes: unpaired, or their project paired with another work.
@@ -353,7 +353,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 	/** Inbound handler: `work.created/updated/archived/deleted` and `work.member.*`. */
 	async apply(envelope: EverWorksEventEnvelope, applyContext: EverWorksApplyContext): Promise<EverWorksApplyOutcome> {
 		const context = envelope.organizationId ? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId) : null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (context.directions.works !== 'link_only') return { status: 'skipped', message: 'works are not synced' };
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.PROJECT_WORK, envelope.aggregate.id);
@@ -376,13 +376,13 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 			// Private works never sync (rule 5): a work that is (or became) private stops syncing; the project is kept.
 			const visibility = data['visibility'] !== undefined ? (data['visibility'] as string | null) : this.ewOnlyOf(link).visibility;
 			if (!isSyncedVisibility(visibility)) {
-				await this.links.unlink(link, 'private in Ever Works; private works never sync');
-				return { status: 'skipped', message: 'the work is private in Ever Works; it is no longer synced' };
+				await this.links.unlink(link, 'private in Base360 Works; private works never sync');
+				return { status: 'skipped', message: 'the work is private in Base360 Works; it is no longer synced' };
 			}
 		}
 		const projectId = link.gauzyId as ID;
 		const exists = await this.dataSource.getRepository(OrganizationProject).findOne({ where: { id: projectId, tenantId: context.tenantId } as never, withDeleted: true });
-		if (!exists) return { status: 'skipped', message: 'the Gauzy project is gone' };
+		if (!exists) return { status: 'skipped', message: 'the Base360 project is gone' };
 		switch (envelope.type) {
 			case 'work.created':
 			case 'work.updated':
@@ -391,7 +391,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 				return { status: 'applied' };
 			case 'work.deleted':
 				await this.dataSource.getRepository(OrganizationProject).update({ id: projectId } as never, { isArchived: true, archivedAt: new Date() } as never);
-				await this.links.unlink(link, 'deleted in Ever Works; the Gauzy project is archived');
+				await this.links.unlink(link, 'deleted in Base360 Works; the Base360 project is archived');
 				return { status: 'applied' };
 			case 'work.member.added':
 			case 'work.member.updated':
@@ -533,7 +533,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 		const members = await this.applyMembers(context, projectId, [], created.members ?? []);
 		const teams = await this.applyTeams(context, projectId, [], created.teamIds ?? []);
 		await this.record(context, projectId, work, work.version ?? null, created, null, { members, teams });
-		this.logger.log(`Ever Works work ${work.id} created as Gauzy project ${projectId} (organization ${context.organizationId}).`);
+		this.logger.log(`Base360 Works work ${work.id} created as Base360 project ${projectId} (organization ${context.organizationId}).`);
 		return projectId;
 	}
 
@@ -550,7 +550,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 		const projectId = project.id as ID;
 		const connectionId = context.connection.id as ID;
 		const team = await this.teamScopeOfProject(context, projectId);
-		if (!team.scope) return `the Gauzy team ${team.waitingFor} is not paired with an Ever Works team yet; pair the team first`;
+		if (!team.scope) return `the Base360 team ${team.waitingFor} is not paired with a Base360 Works team yet; pair the team first`;
 		const body = projectWorkCreateBody({ id: projectId, name: project.name, description: project.description, projectUrl: project.projectUrl }, team.scope, connectionId);
 		if (!body['name']) return 'the project has no name';
 		const actAsUserId = await this.actAsUserOf(context);
@@ -559,30 +559,30 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 			work = await this.postWork(client, body, connectionId, projectId, actAsUserId);
 		} catch (error) {
 			if (error instanceof EverWorksApiError && !error.retryable) {
-				if (isProjectWorksDisabled(error)) return 'Project works are switched off in Ever Works (EVER_WORKS_PROJECT_WORKS_ENABLED); ask the Ever Works operator to enable them';
-				return `Ever Works refused the work (${error.status} ${error.code}: ${error.message})`;
+				if (isProjectWorksDisabled(error)) return 'Project works are switched off in Base360 Works (EVER_WORKS_PROJECT_WORKS_ENABLED); ask the Base360 Works operator to enable them';
+				return `Base360 Works refused the work (${error.status} ${error.code}: ${error.message})`;
 			}
 			if (error instanceof EverWorksApiError || error instanceof EverWorksNetworkError) {
-				this.logger.warn(`Project ${projectId}: the Ever Works work could not be created (${error.message.slice(0, 200)}).`);
-				return 'Ever Works could not be reached; try again (the retry returns the same work)';
+				this.logger.warn(`Project ${projectId}: the Base360 Works work could not be created (${error.message.slice(0, 200)}).`);
+				return 'Base360 Works could not be reached; try again (the retry returns the same work)';
 			}
 			throw error;
 		}
-		if (!work?.id) return 'Ever Works answered without a work';
+		if (!work?.id) return 'Base360 Works answered without a work';
 		// A repeat of the same externalRef answers the existing work: never re-pair one another project holds.
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.PROJECT_WORK, work.id);
 		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== projectId) {
-			return `Ever Works already has a work for this project (${work.id}), paired with another Gauzy project`;
+			return `Base360 Works already has a work for this project (${work.id}), paired with another Base360 project`;
 		}
 		// Nor replace a pairing of this project made meanwhile (outside this process's claim) with another work.
 		const pairedNow = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.PROJECT_WORK, projectId);
 		if (pairedNow && pairedNow.state !== EverWorksLinkState.UNLINKED && pairedNow.ewId !== work.id) {
-			return `the project was paired with the Ever Works work ${pairedNow.ewId} meanwhile; the created work ${work.id} is not linked`;
+			return `the project was paired with the Base360 Works work ${pairedNow.ewId} meanwhile; the created work ${work.id} is not linked`;
 		}
 		// Recorded as Ever Works answered it, so the next Ever Works change is diffed against what it holds.
 		// Its `externalRef` is the link back to the project already.
 		await this.record(context, projectId, work, work.version ?? null, this.snapshotOf(work, {}), null, { members: [], teams: [] }, 'outbound', { linkedBack: projectId });
-		this.logger.log(`Gauzy project ${projectId} created in Ever Works as work ${work.id} (organization ${context.organizationId}).`);
+		this.logger.log(`Base360 project ${projectId} created in Base360 Works as work ${work.id} (organization ${context.organizationId}).`);
 		return work;
 	}
 
@@ -741,7 +741,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 			try {
 				await client.request('PUT', `/links/work/${encodeURIComponent(link.ewId)}`, { body: { externalId: link.gauzyId, installationId: context.connection.id } });
 			} catch (error) {
-				this.logger.warn(`The Ever Works work ${link.ewId} was not linked back to Gauzy project ${link.gauzyId} (${describeError(error)}).`);
+				this.logger.warn(`The Base360 Works work ${link.ewId} was not linked back to Base360 project ${link.gauzyId} (${describeError(error)}).`);
 				// An outage, or a key Ever Works no longer takes (401): the rest of this run would fail the same way.
 				if (error instanceof EverWorksNetworkError || (error instanceof EverWorksApiError && (error.retryable || error.status === 401))) return;
 				await mark(link, { linkBackTriedAt: new Date().toISOString() });
@@ -770,7 +770,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 				await client.request('DELETE', `/links/work/${encodeURIComponent(ewWorkId)}`, { query: { installationId: context.connection.id } });
 			} catch (error) {
 				if (error instanceof EverWorksApiError && error.status === 404) continue;
-				this.logger.warn(`The Gauzy link of the unpaired Ever Works work ${ewWorkId} was not removed (${describeError(error)}).`);
+				this.logger.warn(`The Base360 link of the unpaired Base360 Works work ${ewWorkId} was not removed (${describeError(error)}).`);
 			}
 		}
 	}
@@ -811,7 +811,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 				}
 			}
 		} catch (error) {
-			this.logger.warn(`Mapping ${context.integrationTenantId}: the Ever Works work links could not be read (${describeError(error)}).`);
+			this.logger.warn(`Mapping ${context.integrationTenantId}: the Base360 Works work links could not be read (${describeError(error)}).`);
 			if (!rows.length) return;
 		}
 		const ours = rows.filter((row) => row.entityType === 'work' && row.installationId === context.connection.id);
@@ -825,7 +825,7 @@ export class EverWorksProjectsService implements EverWorksInboundHandler, EverWo
 				await client.request('DELETE', `/links/work/${encodeURIComponent(row.entityId)}`, { query: { installationId: context.connection.id } });
 			} catch (error) {
 				if (error instanceof EverWorksApiError && error.status === 404) continue;
-				this.logger.warn(`The Gauzy link of the unpaired Ever Works work ${row.entityId} was not removed (${describeError(error)}).`);
+				this.logger.warn(`The Base360 link of the unpaired Base360 Works work ${row.entityId} was not removed (${describeError(error)}).`);
 				if (error instanceof EverWorksNetworkError || (error instanceof EverWorksApiError && (error.retryable || error.status === 401))) return;
 			}
 		}

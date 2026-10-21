@@ -80,7 +80,7 @@ export interface EverConnectSigner {
  */
 export class EverConnectKeyMaterialError extends Error {
 	constructor(readonly code: ConnectKeyMaterialProblem) {
-		super('Set ENCRYPTION_KEY (or a strong, unique JWT_SECRET) before connecting this installation to Ever Platform.');
+		super('Set ENCRYPTION_KEY (or a strong, unique JWT_SECRET) before connecting this installation to Base360 Platform.');
 		this.name = 'EverConnectKeyMaterialError';
 	}
 }
@@ -93,7 +93,7 @@ export class EverConnectKeyMaterialError extends Error {
 export class EverConnectKeyUnreadableError extends Error {
 	readonly code = 'key_unreadable';
 	constructor() {
-		super('The Ever Platform connect key of this installation cannot be read with the current secrets.');
+		super('The Base360 Platform connect key of this installation cannot be read with the current secrets.');
 		this.name = 'EverConnectKeyUnreadableError';
 	}
 }
@@ -293,7 +293,7 @@ export class EverInstanceService {
 			}
 			const row = await this.readRow();
 			await this.writeConnectKey(String(row?.['connectPrivateKeyEncrypted'] ?? ''));
-			this.logger.warn('The Ever Platform connect key could not be read with the current secrets; a new one was made.');
+			this.logger.warn('The Base360 Platform connect key could not be read with the current secrets; a new one was made.');
 		} else if (existing) {
 			return existing;
 		} else {
@@ -546,7 +546,7 @@ export class EverInstanceService {
 			[rewrapped, Date.now(), EVER_INSTANCE_ROW_ID, blob]
 		);
 		this.logger.log(
-			`The ${purpose === 'stats' ? 'statistics' : 'Ever Platform connect'} key of this installation is now protected by ${preferred === 'k' ? 'ENCRYPTION_KEY' : 'JWT_SECRET'}.`
+			`The ${purpose === 'stats' ? 'statistics' : 'Base360 Platform connect'} key of this installation is now protected by ${preferred === 'k' ? 'ENCRYPTION_KEY' : 'JWT_SECRET'}.`
 		);
 	}
 

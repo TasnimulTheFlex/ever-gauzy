@@ -11,7 +11,7 @@ import { EverWorksKbDocument, EverWorksKbDocumentClass, KB_DOCUMENT_CLASSES, KB_
 export const EVER_WORKS_DOCS_SOURCE = 'ever_works';
 
 /** The name of the root folder synced documents land in (plan 05 §1). */
-export const EVER_WORKS_DOCS_ROOT_NAME = 'Ever Works';
+export const EVER_WORKS_DOCS_ROOT_NAME = 'Base360 Works';
 export const EVER_WORKS_DOCS_ORGANIZATION_NAME = 'Organization';
 export const EVER_WORKS_DOCS_WORKS_NAME = 'Works';
 

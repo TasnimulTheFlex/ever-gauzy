@@ -116,13 +116,13 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 			// Switched on but not loaded in this process (a worker that does not host the Inbox): leave the event
 			// for a process that does, rather than finish it unapplied.
 			return process.env['GAUZY_INBOX_ENABLED'] === 'true'
-				? { status: 'deferred', message: 'the Gauzy Inbox is not loaded in this process' }
-				: { status: 'skipped', message: 'the Gauzy Inbox is off (GAUZY_INBOX_ENABLED)' };
+				? { status: 'deferred', message: 'the Base360 Inbox is not loaded in this process' }
+				: { status: 'skipped', message: 'the Base360 Inbox is off (GAUZY_INBOX_ENABLED)' };
 		}
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (context.directions.inbox === 'off') return { status: 'skipped', message: 'the inbox is not synced' };
 
@@ -160,12 +160,12 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 					return { status: 'skipped', message: 'already applied (version)' };
 				}
 			}
-			if (!this.inbox) return { status: 'skipped', message: 'the Gauzy Inbox is not loaded in this process' };
+			if (!this.inbox) return { status: 'skipped', message: 'the Base360 Inbox is not loaded in this process' };
 			const recipientUserId = await this.gauzyUserOf(context, item.recipientUserId);
 			if (!recipientUserId) {
 				return {
 					status: 'deferred',
-					message: `the recipient (Ever Works user ${item.recipientUserId}) is not matched to a Gauzy member yet: match them on the People tab`
+					message: `the recipient (Base360 Works user ${item.recipientUserId}) is not matched to a Base360 member yet: match them on the People tab`
 				};
 			}
 			const result = await this.inbox.upsertExternal(
@@ -177,7 +177,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 				)
 			);
 			if (!result.recipientUserIds.includes(recipientUserId)) {
-				return { status: 'deferred', message: 'the matched Gauzy user is not a user of this tenant' };
+				return { status: 'deferred', message: 'the matched Base360 user is not a user of this tenant' };
 			}
 			await this.links.record({
 				tenantId: context.tenantId,
@@ -227,14 +227,14 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		const ewUserId = await this.everWorksUserOf(context, actor.id);
 		if (!ewUserId) {
 			throw new ForbiddenException(
-				'Your Gauzy account is not matched to an Ever Works member, so the reply cannot be sent as you. Ask an admin to match you on Integrations → Ever Works → People.'
+				'Your Base360 account is not matched to a Base360 Works member, so the reply cannot be sent as you. Ask an admin to match you on Integrations → Base360 Works → People.'
 			);
 		}
 		const text = typeof reply?.text === 'string' && reply.text.trim() ? reply.text.trim() : null;
 		const optionId = typeof reply?.optionId === 'string' && reply.optionId ? reply.optionId : null;
 		if (text && text.length > EVER_WORKS_INBOX_REPLY_MAX) {
 			throw new BadRequestException(
-				`Ever Works takes a reply of at most ${EVER_WORKS_INBOX_REPLY_MAX} characters.`
+				`Base360 Works takes a reply of at most ${EVER_WORKS_INBOX_REPLY_MAX} characters.`
 			);
 		}
 		const client = this.client(context);
@@ -278,7 +278,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 		const ewUserId = await this.everWorksUserOf(context, recipient.userId as ID);
 		if (!ewUserId) {
 			this.logger.warn(
-				`Inbox item ${item.id}: the recipient is not matched to an Ever Works member; the state stays in Gauzy.`
+				`Inbox item ${item.id}: the recipient is not matched to a Base360 Works member; the state stays in Base360.`
 			);
 			return;
 		}
@@ -312,7 +312,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 			await this.applySnapshot(context, ewItem, ewItem.version, { direction: 'outbound' });
 		} catch (error) {
 			this.logger.warn(
-				`Inbox item ${item.id}: what Ever Works answered could not be applied (${error instanceof Error ? error.message : 'error'}).`
+				`Inbox item ${item.id}: what Base360 Works answered could not be applied (${error instanceof Error ? error.message : 'error'}).`
 			);
 		}
 	}
@@ -331,38 +331,38 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 					if (current === undefined) {
 						// The re-read failed: the item may well be answered there; say so, and let the user retry.
 						throw new ServiceUnavailableException(
-							'Ever Works refused the reply, and what it holds for the item could not be read. Try again later.'
+							'Base360 Works refused the reply, and what it holds for the item could not be read. Try again later.'
 						);
 					}
 					if (current?.answeredAt) return { routed: 'already-decided', response: answerOf(current) };
 					throw new ConflictException(
-						'Already decided in Ever Works: the item was archived there and takes no reply.'
+						'Already decided in Base360 Works: the item was archived there and takes no reply.'
 					);
 				}
 				case 404:
-					throw new NotFoundException('This item no longer exists in Ever Works.');
+					throw new NotFoundException('This item no longer exists in Base360 Works.');
 				case 403:
 					throw new ForbiddenException(
 						error.code === 'act_as_forbidden'
-							? 'Ever Works takes a reply only from the person the item is addressed to.'
-							: 'The Ever Works integration key may not answer inbox items (it needs the inbox:write scope).'
+							? 'Base360 Works takes a reply only from the person the item is addressed to.'
+							: 'The Base360 Works integration key may not answer inbox items (it needs the inbox:write scope).'
 					);
 				case 400:
 				case 422:
-					throw new BadRequestException(`Ever Works refused the reply: ${error.message}`);
+					throw new BadRequestException(`Base360 Works refused the reply: ${error.message}`);
 				case 401:
 					throw new ServiceUnavailableException(
-						'Ever Works no longer accepts the integration key; an admin needs to enter a new one.'
+						'Base360 Works no longer accepts the integration key; an admin needs to enter a new one.'
 					);
 			}
 		}
-		throw new ServiceUnavailableException('Ever Works did not take the reply. Try again later.');
+		throw new ServiceUnavailableException('Base360 Works did not take the reply. Try again later.');
 	}
 
 	/** The mapping of a synced item and its Ever Works id; refuses an item that is not (or no longer) synced. */
 	private async contextOf(item: IInboxItem): Promise<{ context: EverWorksMappingContext; ewItemId: string }> {
 		if (item.externalSource !== EVER_WORKS_INBOX_EXTERNAL_SOURCE || !item.externalId) {
-			throw new BadRequestException('This inbox item does not come from Ever Works.');
+			throw new BadRequestException('This inbox item does not come from Base360 Works.');
 		}
 		const context =
 			item.tenantId && item.organizationId
@@ -375,7 +375,7 @@ export class EverWorksInboxService implements EverWorksInboundHandler, OnModuleI
 			context.connection.status !== EverWorksConnectionStatus.ACTIVE
 		) {
 			throw new ServiceUnavailableException(
-				'Ever Works is not connected for this organization right now. Try again later.'
+				'Base360 Works is not connected for this organization right now. Try again later.'
 			);
 		}
 		return { context, ewItemId: item.externalId };
