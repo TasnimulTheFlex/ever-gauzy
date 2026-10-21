@@ -59,10 +59,8 @@ jobs:
           load: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/ever-co/gauzy-api:latest
-            everco/gauzy-api:latest
-            registry.digitalocean.com/ever/gauzy-api:latest
-          cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-api:latest
+            ghcr.io/tasnimultheflex/base360-time-api:latest
+          cache-from: type=registry,ref=ghcr.io/tasnimultheflex/base360-time-api:latest
           cache-to: type=inline
           build-args: |
             NODE_ENV=production
@@ -81,31 +79,6 @@ jobs:
         run: |
           sudo docker image list
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push to Docker Hub Registry
-        run: |
-          docker push everco/gauzy-api:latest
-
-      - name: Install doctl
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Log in to DigitalOcean Container Registry with short-lived credentials
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: doctl registry login --expiry-seconds 3600
-
-      - name: Push to DigitalOcean Registry
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: |
-          docker push registry.digitalocean.com/ever/gauzy-api:latest
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -115,7 +88,7 @@ jobs:
 
       - name: Push to Github Registry
         run: |
-          docker push ghcr.io/ever-co/gauzy-api:latest
+          docker push ghcr.io/tasnimultheflex/base360-time-api:latest
 
     #   - name: Login to CW Container Registry
     #     uses: docker/login-action@v4
@@ -161,10 +134,8 @@ jobs:
           load: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/ever-co/gauzy-webapp:latest
-            everco/gauzy-webapp:latest
-            registry.digitalocean.com/ever/gauzy-webapp:latest
-          cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-webapp:latest
+            ghcr.io/tasnimultheflex/base360-time-webapp:latest
+          cache-from: type=registry,ref=ghcr.io/tasnimultheflex/base360-time-webapp:latest
           cache-to: type=inline
           build-args: |
             NODE_ENV=production
@@ -183,31 +154,6 @@ jobs:
         run: |
           sudo docker image list
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push to Docker Hub Registry
-        run: |
-          docker push everco/gauzy-webapp:latest
-
-      - name: Install doctl
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Log in to DigitalOcean Container Registry with short-lived credentials
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: doctl registry login --expiry-seconds 3600
-
-      - name: Push to DigitalOcean Registry
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: |
-          docker push registry.digitalocean.com/ever/gauzy-webapp:latest
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -217,7 +163,7 @@ jobs:
 
       - name: Push to Github Registry
         run: |
-          docker push ghcr.io/ever-co/gauzy-webapp:latest
+          docker push ghcr.io/tasnimultheflex/base360-time-webapp:latest
 
     #   - name: Login to CW Container Registry
     #     uses: docker/login-action@v4
@@ -265,10 +211,8 @@ jobs:
           load: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/ever-co/gauzy-worker:latest
-            everco/gauzy-worker:latest
-            registry.digitalocean.com/ever/gauzy-worker:latest
-          cache-from: type=registry,ref=ghcr.io/ever-co/gauzy-worker:latest
+            ghcr.io/tasnimultheflex/base360-time-worker:latest
+          cache-from: type=registry,ref=ghcr.io/tasnimultheflex/base360-time-worker:latest
           cache-to: type=inline
           build-args: |
             NODE_ENV=production
@@ -290,31 +234,6 @@ jobs:
         run: |
           sudo docker image list
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push to Docker Hub Registry
-        run: |
-          docker push everco/gauzy-worker:latest
-
-      - name: Install doctl
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Log in to DigitalOcean Container Registry with short-lived credentials
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: doctl registry login --expiry-seconds 3600
-
-      - name: Push to DigitalOcean Registry
-        if: ${{ vars.DO_ENABLED == 'true' }}
-        run: |
-          docker push registry.digitalocean.com/ever/gauzy-worker:latest
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -324,7 +243,7 @@ jobs:
 
       - name: Push to Github Registry
         run: |
-          docker push ghcr.io/ever-co/gauzy-worker:latest
+          docker push ghcr.io/tasnimultheflex/base360-time-worker:latest
 
     #   - name: Login to CW Container Registry
     #     uses: docker/login-action@v4

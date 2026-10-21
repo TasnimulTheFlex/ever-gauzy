@@ -5,7 +5,7 @@ services:
     image: jonasal/nginx-certbot:latest
     restart: always
     environment:
-      CERTBOT_EMAIL: 'ever@ever.co'
+      CERTBOT_EMAIL: 'support@base360.ai'
     env_file:
       - ./nginx-certbot.env
     ports:

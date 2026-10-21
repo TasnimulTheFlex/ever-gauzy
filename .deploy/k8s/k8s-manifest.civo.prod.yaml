@@ -48,7 +48,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ghcr.io/ever-co/gauzy-api:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api:latest
                   resources:
                       requests:
                           cpu: '300m'
@@ -81,9 +81,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apicivo.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://appcivo.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -302,7 +302,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ghcr.io/ever-co/gauzy-webapp:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -311,9 +311,9 @@ spec:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://apicivo.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://appcivo.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -369,7 +369,7 @@ metadata:
         kubernetes.io/ingress.class: traefik
 spec:
     rules:
-        - host: appcivo.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - backend:
@@ -381,7 +381,7 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - appcivo.gauzy.co
+              - time.base360.ai
           secretName: appcivo.gauzy.co-tls
 ---
 apiVersion: networking.k8s.io/v1
@@ -392,7 +392,7 @@ metadata:
         kubernetes.io/ingress.class: traefik
 spec:
     rules:
-        - host: apicivo.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - backend:
@@ -404,5 +404,5 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - apicivo.gauzy.co
+              - time-api.base360.ai
           secretName: apicivo.gauzy.co-tls

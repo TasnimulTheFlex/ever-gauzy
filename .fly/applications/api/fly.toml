@@ -9,7 +9,7 @@ primary_region = "lax"
   processes= ["app"]
 
 [build]
-  image = "ghcr.io/ever-co/gauzy-api-demo:latest"
+  image = "ghcr.io/tasnimultheflex/base360-time-api-demo:latest"
 
 [env]
   API_HOST="0.0.0.0"
@@ -23,8 +23,8 @@ primary_region = "lax"
   SENTRY_HTTP_TRACING_ENABLED="false"
   SENTRY_PROFILING_ENABLED="false"
   SENTRY_POSTGRES_TRACKING_ENABLED="false"
-  API_BASE_URL="https://ever-gauzy-api.fly.dev"
-  CLIENT_BASE_URL="https://ever-gauzy-webapp.fly.dev"
+  API_BASE_URL="https://time-api.base360.ai"
+  CLIENT_BASE_URL="https://time.base360.ai"
   # Signing/session secrets are NOT set here: a value in this file is public (GHSA-39j7-x845-4w3c).
   # Provide them as Fly secrets, e.g.
   #   fly secrets set JWT_SECRET=... JWT_REFRESH_TOKEN_SECRET=... JWT_VERIFICATION_TOKEN_SECRET=... EXPRESS_SESSION_SECRET=...

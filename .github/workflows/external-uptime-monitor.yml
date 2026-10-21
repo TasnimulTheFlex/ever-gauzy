@@ -188,7 +188,7 @@ jobs:
         id: cfallow
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_UPTIME_ALLOWLIST_TOKEN }}
-          CF_ZONE_NAME: gauzy.co
+          CF_ZONE_NAME: base360.ai
           EGRESS_IP: ${{ steps.egress.outputs.ip }}
         run: |
           # Never fails the run: if Cloudflare cannot be asked, the probe still runs and its report says
@@ -310,11 +310,11 @@ jobs:
           # bundle loads. It also cannot detect a bad route: this is an SPA, so a bogus path
           # correctly returns the same shell (measured: /bogus-xyz-9931 -> 200, identical bytes).
           TARGETS=(
-            'prod-web|critical|https://app.gauzy.co/|<ga-app'
-            'prod-api|critical|https://api.gauzy.co/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
-            'marketing|warn|https://gauzy.co/|'
-            'stage-web|warn|https://stage.gauzy.co/|'
-            'stage-api|warn|https://apistage.gauzy.co/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
+            'prod-web|critical|https://time.base360.ai/|<ga-app'
+            'prod-api|critical|https://time-api.base360.ai/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
+            'marketing|warn|https://base360.ai/|'
+            'stage-web|warn|https://time.base360.ai/|'
+            'stage-api|warn|https://time-api.base360.ai/api/health|"status"[[:space:]]*:[[:space:]]*"ok"'
           )
 
           # Rehearsal target from workflow_dispatch, so the alert path can be exercised on demand
@@ -371,7 +371,7 @@ jobs:
               # "the origin answered with an error".
               w=$(curl -4 -sS -L --max-redirs 5 \
                     --connect-timeout "${CONNECT_TIMEOUT}" --max-time "${MAX_TIME}" \
-                    -A 'ever-gauzy-external-uptime-monitor (+https://github.com/ever-co/ever-gauzy)' \
+                    -A 'base360-external-uptime-monitor (+https://github.com/TasnimulTheFlex/ever-gauzy)' \
                     -D "$body.hdr" \
                     -o "$body" \
                     -w '%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_starttransfer}|%{time_total}|%{remote_ip}' \
@@ -460,7 +460,7 @@ jobs:
             echo
             echo "Observed from GitHub-hosted runner egress IP \`${EGRESS_IP}\` (outside the homelab)."
             if [ -n "${CF_ALLOW_RULE}" ]; then
-              echo "Temporary Cloudflare allow rule for that IP on gauzy.co: \`${CF_ALLOW_RULE}\` (removed by the next step)."
+              echo "Temporary Cloudflare allow rule for that IP on base360.ai: \`${CF_ALLOW_RULE}\` (removed by the next step)."
             else
               echo "No temporary Cloudflare allow rule this run (see the step before the probe), so Bot Fight Mode may challenge the probe."
             fi
@@ -673,10 +673,10 @@ jobs:
         run: |
           # A run's sweep removes only rules older than 20 minutes, and the next scheduled run starts
           # ~15 minutes after this one, so it is usually the SECOND run after this one (~30 minutes).
-          WHERE="Cloudflare dashboard → gauzy.co → Security → WAF → Tools → IP Access Rules, note 'ever-gauzy-uptime-monitor run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}'"
+          WHERE="Cloudflare dashboard → base360.ai → Security → WAF → Tools → IP Access Rules, note 'ever-gauzy-uptime-monitor run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}'"
           if [ -n "${RULE_ID}" ]; then
-            echo "::error::Temporary Cloudflare allow rule ${RULE_ID} on gauzy.co could not be removed. A later run deletes it once it is older than 20 minutes (usually the second scheduled run after this one, ~30 minutes). To remove it now: ${WHERE}."
+            echo "::error::Temporary Cloudflare allow rule ${RULE_ID} on base360.ai could not be removed. A later run deletes it once it is older than 20 minutes (usually the second scheduled run after this one, ~30 minutes). To remove it now: ${WHERE}."
           else
-            echo "::error::Could not confirm whether this run created a temporary Cloudflare allow rule on gauzy.co. If it did, a later run deletes it once it is older than 20 minutes (~30 minutes). To check now: ${WHERE}."
+            echo "::error::Could not confirm whether this run created a temporary Cloudflare allow rule on base360.ai. If it did, a later run deletes it once it is older than 20 minutes (~30 minutes). To check now: ${WHERE}."
           fi
           exit 1

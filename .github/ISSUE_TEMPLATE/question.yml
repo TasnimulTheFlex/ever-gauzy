@@ -1,5 +1,5 @@
 name: Question
-description: Ask how to set up, configure or use Gauzy
+description: Ask how to set up, configure or use Base360
 title: "[Question] "
 labels: ["type: question :question:"]
 body:
@@ -29,4 +29,4 @@ body:
   - type: markdown
     attributes:
       value: |
-        For faster answers, try [Discord](https://discord.gg/hKQfn4j) or [Slack](https://join.slack.com/t/gauzy/shared_invite/enQtNzc5MTA5MDUwODg2LTI0MGEwYTlmNWFlNzQzMzBlOWExNTk0NzAyY2IwYWYwMzZjMTliYjMwNDI3NTJmYmM4MDQ4NDliMDNiNDY1NWU)
+        For setup help, contact [Base360 support](mailto:support@base360.ai).

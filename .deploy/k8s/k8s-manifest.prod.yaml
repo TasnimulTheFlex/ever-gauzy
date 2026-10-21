@@ -23,7 +23,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: app.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - path: /
@@ -35,7 +35,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - app.gauzy.co
+              - time.base360.ai
           secretName: app.gauzy.co-tls
 ---
 kind: Service
@@ -62,7 +62,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: api.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - path: /
@@ -74,7 +74,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - api.gauzy.co
+              - time-api.base360.ai
           secretName: api.gauzy.co-tls
 ---
 apiVersion: apps/v1
@@ -100,7 +100,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-api:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api:latest
                   resources:
                       requests:
                           cpu: '300m'
@@ -147,15 +147,15 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://api.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://app.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: PLANE_CLIENT_BASE_URL
-                        value: 'https://pm.gauzy.co'
+                        value: '$PLANE_CLIENT_BASE_URL'
                       - name: PLANE_CLIENT_SPACE_URL
-                        value: 'https://pm-space.gauzy.co'
+                        value: '$PLANE_CLIENT_SPACE_URL'
                       - name: PLANE_SHARED_ORIGINS
-                        value: 'https://pm.gauzy.co,https://pm-space.gauzy.co'
+                        value: '$PLANE_SHARED_ORIGINS'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -401,7 +401,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-webapp:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -410,9 +410,9 @@ spec:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://api.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://app.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -473,7 +473,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-worker:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-worker:latest
                   resources:
                       requests:
                           cpu: '100m'
@@ -547,9 +547,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://api.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://app.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST

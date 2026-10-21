@@ -38,9 +38,9 @@ jobs:
           echo "INGRESS_CERT_TYPE=${{ env.INGRESS_CERT_TYPE }}" >> $GITHUB_ENV
 
           if [ "${{ env.INGRESS_CERT_TYPE }}" = "cloudflare" ]; then
-            echo "API_BASE_URL=https://apidt.gauzy.co" >> $GITHUB_ENV
+            echo "API_BASE_URL=https://time-api.base360.ai" >> $GITHUB_ENV
           elif [ "${{ env.INGRESS_CERT_TYPE }}" = "letsencrypt" ]; then
-            echo "API_BASE_URL=https://apidts.gauzy.co" >> $GITHUB_ENV
+            echo "API_BASE_URL=https://time-api.base360.ai" >> $GITHUB_ENV
           else
             echo "UNKNOWN INGRESS_CERT_TYPE"
           fi
@@ -65,7 +65,7 @@ jobs:
           ADMIN_PASSWORD_RESET: 'true'
           API_HOST: $API_HOST
           API_BASE_URL: '${{ env.API_BASE_URL }}'
-          CLIENT_BASE_URL: 'https://app.gauzy.co'
+          CLIENT_BASE_URL: 'https://time.base360.ai'
           DB_TYPE: '${{ secrets.DB_TYPE }}'
           DB_URI: '${{ secrets.DB_URI }}'
           DB_HOST: '${{ secrets.DB_HOST }}'

@@ -63,7 +63,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ever-registry.tenant-acb888-ever.ord1.ingress.coreweave.cloud/ever-co/gauzy-api-demo:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api-demo:latest
                   env:
                       - name: API_HOST
                         value: 0.0.0.0
@@ -89,9 +89,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemocw.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democw.gauzy.co'
+                        value: 'https://time.base360.ai'
                       # Signing/session secrets: never commit a value here, it is public (GHSA-39j7-x845-4w3c).
                       # Inject real ones from a secret store. Left empty, this DEMO=true API still
                       # falls back to the published defaults in code (held, see resolveSecret in @gauzy/config).
@@ -159,14 +159,14 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ever-registry.tenant-acb888-ever.ord1.ingress.coreweave.cloud/ever-co/gauzy-webapp-demo:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest
                   env:
                       - name: DEMO
                         value: 'true'
                       - name: API_BASE_URL
-                        value: 'https://apidemocw.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://democw.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -229,7 +229,7 @@ metadata:
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: democw.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - backend:
@@ -241,7 +241,7 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - democw.gauzy.co
+              - time.base360.ai
           secretName: democw.gauzy.co-tls
 ---
 apiVersion: networking.k8s.io/v1
@@ -253,7 +253,7 @@ metadata:
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: apidemocw.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - backend:
@@ -265,5 +265,5 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - apidemocw.gauzy.co
+              - time-api.base360.ai
           secretName: apidemocw.gauzy.co-tls

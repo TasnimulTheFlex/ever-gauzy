@@ -41,7 +41,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-mcp-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-mcp-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -147,7 +147,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: mcpstage.gauzy.co
+        - host: mcp.example.test
           http:
               paths:
                   - path: /
@@ -159,5 +159,5 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - mcpstage.gauzy.co
+              - mcp.example.test
           secretName: mcp.gauzy.co-tls

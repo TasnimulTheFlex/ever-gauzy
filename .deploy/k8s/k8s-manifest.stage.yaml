@@ -23,7 +23,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: stage.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - path: /
@@ -35,7 +35,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - stage.gauzy.co
+              - time.base360.ai
           secretName: stage.gauzy.co-tls
 ---
 kind: Service
@@ -62,7 +62,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: apistage.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - path: /
@@ -74,7 +74,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - apistage.gauzy.co
+              - time-api.base360.ai
           secretName: apistage.gauzy.co-tls
 ---
 apiVersion: apps/v1
@@ -100,7 +100,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-api-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api-stage:latest
                   resources:
                       requests:
                           cpu: '100m'
@@ -144,9 +144,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -392,7 +392,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-webapp-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -401,9 +401,9 @@ spec:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -464,7 +464,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-worker-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-worker-stage:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -538,9 +538,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apistage.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stage.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST

@@ -4,12 +4,12 @@ kill_timeout = 30
 primary_region = "lax"
 
 [build]
-  image = "ghcr.io/ever-co/gauzy-webapp-demo:latest"
+  image = "ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest"
 
 [env]
   DEMO="true"
-  API_BASE_URL="https://ever-gauzy-api.fly.dev"
-  CLIENT_BASE_URL="https://ever-gauzy-webapp.fly.dev"
+  API_BASE_URL="https://time-api.base360.ai"
+  CLIENT_BASE_URL="https://time.base360.ai"
   # Your own Sentry DSN (https://docs.sentry.io/concepts/key-terms/dsn-explainer/). Leave it empty to disable Sentry: a DSN shipped here would send every install's errors to the Ever Gauzy project.
   SENTRY_DSN=""
   CHATWOOT_SDK_TOKEN="jFoSXEjGmqhUhqU3zfgkFfMt"

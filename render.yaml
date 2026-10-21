@@ -2,7 +2,7 @@ services:
     - type: web
       runtime: image
       image:
-          url: ghcr.io/ever-co/gauzy-api-demo:latest
+          url: ghcr.io/tasnimultheflex/base360-time-api-demo:latest
       plan: pro
       name: ever-gauzy-api
       envVars:
@@ -53,7 +53,7 @@ services:
       runtime: image
       plan: standard
       image:
-          url: ghcr.io/ever-co/gauzy-webapp-demo:latest
+          url: ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest
       envVars:
           - key: DEMO
             value: false

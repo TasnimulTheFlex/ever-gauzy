@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api:
-    image: ghcr.io/ever-co/gauzy-api:latest
+    image: ghcr.io/tasnimultheflex/base360-time-api:latest
     deploy:
       mode: replicated
       replicas: 2

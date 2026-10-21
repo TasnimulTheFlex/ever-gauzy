@@ -23,7 +23,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: demo.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - path: /
@@ -35,7 +35,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - demo.gauzy.co
+              - time.base360.ai
           secretName: demo.gauzy.co-tls
 ---
 kind: Service
@@ -62,7 +62,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: apidemo.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - path: /
@@ -74,7 +74,7 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - apidemo.gauzy.co
+              - time-api.base360.ai
           secretName: apidemo.gauzy.co-tls
 ---
 apiVersion: apps/v1
@@ -100,7 +100,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-api-demo:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api-demo:latest
                   resources:
                       requests:
                           cpu: '100m'
@@ -130,9 +130,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://time.base360.ai'
                       # Signing/session secrets: never commit a value here, it is public (GHSA-39j7-x845-4w3c).
                       # Inject real ones from a secret store. Left empty, this DEMO=true API still
                       # falls back to the published defaults in code (held, see resolveSecret in @gauzy/config).
@@ -184,7 +184,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-webapp-demo:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -193,9 +193,9 @@ spec:
                       - name: DEMO
                         value: 'true'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -256,7 +256,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: registry.digitalocean.com/ever/gauzy-worker-demo:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-worker-demo:latest
                   resources:
                       requests:
                           cpu: '50m'
@@ -281,9 +281,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apidemo.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://demo.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: OTEL_ENABLED
                         value: '$OTEL_ENABLED'
                       - name: OTEL_PROVIDER

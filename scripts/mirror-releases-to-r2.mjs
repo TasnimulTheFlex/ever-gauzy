@@ -25,8 +25,10 @@ const AKID = process.env.R2_ACCESS_KEY_ID;
 const SECRET = process.env.R2_SECRET_ACCESS_KEY;
 const GH_TOKEN = process.env.GITHUB_TOKEN || '';
 const DRY = process.env.DRY_RUN === 'true';
+const PUBLIC_URL = process.env.R2_PUBLIC_URL;
 
 for (const [k, v] of Object.entries({
+	R2_PUBLIC_URL: PUBLIC_URL,
 	R2_S3_ENDPOINT: ENDPOINT,
 	R2_BUCKET: BUCKET,
 	R2_ACCESS_KEY_ID: AKID,
@@ -38,12 +40,14 @@ for (const [k, v] of Object.entries({
 	}
 }
 
+const publicUrl = new URL(PUBLIC_URL);
+if (publicUrl.protocol !== 'https:' || publicUrl.username || publicUrl.password || publicUrl.search || publicUrl.hash) {
+	throw new Error('R2_PUBLIC_URL must be an https URL without credentials, query or fragment');
+}
+
 /** GitHub repo -> object-key prefix. Must stay in step with `switchToCDN` in ever-gauzy-website. */
 const APPS = {
-	'ever-gauzy-desktop': 'gauzy-desktop',
-	'ever-gauzy-desktop-timer': 'gauzy-desktop-timer',
-	'ever-gauzy-server': 'gauzy-server',
-	'ever-gauzy-agent': 'gauzy-agent'
+	'ever-gauzy': 'base360-timer'
 };
 
 // Installers only. Mirroring the update metadata (latest*.yml) would turn R2 into an update feed,
@@ -160,7 +164,7 @@ let failed = 0;
 for (const [repo, prefix] of Object.entries(APPS)) {
 	let releases;
 	try {
-		releases = await gh(`/repos/ever-co/${repo}/releases?per_page=20`);
+		releases = await gh(`/repos/TasnimulTheFlex/${repo}/releases?per_page=20`);
 	} catch (e) {
 		console.error(`  ${repo}: cannot list releases -- ${safe(e.message)}`);
 		failed++;
@@ -232,7 +236,7 @@ for (const [repo, prefix] of Object.entries(APPS)) {
 if (!DRY) {
 	const manifest = {
 		generated: new Date().toISOString(),
-		base: 'https://downloads.ever.co',
+		base: PUBLIC_URL.replace(/\/+$/, ''),
 		// Byte order, and a copy rather than sorting `mirrored` in place.
 		keys: [...mirrored].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
 	};

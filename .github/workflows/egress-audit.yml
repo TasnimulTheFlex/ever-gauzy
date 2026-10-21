@@ -52,13 +52,13 @@ on:
   workflow_dispatch:
     inputs:
       image:
-        description: 'The Gauzy API image to audit'
+        description: 'The Base360 API image to audit'
         required: true
-        default: 'ghcr.io/ever-co/gauzy-api-demo:latest'
+        default: 'ghcr.io/tasnimultheflex/base360-time-api-demo:latest'
       webapp_image:
-        description: 'The Gauzy web app image to audit'
+        description: 'The Base360 web app image to audit'
         required: true
-        default: 'ghcr.io/ever-co/gauzy-webapp-demo:latest'
+        default: 'ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest'
   pull_request:
     # Not for a pull request into develop (owner decision 2026-09-21): the push trigger below runs the
     # same checks when the change lands there. Pull requests aimed at other branches still run it.
@@ -363,8 +363,8 @@ jobs:
 
       - name: Pull the images
         env:
-          IMAGE: ${{ github.event.inputs.image || 'ghcr.io/ever-co/gauzy-api-demo:latest' }}
-          WEBAPP_IMAGE: ${{ github.event.inputs.webapp_image || 'ghcr.io/ever-co/gauzy-webapp-demo:latest' }}
+          IMAGE: ${{ github.event.inputs.image || 'ghcr.io/tasnimultheflex/base360-time-api-demo:latest' }}
+          WEBAPP_IMAGE: ${{ github.event.inputs.webapp_image || 'ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest' }}
         run: |
           pull() { for attempt in 1 2 3 4 5; do docker pull -q "$1" && return 0; sleep $((attempt * 20)); done; return 1; }
           pull "$IMAGE"
@@ -489,7 +489,7 @@ jobs:
         # bash with pipefail, so the scan's exit code survives the tee.
         shell: bash
         env:
-          WEBAPP_IMAGE: ${{ github.event.inputs.webapp_image || 'ghcr.io/ever-co/gauzy-webapp-demo:latest' }}
+          WEBAPP_IMAGE: ${{ github.event.inputs.webapp_image || 'ghcr.io/tasnimultheflex/base360-time-webapp-demo:latest' }}
         run: |
           pull() { for attempt in 1 2 3 4 5; do docker pull -q "$1" && return 0; sleep $((attempt * 20)); done; echo "::error::could not pull $1"; return 1; }
           pull "$WEBAPP_IMAGE"

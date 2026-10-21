@@ -74,7 +74,7 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ever-registry.tenant-acb888-ever.ord1.ingress.coreweave.cloud/ever-co/gauzy-api-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-api-stage:latest
                   env:
                       - name: API_HOST
                         value: 0.0.0.0
@@ -100,9 +100,9 @@ spec:
                       - name: SENTRY_POSTGRES_TRACKING_ENABLED
                         value: '$SENTRY_POSTGRES_TRACKING_ENABLED'
                       - name: API_BASE_URL
-                        value: 'https://apistagecw.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stagecw.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: DB_URI
                         value: '$DB_URI'
                       - name: DB_HOST
@@ -351,14 +351,14 @@ spec:
                       allowPrivilegeEscalation: false
                       readOnlyRootFilesystem: false
                       runAsNonRoot: false
-                  image: ever-registry.tenant-acb888-ever.ord1.ingress.coreweave.cloud/ever-co/gauzy-webapp-stage:latest
+                  image: ghcr.io/tasnimultheflex/base360-time-webapp-stage:latest
                   env:
                       - name: DEMO
                         value: 'false'
                       - name: API_BASE_URL
-                        value: 'https://apistagecw.gauzy.co'
+                        value: 'https://time-api.base360.ai'
                       - name: CLIENT_BASE_URL
-                        value: 'https://stagecw.gauzy.co'
+                        value: 'https://time.base360.ai'
                       - name: SENTRY_DSN
                         value: '$SENTRY_DSN'
                       - name: CHATWOOT_SDK_TOKEN
@@ -421,7 +421,7 @@ metadata:
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: stagecw.gauzy.co
+        - host: time.base360.ai
           http:
               paths:
                   - backend:
@@ -433,7 +433,7 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - stagecw.gauzy.co
+              - time.base360.ai
           secretName: stagecw.gauzy.co-tls
 ---
 apiVersion: networking.k8s.io/v1
@@ -445,7 +445,7 @@ metadata:
         traefik.ingress.kubernetes.io/router.middlewares: tenant-acb888-ever-https-redirect@kubernetescrd
 spec:
     rules:
-        - host: apistagecw.gauzy.co
+        - host: time-api.base360.ai
           http:
               paths:
                   - backend:
@@ -457,5 +457,5 @@ spec:
                     pathType: Prefix
     tls:
         - hosts:
-              - apistagecw.gauzy.co
+              - time-api.base360.ai
           secretName: apistagecw.gauzy.co-tls
