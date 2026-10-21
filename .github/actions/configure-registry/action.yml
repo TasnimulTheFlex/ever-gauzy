@@ -9,7 +9,7 @@
 name: Configure npm registry
 description: >-
   Point the job at the internal Verdaccio VIP when it is reachable, otherwise at the public npm
-  registry. The Cloudflare-fronted packages.ever.co route is gated behind an explicit opt-in.
+  registry. The Cloudflare-fronted the public package registry route is gated behind an explicit opt-in.
 
 inputs:
   verdaccio-registry:
@@ -20,11 +20,11 @@ inputs:
     required: false
     default: ''
   verdaccio-token:
-    description: Auth token for the public packages.ever.co route. Only used when force-public is true.
+    description: Auth token for the public the public package registry route. Only used when force-public is true.
     required: false
     default: ''
   force-public:
-    description: Set to 'true' to force the public packages.ever.co route even when the VIP answers.
+    description: Set to 'true' to force the public the public package registry route even when the VIP answers.
     required: false
     default: ''
   expect-vip:
@@ -145,12 +145,12 @@ runs:
           # this wants the public route even when the VIP is up (e.g. the internal cache is
           # serving bad data). Gating it on a failed probe would make the flag a no-op.
           REGISTRY="https://packages.ever.co/"
-          echo "::warning title=Verdaccio public route in use::VERDACCIO_FORCE_PUBLIC=true - installing through packages.ever.co, which is known to truncate large tarballs mid-stream."
+          echo "::warning title=Verdaccio public route in use::VERDACCIO_FORCE_PUBLIC=true - installing through the public package registry, which is known to truncate large tarballs mid-stream."
           echo "//packages.ever.co/:_authToken=$VERDACCIO_TOKEN" >> .npmrc
           echo "always-auth=true" >> .npmrc
         else
           if [ "$VERDACCIO_FORCE_PUBLIC" = "true" ]; then
-            echo "::warning title=VERDACCIO_FORCE_PUBLIC set without a token::VERDACCIO_TOKEN is empty, so packages.ever.co cannot be used; probing the internal VIP instead."
+            echo "::warning title=VERDACCIO_FORCE_PUBLIC set without a token::VERDACCIO_TOKEN is empty, so the public package registry cannot be used; probing the internal VIP instead."
           fi
           # Retry only where the VIP is expected to answer. An external runner can never reach
           # it, so a second attempt would just add dead time to every release job.

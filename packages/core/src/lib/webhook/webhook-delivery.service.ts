@@ -165,7 +165,7 @@ export class WebhookDeliveryService extends CrudService<WebhookDelivery> {
 	static readonly RESPONSE_BODY_LIMIT = 4 * 1024;
 
 	/** The client identity every delivery carries. */
-	static readonly USER_AGENT = 'EverGauzy-Webhooks/1.0';
+	static readonly USER_AGENT = 'Base360-Webhooks/1.0';
 
 	/** The payload version sent when a subscription pins none. */
 	static readonly DEFAULT_API_VERSION = '1';
