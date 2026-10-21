@@ -507,6 +507,12 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	waitRestart = false;
 	serverIsRunning = false;
 
+	serverOptionLabels = {
+		[this.serverTypes.integrated]: 'Base360 Server',
+		[this.serverTypes.custom]: 'Custom / Network',
+		[this.serverTypes.live]: 'Base360 Cloud'
+	};
+
 	serverOptions =
 		this.isDesktopTimer || this.isAgent
 			? [this.serverTypes.custom, this.serverTypes.live]

@@ -33,7 +33,7 @@
 		"@types/node": "^26.6.5"
 	},
 	"keywords": [
-		"gauzy",
+		"base360",
 		"desktop",
 		"electron",
 		"core",
