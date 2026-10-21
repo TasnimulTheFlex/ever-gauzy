@@ -31,7 +31,7 @@ export class HelpComponent implements OnDestroy {
 
 	constructor(@Inject(GAUZY_ENV) readonly environment: Environment) {
 		this.isSupportChatAvailable = !!environment.CHATWOOT_SDK_TOKEN;
-		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/ever-co/ever-gauzy.git').replace(/\.git$/, '');
+		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/TasnimulTheFlex/ever-gauzy.git').replace(/\.git$/, '');
 	}
 
 	/**

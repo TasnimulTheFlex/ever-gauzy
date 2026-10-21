@@ -38,9 +38,8 @@ export class AboutComponent implements OnInit, OnDestroy {
 	readonly githubLinks: { labelKey: string; icon: string; url: string }[];
 	/** "Learn More": the product site, its docs and the company. Labels are the domains / name. */
 	readonly learnMoreLinks: { label: string; icon: string; url: string }[] = [
-		{ label: 'gauzy.co', icon: 'globe-outline', url: 'https://gauzy.co' },
-		{ label: 'docs.gauzy.co', icon: 'book-open-outline', url: 'https://docs.gauzy.co' },
-		{ label: 'Ever Co. LTD', icon: 'briefcase-outline', url: 'https://ever.co' }
+		{ label: 'base360.ai', icon: 'globe-outline', url: 'https://base360.ai' },
+		{ label: 'Support', icon: 'email-outline', url: 'mailto:support@base360.ai' }
 	];
 	readonly currentYear = new Date().getFullYear();
 
@@ -60,7 +59,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 	private copiedTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor(private readonly http: HttpClient, @Inject(GAUZY_ENV) readonly environment: Environment) {
-		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/ever-co/ever-gauzy.git').replace(/\.git$/, '');
+		this.repoBaseUrl = (environment.PROJECT_REPO ?? 'https://github.com/TasnimulTheFlex/ever-gauzy.git').replace(/\.git$/, '');
 		this.repoName = this.repoBaseUrl.replace(/^https?:\/\/github\.com\//, '');
 		this.web = { version: environment.version ?? '', commit: environment.commit ?? '' };
 		this.isProductionBuild = !!environment.production;

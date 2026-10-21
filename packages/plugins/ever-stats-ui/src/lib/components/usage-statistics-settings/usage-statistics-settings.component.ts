@@ -62,10 +62,6 @@ export type UsageStatisticsView = 'loading' | 'operator' | 'managed' | 'error';
 								<span>{{ 'EVER_STATS.MANAGED_OPERATORS' | translate }}</span>
 							</p>
 							<footer class="panel-footer">
-								<a class="schema-link" [href]="schemaUrl" target="_blank" rel="noopener noreferrer">
-									{{ 'EVER_STATS.SCHEMA_LINK' | translate }}
-									<nb-icon icon="external-link-outline" aria-hidden="true"></nb-icon>
-								</a>
 							</footer>
 						</section>
 					}
@@ -145,10 +141,6 @@ export type UsageStatisticsView = 'loading' | 'operator' | 'managed' | 'error';
 									</div>
 								</dl>
 								<footer class="panel-footer actions">
-									<a class="schema-link" [href]="schemaUrl" target="_blank" rel="noopener noreferrer">
-										{{ 'EVER_STATS.SCHEMA_LINK' | translate }}
-										<nb-icon icon="external-link-outline" aria-hidden="true"></nb-icon>
-									</a>
 									<button nbButton size="small" status="primary" type="button" data-test="send-now" [disabled]="busy || !status?.enabled || !!status?.reason" (click)="sendNow()">
 										<nb-icon icon="paper-plane-outline"></nb-icon>
 										{{ 'EVER_STATS.SEND_NOW' | translate }}

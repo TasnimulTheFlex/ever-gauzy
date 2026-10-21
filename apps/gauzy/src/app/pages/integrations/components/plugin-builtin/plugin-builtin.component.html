@@ -29,9 +29,9 @@
 				(selectedChange)="setSelectedIntegrationType($event)"
 			>
 				@for (integrationGroup of integrationGroups; track integrationGroup.groupName) {
-					<nb-option-group [title]="integrationGroup.groupName">
+					<nb-option-group [title]="integrationGroup.groupName | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360'">
 						@for (integrationType of integrationGroup.integrationTypes; track integrationType.id) {
-							<nb-option [value]="integrationType.id">{{ integrationType.name }}</nb-option>
+							<nb-option [value]="integrationType.id">{{ integrationType.name | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360' }}</nb-option>
 						}
 					</nb-option-group>
 				}
@@ -78,9 +78,9 @@
 				>
 					<div class="card-logo">
 						<img
-							[ngSrc]="integration.fullImgUrl || integration.imgSrc"
-							[alt]="integration.name"
-							[title]="integration.name | replace: '_' : ' '"
+							[ngSrc]="(integration.name === 'Gauzy_AI' || integration.name?.startsWith('Ever_')) ? 'assets/images/logos/base360-logo.svg' : (integration.fullImgUrl || integration.imgSrc)"
+							[alt]="integration.name | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360'"
+							[title]="integration.name | replace: '_' : ' ' | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360'"
 							width="160"
 							height="120"
 						/>
@@ -91,7 +91,7 @@
 						}
 					</div>
 					<div class="card-body">
-						<span class="card-name">{{ integration.name | replace: '_' : ' ' }}</span>
+						<span class="card-name">{{ integration.name | replace: '_' : ' ' | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360' }}</span>
 						@if (integration.isPaid) {
 							<nb-tag text="{{ 'INTEGRATIONS.PAID_LABEL' | translate }}" size="tiny" status="warning"></nb-tag>
 						}

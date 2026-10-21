@@ -19,7 +19,7 @@ export const chatTheme = {
 	toggleBarHoverBg: 'rgba(51, 102, 255, 0.22)',
 
 	// ── Message bubbles ───────────────────────────────────────
-	userBubbleBg: '#6E49E8',
+	userBubbleBg: '#064749',
 	userBubbleText: 'rgba(255, 255, 255, 0.95)',
 	assistantBubbleBg: 'color-mix(in srgb, currentColor 6%, transparent)',
 	/**

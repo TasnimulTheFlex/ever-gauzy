@@ -23,16 +23,6 @@
 						nbButton
 						type="button"
 						size="small"
-						[status]="mode() === 'shared' ? 'primary' : 'basic'"
-						[outline]="mode() !== 'shared'"
-						(click)="selectMode('shared')"
-					>
-						{{ 'INTEGRATIONS.PLANE_PAGE.MODE_SHARED' | translate }}
-					</button>
-					<button
-						nbButton
-						type="button"
-						size="small"
 						[status]="mode() === 'custom' ? 'primary' : 'basic'"
 						[outline]="mode() !== 'custom'"
 						(click)="selectMode('custom')"

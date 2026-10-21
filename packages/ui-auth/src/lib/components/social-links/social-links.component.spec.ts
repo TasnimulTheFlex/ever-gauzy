@@ -92,32 +92,32 @@ describe('SocialLinksComponent', () => {
 	});
 });
 
-describe('"Login with Ever ID" label', () => {
+describe('"Login with Base360 ID" label', () => {
 	const mark = (text: string) => text.replace('{{ everId }}', '\u2063EVER_ID\u2063');
 
 	it('keeps the words around the wordmark in the order of each language', () => {
 		expect(everIdLoginLabelParts(mark('Login with {{ everId }}'))).toEqual({
 			before: 'Login with',
 			after: '',
-			label: 'Login with Ever ID'
+			label: 'Login with Base360 ID'
 		});
 		expect(everIdLoginLabelParts(mark('Mit {{ everId }} anmelden'))).toEqual({
 			before: 'Mit',
 			after: 'anmelden',
-			label: 'Mit Ever ID anmelden'
+			label: 'Mit Base360 ID anmelden'
 		});
 		expect(everIdLoginLabelParts(mark('使用 {{ everId }} 登录'))).toEqual({
 			before: '使用',
 			after: '登录',
-			label: '使用 Ever ID 登录'
+			label: '使用 Base360 ID 登录'
 		});
 	});
 
-	it('reads "Login with Ever ID" when the translation is missing', () => {
+	it('reads "Login with Base360 ID" when the translation is missing', () => {
 		expect(everIdLoginLabelParts('LOGIN_PAGE.LOGIN_WITH_EVER_ID')).toEqual({
 			before: 'Login with',
 			after: '',
-			label: 'Login with Ever ID'
+			label: 'Login with Base360 ID'
 		});
 	});
 });
@@ -139,15 +139,14 @@ describe('EverIdLoginLabelComponent (rendered)', () => {
 
 	afterEach(() => TestBed.resetTestingModule());
 
-	it('gives screen readers the whole label once and only draws the star, the words and the wordmark', () => {
+	it('gives screen readers the whole label once and draws the Base360 mark', () => {
 		const { element } = render('en');
 
-		expect(element.querySelector('.visually-hidden')?.textContent?.trim()).toBe('Login with Ever ID');
+		expect(element.querySelector('.visually-hidden')?.textContent?.trim()).toBe('Login with Base360 ID');
 		expect(element.querySelector('.ever-id-label')?.getAttribute('aria-hidden')).toBe('true');
-		expect(element.querySelector('.ever-id-label')?.textContent?.trim()).toBe('Login with');
-		const svgs = Array.from(element.querySelectorAll('svg'));
-		expect(svgs.map((svg) => svg.getAttribute('viewBox'))).toEqual(['0 0 40 42', '0 0 92 17']);
-		expect(svgs.every((svg) => svg.getAttribute('aria-hidden') === 'true')).toBe(true);
+		expect(element.querySelector('.ever-id-label')?.textContent?.replace(/\s+/g, ' ').trim()).toBe('Login with Base360 ID');
+		expect(element.querySelector('img')?.getAttribute('alt')).toBe('');
+		expect(element.querySelector('img')?.getAttribute('src')).toBe('assets/images/logos/base360-logo.svg');
 	});
 
 	it('follows the language, keeping its word order', () => {
@@ -156,8 +155,8 @@ describe('EverIdLoginLabelComponent (rendered)', () => {
 		translate.use('de');
 		fixture.detectChanges();
 
-		expect(element.querySelector('.visually-hidden')?.textContent?.trim()).toBe('Mit Ever ID anmelden');
-		const words = Array.from(element.querySelectorAll('.ever-id-label > span')).map((span) => span.textContent?.trim());
+		expect(element.querySelector('.visually-hidden')?.textContent?.trim()).toBe('Mit Base360 ID anmelden');
+		const words = Array.from(element.querySelectorAll('.ever-id-label > span:not(.ever-id-wordmark)')).map((span) => span.textContent?.trim());
 		expect(words).toEqual(['Mit', 'anmelden']);
 	});
 });

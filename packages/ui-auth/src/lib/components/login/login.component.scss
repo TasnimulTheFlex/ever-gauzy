@@ -2,7 +2,7 @@
 @use '@shared/reusable' as *;
 
 .login-container {
-  width: 700px;
+  width: 440px;
   max-width: 100%;
   position: relative;
   display: flex;
@@ -267,8 +267,8 @@
       background: nb-theme(color-primary-700);
       & .custom-btn {
         color: white;
-        background: #6e49e8;
-        border: 1px solid #6e49e8;
+        background: #064749;
+        border: 1px solid #064749;
       }
     }
     & br {

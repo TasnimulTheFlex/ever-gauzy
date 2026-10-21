@@ -175,11 +175,22 @@ nb-accordion-item:first-child.collapsed nb-accordion-item-header.principal:hover
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
   img {
-    height: 22px;
+    width: 25px;
+    height: 25px;
   }
-  object {
-    max-width: 128px;
-    max-height: 22px;
-  }
+}
+
+.brand-name {
+  color: #064749;
+  background: #fff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 24px;
+  font-weight: 600;
 }

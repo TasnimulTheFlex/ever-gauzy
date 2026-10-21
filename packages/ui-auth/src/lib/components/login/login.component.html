@@ -8,36 +8,6 @@
 			<div class="headings-inner">
 				<h2 id="title" class="title">{{ 'LOGIN_PAGE.TITLE' | translate }}</h2>
 				<p class="sub-title">{{ 'LOGIN_PAGE.SUB_TITLE' | translate }}</p>
-				@if (!electronService?.isElectron && isDemo) {
-				<nb-accordion class="demo-credentials-select">
-					<nb-accordion-item class="demo-credentials-select-item">
-						<nb-accordion-item-header class="demo-credentials-header">
-							<div class="demo-credentials-head-text">
-								<span class="demo-text-span">
-									{{ 'LOGIN_PAGE.DEMO.DEMO_TITLE' | translate }}
-								</span>
-								{{ 'LOGIN_PAGE.DEMO.CREDENTIALS_TITLE' | translate }}
-							</div>
-						</nb-accordion-item-header>
-						<nb-accordion-item-body class="demo-credentials-body">
-							<div>{{ 'LOGIN_PAGE.DEMO.SUPER_ADMIN_TITLE' | translate }}</div>
-							<br />
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.EMAIL' | translate }} admin&#64;ever.co</div>
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.PASSWORD' | translate }} admin</div>
-							<br />
-							<div>{{ 'LOGIN_PAGE.DEMO.ADMIN_TITLE' | translate }}</div>
-							<br />
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.EMAIL' | translate }} local.admin&#64;ever.co</div>
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.PASSWORD' | translate }} admin</div>
-							<br />
-							<div>{{ 'LOGIN_PAGE.DEMO.EMPLOYEE_TITLE' | translate }}</div>
-							<br />
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.EMAIL' | translate }} employee&#64;ever.co</div>
-							<div>{{ 'LOGIN_PAGE.DEMO.LABELS.PASSWORD' | translate }} {{ demoEmployeePassword }}</div>
-						</nb-accordion-item-body>
-					</nb-accordion-item>
-				</nb-accordion>
-				}
 			</div>
 		</div>
 		@if (showMessages.error && errors?.length && !submitted) {
@@ -222,53 +192,5 @@
 				</a>
 			</section>
 		</div>
-	</div>
-	<div class="features-wrapper">
-		@if (!electronService?.isElectron && isDemo) {
-		<ng-container>
-			<div class="demo-credentials-buttons">
-				<nb-card class="features-card">
-					<nb-card-body class="card-body">
-						<h6 class="title">{{ 'LOGIN_PAGE.DEMO.TITLE' | translate }}</h6>
-						<p class="sub-title">{{ 'LOGIN_PAGE.DEMO.SUB_TITLE' | translate }}</p>
-						<button
-							nbButton
-							fullWidth
-							size="small"
-							class="mt-3 custom-btn"
-							(click)="autoLogin(RolesEnum.SUPER_ADMIN)"
-						>
-							<nb-icon icon="star"></nb-icon>
-							{{ 'BUTTONS.SUPER_ADMIN_DEMO' | translate }}
-						</button>
-						<br />
-						<button
-							nbButton
-							fullWidth
-							size="small"
-							class="mt-3 custom-btn"
-							(click)="autoLogin(RolesEnum.ADMIN)"
-						>
-							{{ 'BUTTONS.ADMIN_DEMO' | translate }}
-						</button>
-						<br />
-						<button
-							nbButton
-							fullWidth
-							size="small"
-							class="mt-3 custom-btn"
-							(click)="autoLogin(RolesEnum.EMPLOYEE)"
-						>
-							{{ 'BUTTONS.EMPLOYEE_DEMO' | translate }}
-						</button>
-					</nb-card-body>
-				</nb-card>
-			</div>
-		</ng-container>
-		} @else {
-			<div>
-				<ngx-whats-new></ngx-whats-new>
-			</div>
-		}
 	</div>
 </section>

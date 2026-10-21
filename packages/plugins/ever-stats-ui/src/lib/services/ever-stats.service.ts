@@ -53,8 +53,7 @@ export interface EverStatsSendResult {
  * The published schema, shown to everyone who is not the operator: the file in the public Ever
  * Platform SDK repository, at the release of the contracts package the API pins (1.0.0-rc.6).
  */
-export const EVER_STATS_SCHEMA_URL =
-	'https://github.com/ever-co/ever-connect-sdk/blob/93fbb1ef2b37f60205ab193d973467a176eec8df/contracts/schemas/ever.stats.v1.json';
+export const EVER_STATS_SCHEMA_URL = '';
 
 /** The operator routes of the anonymous usage statistics. */
 @Injectable({ providedIn: 'root' })

@@ -47,16 +47,16 @@
 									<nb-card-body class="card-body-table">
 										<div class="col-1 text-truncate">
 											<img
-												[alt]="$safeNavigationMigration(integration?.integration?.title)"
-												[src]="$safeNavigationMigration(integration?.integration?.fullImgUrl)"
-												[title]="$safeNavigationMigration(integration?.integration?.name) | replace: '_' : ' '"
+												[alt]="$safeNavigationMigration(integration?.integration?.title) | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360'"
+												[src]="(integration.integration?.name === 'Gauzy_AI' || integration.integration?.name?.startsWith('Ever_')) ? 'assets/images/logos/base360-logo.svg' : integration.integration?.fullImgUrl"
+												[title]="$safeNavigationMigration(integration?.integration?.name) | replace: '_' : ' ' | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360'"
 												height="100%"
 												width="100%"
 											/>
 										</div>
 										<div class="col-4 pl-3 text-truncate">
-											@let name = $safeNavigationMigration(integration?.name) | replace: '_' : ' ';
-											@let description = getProviderDescription($safeNavigationMigration(integration?.integration));
+											@let name = $safeNavigationMigration(integration?.name) | replace: '_' : ' ' | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360';
+											@let description = getProviderDescription($safeNavigationMigration(integration?.integration)) | replace: 'Gauzy' : 'Base360' | replace: 'Ever' : 'Base360';
 											<div class="title" [title]="name">
 												{{ name }}
 											</div>

@@ -216,7 +216,7 @@ export class FileStorageComponent extends TranslationBaseComponent implements On
 				wasabi_aws_secret_access_key: [],
 				wasabi_aws_default_region: ['us-east-1'],
 				wasabi_aws_service_url: ['https://s3.wasabisys.com'],
-				wasabi_aws_bucket: ['gauzy'],
+				wasabi_aws_bucket: ['base360'],
 				wasabi_aws_force_path_style: [true]
 			}),
 			// DigitalOcean Configuration
@@ -226,7 +226,7 @@ export class FileStorageComponent extends TranslationBaseComponent implements On
 				digitalocean_default_region: [{ value: 'us-east-1', disabled: true }],
 				digitalocean_service_url: [],
 				digitalocean_cdn_url: [],
-				digitalocean_s3_bucket: ['gauzy'],
+				digitalocean_s3_bucket: ['base360'],
 				digitalocean_s3_force_path_style: [true]
 			}),
 			// Cloudinary Configuration

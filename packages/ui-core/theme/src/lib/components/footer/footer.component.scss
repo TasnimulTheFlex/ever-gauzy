@@ -19,28 +19,9 @@
   a {
     text-decoration: none;
   }
-  .socials {
-    font-size: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    a {
-      color: nb-theme(text-hint-color);
-      transition: color ease-out 0.1s;
-
-      &:hover {
-        color: nb-theme(text-basic-color);
-      }
-    }
-    // `1em` so these SVGs track `.socials` font-size (1.25rem desktop → 1rem
-    // on the narrow breakpoint), matching the Ionicons glyphs that size from
-    // the same font-size. Fixed rem left the X/GitLab icons oversized on mobile.
-    .ion-logo-gitlab svg,
-    .ion-logo-x svg {
-      vertical-align: text-top;
-      width: 1em;
-      height: 1em;
-    }
+  .source-code {
+    color: nb-theme(text-basic-color);
+    font-size: 12px;
   }
   .right-side {
     display: flex;

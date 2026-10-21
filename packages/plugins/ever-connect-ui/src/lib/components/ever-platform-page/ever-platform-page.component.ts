@@ -460,7 +460,7 @@ export type EverPlatformView = 'loading' | 'ready' | 'unavailable' | 'error';
 												}}
 											</dt>
 											<dd>
-												{{ document.handle ? 'ever.co/' + document.handle : '—' }} ·
+												{{ document.handle ? document.handle : '—' }} ·
 												{{ 'EVER_CONNECT.ENTITLEMENTS.STATUS.' + document.status | translate }}
 											</dd>
 											<dt>{{ 'EVER_CONNECT.ENTITLEMENTS.PLAN' | translate }}</dt>

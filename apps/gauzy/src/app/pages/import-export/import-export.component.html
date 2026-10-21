@@ -61,34 +61,6 @@
         </button>
       </div>
 
-      <!-- Migrate To Cloud: not on demo builds, and the button only with MIGRATE_GAUZY_CLOUD. -->
-      @if (!environment.DEMO) {
-        <div class="action-row">
-          <span class="action-mark is-warning" aria-hidden="true">
-            <nb-icon icon="cloud-upload-outline"></nb-icon>
-          </span>
-          <div class="action-copy">
-            <h6 class="action-title">{{ 'MENU.IMPORT_EXPORT.MIGRATE_TO_CLOUD' | translate }}</h6>
-            <p class="info">{{ 'MENU.IMPORT_EXPORT.MIGRATE_TO_CLOUD_INFO' | translate }}</p>
-          </div>
-          <button
-            *ngxPermissionsOnly="[permissionsEnum.MIGRATE_GAUZY_CLOUD]"
-            class="action"
-            nbButton
-            size="small"
-            status="warning"
-            ngxPromptDialog
-            [inputType]="'password'"
-            [title]="'MENU.IMPORT_EXPORT.MIGRATE_TO_CLOUD' | translate"
-            [placeholder]="'FORM.PASSWORD' | translate"
-            [label]="'FORM.PASSWORD' | translate"
-            (callback)="onMigrateIntoCloud($event)"
-            >
-            <nb-icon icon="upload-outline"></nb-icon>
-            {{ 'MENU.IMPORT_EXPORT.MIGRATE_TO_CLOUD' | translate }}
-          </button>
-        </div>
-      }
     </section>
 
     <!-- The newest imports, from the Import page's own history request. -->

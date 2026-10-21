@@ -154,7 +154,7 @@ export function PlaygroundSettings({
 					disabled={systemPromptDisabled}
 					title={
 						systemPromptDisabled
-							? 'The Gauzy backend builds its own system prompt — this editor is not wired yet.'
+							? 'Base360 manages the system prompt automatically.'
 							: undefined
 					}
 				/>

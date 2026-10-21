@@ -53,7 +53,7 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
 	 * configured with `baseUrl: '/'` and `routeBasePath: '/'`, hence no `/docs`
 	 * segment in the URL).
 	 */
-	public readonly faqUrl: string = 'https://docs.gauzy.co/reference/faq';
+	public readonly faqUrl: string = 'mailto:support@base360.ai';
 
 	constructor(
 		private readonly sidebarService: NbSidebarService,

@@ -47,9 +47,9 @@ function isCookieForValidDomain(cookie: string | null): boolean {
 
 	// Define allowed domains for each environment
 	const DOMAIN_CONFIG = {
-		production: ['gauzy.co', 'app.gauzy.co'],
-		demo: ['demo.gauzy.co'],
-		staging: ['staging.gauzy.co'],
+		production: ['base360.ai', 'time.base360.ai'],
+		demo: [],
+		staging: [],
 		development: ['localhost', '127.0.0.1']
 	} as const;
 

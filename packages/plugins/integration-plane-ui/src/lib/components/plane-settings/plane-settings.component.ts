@@ -23,7 +23,7 @@ import { PlaneApiKeyDialogComponent } from '../api-key-dialog/api-key-dialog.com
 const URL_PATTERN = /^https?:\/\/.+/;
 
 /** Default global hosted Ever Gauzy PM web URL used for SSO in shared mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+const SHARED_PLANE_WEB_URL = '';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -156,6 +156,10 @@ export class PlaneSettingsComponent extends TranslationBaseComponent implements 
 		}
 
 		const url = this.settings()?.planeWebUrl?.trim() || SHARED_PLANE_WEB_URL;
+		if (!url) {
+			this._toastrService.warning('INTEGRATIONS.PLANE_PAGE.URL_INVALID');
+			return;
+		}
 		window.open(`${url}/?sso=${token}`, '_blank');
 	}
 

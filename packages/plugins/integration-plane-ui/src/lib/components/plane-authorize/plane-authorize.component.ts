@@ -16,9 +16,9 @@ import { PlaneApiKeyDialogComponent } from '../api-key-dialog/api-key-dialog.com
 const URL_PATTERN = /^https?:\/\/.+/;
 
 /** Global hosted Ever Gauzy PM UI URLs shown (read-only) in shared mode. */
-const SHARED_PLANE_WEB_URL = 'https://pm.gauzy.co';
+const SHARED_PLANE_WEB_URL = '';
 const SHARED_PLANE_ADMIN_URL = ''; // admin (god-mode) not offered in shared mode
-const SHARED_PLANE_SPACE_URL = 'https://pm-space.gauzy.co';
+const SHARED_PLANE_SPACE_URL = '';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -42,7 +42,7 @@ export class PlaneAuthorizeComponent extends TranslationBaseComponent implements
 	readonly loading = signal<boolean>(false);
 
 	/** Integration mode: 'shared' (global hosted PM UIs) or 'custom' (tenant URLs). Defaults to shared. */
-	readonly mode = signal<'shared' | 'custom'>('shared');
+	readonly mode = signal<'shared' | 'custom'>('custom');
 
 	/** Global hosted PM URLs shown read-only in shared mode. */
 	readonly sharedWebUrl = SHARED_PLANE_WEB_URL;

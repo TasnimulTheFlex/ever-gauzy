@@ -181,20 +181,6 @@
 					<dt>{{ 'INTEGRATIONS.EVER_ASYNC_PAGE.ORGANIZATION_ID' | translate }}</dt>
 					<dd>{{ settings()?.organizationId }}</dd>
 				</dl>
-				<details>
-					<summary>{{ 'INTEGRATIONS.EVER_ASYNC_PAGE.SELF_HOSTED_CONFIG' | translate }}</summary>
-					<label class="label" for="ever-async-config">{{
-						'INTEGRATIONS.EVER_ASYNC_PAGE.CONFIGURATION' | translate
-					}}</label>
-					<textarea
-						nbInput
-						fullWidth
-						readonly
-						id="ever-async-config"
-						rows="13"
-						[value]="connectorConfig"
-					></textarea>
-				</details>
 				@if (credentials(); as key) {
 					<p role="status">{{ 'INTEGRATIONS.EVER_ASYNC_PAGE.SECRET_ONCE' | translate }}</p>
 					<label class="label" for="ever-async-key">{{
@@ -235,7 +221,7 @@
 				</button>
 				<p>
 					<a
-						href="https://docs-async.ever.co/connectors/ever-gauzy/"
+						href="https://github.com/TasnimulTheFlex/ever-gauzy"
 						target="_blank"
 						rel="noopener noreferrer"
 						>{{ 'INTEGRATIONS.EVER_ASYNC_PAGE.SETUP_GUIDE' | translate }}</a
