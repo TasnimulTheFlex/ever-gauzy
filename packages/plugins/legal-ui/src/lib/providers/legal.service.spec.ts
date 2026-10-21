@@ -29,15 +29,16 @@ describe('LegalService', () => {
 		});
 
 		it('carries a non-empty body', () => {
-			expect(service.getDocument(slug).html.length).toBeGreaterThan(1000);
+			expect(service.getDocument(slug).html).toContain('https://base360.ai/legal');
+			expect(service.getDocument(slug).html).not.toMatch(/gauzy|\bever\b/i);
 		});
 
-		it('exposes the version and effective date the page header renders', () => {
+		it('does not invent a version or effective date for the external policy', () => {
 			const document = service.getDocument(slug);
 
 			expect(document.title).toBeTruthy();
-			expect(document.version).toMatch(/^\d+\.\d+\.\d+$/);
-			expect(document.effectiveDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+			expect(document.version).toBe('');
+			expect(document.effectiveDate).toBe('');
 			expect(document.sha256).toMatch(/^[0-9a-f]{64}$/);
 		});
 

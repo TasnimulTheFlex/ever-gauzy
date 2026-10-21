@@ -3,12 +3,10 @@
 		<h1 class="legal-doc__title">{{ privacy.title }}</h1>
 		<p class="legal-doc__meta">
 			<span class="legal-doc__product">{{ privacy.productName }}</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__version">
+			<span class="legal-doc__version" *ngIf="privacy.version">
 				{{ 'LEGAL.DOCUMENT_VERSION' | translate: { version: privacy.version } }}
 			</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__effective-date">
+			<span class="legal-doc__effective-date" *ngIf="privacy.effectiveDate">
 				{{ 'LEGAL.DOCUMENT_EFFECTIVE_DATE' | translate: { date: privacy.effectiveDate } }}
 			</span>
 		</p>
@@ -21,12 +19,10 @@
 		<h1 class="legal-doc__title">{{ cookies.title }}</h1>
 		<p class="legal-doc__meta">
 			<span class="legal-doc__product">{{ cookies.productName }}</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__version">
+			<span class="legal-doc__version" *ngIf="cookies.version">
 				{{ 'LEGAL.DOCUMENT_VERSION' | translate: { version: cookies.version } }}
 			</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__effective-date">
+			<span class="legal-doc__effective-date" *ngIf="cookies.effectiveDate">
 				{{ 'LEGAL.DOCUMENT_EFFECTIVE_DATE' | translate: { date: cookies.effectiveDate } }}
 			</span>
 		</p>

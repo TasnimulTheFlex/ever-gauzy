@@ -3,12 +3,10 @@
 		<h1 class="legal-doc__title">{{ terms.title }}</h1>
 		<p class="legal-doc__meta">
 			<span class="legal-doc__product">{{ terms.productName }}</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__version">{{
+			<span class="legal-doc__version" *ngIf="terms?.version">{{
 				'LEGAL.DOCUMENT_VERSION' | translate: { version: terms.version }
 			}}</span>
-			<span class="legal-doc__separator" aria-hidden="true">&middot;</span>
-			<span class="legal-doc__effective-date">
+			<span class="legal-doc__effective-date" *ngIf="terms?.effectiveDate">
 				{{ 'LEGAL.DOCUMENT_EFFECTIVE_DATE' | translate: { date: terms.effectiveDate } }}
 			</span>
 		</p>

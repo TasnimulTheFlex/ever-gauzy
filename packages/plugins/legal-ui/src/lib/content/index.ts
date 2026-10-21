@@ -12,13 +12,13 @@ import { LEGAL_PRIVACY_EN } from './privacy.en.generated';
 import { LEGAL_COOKIES_EN } from './cookies.en.generated';
 
 /** npm package the legal text was vendored from. */
-export const LEGAL_CORPUS_PACKAGE = '@ever-co/legal';
+export const LEGAL_CORPUS_PACKAGE = 'https://base360.ai/legal';
 
 /** Version of {@link LEGAL_CORPUS_PACKAGE} the bundled text was generated from. */
 export const LEGAL_CORPUS_VERSION = '0.1.0';
 
 /** Corpus the documents belong to, e.g. `ever` / `ever.co`. */
-export const LEGAL_CORPUS_NAME = 'Ever';
+export const LEGAL_CORPUS_NAME = 'Base360';
 
 /** Product the bundled documents were rendered for. */
 export const LEGAL_PRODUCT = 'gauzy';
