@@ -3,6 +3,8 @@
 # Read-only on PMS: uses role gauzy_password_sync, which can only call the integrations.flex_* functions.
 # A hash is copied only when PMS's hash changed since the last sync, so Gauzy's own rehash-on-login is left alone.
 # New users get the same rows the original import created (user, employee with tracking on, user_organization) and their PMS role.
+# Users the PMS no longer lists are deactivated (and reactivated if they come back). Super admins are exempt: switching
+# tenant in the PMS moves their only membership, so they drop out of the Flex list while still on the team.
 set -euo pipefail
 cd "$(dirname "$0")"
 exec 9>/tmp/pms-password-sync.lock
@@ -14,6 +16,7 @@ n=$(printf '%s\n' "$rows" | grep -c '@.*,\$2[aby]\$' || true)
 {
 	echo "begin;"
 	echo "create table if not exists pms_password_sync (email text primary key, pms_hash text not null, synced_at timestamptz not null default now());"
+	echo "alter table pms_password_sync add column if not exists deactivated_at timestamptz;"
 	echo "create temp table incoming (email text, first_name text, last_name text, lvl text, hash text) on commit drop;"
 	echo "copy incoming from stdin with (format csv);"
 	printf '%s\n' "$rows"
@@ -33,6 +36,26 @@ insert into employee (id, "tenantId", "organizationId", "userId", "startedWorkOn
 	from new_user;
 insert into user_organization ("tenantId", "organizationId", "userId") select tenant_id, org_id, user_id from new_user;
 select 'added ' || count(*) || coalesce(': ' || string_agg(email || ' (' || lvl || ')', ', '), '') from new_user;
+create temp table gone on commit drop as
+	select u.id user_id, s.email from pms_password_sync s
+	join "user" u on lower(u.email) = s.email
+	join role r on r.id = u."roleId"
+	where u."isActive" and s.deactivated_at is null and r.name <> 'SUPER_ADMIN'
+	  and not exists (select 1 from incoming i where i.email = s.email);
+create temp table returning_user on commit drop as
+	select u.id user_id, s.email from pms_password_sync s
+	join "user" u on lower(u.email) = s.email
+	where s.deactivated_at is not null and exists (select 1 from incoming i where i.email = s.email);
+-- ponytail: more than 5 removals in one run looks like a broken PMS feed, so nothing is deactivated; deactivate by hand if real
+delete from gone where (select count(*) from gone) > 5 returning 'deactivation skipped: ' || email;
+update "user" u set "isActive" = (u.id in (select user_id from returning_user)), "updatedAt" = now()
+	where u.id in (select user_id from gone union all select user_id from returning_user);
+update employee e set "isActive" = (e."userId" in (select user_id from returning_user)), "updatedAt" = now()
+	where e."userId" in (select user_id from gone union all select user_id from returning_user);
+update pms_password_sync s set deactivated_at = case when s.email in (select email from gone) then now() end
+	where s.email in (select email from gone union all select email from returning_user);
+select 'deactivated ' || count(*) || coalesce(': ' || string_agg(email, ', '), '') from gone;
+select 'reactivated ' || count(*) || coalesce(': ' || string_agg(email, ', '), '') from returning_user;
 with changed as (
 	select i.email, i.hash from incoming i
 	left join pms_password_sync s on s.email = i.email
