@@ -205,13 +205,13 @@ jobs:
             console.log(script.serverapi(false))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -221,7 +221,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-api-server:linux:release:gh:x64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
+        run: 'yarn build:gauzy-api-server:linux:release:gh:x64'
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -471,13 +471,13 @@ jobs:
             console.log(script.serverapi(false))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Ensure dist directory exists
         shell: bash
@@ -487,7 +487,7 @@ jobs:
         # Snap Store channel: prod ('apps') releases to 'stable', stage ('stage-apps') to 'edge' (the
         # electron-builder default). yarn appends these flags to the script's last command, the
         # electron-builder call. Override snap.publish only: a -c.publish override lands in the GitHub entry.
-        run: 'yarn build:gauzy-api-server:linux:release:gh:arm64 -c.snap.publish.provider=snapStore -c.snap.publish.channels=edge'
+        run: 'yarn build:gauzy-api-server:linux:release:gh:arm64'
         env:
           USE_HARD_LINKS: false
           USE_SYSTEM_FPM: true
@@ -668,13 +668,13 @@ jobs:
             console.log(script.serverapi(false))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Prepare Apple API Key
         run: |
@@ -926,16 +926,16 @@ jobs:
           # Windows signing config must be visible to the BUMP step: this script writes build.win.azureSignOptions into package.json, which electron-builder reads later.
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
-          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
+          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'base360' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1010,7 +1010,7 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
-          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
+          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'base360' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
           EP_GH_IGNORE_TIME: true
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
@@ -1250,13 +1250,13 @@ jobs:
           # WINDOWS_PUBLISHER_NAME the bump script emits no signer, so ARM64 builds
           # unsigned and succeeds; electron-updater verification stays off for it. x64 signs.
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy-api-server'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -1326,7 +1326,7 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_CERT_PROFILE_NAME: ${{ secrets.AZURE_CERT_PROFILE_NAME }}
-          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'ever' }}
+          AZURE_CODE_SIGNING_ACCOUNT: ${{ vars.AZURE_CODE_SIGNING_ACCOUNT || 'base360' }}
           AZURE_CODE_SIGNING_ENDPOINT: ${{ vars.AZURE_CODE_SIGNING_ENDPOINT || 'https://eus.codesigning.azure.net/' }}
           EP_GH_IGNORE_TIME: true
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

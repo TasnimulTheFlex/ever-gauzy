@@ -92,6 +92,9 @@ test('cloud setup and settings use the Base360 API and About exposes the source 
 		assert.match(read(file), /https:\/\/time-api\.base360\.ai/);
 		assert.doesNotMatch(read(file), /https:\/\/(?:api\.)?gauzy\.co/);
 	}
+	const setup = read('packages/desktop-ui-lib/src/lib/setup/setup.component.html');
+	assert.match(setup, /Base360 Cloud/);
+	assert.match(setup, /Base360 Server/);
 	assert.match(read('packages/desktop-ui-lib/src/lib/dialogs/about/about.component.html'),
 		/href="https:\/\/github\.com\/TasnimulTheFlex\/ever-gauzy"[^>]*>Source code<\/a>/);
 });

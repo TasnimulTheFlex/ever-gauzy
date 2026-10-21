@@ -181,14 +181,14 @@ jobs:
             console.log(script.serverapi(false))
         env:
           GAUZY_RELEASE_TAG: ${{ needs.check-release-tag.outputs.tag }}
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
           # Demo electron releases go to the same repo
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
+          COMPANY_SITE_LINK: 'https://base360.ai'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
 
       - name: Fix Node.js PATH for child processes
         shell: powershell
@@ -253,14 +253,14 @@ jobs:
           NX_NO_CLOUD: true
           NX_PLUGIN_NO_TIMEOUTS: true
           NX_DAEMON: false
-          PROJECT_REPO: 'https://github.com/ever-co/ever-gauzy.git'
+          PROJECT_REPO: 'https://github.com/TasnimulTheFlex/ever-gauzy.git'
           # Demo electron releases go to the same repo
-          DESKTOP_API_SERVER_REPO_OWNER: 'ever-co'
+          DESKTOP_API_SERVER_REPO_OWNER: 'TasnimulTheFlex'
           DESKTOP_API_SERVER_REPO_NAME: 'ever-gauzy'
-          DESKTOP_API_SERVER_APP_NAME: 'gauzy-api-server'
-          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Gauzy API Server'
-          DESKTOP_API_SERVER_APP_ID: 'com.ever.gauzyapiserver'
-          COMPANY_SITE_LINK: 'https://gauzy.co'
+          DESKTOP_API_SERVER_APP_NAME: 'base360-api-server'
+          DESKTOP_API_SERVER_APP_DESCRIPTION: 'Base360 API Server'
+          DESKTOP_API_SERVER_APP_ID: 'com.base360.apiserver'
+          COMPANY_SITE_LINK: 'https://base360.ai'
 
       - name: Scrub registry credentials
         if: always()
