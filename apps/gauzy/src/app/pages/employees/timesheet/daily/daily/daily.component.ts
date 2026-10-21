@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { pick } from 'underscore';
 import * as moment from 'moment';
 import { IGetTimeLogInput, ITimeLog, PermissionsEnum, ITimeLogFilters, TimeLogSourceEnum } from '@gauzy/contracts';
+import { Environment, environment } from '@gauzy/ui-config';
 import { distinctUntilChange, isEmpty } from '@gauzy/ui-core/common';
 import {
 	DateRangePickerBuilderService,
@@ -47,6 +48,8 @@ export class DailyComponent extends BaseSelectorFilterComponent implements After
 	private readonly _errorHandlingService = inject(ErrorHandlingService);
 
 	public PermissionsEnum = PermissionsEnum; // Enum for permissions.
+	readonly PLATFORM_WEBSITE_DOWNLOAD_URL: Environment['PLATFORM_WEBSITE_DOWNLOAD_URL'] =
+		environment.PLATFORM_WEBSITE_DOWNLOAD_URL;
 	public logs$: Observable<ITimeLog[]>; // Observable for an array of Time Logs.
 	public logs: ITimeLog[] = []; // Array of organization time logs.
 	public loading = false; // Flag to indicate if data loading is in progress.

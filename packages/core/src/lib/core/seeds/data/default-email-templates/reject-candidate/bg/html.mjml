@@ -3,7 +3,7 @@
 		<mj-section>
 			<mj-column>
 				<mj-image width="100px" src="{{appLogo}}"></mj-image>
-				<mj-divider border-color="#064749" border-width="1px"></mj-divider>
+				<mj-divider border-color="#1E6BE8" border-width="1px"></mj-divider>
 				<mj-text font-size="20px" font-family="helvetica">Актуализация на кандидатурата</mj-text>
 				<mj-text font-size="16px" font-family="helvetica">
 					<p>Уважаеми/а {{candidateName}},</p>
@@ -21,10 +21,10 @@
 					<p>С най-добри пожелания,</p>
 					<p>Екипът на {{organizationName}}</p>
 				</mj-text>
-				<mj-divider border-color="#064749" border-width="1px"></mj-divider>
+				<mj-divider border-color="#1E6BE8" border-width="1px"></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica">
-					© 2019, <a href="{{appLink}}" style="color: #064749">{{appName}}</a> от
-					<a href="{{companyLink}}" style="color: #064749">{{organizationName}}</a> Всички права запазени.
+					© 2019, <a href="{{appLink}}" style="color: #1E6BE8">{{appName}}</a> от
+					<a href="{{companyLink}}" style="color: #1E6BE8">{{organizationName}}</a> Всички права запазени.
 				</mj-text>
 			</mj-column>
 		</mj-section>

@@ -287,12 +287,12 @@ $nb-themes: nb-register-theme(
     color-primary-200: #dbd3f7,
     color-primary-300: #ab92fd,
     color-primary-400: #7d56fd,
-    color-primary-500: #064749,
+    color-primary-500: #1E6BE8,
     color-primary-600: #5037a3,
     color-primary-700: #3d2a7a,
     color-primary-800: #291d52,
     color-primary-900: #1a1038,
-    color-primary-transparent-100: rgba(6, 71, 73, 0.1),
+    color-primary-transparent-100: rgba(30, 107, 232, 0.1),
     // Basic colors: background
     layout-background-color: #ffffff,
     background-basic-color-3: #f9f9f9,
@@ -387,8 +387,8 @@ $nb-themes: nb-register-theme(
     // modern one, and white-on-danger goes from 4.0:1 to 4.8:1.
     color-danger-default: #dc2626,
     color-warning-default: rgba(255, 171, 45, 1),
-    gauzy-background-transparent: rgba(6, 71, 73, 0.5),
-    gauzy-background-transparent-1: rgba(6, 71, 73, 0.1),
+    gauzy-background-transparent: rgba(30, 107, 232, 0.5),
+    gauzy-background-transparent-1: rgba(30, 107, 232, 0.1),
     tag-filled-basic-background-color: rgba(126, 126, 143, 0.1),
     toggle-basic-background-color: rgba(126, 126, 143, 1),
     background-basic-color-1: gauzy-card-1,
@@ -443,12 +443,12 @@ $nb-themes: nb-register-theme(
     color-primary-200: #dbd3f7,
     color-primary-300: #ab92fd,
     color-primary-400: #7d56fd,
-    color-primary-500: #064749,
+    color-primary-500: #1E6BE8,
     color-primary-600: #5037a3,
     color-primary-700: #3d2a7a,
     color-primary-800: #291d52,
     color-primary-900: #1a1038,
-    color-primary-transparent-100: rgba(6, 71, 73, 0.1),
+    color-primary-transparent-100: rgba(30, 107, 232, 0.1),
     // ── Radius scale ──────────────────────────────────────────────────────
     // Same three steps as `gauzy-light` — see the note there. Metrics are kept
     // byte-identical between the two gauzy themes on purpose: only colour is
@@ -563,7 +563,7 @@ $nb-themes: nb-register-theme(
     // (3.9:1) while carrying white text at 4.8:1.
     color-danger-default: #dc2626,
     color-warning-default: rgba(255, 171, 45, 1),
-    gauzy-background-transparent: rgba(6, 71, 73, 0.5),
+    gauzy-background-transparent: rgba(30, 107, 232, 0.5),
     // ── Loading veil ──────────────────────────────────────────────────────
     // `gauzy-card-1` at 72 %, the dark counterpart of the same block in
     // `gauzy-light` — see the note there. The inherited

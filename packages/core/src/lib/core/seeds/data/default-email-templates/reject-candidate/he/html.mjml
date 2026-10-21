@@ -3,7 +3,7 @@
 		<mj-section>
 			<mj-column>
 				<mj-image width="100px" src="{{appLogo}}"></mj-image>
-				<mj-divider border-color="#064749" border-width="1px"></mj-divider>
+				<mj-divider border-color="#1E6BE8" border-width="1px"></mj-divider>
 				<mj-text font-size="20px" font-family="helvetica" direction="rtl">עדכון מועמדות</mj-text>
 				<mj-text font-size="16px" font-family="helvetica" direction="rtl">
 					<p>{{candidateName}} היקר/ה,</p>
@@ -20,10 +20,10 @@
 					<p>בברכה,</p>
 					<p>צוות {{organizationName}}</p>
 				</mj-text>
-				<mj-divider border-color="#064749" border-width="1px"></mj-divider>
+				<mj-divider border-color="#1E6BE8" border-width="1px"></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica" direction="rtl">
-					© 2019, <a href="{{appLink}}" style="color: #064749">{{appName}}</a> על ידי
-					<a href="{{companyLink}}" style="color: #064749">{{organizationName}}</a> כל הזכויות שמורות.
+					© 2019, <a href="{{appLink}}" style="color: #1E6BE8">{{appName}}</a> על ידי
+					<a href="{{companyLink}}" style="color: #1E6BE8">{{organizationName}}</a> כל הזכויות שמורות.
 				</mj-text>
 			</mj-column>
 		</mj-section>

@@ -7,7 +7,7 @@
 			src="{{appLogo}}"
 		></mj-image>
 		<mj-divider
-			border-color="#064749"
+			border-color="#1E6BE8"
 			border-width="1px"
 		></mj-divider>
 
@@ -24,7 +24,7 @@
         <mj-button
 			href="{{verificationLink}}"
 			font-family="Helvetica"
-			background-color="#064749"
+			background-color="#1E6BE8"
 			color="white"
 			target="_blank"
 		>
@@ -48,14 +48,14 @@
 			<p>{{appSignature}}</p>
 		</mj-text>
         <mj-divider
-			border-color="#064749"
+			border-color="#1E6BE8"
 			border-width="1px"
 		></mj-divider>
         <mj-text align="center" font-size="12px" font-family="helvetica">
 			© 2019,
-			<a href="{{appLink}}" style="color: #064749">{{appName}}</a>
+			<a href="{{appLink}}" style="color: #1E6BE8">{{appName}}</a>
 			by
-			<a href="{{companyLink}}" style="color: #064749">{{companyName}}</a>
+			<a href="{{companyLink}}" style="color: #1E6BE8">{{companyName}}</a>
 			All rights reserved.
 		</mj-text>
       </mj-column>

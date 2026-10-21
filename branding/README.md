@@ -16,14 +16,14 @@ installers, OS app name, tray, notifications, window titles, browser tab, API do
 | Web app | https://time.base360.ai |
 | API (desktop "server URL") | https://time-api.base360.ai |
 | Support email | support@base360.ai |
-| Primary color | #064749 (tint rgba(6,71,73,0.10)) |
+| Primary color | #1E6BE8 (tint rgba(30,107,232,0.10)) |
 | Desktop app id | com.base360.timetracker |
 | Desktop deep-link protocol | base360-timer |
 | Releases / update source | GitHub TasnimulTheFlex/base360-time-tracker (never ever-co) |
 | Source code (AGPL §13) | https://github.com/TasnimulTheFlex/base360-time-tracker |
 
 Assets in this folder: `base360-logo.svg` (the mark, 25×25), `icon-512.png`, `icon-192.png`, `icon-maskable-512.png`,
-`apple-touch-icon.png`, `favicon.ico/.svg/.png`. A wordmark = the mark + the text "Base360" in #064749, semibold.
+`apple-touch-icon.png`, `favicon.ico/.svg/.png`. A wordmark = the mark + the text "Base360" in #1E6BE8, semibold.
 Generate any other size or format (PNG sets, .ico, .icns via `sips`/`iconutil` on macOS) from these.
 
 ## Rules (all agents)

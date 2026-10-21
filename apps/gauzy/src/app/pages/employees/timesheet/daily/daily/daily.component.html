@@ -181,7 +181,7 @@
 							<ngx-no-data-message [loading]="loading">
 								<div
 									message
-									[innerHTML]="'REPORT_PAGE.NO_DATA.DAILY_TIME_AND_ACTIVITY' | translate"
+									[innerHTML]="'REPORT_PAGE.NO_DATA.DAILY_TIME_AND_ACTIVITY' | translate: { downloadURL: PLATFORM_WEBSITE_DOWNLOAD_URL }"
 								></div>
 							</ngx-no-data-message>
 						</div>

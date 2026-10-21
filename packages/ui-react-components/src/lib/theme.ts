@@ -9,7 +9,7 @@ export const theme = {
 	red: 'var(--gauzy-action-danger-text, #dc2626)',
 	orange: 'var(--gauzy-action-warning-text, #b45309)',
 	green: 'var(--gauzy-action-success-text, #047857)',
-	accent: 'var(--color-primary-default, #064749)',
+	accent: 'var(--color-primary-default, #1E6BE8)',
 	tint: 'var(--gauzy-hover-tint, rgba(126, 126, 143, 0.12))',
 	shadow: 'none',
 	shadowLight: 'none',

@@ -1,7 +1,7 @@
 {
 	"name": "Base360 API Server",
 	"short_name": "Base360",
-	"theme_color": "#064749",
+	"theme_color": "#1E6BE8",
 	"background_color": "#fff",
 	"display": "standalone",
 	"scope": "/",
