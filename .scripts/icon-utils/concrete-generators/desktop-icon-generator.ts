@@ -70,17 +70,11 @@ export class DesktopIconGenerator
 		}
 	}
 
-	public async generateMacIcon(originalImage: JimpImage): Promise<void> {
-		const macIconFilePath = path.join(this.destination, 'icon.icns');
-		// jimp has no ICNS encoder: jimp 0.x reported that to a callback that ignored it, so no icon.icns was ever
-		// written here and the build went on. Kept as it was (attempted, and a failure does not stop the build), only
-		// now the failure is logged.
-		try {
-			await originalImage.clone().write(macIconFilePath as `${string}.png`);
-			console.log('✔ macOS icon.icns generated.');
-		} catch (error) {
-			console.warn(`macOS icon.icns not generated: ${error?.message ?? error}`);
-		}
+	public async generateMacIcon(_originalImage: JimpImage): Promise<void> {
+		await fs.promises.copyFile(
+			path.join('.scripts', 'icon-utils', 'icons', 'icon.icns'),
+			path.join(this.destination, 'icon.icns')
+		);
 	}
 
 	public async generateWindowsIcon(originalImage: JimpImage): Promise<void> {
@@ -135,6 +129,11 @@ export class DesktopIconGenerator
 					imgJimp.brightness(0.9);
 				}
 				await imgJimp.write(path.join(pngFilePath, icon) as `${string}.png`);
+				if (color === 'normal' && (scale === 1 || scale === 2)) {
+					await imgJimp.clone().brightness(0).write(
+						path.join(pngFilePath, `iconTemplate${scale === 2 ? '@2x' : ''}.png`) as `${string}.png`
+					);
+				}
 				console.log(`✔ tray icon ${icon} generated successfully.`);
 			}
 		}
