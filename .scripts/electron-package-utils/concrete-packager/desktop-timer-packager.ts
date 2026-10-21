@@ -4,7 +4,6 @@ import { BasePackager } from './base-packager';
 
 export class DesktopTimerPackager extends BasePackager {
 	public prepare(pkg: IPackage): IPackage {
-		pkg.name = env.DESKTOP_TIMER_APP_NAME || pkg.name;
 		pkg.productName = env.DESKTOP_TIMER_APP_DESCRIPTION || pkg.productName;
 		pkg.description = env.DESKTOP_TIMER_APP_DESCRIPTION || pkg.description;
 		pkg.homepage = env.COMPANY_SITE_LINK || pkg.homepage;
@@ -13,7 +12,7 @@ export class DesktopTimerPackager extends BasePackager {
 			env.DESKTOP_TIMER_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_TIMER_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_TIMER_APP_PROTOCOL || 'gauzy-timer';
+		const protocol = env.DESKTOP_TIMER_APP_PROTOCOL || 'base360-timer';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

@@ -4,7 +4,6 @@ import { BasePackager } from './base-packager';
 
 export class DesktopPackager extends BasePackager {
 	public prepare(pkg: IPackage): IPackage {
-		pkg.name = env.DESKTOP_APP_NAME || pkg.name;
 		pkg.productName = env.DESKTOP_APP_DESCRIPTION || pkg.productName;
 		pkg.description = env.DESKTOP_APP_DESCRIPTION || pkg.description;
 		pkg.homepage = env.COMPANY_SITE_LINK || pkg.homepage;
@@ -13,7 +12,7 @@ export class DesktopPackager extends BasePackager {
 			env.DESKTOP_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_APP_PROTOCOL || 'gauzy-desktop';
+		const protocol = env.DESKTOP_APP_PROTOCOL || 'base360-desktop';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

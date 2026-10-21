@@ -29,7 +29,7 @@ export class ApplicationSettingStoreService extends StoreService implements ISto
 			trackOnPcSleep: false,
 			awIsConnected: true,
 			preventDisplaySleep: false,
-			automaticUpdate: true,
+			automaticUpdate: false,
 			automaticUpdateDelay: 1, // hour
 			timerStarted: false,
 			cdnUpdater: {

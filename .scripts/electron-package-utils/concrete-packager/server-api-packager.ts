@@ -4,7 +4,6 @@ import { BasePackager } from './base-packager';
 
 export class ServerApiPackager extends BasePackager {
 	public prepare(pkg: IPackage): IPackage {
-		pkg.name = env.DESKTOP_API_SERVER_APP_NAME || pkg.name;
 		pkg.productName = env.DESKTOP_API_SERVER_APP_DESCRIPTION || pkg.productName;
 		pkg.description = env.DESKTOP_API_SERVER_APP_DESCRIPTION || pkg.description;
 		pkg.homepage = env.COMPANY_SITE_LINK || pkg.homepage;
@@ -13,7 +12,7 @@ export class ServerApiPackager extends BasePackager {
 			env.DESKTOP_API_SERVER_APP_DESCRIPTION || pkg.build.productName;
 		pkg.build.linux.executableName =
 			env.DESKTOP_API_SERVER_APP_NAME || pkg.build.linux.executableName;
-		const protocol = env.DESKTOP_API_SERVER_APP_PROTOCOL || 'gauzy-api-server';
+		const protocol = env.DESKTOP_API_SERVER_APP_PROTOCOL || 'base360-api-server';
 		return this.registerProtocol(pkg, protocol);
 	}
 }

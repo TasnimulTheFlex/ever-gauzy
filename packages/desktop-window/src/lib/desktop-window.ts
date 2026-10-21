@@ -6,7 +6,7 @@ import { WindowManager, RegisteredWindow, store } from '@gauzy/desktop-core';
 import { handleCloseEvent } from './utils/desktop-window-utils';
 
 /**
- * Creates and initializes the Gauzy main window for the Electron application.
+ * Creates and initializes the Base360 main window for the Electron application.
  *
  * This function sets up a new Electron `BrowserWindow` instance with the specified settings,
  * loads the appropriate URL or file path, and attaches listeners for close and IPC events.
@@ -26,7 +26,7 @@ export async function createGauzyWindow(
 	filePath: string,
 	preloadPath?: string
 ): Promise<Electron.BrowserWindow> {
-	console.info('Creating Gauzy main window: Initialization process started');
+	console.info('Creating Base360 main window: Initialization process started');
 	// Get the WindowManager instance
 	const manager = WindowManager.getInstance();
 
@@ -62,7 +62,7 @@ export async function createGauzyWindow(
 	// Init main listener for electron
 	initMainListener();
 
-	console.info('Gauzy main window creation completed successfully');
+	console.info('Base360 main window creation completed successfully');
 
 	// Register the window with the WindowManager
 	manager.register(RegisteredWindow.MAIN, gauzyWindow);
@@ -119,7 +119,7 @@ async function setLaunchPathAndLoad(window: Electron.BrowserWindow, filePath: st
 	await window.loadURL(launchPath);
 
 	// Log the loaded URL for debugging purposes
-	console.info(`Loaded URL in Gauzy window: ${launchPath}`);
+	console.info(`Loaded URL in Base360 window: ${launchPath}`);
 	return launchPath;
 }
 
@@ -154,7 +154,7 @@ const windowSetting = (preloadPath?: string): Electron.BrowserWindowConstructorO
 		height: sizes.height,
 		x: 0,
 		y: 0,
-		title: process.env.DESCRIPTION || 'Gauzy Desktop',
+		title: process.env.DESCRIPTION || 'Base360 Desktop',
 		show: false,
 		icon: filesPath.iconPath
 	};

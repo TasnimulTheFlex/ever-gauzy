@@ -6,7 +6,7 @@
 					<div class="row">
 						<div class="col-12 d-flex justify-content-center">
 							<div class="logo">
-								<img [src]="$safeNavigationMigration(application?.iconPath)" />
+								<img [src]="$safeNavigationMigration(application?.iconPath)" alt="Base360" />
 							</div>
 						</div>
 						<div class="col-12 name-text text-center mt-2">
@@ -24,6 +24,8 @@
 								<span class="link" (click)="openLink('EVER')">{{ application?.companyName }}</span>
 								<br />
 								{{ 'FOOTER.RIGHTS_RESERVED' | translate }}
+								<br />
+								<a class="link" href="https://github.com/TasnimulTheFlex/ever-gauzy" (click)="$event.preventDefault(); openLink('SOURCE')">Source code</a>
 								<br />
 								<span class="link" (click)="openLink('TOS')">{{
 									'FOOTER.TERMS_OF_SERVICE' | translate

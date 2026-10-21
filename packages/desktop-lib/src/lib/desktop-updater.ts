@@ -29,6 +29,7 @@ export class DesktopUpdater {
 	private _openDialog: Promise<any> = null;
 
 	constructor(config: IUpdaterConfig) {
+		config = { ...config, owner: 'TasnimulTheFlex', repository: 'ever-gauzy' };
 		this._updateContext = new UpdateContext();
 		this._updateServer = new DesktopLocalUpdateServer();
 		this._strategy = new GithubCdn(new CdnUpdate(config));

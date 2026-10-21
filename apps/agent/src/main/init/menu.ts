@@ -53,7 +53,7 @@ export class AgentMenu {
 		return {
 			label: TranslateService.instant('TIMER_TRACKER.MENU.LEARN_MORE'),
 			click() {
-				shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://gauzy.co/');
+				shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://base360.ai/');
 			}
 		}
 	}

@@ -46,7 +46,7 @@ export class AppMenu {
 		this.windowPath = windowPath;
 		const isZoomEnabled = isZoomVisible ?? false;
 		this.applicationMenu = {
-			label: 'Gauzy',
+			label: 'Base360',
 			submenu: [
 				{
 					id: 'gauzy-about',
@@ -85,7 +85,7 @@ export class AppMenu {
 				{
 					label: TranslateService.instant('TIMER_TRACKER.MENU.LEARN_MORE'),
 					click() {
-						shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://gauzy.co/');
+						shell.openExternal(process.env.COMPANY_SITE_LINK || 'https://base360.ai/');
 					}
 				},
 				{

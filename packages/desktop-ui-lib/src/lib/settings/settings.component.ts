@@ -247,17 +247,17 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			title: 'Github',
 			fields: [
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CLIENT_ID',
+					name: 'GitHub OAuth client ID',
 					field: 'GAUZY_GITHUB_OAUTH_CLIENT_ID',
 					value: ''
 				},
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CLIENT_SECRET',
+					name: 'GitHub OAuth client secret',
 					field: 'GAUZY_GITHUB_OAUTH_CLIENT_SECRET',
 					value: ''
 				},
 				{
-					name: 'GAUZY_GITHUB_OAUTH_CALLBACK_URL',
+					name: 'GitHub OAuth callback URL',
 					field: 'GAUZY_GITHUB_OAUTH_CALLBACK_URL',
 					value: ''
 				}
@@ -383,30 +383,30 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			fields: [
 				{
 					// `false` switches the anonymous usage statistics off (applies on the next start).
-					name: 'EVER_STATS_ENABLED',
+					name: 'Usage statistics enabled',
 					field: 'EVER_STATS_ENABLED',
 					value: ''
 				},
 				{
 					// Two-letter country to declare in the reports (empty: undeclared).
-					name: 'EVER_STATS_COUNTRY',
+					name: 'Statistics country',
 					field: 'EVER_STATS_COUNTRY',
 					value: ''
 				}
 			]
 		},
 		{
-			title: 'Ever Platform',
+			title: 'Platform connection',
 			fields: [
 				{
 					// `true` loads the Ever Platform connection (applies on the next start; off otherwise).
-					name: 'EVER_CONNECT_ENABLED',
+					name: 'Platform connection enabled',
 					field: 'EVER_CONNECT_ENABLED',
 					value: ''
 				},
 				{
 					// `interval` reads Ever Platform events every 15 minutes instead of a long poll.
-					name: 'EVER_CONNECT_FEED_MODE',
+					name: 'Platform connection feed mode',
 					field: 'EVER_CONNECT_FEED_MODE',
 					value: ''
 				}
@@ -1094,10 +1094,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			case this.config.isLocalServer:
 				this.config.serverType = 'Integrated';
 				break;
-			case !this.config.isLocalServer && this.config.serverUrl !== 'https://api.gauzy.co':
+			case !this.config.isLocalServer && this.config.serverUrl !== 'https://time-api.base360.ai':
 				this.config.serverType = 'Custom';
 				break;
-			case !this.config.isLocalServer && this.config.serverUrl === 'https://api.gauzy.co':
+			case !this.config.isLocalServer && this.config.serverUrl === 'https://time-api.base360.ai':
 				this.config.serverType = 'Live';
 				break;
 			default:
@@ -1113,9 +1113,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	checkForUpdate() {
-		this._loading$.next(true);
-		this.logIsOpen = true;
-		this.electronService.ipcRenderer.send('check_for_update');
+		this.electronService.shell.openExternal('https://github.com/TasnimulTheFlex/ever-gauzy/releases');
 	}
 
 	public async restartAndUpdate(): Promise<void> {
@@ -1199,7 +1197,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				break;
 			case this.serverTypes.live:
 				this.config.isLocalServer = false;
-				this.config.serverUrl = 'https://api.gauzy.co';
+				this.config.serverUrl = 'https://time-api.base360.ai';
 				break;
 			default:
 				break;
@@ -1263,7 +1261,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public openLink() {
-		const url = 'https://gauzy.co';
+		const url = 'https://base360.ai';
 		this.electronService.shell.openExternal(url);
 	}
 
