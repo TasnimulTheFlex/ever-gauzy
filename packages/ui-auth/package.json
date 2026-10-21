@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/ui-auth",
 	"version": "0.1.0",
-	"description": "A UI module for authentication in the Ever Gauzy Platform, providing reusable components and services for managing user authentication.",
+	"description": "A UI module for authentication in the Base360 Platform, providing reusable components and services for managing user authentication.",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/ui-auth"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"scripts": {
@@ -54,8 +54,8 @@
 		"ui",
 		"authentication",
 		"auth",
-		"gauzy",
-		"ever-co"
+		"Base360",
+		"base360"
 	],
 	"engines": {
 		"node": ">=26",

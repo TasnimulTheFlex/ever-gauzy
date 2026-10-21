@@ -7,16 +7,16 @@
 	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy.git"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
 	"bugs": {
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
 	"private": true,
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"main": "index.js",
 	"bin": "api/main.js",
@@ -27,7 +27,7 @@
 		"appId": "com.base360.apiserver",
 		"artifactName": "base360-api-server-${arch}-${version}.${ext}",
 		"productName": "Base360 API Server",
-		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
+		"copyright": "Copyright © 2019-Present. Base360",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
 		"dmg": {

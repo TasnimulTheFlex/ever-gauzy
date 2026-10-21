@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/plugin-ever-connect",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin that connects an installation to Ever Platform with a connect code, links organizations to Ever organizations and keeps the state of each consented integration; off unless EVER_CONNECT_ENABLED=true",
+	"description": "Base360 Platform plugin that connects an installation to Base360 Platform with a connect code, links organizations to connected organizations and keeps the state of each consented integration; off unless EVER_CONNECT_ENABLED=true",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/ever-connect"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",
@@ -51,8 +51,8 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
-		"ever-platform",
+		"Base360",
+		"base360-platform",
 		"connect",
 		"integrations",
 		"plugin"

@@ -1,20 +1,21 @@
 {
 	"name": "@gauzy/plugin-email-provider-postmark",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin: Postmark as an Inbox email provider (inbound webhook behind a per-account Basic-auth credential, outbound API transport); off unless EMAIL_PROVIDER_POSTMARK_ENABLED=true",
+	"description": "Base360 Platform plugin: Postmark as an Inbox email provider (inbound webhook behind a per-account Basic-auth credential, outbound API transport); off unless EMAIL_PROVIDER_POSTMARK_ENABLED=true",
 	"author": {
-		"name": "Ever Co. LTD",
-		"url": "https://github.com/ever-co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/email-provider-postmark"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://github.com/ever-co/ever-gauzy/tree/develop/packages/plugins/email-provider-postmark",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",
@@ -44,7 +45,7 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
+		"Base360",
 		"inbox",
 		"email",
 		"postmark",

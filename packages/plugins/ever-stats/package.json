@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/plugin-ever-stats",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin that sends one anonymous usage statistics report a day (counts and monthly totals only), signed, with a published schema; on by default and switched off with EVER_STATS_ENABLED=false or in Settings",
+	"description": "Base360 Platform plugin that sends one anonymous usage statistics report a day (counts and monthly totals only), signed, with a published schema; on by default and switched off with EVER_STATS_ENABLED=false or in Settings",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/ever-stats"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",
@@ -53,8 +53,8 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
-		"ever-platform",
+		"Base360",
+		"base360-platform",
 		"anonymous",
 		"usage-statistics",
 		"plugin"

@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/plugin-ai-provider-whisper-cpp",
 	"version": "0.1.0",
-	"description": "Ever Gauzy AI Chat provider plugin — registers a LOCAL whisper.cpp whisper-server (speech-to-text, dictation only) with the @gauzy/plugin-ai-chat provider registry",
+	"description": "Base360 AI Chat provider plugin — registers a LOCAL whisper.cpp whisper-server (speech-to-text, dictation only) with the @Base360/plugin-ai-chat provider registry",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/ai-provider-whisper-cpp"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"main": "./src/index.js",
@@ -42,7 +42,7 @@
 		"@nestjs/core": "^12.0.0"
 	},
 	"keywords": [
-		"Ever Gauzy",
+		"Base360",
 		"plugin",
 		"AI",
 		"chat",

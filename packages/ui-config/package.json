@@ -1,22 +1,22 @@
 {
 	"name": "@gauzy/ui-config",
 	"version": "0.1.0",
-	"description": "A configuration library for the Gauzy framework, providing environment settings and configurations to be shared across various Angular applications within the Gauzy ecosystem.",
+	"description": "A configuration library for the Base360 framework, providing environment settings and configurations to be shared across various Angular applications within the Base360 ecosystem.",
 	"type": "module",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/ui-config"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"scripts": {
@@ -48,7 +48,7 @@
 		"jest-preset-angular": "17.0.2"
 	},
 	"keywords": [
-		"gauzy",
+		"Base360",
 		"angular",
 		"configuration",
 		"environment",

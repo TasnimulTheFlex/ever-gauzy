@@ -1,22 +1,22 @@
 {
 	"name": "@gauzy/plugin-warehouse",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform Warehouse Plugin — zones, bins, picking, packing and carrier manifests",
+	"description": "Base360 Platform Warehouse Plugin — zones, bins, picking, packing and carrier manifests",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"license": "AGPL-3.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/warehouse"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"private": true,
 	"type": "commonjs",
 	"main": "./src/index.js",
@@ -64,7 +64,7 @@
 		"packing",
 		"manifest",
 		"plugin",
-		"Ever Gauzy",
+		"Base360",
 		"NestJS",
 		"typescript",
 		"microservices",

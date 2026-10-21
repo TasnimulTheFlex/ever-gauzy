@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/ui-core",
 	"version": "0.1.0",
-	"description": "A collection of core UI components and utilities for the Gauzy framework. This library provides essential building blocks for constructing user interfaces, designed to be flexible and reusable in various Angular applications.",
+	"description": "A collection of core UI components and utilities for the Base360 framework. This library provides essential building blocks for constructing user interfaces, designed to be flexible and reusable in various Angular applications.",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/ui-core"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"scripts": {
@@ -131,7 +131,7 @@
 		"core-components",
 		"utilities",
 		"ui-framework",
-		"ever-gauzy",
+		"base360",
 		"nebular",
 		"angular-material",
 		"rxjs",

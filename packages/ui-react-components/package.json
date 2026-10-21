@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/ui-react-components",
 	"version": "0.1.0",
-	"description": "Reusable React UI components (Card, CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover) and theme-adaptive design tokens for Gauzy dashboards.",
+	"description": "Reusable React UI components (Card, CounterPoint, ProgressBar, Badge, Avatar, Spinner, Popover) and theme-adaptive design tokens for Base360 dashboards.",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/ui-react-components"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"scripts": {
@@ -31,10 +31,10 @@
 		"@types/react-dom": "^19.3.0"
 	},
 	"keywords": [
-		"gauzy",
+		"Base360",
 		"ui-react-components",
 		"react",
-		"ever-gauzy"
+		"base360"
 	],
 	"engines": {
 		"node": ">=26",

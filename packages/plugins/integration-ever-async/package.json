@@ -1,21 +1,21 @@
 {
 	"name": "@gauzy/plugin-integration-ever-async",
 	"version": "0.1.0",
-	"description": "Ever Gauzy Platform plugin for integration with Ever Async, an async-first team communication assistant",
+	"description": "Base360 Platform plugin for integration with Base360 Async, an async-first team communication assistant",
 	"author": {
-		"name": "Ever Co. LTD",
-		"email": "ever@ever.co",
-		"url": "https://ever.co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/integration-ever-async"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://ever.co",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",
@@ -53,8 +53,8 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"Ever Async",
-		"ever-async",
+		"Base360 Async",
+		"base360-async",
 		"integration",
 		"async communication",
 		"chat context",

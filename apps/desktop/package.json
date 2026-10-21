@@ -10,10 +10,10 @@
 	"homepage": "https://base360.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy.git"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
 	"bugs": {
-		"url": "https://github.com/TasnimulTheFlex/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
 	"license": "AGPL-3.0",
 	"private": true,

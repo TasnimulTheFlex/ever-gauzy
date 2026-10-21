@@ -1,20 +1,21 @@
 {
 	"name": "@gauzy/plugin-email-provider-ses",
 	"version": "0.1.0",
-	"description": "Amazon SES as a Gauzy Inbox email provider: receipt rules via SNS (and S3) and the SESv2 API.",
+	"description": "Amazon SES as a Base360 Inbox email provider: receipt rules via SNS (and S3) and the SESv2 API.",
 	"author": {
-		"name": "Ever Co. LTD",
-		"url": "https://github.com/ever-co"
+		"name": "Base360",
+		"email": "support@base360.ai",
+		"url": "https://base360.ai"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ever-co/ever-gauzy",
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy",
 		"directory": "packages/plugins/email-provider-ses"
 	},
 	"bugs": {
-		"url": "https://github.com/ever-co/ever-gauzy/issues"
+		"url": "https://github.com/TasnimulTheFlex/ever-gauzy"
 	},
-	"homepage": "https://github.com/ever-co/ever-gauzy/tree/develop/packages/plugins/email-provider-ses",
+	"homepage": "https://base360.ai",
 	"license": "AGPL-3.0",
 	"private": true,
 	"type": "commonjs",
@@ -44,7 +45,7 @@
 		"typescript": "~6.0.3"
 	},
 	"keywords": [
-		"gauzy",
+		"Base360",
 		"inbox",
 		"email",
 		"ses",
