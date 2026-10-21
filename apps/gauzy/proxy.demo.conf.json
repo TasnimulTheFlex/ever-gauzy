@@ -1,11 +1,11 @@
 {
 	"/api": {
-		"target": "https://apidemo.gauzy.co",
+		"target": "https://time-api.base360.ai",
 		"secure": true,
 		"changeOrigin": true,
 		"headers": {
-			"Origin": "https://demo.gauzy.co",
-			"Referer": "https://demo.gauzy.co/"
+			"Origin": "https://time.base360.ai",
+			"Referer": "https://time.base360.ai/"
 		},
 		"logLevel": "debug"
 	}

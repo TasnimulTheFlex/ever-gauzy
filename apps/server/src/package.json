@@ -75,13 +75,16 @@
 				"NSAppleEventsUsageDescription": "This app requires access to script browser applications to detect the current URL when triggering instant lookup.",
 				"NSCameraUsageDescription": "Please allow access to the device camera to capture images and videos.",
 				"NSMicrophoneUsageDescription": "Please allow access to the device's microphone to capture audio and voice recordings.",
-				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos."
+				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos.",
+				"CFBundleName": "Base360 Server",
+				"CFBundleDisplayName": "Base360 Server"
 			}
 		},
 		"win": {
 			"target": "nsis",
 			"icon": "icon.ico",
-			"requestedExecutionLevel": "requireAdministrator"
+			"requestedExecutionLevel": "requireAdministrator",
+			"publisherName": "Base360"
 		},
 		"snap": {
 			"base": "core22"
@@ -146,6 +149,16 @@
 		},
 		"extraResources": [
 			"./data/**/*"
+		],
+		"executableName": "base360-server",
+		"protocols": [
+			{
+				"name": "Base360 Server Protocol",
+				"schemes": [
+					"base360-server"
+				],
+				"role": "Editor"
+			}
 		]
 	},
 	"dependencies": {

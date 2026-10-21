@@ -71,12 +71,16 @@
 			"gatekeeperAssess": false,
 			"entitlements": "tools/build/entitlements.mas.plist",
 			"entitlementsInherit": "tools/build/entitlements.mas.plist",
-			"extendInfo": {}
+			"extendInfo": {
+				"CFBundleName": "Base360 API Server",
+				"CFBundleDisplayName": "Base360 API Server"
+			}
 		},
 		"win": {
 			"target": "nsis",
 			"icon": "icon.ico",
-			"requestedExecutionLevel": "requireAdministrator"
+			"requestedExecutionLevel": "requireAdministrator",
+			"publisherName": "Base360"
 		},
 		"snap": {
 			"base": "core22"
@@ -141,6 +145,16 @@
 		},
 		"extraResources": [
 			"./data/**/*"
+		],
+		"executableName": "base360-api-server",
+		"protocols": [
+			{
+				"name": "Base360 API Server Protocol",
+				"schemes": [
+					"base360-api-server"
+				],
+				"role": "Editor"
+			}
 		]
 	},
 	"dependencies": {

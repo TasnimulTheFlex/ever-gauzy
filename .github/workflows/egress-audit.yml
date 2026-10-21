@@ -256,7 +256,7 @@ jobs:
       - name: The list of outbound calls is the pinned contract's, and everything that repeats it agrees
         run: node --test tools/ever-platform/outbound-calls.test.mjs
 
-      - name: No dependency on a private ever-co repository (the default branch must build for anyone)
+      - name: No dependency on a private upstream repository (the default branch must build for anyone)
         # On the push to develop, the schedule and manual runs: a pull request into develop starts no run
         # (owner decision 2026-09-21), and the branches other pull requests aim at may name private repositories.
         if: ${{ github.event_name != 'pull_request' }}
