@@ -1,5 +1,5 @@
 export const SERVER_INFO = {
-    name: 'Gauzy MCP Server',
+    name: 'Base360 MCP Server',
     capabilities: {
         tools: true,
         resources: false,

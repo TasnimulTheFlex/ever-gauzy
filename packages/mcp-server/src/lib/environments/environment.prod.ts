@@ -72,8 +72,8 @@ function getTimeout(): number {
 export const environment: IEnvironment = {
 	production: true,
 	envName: 'production',
-	mcpAppName: process.env.MCP_APP_NAME || 'Gauzy MCP Server',
-	appId: process.env.MCP_APP_ID || 'co.gauzy.mcp-server',
+	mcpAppName: process.env.MCP_APP_NAME || 'Base360 MCP Server',
+	appId: process.env.MCP_APP_ID || 'com.base360.mcp-server',
 	baseUrl: getBaseUrl(),
 	apiTimeout: getTimeout(),
 	debug: process.env.GAUZY_MCP_DEBUG === 'true',

@@ -65,8 +65,8 @@ export const version: string = getVersion();
 // Additional version info
 export const versionInfo = {
 	version,
-	name: 'Gauzy MCP Server',
-	description: 'Model Context Protocol server for Ever Gauzy',
-	author: 'Ever Co. LTD',
+	name: 'Base360 MCP Server',
+	description: 'Model Context Protocol server for Base360 Time Tracker',
+	author: 'Base360',
 	license: 'AGPL-3.0'
 };

@@ -496,7 +496,7 @@ export class WebSocketTransport {
 							protocolVersion: PROTOCOL_VERSION,
 							capabilities: { tools: {} },
 							serverInfo: {
-								name: 'gauzy-mcp-server',
+								name: 'base360-mcp-server',
 								version: '0.1.0'
 							}
 						}

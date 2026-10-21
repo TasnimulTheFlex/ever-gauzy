@@ -468,7 +468,7 @@ export const registerTimeOffTools = (server: McpServer) => {
 		async () => {
 			try {
 				throw new Error(
-					'The Gauzy API has no cancelled status for time-off requests. Use deny_time_off_request or delete_time_off_request.'
+					'The Base360 API has no cancelled status for time-off requests. Use deny_time_off_request or delete_time_off_request.'
 				);
 			} catch (error) {
 				logger.error('Error cancelling time-off request:', sanitizeForLogging(error));

@@ -165,7 +165,7 @@ export class McpServerManager {
 			this._version = version;
 			this._transport = transport;
 
-			logger.log(`Gauzy MCP Server initialized with ${transport.type} transport`);
+			logger.log(`Base360 MCP Server initialized with ${transport.type} transport`);
 
 			if (transport.type === 'http' && transport.url) {
 				logger.log(`🌐 HTTP transport available at: ${transport.url}`);

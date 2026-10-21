@@ -17,13 +17,13 @@ const logger = new Logger('TestConnectionTools');
  */
 export const registerTestTools = (server: McpServer) => {
 	// Test API connection
-	registerNoArgsTool(server, 'test_api_connection', 'Test the connection to the Gauzy API server', async () => {
+	registerNoArgsTool(server, 'test_api_connection', 'Test the connection to the Base360 API server', async () => {
 		try {
 			const connectionTest = await apiClient.testConnection();
 
 			if (connectionTest.success) {
 				const authStatus = authManager.getAuthStatus();
-				const statusText = `✅ Successfully connected to Gauzy API server!
+				const statusText = `✅ Successfully connected to Base360 API server!
 
 Connection Details:
 - Base URL: ${apiClient.getBaseUrl()}
@@ -45,7 +45,7 @@ Connection Details:
 					content: [
 						{
 							type: 'text',
-							text: `❌ Failed to connect to Gauzy API: ${connectionTest.error}`
+							text: `❌ Failed to connect to Base360 API: ${connectionTest.error}`
 						}
 					]
 				};
@@ -64,7 +64,7 @@ Connection Details:
 	});
 
 	// Get server info
-	registerNoArgsTool(server, 'get_server_info', 'Get information about the Gauzy MCP server', async () => {
+	registerNoArgsTool(server, 'get_server_info', 'Get information about the Base360 MCP server', async () => {
 		try {
 			const authStatus = authManager.getAuthStatus();
 

@@ -351,7 +351,7 @@ export class HttpTransport {
 				status: 'healthy',
 				timestamp: new Date().toISOString(),
 				transport: 'http',
-				server: 'gauzy-mcp-server',
+				server: 'base360-mcp-server',
 				...(this.authorizationConfig.enabled && {
 					authorization: {
 						enabled: true,
@@ -821,7 +821,7 @@ export class HttpTransport {
 							protocolVersion: PROTOCOL_VERSION,
 							capabilities: { tools: {} },
 							serverInfo: {
-								name: 'gauzy-mcp-server',
+								name: 'base360-mcp-server',
 								version: '0.1.0'
 							}
 						}
