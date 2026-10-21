@@ -1,7 +1,7 @@
 export const LoginPageData = {
-	TitleText: 'Gauzy',
-	email: 'admin@ever.co',
+	TitleText: 'Base360',
+	email: 'admin@base360.ai',
 	password: 'admin',
-	empEmail: 'employee@ever.co',
+	empEmail: 'employee@base360.ai',
 	empPassword: '12345678'
 };

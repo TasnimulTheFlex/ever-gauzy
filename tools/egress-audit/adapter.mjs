@@ -385,7 +385,7 @@ export default {
 			`adapter: sign-in start: ${start.status}${location ? ` to ${new URL(location, ctx.baseUrl).host}` : ''}`
 		);
 		if (/^https?:\/\/([^/]*\.)?ever\.co(\/|:|$)/i.test(location)) {
-			throw new Error('the sign-in plugin redirected to an Ever issuer with the connection off');
+			throw new Error('the sign-in plugin redirected to an upstream issuer with the connection off');
 		}
 	},
 
@@ -399,11 +399,11 @@ export default {
 		const session = await connected(ctx);
 		const org = session.organizationId;
 		const before = await coreRoutes(session);
-		ctx.log(`adapter: Gauzy's routes before: ${JSON.stringify(before)}`);
+		ctx.log(`adapter: Base360's routes before: ${JSON.stringify(before)}`);
 		const failing = Object.entries(before).filter(([, status]) => status < 200 || status >= 300);
 		if (failing.length) {
 			throw new Error(
-				`Gauzy's own routes must answer before the ladder starts: ${failing.map(([route, status]) => `${route} ${status}`).join('; ')}`
+				`Base360's own routes must answer before the ladder starts: ${failing.map(([route, status]) => `${route} ${status}`).join('; ')}`
 			);
 		}
 		const realNow = () => Math.floor(Date.now() / 1000);
@@ -468,11 +468,11 @@ export default {
 			const after = await coreRoutes(session);
 			if (JSON.stringify(after) !== JSON.stringify(before)) {
 				throw new Error(
-					`${step.name}: Gauzy's own routes changed: ${JSON.stringify(before)} then ${JSON.stringify(after)}`
+					`${step.name}: Base360's own routes changed: ${JSON.stringify(before)} then ${JSON.stringify(after)}`
 				);
 			}
 		}
-		ctx.log("adapter: the ladder followed every document and Gauzy's own routes answered the same at every step");
+		ctx.log("adapter: the ladder followed every document and Base360's own routes answered the same at every step");
 	},
 
 	/** Ids for the browser's routes (the user, the organization, the employee): never a token. */

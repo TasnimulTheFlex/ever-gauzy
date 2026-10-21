@@ -108,7 +108,7 @@ export function consentLinkAllowed(link: string, apiUrl: string | null): boolean
 		return false;
 	}
 	const host = url.hostname.toLowerCase();
-	if (host === 'app.ever.co') {
+	if (host === 'time.base360.ai') {
 		return true;
 	}
 	let apiHost: string | null = null;

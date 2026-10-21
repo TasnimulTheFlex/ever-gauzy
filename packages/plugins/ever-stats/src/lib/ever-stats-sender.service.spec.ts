@@ -75,7 +75,7 @@ describe('EverStatsSender', () => {
 		expect(request.headers['content-type']).toBe('application/json');
 		expect(request.headers['ever-stats-key']).toBe(signer.publicKey);
 		expect(request.headers['ever-stats-key-id']).toBe(signer.keyId);
-		expect(request.headers['user-agent']).toBe('gauzy-ever-stats/0.1.0 (gauzy/111.47.0)');
+		expect(request.headers['user-agent']).toBe('base360-stats/0.1.0 (base360/111.47.0)');
 		expect(request.headers['authorization']).toBeUndefined();
 		expect(request.headers['cookie']).toBeUndefined();
 		const signature = String(request.headers['ever-stats-signature']);

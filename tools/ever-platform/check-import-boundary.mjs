@@ -123,7 +123,7 @@ export function main(argv) {
 	const findings = check(root);
 	if (findings.length) {
 		process.stderr.write(
-			`check-import-boundary: imports across the Ever Platform modules' boundary:\n  ${findings.join('\n  ')}\n`
+			`check-import-boundary: imports across the connected platform modules' boundary:\n  ${findings.join('\n  ')}\n`
 		);
 		return 1;
 	}

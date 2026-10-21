@@ -32,12 +32,12 @@
 'use strict';
 
 const BASE = (process.env.BASE_URL || 'http://127.0.0.1:3000').replace(/\/+$/, '');
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@ever.co';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@base360.ai';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin';
 const RESOURCE = process.env.PROBE_RESOURCE || '/api/carts';
 const TIMEOUT_MS = Number(process.env.PROBE_TIMEOUT_MS || 30_000);
 
-const PROBE_EMAIL = 'authorization-probe@ever.co';
+const PROBE_EMAIL = 'authorization-probe@base360.ai';
 const PROBE_PASSWORD = 'AuthorizationProbe123!';
 const PROBE_ROLE = 'Authorization probe (read only)';
 const PROBE_READ_PERMISSION = process.env.PROBE_READ_PERMISSION || 'CARTS_VIEW';

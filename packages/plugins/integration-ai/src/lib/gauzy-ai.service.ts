@@ -671,7 +671,7 @@ export class GauzyAIService {
 		}
 
 		console.log(
-			`syncGauzyEmployeeJobSearchCriteria called. Criteria: ${JSON.stringify(
+			`Syncing employee job search criteria: ${JSON.stringify(
 				criteria
 			)}. Employee: ${JSON.stringify(employee)}`
 		);
@@ -1285,11 +1285,11 @@ export class GauzyAIService {
 		try {
 			const gauzyAIRESTEndpoint = this._configService.get<string>('gauzyAI.gauzyAIRESTEndpoint');
 
-			console.log(chalk.magenta(`GauzyAI REST Endpoint: ${gauzyAIRESTEndpoint}`));
+			console.log(chalk.magenta(`Base360 AI REST Endpoint: ${gauzyAIRESTEndpoint}`));
 
 			this.gauzyAIGraphQLEndpoint = this._configService.get<string>('gauzyAI.gauzyAIGraphQLEndpoint');
 
-			console.log(chalk.magenta(`GauzyAI GraphQL Endpoint: ${this.gauzyAIGraphQLEndpoint}`));
+			console.log(chalk.magenta(`Base360 AI GraphQL Endpoint: ${this.gauzyAIGraphQLEndpoint}`));
 
 			if (this.gauzyAIGraphQLEndpoint && gauzyAIRESTEndpoint) {
 				this._logger.log('Base360 AI Endpoints (GraphQL & REST) are configured in the environment');

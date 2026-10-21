@@ -49,7 +49,7 @@ export function settingsOf(env) {
 		.replace(/\/+$/, '');
 	const secret = String(env?.GAUZY_INBOX_PLATFORM_SECRET ?? '');
 	if (!/^https:\/\/[^/]+/.test(apiUrl))
-		throw new Error('GAUZY_INBOX_API_URL must be the https URL of the Gauzy API.');
+		throw new Error('GAUZY_INBOX_API_URL must be the https URL of the Base360 API.');
 	if (secret.length < MIN_SECRET_LENGTH) {
 		throw new Error(`GAUZY_INBOX_PLATFORM_SECRET must be set (at least ${MIN_SECRET_LENGTH} characters).`);
 	}
@@ -104,7 +104,7 @@ export async function deliver(message, env, fetcher = fetch) {
 		const counted = (key) => Number.isInteger(result?.[key]) && result[key] >= 0;
 		if (response.status !== 202 || !counted('accepted') || !counted('duplicates') || !counted('dropped')) {
 			throw new Error(
-				`The Gauzy API answered ${response.status} without a delivery result; the sending server retries later.`
+				`The Base360 API answered ${response.status} without a delivery result; the sending server retries later.`
 			);
 		}
 		if (result.accepted === 0 && result.duplicates === 0) {
@@ -116,7 +116,7 @@ export async function deliver(message, env, fetcher = fetch) {
 	if (response.status >= 400 && response.status < 500 && !RETRY_STATUSES.has(response.status)) {
 		return reject(message, `Refused by the inbox (${response.status})`);
 	}
-	throw new Error(`The Gauzy API answered ${response.status}; the sending server retries later.`);
+	throw new Error(`The Base360 API answered ${response.status}; the sending server retries later.`);
 }
 
 function reject(message, reason) {

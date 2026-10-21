@@ -208,7 +208,7 @@ export function main(
 		const dir = resolve(arg('fixture') ?? '');
 		const growth = codeGrowth(scanCode(dir, { patterns: [], files: walk(dir) }), {});
 		if (growth.length) {
-			err(`static-hostnames: Ever hosts outside the Ever Platform modules:\n  ${growth.join('\n  ')}`);
+			err(`static-hostnames: upstream hosts outside the connected platform modules:\n  ${growth.join('\n  ')}`);
 			return 1;
 		}
 		log('static-hostnames: ok (fixture)');
@@ -275,11 +275,11 @@ export function main(
 		const grown = bundleGrowth(found, baseline.bundle.hosts);
 		if (grown.length) {
 			err(
-				`static-hostnames: the built web app names Ever hosts the baseline does not have (core code must not call or link Ever hosts; the modules' own hosts come from the modules):\n  ${grown.join('\n  ')}`
+				`static-hostnames: the built web app names upstream hosts the baseline does not have (core code must not call or link upstream hosts; the modules' own hosts come from the modules):\n  ${grown.join('\n  ')}`
 			);
 			return 1;
 		}
-		log(`static-hostnames: ok (bundle: ${found.length} Ever host(s), all recorded)`);
+		log(`static-hostnames: ok (bundle: ${found.length} upstream host(s), all recorded)`);
 		return 0;
 	}
 
@@ -287,12 +287,12 @@ export function main(
 	const grown = codeGrowth(found, baseline.code);
 	if (grown.length) {
 		err(
-			`static-hostnames: Ever hosts (or Ever Platform base URL variables) outside the Ever Platform modules that the baseline does not have. Only the modules (${ALLOWED.slice(0, 5).join(', ')}) may name them; move the call into a module:\n  ${grown.join('\n  ')}`
+			`static-hostnames: upstream hosts (or connected platform base URL variables) outside the connected platform modules that the baseline does not have. Only the modules (${ALLOWED.slice(0, 5).join(', ')}) may name them; move the call into a module:\n  ${grown.join('\n  ')}`
 		);
 		return 1;
 	}
 	const files = Object.keys(found).length;
-	log(`static-hostnames: ok (${files} core file(s) name Ever hosts, none beyond the baseline)`);
+	log(`static-hostnames: ok (${files} core file(s) name upstream hosts, none beyond the baseline)`);
 	return 0;
 }
 

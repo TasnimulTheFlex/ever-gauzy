@@ -16,7 +16,7 @@ export const EVER_CONNECT_CLOCK = 'EVER_CONNECT_CLOCK';
 export const EVER_CONNECT_FETCH = 'EVER_CONNECT_FETCH';
 
 /** The default Ever Platform API origin. */
-export const DEFAULT_PLATFORM_API_URL = 'https://api.ever.co';
+export const DEFAULT_PLATFORM_API_URL = null;
 
 /** The version of this module (equals `package.json` `version`; a spec pins it). */
 export const MODULE_VERSION = '0.1.0';

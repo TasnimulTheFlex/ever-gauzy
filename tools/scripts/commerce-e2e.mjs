@@ -28,7 +28,7 @@
 'use strict';
 
 const BASE = (process.env.BASE_URL || 'http://127.0.0.1:3000').replace(/\/+$/, '');
-const EMAIL = process.env.E2E_EMAIL || 'admin@ever.co';
+const EMAIL = process.env.E2E_EMAIL || 'admin@base360.ai';
 const PASSWORD = process.env.E2E_PASSWORD || 'admin';
 const TIMEOUT_MS = Number(process.env.E2E_TIMEOUT_MS || 30_000);
 

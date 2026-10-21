@@ -16,19 +16,19 @@ module.exports = [
 					paths: [
 						{
 							name: '@gauzy/plugin-jitsu-analytics',
-							message: 'The Ever Platform connection never uses analytics plugins.'
+							message: 'The connected platform connection never uses analytics plugins.'
 						},
 						{
 							name: '@gauzy/plugin-posthog',
-							message: 'The Ever Platform connection never uses analytics plugins.'
+							message: 'The connected platform connection never uses analytics plugins.'
 						},
 						{
 							name: '@gauzy/plugin-ever-stats',
-							message: 'The Ever Platform connection is independent of the anonymous statistics.'
+							message: 'The connected platform connection is independent of the anonymous statistics.'
 						},
-						{ name: '@nestjs/axios', message: 'Ever Platform is called through the SDK client only.' },
-						{ name: 'axios', message: 'Ever Platform is called through the SDK client only.' },
-						{ name: 'undici', message: 'Ever Platform is called through the SDK client only.' }
+						{ name: '@nestjs/axios', message: 'connected platform is called through the SDK client only.' },
+						{ name: 'axios', message: 'connected platform is called through the SDK client only.' },
+						{ name: 'undici', message: 'connected platform is called through the SDK client only.' }
 					]
 				}
 			]

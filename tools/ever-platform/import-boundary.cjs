@@ -55,7 +55,7 @@ function violation(file, specifier) {
 
 	if (target) {
 		if (!MODULES.includes(from ?? '') && !PLUGIN_LISTS.includes(file)) {
-			return `${specifier} is an optional Ever Platform module: only the modules and the plugin lists (${PLUGIN_LISTS.join(', ')}) import it, so switching it off removes it whole`;
+			return `${specifier} is an optional connected platform module: only the modules and the plugin lists (${PLUGIN_LISTS.join(', ')}) import it, so switching it off removes it whole`;
 		}
 		if (specifier !== pkg(target) && from !== target) {
 			return `${specifier}: import a module through its entry point (${pkg(target)}), never its files`;
@@ -72,10 +72,10 @@ function violation(file, specifier) {
 		if (hit) return `${hit}: the instance identity makes no request and depends on neither module`;
 	}
 	if (from === 'ever-connect' && /^@gauzy\/plugin-auth-zitadel/.test(specifier)) {
-		return `${specifier}: the connection and the Ever ID sign-in plugin never import each other`;
+		return `${specifier}: the connection and the identity provider sign-in plugin never import each other`;
 	}
 	if (from && from.startsWith('auth-zitadel') && isPackage(specifier, pkg('ever-connect'))) {
-		return `${specifier}: the Ever ID sign-in plugin and the connection never import each other`;
+		return `${specifier}: the identity provider sign-in plugin and the connection never import each other`;
 	}
 	if ((from === 'ever-connect-ui' || from === 'ever-stats-ui') && target && SERVER_MODULES.includes(target)) {
 		return `${specifier}: a web part never imports a server module`;
@@ -107,7 +107,7 @@ const rule = {
 		type: 'problem',
 		docs: {
 			description:
-				'The import boundary of the optional Ever Platform modules (tools/ever-platform/import-boundary.cjs)'
+				'The import boundary of the optional connected platform modules (tools/ever-platform/import-boundary.cjs)'
 		},
 		schema: []
 	},

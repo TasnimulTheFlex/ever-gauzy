@@ -24,10 +24,10 @@ describe('EVER_STATS_ENABLED', () => {
 });
 
 describe('readEverStatsConfig', () => {
-	it('with no environment at all: on, https://api.ever.co, ZZ, gauzy, daily, self-hosted', () => {
+	it('with no environment at all: on, no report endpoint, ZZ, gauzy, daily, self-hosted', () => {
 		const warn = jest.fn();
 		expect(readEverStatsConfig({}, warn)).toEqual({
-			apiUrl: 'https://api.ever.co',
+			apiUrl: null,
 			country: 'ZZ',
 			serves: ['gauzy'],
 			intervalS: 86400,

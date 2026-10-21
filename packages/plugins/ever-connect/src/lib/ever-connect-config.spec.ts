@@ -26,10 +26,10 @@ describe('EVER_CONNECT_ENABLED', () => {
 });
 
 describe('readEverConnectConfig', () => {
-	it('defaults: api.ever.co, self-hosted, long poll, nothing denied, no code, gauzy only', () => {
+	it('defaults: no platform endpoint, self-hosted, long poll, nothing denied, no code, gauzy only', () => {
 		const config = readEverConnectConfig({});
 		expect(config).toEqual({
-			apiUrl: 'https://api.ever.co',
+			apiUrl: null,
 			installSource: 'self-hosted',
 			cloud: false,
 			feedMode: 'longpoll',

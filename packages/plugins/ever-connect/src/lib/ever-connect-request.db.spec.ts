@@ -131,7 +131,7 @@ describe.each(TEST_TARGETS)('Base360 Platform routes on $name', (target) => {
 	});
 
 	async function start(env: Record<string, string | undefined>): Promise<INestApplication> {
-		const full = { EVER_CONNECT_ENABLED: 'true', ...env };
+		const full = { EVER_CONNECT_ENABLED: 'true', EVER_PLATFORM_API_URL: 'https://platform.example.test', ...env };
 		@Global()
 		@Module({
 			providers: [
@@ -217,7 +217,7 @@ describe.each(TEST_TARGETS)('Base360 Platform routes on $name', (target) => {
 		const connect = await call('post', '/api/ever-connect/connect', 'operator', { code: 'EVC-AAAA-BBBB-CCCC' });
 		expect(connect.status).toBe(502);
 		expect(calls.length).toBeGreaterThan(0);
-		expect(new Set(calls)).toEqual(new Set(['https://api.ever.co/.well-known/ever-keys.json']));
+		expect(new Set(calls)).toEqual(new Set(['https://platform.example.test/.well-known/ever-keys.json']));
 	});
 
 	it.each([

@@ -157,8 +157,8 @@ export async function cleanAssets(config: Partial<ApplicationPluginConfig>, dest
 	// A failed cleanup never stopped the seed: rimraf 3 took the failure handler for its options argument and called
 	// the success one either way. It still does not, now with the failure logged.
 	await removeGeneratedFiles(dir).then(
-		() => console.log(chalk.green(`CLEANED UP EVER ICONS: ${dir}`)),
-		(error) => console.error(chalk.red(`FAILED TO CLEAN EVER ICONS: ${dir}: ${error?.message ?? error}`))
+		() => console.log(chalk.green(`CLEANED UP BASE360 ICONS: ${dir}`)),
+		(error) => console.error(chalk.red(`FAILED TO CLEAN BASE360 ICONS: ${dir}: ${error?.message ?? error}`))
 	);
 }
 

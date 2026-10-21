@@ -76,7 +76,7 @@ test('the plugin lists may import the modules through their entry points, nobody
 	assert.equal(violation('packages/core/src/lib/a.ts', '@gauzy/plugin-integration-ever-async'), null);
 	assert.match(
 		violation('packages/core/src/lib/a.ts', '@gauzy/plugin-ever-instance'),
-		/optional Ever Platform module/
+		/optional connected platform module/
 	);
 });
 

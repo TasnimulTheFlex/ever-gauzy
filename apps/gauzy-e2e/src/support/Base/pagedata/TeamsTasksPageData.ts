@@ -1,5 +1,5 @@
 export const TeamsTasksPageData = {
-	defaultTaskProject: 'Gauzy Web Site',
+	defaultTaskProject: 'Base360 Web Site',
 	defaultTaskTitle: 'Feature: All Integrations should work with useHash',
 	editTaskTitle: 'Feature: Invite users with emails',
 	defaultTaskEstimateDays: '1',

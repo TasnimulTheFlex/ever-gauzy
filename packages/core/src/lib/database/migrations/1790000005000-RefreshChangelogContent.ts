@@ -24,19 +24,19 @@ export class RefreshChangelogContent1790000005000 implements MigrationInterface 
 
 	private readonly entries: readonly ChangelogRow[] = [
 		// prettier-ignore
-		['message-circle-outline', 'Meet your AI Assistant', '2026-08-05T00:00:00.000Z', false, 'Chat with an AI agent that knows your workspace: it can navigate pages, read data, fill forms and answer questions — with voice dictation and file attachments built in.', 'https://docs.gauzy.co/features/ai-agent-chat', ''],
+		['message-circle-outline', 'Meet your AI Assistant', '2026-08-05T00:00:00.000Z', false, 'Chat with an AI agent that knows your workspace: it can navigate pages, read data, fill forms and answer questions — with voice dictation and file attachments built in.', 'https://base360.ai', ''],
 		// prettier-ignore
-		['file-text-outline', 'Documents hub', '2026-08-01T00:00:00.000Z', false, 'Upload, organize and share company files and wiki pages — and attach any document to the AI chat to discuss it.', 'https://docs.gauzy.co/features/documents/overview', ''],
+		['file-text-outline', 'Documents hub', '2026-08-01T00:00:00.000Z', false, 'Upload, organize and share company files and wiki pages — and attach any document to the AI chat to discuss it.', 'https://base360.ai', ''],
 		// prettier-ignore
-		['grid-outline', 'Custom dashboards', '2026-07-20T00:00:00.000Z', false, 'Build your own dashboards: drag & drop widgets from the palette, configure each one, and switch between named layouts.', 'https://docs.gauzy.co/features/dashboard-widgets', ''],
+		['grid-outline', 'Custom dashboards', '2026-07-20T00:00:00.000Z', false, 'Build your own dashboards: drag & drop widgets from the palette, configure each one, and switch between named layouts.', 'https://base360.ai', ''],
 		// prettier-ignore
-		['color-palette-outline', 'A faster, cleaner interface', '2026-07-10T00:00:00.000Z', false, 'Redesigned navigation, denser tables, refreshed dark themes and a full-height AI chat column across the whole app.', 'https://gauzy.co/', ''],
+		['color-palette-outline', 'A faster, cleaner interface', '2026-07-10T00:00:00.000Z', false, 'Redesigned navigation, denser tables, refreshed dark themes and a full-height AI chat column across the whole app.', 'https://base360.ai', ''],
 		// prettier-ignore
-		['message-circle-outline', 'AI at work', '2026-08-05T00:00:00.000Z', true, 'An embedded AI assistant that knows your workspace: chat, dictate, attach documents and let it do the clicking for you.', 'https://docs.gauzy.co/features/ai-agent-chat', 'assets/images/features/macbook-2.png'],
+		['message-circle-outline', 'AI at work', '2026-08-05T00:00:00.000Z', true, 'An embedded AI assistant that knows your workspace: chat, dictate, attach documents and let it do the clicking for you.', 'https://base360.ai', 'assets/images/features/macbook-2.png'],
 		// prettier-ignore
-		['briefcase-outline', 'Everything your business needs', '2026-07-01T00:00:00.000Z', true, 'ERP, CRM, HRM, ATS and project management with integrated time tracking — one open platform.', 'https://gauzy.co/', 'assets/images/features/macbook-1.png'],
+		['briefcase-outline', 'Everything your business needs', '2026-07-01T00:00:00.000Z', true, 'ERP, CRM, HRM, ATS and project management with integrated time tracking — one open platform.', 'https://base360.ai', 'assets/images/features/macbook-1.png'],
 		// prettier-ignore
-		['flash-outline', 'Open source, your way', '2026-07-01T00:00:00.000Z', true, 'AGPL-licensed and free to self-host, with documentation covering every feature.', 'https://docs.gauzy.co/', '']
+		['flash-outline', 'Open source, your way', '2026-07-01T00:00:00.000Z', true, 'AGPL-licensed and free to self-host, with documentation covering every feature.', 'https://base360.ai', '']
 	];
 
 	/**

@@ -1,6 +1,6 @@
 export const ExpensePageData = {
 	defaultCategory: 'Tax Deductable',
-	defaultProject: 'Gauzy Web Site',
+	defaultProject: 'Base360 Web Site',
 	defaultAmount: 99,
 	defaultPurpose: 'Something to clear',
 	defaultVendor: 'Domminos Pizza',

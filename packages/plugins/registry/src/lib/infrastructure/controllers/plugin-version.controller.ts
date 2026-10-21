@@ -360,7 +360,7 @@ export class PluginVersionController {
 		// Check file count matches GAUZY sources count
 		if (gauzySources.length > 0 && (!files || files.length < gauzySources.length)) {
 			throw new BadRequestException(
-				`Expected ${gauzySources.length} files for GAUZY sources, got ${files?.length || 0}`
+				`Expected ${gauzySources.length} files for Base360 sources, got ${files?.length || 0}`
 			);
 		}
 	}
