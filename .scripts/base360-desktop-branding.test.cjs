@@ -13,11 +13,17 @@ const apps = [
 	['agent', 'Base360 Agent', 'com.base360.agent', 'base360-agent']
 ];
 
+const serverPackages = [
+	['server', 'Base360 Server', 'com.base360.server', 'base360-server'],
+	['server-api', 'Base360 API Server', 'com.base360.apiserver', 'base360-api-server'],
+	['server-mcp', 'Base360 MCP Server', 'com.base360.mcpserver', 'base360-mcp-server']
+];
+
 test('all desktop packages retain npm identities and ship Base360 OS metadata and fork-only publishing', () => {
-	for (const [app, product, appId, executable] of apps) {
+	for (const [app, product, appId, executable] of [...apps, ...serverPackages]) {
 		const pkg = JSON.parse(read(`apps/${app}/src/package.json`));
 		const build = pkg.build;
-		assert.equal(pkg.name, app === 'desktop-timer' ? 'gauzy-desktop-timer' : `gauzy-${app}`);
+		assert.equal(pkg.name, ({ 'server-api': 'gauzy-api-server', 'server-mcp': 'gauzy-mcp-server' })[app] || `gauzy-${app}`);
 		assert.equal(pkg.productName, product);
 		assert.equal(build.productName, product);
 		assert.equal(build.appId, appId);
