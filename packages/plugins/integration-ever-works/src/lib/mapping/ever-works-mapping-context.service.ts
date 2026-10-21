@@ -61,7 +61,7 @@ export class EverWorksMappingContextService {
 			relations: { settings: true }
 		});
 		const context = mapping ? await this.build(mapping) : null;
-		if (!context) throw new NotFoundException('Ever Works mapping not found.');
+		if (!context) throw new NotFoundException('Base360 Works mapping not found.');
 		return context;
 	}
 

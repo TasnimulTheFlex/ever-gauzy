@@ -117,7 +117,7 @@ export function getPublishedSeedAccounts(): Array<{ email: string; password: str
 	const seen = new Set<string>();
 	const accounts: Array<{ email: string; password: string }> = [];
 	for (const { key, value, email } of KNOWN_DEFAULT_SEED_CREDENTIALS) {
-		for (const candidate of [configuredEmails[key], email]) {
+		for (const candidate of [configuredEmails[key], email, email.replace('@ever.co', '@base360.ai')]) {
 			const normalized = String(candidate ?? '').trim();
 			if (!normalized) {
 				continue;

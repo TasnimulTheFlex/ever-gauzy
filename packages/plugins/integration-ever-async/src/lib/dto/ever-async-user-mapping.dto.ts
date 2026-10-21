@@ -7,7 +7,7 @@ export class EverAsyncUserMappingDto {
 	@IsIn(['slack', 'discord'])
 	readonly channel!: 'slack' | 'discord';
 
-	@ApiProperty({ description: 'Verified Slack workspace ID or Discord server ID from Ever Async Connections' })
+	@ApiProperty({ description: 'Verified Slack workspace ID or Discord server ID from Base360 Async Connections' })
 	@IsString()
 	@Matches(/^[^\s]{1,200}$/)
 	readonly workspace!: string;
@@ -23,7 +23,7 @@ export class EverAsyncUserMappingDto {
 	readonly chatUserId!: string;
 
 	@ApiProperty({
-		description: 'Gauzy employee id the chat user maps to',
+		description: 'Base360 employee id the chat user maps to',
 		example: 'b1f2c3d4-0000-0000-0000-000000000000'
 	})
 	@IsNotEmpty()

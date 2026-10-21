@@ -87,7 +87,7 @@ export class EverConnectLinkService {
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'not_connected',
-				message: 'This installation is not connected to Ever Platform.'
+				message: 'This installation is not connected to Base360 Platform.'
 			});
 		}
 		if (await this.store.linkOf(input.tenantId, input.organizationId)) {
@@ -127,7 +127,7 @@ export class EverConnectLinkService {
 				throw new UnprocessableEntityException({
 					statusCode: 422,
 					code: 'entitlement_unverifiable',
-					message: "Ever Platform's entitlement document for this link could not be verified."
+					message: "Base360 Platform's entitlement document for this link could not be verified."
 				});
 			}
 			throw this.problem(error);
@@ -245,7 +245,7 @@ export class EverConnectLinkService {
 			} catch (error) {
 				if (isCredentialRevoked(error)) this.signals.revoked$.next();
 				else if (error instanceof ProblemError && error.status === 404) remote = true;
-				else this.logger.warn(`Ever Platform was not told about the removed link (${errorCode(error)}).`);
+				else this.logger.warn(`Base360 Platform was not told about the removed link (${errorCode(error)}).`);
 			}
 		}
 		await this.unlinkLocally(link, 'user', input.userId, remote);
@@ -298,19 +298,19 @@ export class EverConnectLinkService {
 		if (error instanceof ProblemError) {
 			if (isUnreachable(error)) {
 				return new HttpException(
-					{ statusCode: 502, code: 'platform_unreachable', message: 'Ever Platform could not be reached.' },
+					{ statusCode: 502, code: 'platform_unreachable', message: 'Base360 Platform could not be reached.' },
 					HttpStatus.BAD_GATEWAY
 				);
 			}
 			const status = error.status === 409 ? 409 : error.status === 404 ? 404 : 422;
 			return new HttpException(
-				{ statusCode: status, code: error.code, message: 'Ever Platform refused the link code.' },
+				{ statusCode: status, code: error.code, message: 'Base360 Platform refused the link code.' },
 				status
 			);
 		}
 		if (isUnreachable(error)) {
 			return new HttpException(
-				{ statusCode: 502, code: 'platform_unreachable', message: 'Ever Platform could not be reached.' },
+				{ statusCode: 502, code: 'platform_unreachable', message: 'Base360 Platform could not be reached.' },
 				HttpStatus.BAD_GATEWAY
 			);
 		}

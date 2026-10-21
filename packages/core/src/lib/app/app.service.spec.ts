@@ -113,11 +113,15 @@ describe('AppService', () => {
 			await service.seedDBIfEmpty();
 
 			expect(userService.findAccountsUsingPasswords).toHaveBeenCalledTimes(1);
-			expect(userService.findAccountsUsingPasswords.mock.calls[0][0]).toEqual([
-				{ email: environment.demoCredentialConfig.superAdminEmail, password: 'admin' },
-				{ email: environment.demoCredentialConfig.adminEmail, password: 'admin' },
-				{ email: environment.demoCredentialConfig.employeeEmail, password: '12345678' }
-			]);
+			expect(userService.findAccountsUsingPasswords.mock.calls[0][0]).toEqual(
+				expect.arrayContaining([
+					{ email: environment.demoCredentialConfig.superAdminEmail, password: 'admin' },
+					{ email: environment.demoCredentialConfig.adminEmail, password: 'admin' },
+					{ email: environment.demoCredentialConfig.employeeEmail, password: '12345678' },
+					{ email: 'admin@ever.co', password: 'admin' },
+					{ email: 'admin@base360.ai', password: 'admin' }
+				])
+			);
 		});
 
 		it('also checks the CANONICAL published addresses when the configuration was changed later', async () => {

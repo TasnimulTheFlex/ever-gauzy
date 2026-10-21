@@ -100,7 +100,7 @@ describe('PUT /integration-setting/:id (GHSA-4rwq-65wh-45h4)', () => {
 	});
 
 	describe.each(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])(
-		'Gauzy AI / %s (edited by the AI settings card)',
+		'Base360 AI / %s (edited by the AI settings card)',
 		(settingsName) => {
 			it('is updated, and only its value is written', async () => {
 				stubRow(row(IntegrationEnum.GAUZY_AI, settingsName));

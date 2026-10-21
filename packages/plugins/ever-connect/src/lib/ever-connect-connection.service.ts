@@ -305,7 +305,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 			throw new UnprocessableEntityException({
 				statusCode: 422,
 				code: 'redeem_unverifiable',
-				message: "Ever Platform's answer to the connect code could not be verified; the installation was not connected."
+				message: "Base360 Platform's answer to the connect code could not be verified; the installation was not connected."
 			});
 		}
 		const status: ConnectionStatus = redeemed.status === 'pending_approval' ? 'pending_approval' : 'connected';
@@ -367,7 +367,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 					reason: error.code,
 					...(error instanceof EntitlementError && error.path ? { field: error.path } : {}),
 					message:
-						"Ever Platform's entitlement document could not be verified; the installation was not connected."
+						"Base360 Platform's entitlement document could not be verified; the installation was not connected."
 				});
 			}
 			throw this.problem(error, 'entitlement');
@@ -484,7 +484,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 				envCodeAttempts: 0,
 				envCodeNextAttemptAt: null
 			});
-			this.logger.log('EVER_CONNECT_CODE was used: this installation is connected to Ever Platform.');
+			this.logger.log('EVER_CONNECT_CODE was used: this installation is connected to Base360 Platform.');
 		} catch (error) {
 			const status = error instanceof HttpException ? error.getStatus() : 0;
 			const body = error instanceof HttpException ? (error.getResponse() as { code?: string }) : {};
@@ -558,7 +558,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 				remote = true;
 			} catch (error) {
 				this.logger.warn(
-					`Ever Platform was not told about the disconnect (${errorCode(error)}); this installation is disconnected anyway.`
+					`Base360 Platform was not told about the disconnect (${errorCode(error)}); this installation is disconnected anyway.`
 				);
 			}
 		}
@@ -629,7 +629,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'not_connected',
-				message: 'This installation is not connected to Ever Platform.'
+				message: 'This installation is not connected to Base360 Platform.'
 			});
 		}
 		let current;
@@ -690,7 +690,7 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 			return new UnprocessableEntityException({
 				statusCode: 422,
 				code: 'keys_unverifiable',
-				message: "Ever Platform's keys could not be verified for this address; nothing was sent."
+				message: "Base360 Platform's keys could not be verified for this address; nothing was sent."
 			});
 		}
 		if (error instanceof KeyManifestError) {
@@ -698,12 +698,12 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 				statusCode: 422,
 				code: 'keys_unverifiable',
 				reason: error.code,
-				message: "Ever Platform's keys could not be verified for this address; nothing was sent."
+				message: "Base360 Platform's keys could not be verified for this address; nothing was sent."
 			});
 		}
 		if (isUnreachable(error)) {
 			return new HttpException(
-				{ statusCode: 502, code: 'platform_unreachable', message: 'Ever Platform could not be reached.' },
+				{ statusCode: 502, code: 'platform_unreachable', message: 'Base360 Platform could not be reached.' },
 				HttpStatus.BAD_GATEWAY
 			);
 		}
@@ -715,8 +715,8 @@ export class EverConnectConnectionService implements OnModuleInit, OnModuleDestr
 					code: error.code,
 					message:
 						step === 'redeem'
-							? 'Ever Platform refused the connect code.'
-							: 'Ever Platform refused the request.'
+							? 'Base360 Platform refused the connect code.'
+							: 'Base360 Platform refused the request.'
 				},
 				status
 			);

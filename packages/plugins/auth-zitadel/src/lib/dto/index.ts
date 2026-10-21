@@ -26,7 +26,7 @@ export class HandoffDTO {
 }
 
 export class ConfirmDTO extends HandoffDTO {
-	@ApiProperty({ type: () => String, description: "Gauzy's one-time e-mail code" })
+	@ApiProperty({ type: () => String, description: "Base360's one-time e-mail code" })
 	@IsString()
 	@Length(1, 64)
 	readonly code: string;
@@ -99,7 +99,7 @@ export class TokenSigninDTO {
 	@MaxLength(16_384)
 	readonly access_token?: string;
 
-	@ApiPropertyOptional({ type: () => String, description: "The calling app's name, for Gauzy's one-time code e-mail" })
+	@ApiPropertyOptional({ type: () => String, description: "The calling app's name, for Base360's one-time code e-mail" })
 	@IsOptional()
 	@IsString()
 	@MaxLength(MAX_BRANDING_LENGTH)

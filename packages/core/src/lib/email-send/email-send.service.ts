@@ -24,7 +24,7 @@ import {
 } from './email-transport.registry';
 
 /** The sender when neither the transport nor `MAIL_FROM_ADDRESS` names one (one literal: the egress baseline counts it). */
-const DEFAULT_FROM_ADDRESS = 'noreply@gauzy.co';
+const DEFAULT_FROM_ADDRESS = 'Base360 <support@base360.ai>';
 
 /** An address as nodemailer takes it. */
 export type OutboundEmailAddress = string | { name?: string; address: string };

@@ -59,7 +59,7 @@ export function mirroredEmailUpsertOf(
 		agentEmployeeId: links.agentEmployeeId,
 		metadata: {
 			// The virtual mailbox the item is listed under (plan 04 §6: "Ever Works — <agent>").
-			mailbox: `Ever Works — ${agent}`,
+			mailbox: `Base360 Works — ${agent}`,
 			readOnly: true,
 			from: message.from ?? null,
 			to: message.to ?? [],
@@ -112,7 +112,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if ((context.directions as Record<string, string | undefined>)['agentEmail'] !== 'ew_to_gauzy') {
 			return { status: 'skipped', message: 'agent mail is not mirrored (the agentEmail direction is off)' };
@@ -120,15 +120,15 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		if (!this.inbox) {
 			// Switched on but not loaded in this process: a process that hosts the Inbox applies it.
 			return process.env['GAUZY_INBOX_ENABLED'] === 'true'
-				? { status: 'deferred', message: 'the Gauzy Inbox is not loaded in this process' }
-				: { status: 'skipped', message: 'the Gauzy Inbox is off (GAUZY_INBOX_ENABLED)' };
+				? { status: 'deferred', message: 'the Base360 Inbox is not loaded in this process' }
+				: { status: 'skipped', message: 'the Base360 Inbox is off (GAUZY_INBOX_ENABLED)' };
 		}
 		let message = { ...((envelope.data ?? {}) as unknown as EverWorksEmailMessage), id: envelope.aggregate.id };
 		const handedOff = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.AGENT_EMAIL, message.id);
 		if (handedOff)
 			return {
 				status: 'skipped',
-				message: 'handed to the agent from Gauzy: the message is in the Gauzy Inbox already'
+				message: 'handed to the agent from Base360: the message is in the Base360 Inbox already'
 			};
 		const link = await this.links.byEw(
 			context.integrationTenantId,
@@ -144,7 +144,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		if (!recipientUserId) {
 			return {
 				status: 'deferred',
-				message: `the agent's owner (Ever Works user ${message.ownerUserId}) is not matched to a Gauzy member yet: match them on the People tab`
+				message: `the agent's owner (Base360 Works user ${message.ownerUserId}) is not matched to a Base360 member yet: match them on the People tab`
 			};
 		}
 		if (message.bodyOmitted) {
@@ -177,7 +177,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 		}
 		const result = await this.inbox.upsertExternal(mirroredEmailUpsertOf(message, scope, extras));
 		if (!result.recipientUserIds.includes(recipientUserId)) {
-			return { status: 'deferred', message: 'the matched Gauzy user is not a user of this tenant' };
+			return { status: 'deferred', message: 'the matched Base360 user is not a user of this tenant' };
 		}
 		// The link write is the engine's monotonic version check (#10827). Refused, another process applied a newer
 		// version while this one worked (its lease lapsed): the copy is written again from the message as Ever Works
@@ -202,7 +202,7 @@ export class EverWorksAgentEmailMirror implements EverWorksInboundHandler {
 				});
 				return attempt === 0
 					? { status: 'applied' }
-					: { status: 'skipped', message: 'superseded: the copy was rewritten from Ever Works' };
+					: { status: 'skipped', message: 'superseded: the copy was rewritten from Base360 Works' };
 			} catch (error) {
 				if (!(error instanceof EverWorksStaleLinkError) || attempt >= MIRROR_RECOVERY_ATTEMPTS) throw error;
 				const current = await this.connections

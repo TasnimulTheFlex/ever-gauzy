@@ -15,13 +15,13 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="2px"
 					width="48px"
 					align="left"
 					padding="24px 32px"
 				></mj-divider>
-				<mj-text color="#1b005d" font-size="24px" font-weight="700" line-height="32px" padding="0 32px 16px">
+				<mj-text color="#064749" font-size="24px" font-weight="700" line-height="32px" padding="0 32px 16px">
 					Welcome to {{appName}}!
 				</mj-text>
 				<mj-text>
@@ -32,7 +32,7 @@
 					</p>
 					<p style="margin: 0 0 24px">We are happy to have you on board!</p>
 					<p style="margin: 0">Best regards,</p>
-					<p style="margin: 4px 0 0; color: #1b005d; font-weight: 600">{{appSignature}}</p>
+					<p style="margin: 4px 0 0; color: #064749; font-weight: 600">{{appSignature}}</p>
 				</mj-text>
 			</mj-column>
 		</mj-section>
@@ -45,9 +45,9 @@
 				></mj-divider>
 				<mj-text align="center" color="#8a91a5" font-size="12px" line-height="18px">
 					© 2019,
-					<a href="{{appLink}}" style="color: #598bff; text-decoration: none">{{appName}}</a>
+					<a href="{{appLink}}" style="color: #064749; text-decoration: none">{{appName}}</a>
 					by
-					<a href="{{companyLink}}" style="color: #598bff; text-decoration: none">{{companyName}}</a>
+					<a href="{{companyLink}}" style="color: #064749; text-decoration: none">{{companyName}}</a>
 					All rights reserved.
 				</mj-text>
 			</mj-column>

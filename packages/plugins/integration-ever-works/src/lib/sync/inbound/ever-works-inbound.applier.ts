@@ -224,7 +224,7 @@ export class EverWorksInboundApplier {
 			return true;
 		}
 		if (!event.organizationId) {
-			await this.settle(connection, id, { status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Gauzy organization', appliedAt: now }, owner);
+			await this.settle(connection, id, { status: EverWorksInboundStatus.SKIPPED, error: 'no mapped Base360 organization', appliedAt: now }, owner);
 			return true;
 		}
 		const handler = this.handlers.get(event.aggregateType);

@@ -222,10 +222,10 @@ describe('Postmark email provider', () => {
 		});
 
 		it('reports the server, and a refused token', async () => {
-			const ok = recorder({ 'GET https://api.postmarkapp.com/server': { body: { Name: 'Gauzy inbox' } } });
+			const ok = recorder({ 'GET https://api.postmarkapp.com/server': { body: { Name: 'Base360 inbox' } } });
 			expect(await new PostmarkProvider(undefined, ok.fetcher).verifyAccount(account)).toEqual({
 				ok: true,
-				message: 'Connected to the Postmark server "Gauzy inbox".'
+				message: 'Connected to the Postmark server "Base360 inbox".'
 			});
 			const refused = recorder({
 				'GET https://api.postmarkapp.com/server': {

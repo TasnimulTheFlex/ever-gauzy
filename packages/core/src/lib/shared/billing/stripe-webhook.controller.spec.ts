@@ -278,22 +278,22 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 		['ever.co Rec session', 'checkout.session.completed', session({ metadata: { ever_product: 'rec' } })],
 		['ever.co Demand session', 'checkout.session.completed', session({ metadata: { ever_product: 'demand' } })],
 		[
-			'Ever Works own plan checkout (metadata.kind, no ever_product)',
+			'Base360 Works own plan checkout (metadata.kind, no ever_product)',
 			'checkout.session.completed',
 			session({ customer: 'cus_Works', metadata: { kind: 'plan-subscription', organizationId: 'org-1' } })
 		],
 		[
-			'Ever Works credit pack (payment mode)',
+			'Base360 Works credit pack (payment mode)',
 			'checkout.session.completed',
 			session({ mode: 'payment', subscription: null, customer: 'cus_Works', metadata: { kind: 'credit-pack' } })
 		],
 		[
-			'Ever Works card save (setup mode)',
+			'Base360 Works card save (setup mode)',
 			'checkout.session.completed',
 			session({ mode: 'setup', subscription: null, customer: 'cus_Works', metadata: { kind: 'setup' } })
 		],
 		[
-			'Ever Works PAYG subscription (metadata.kind only)',
+			'Base360 Works PAYG subscription (metadata.kind only)',
 			'customer.subscription.created',
 			subscription({
 				customer: 'cus_Works',
@@ -318,7 +318,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'Gauzy-branded session in payment mode (a gauzy product, but not a hosted plan)',
+			'Base360-branded session in payment mode (a gauzy product, but not a hosted plan)',
 			'checkout.session.completed',
 			session({ mode: 'payment', metadata: { ever_product: 'gauzy' } })
 		],
@@ -343,7 +343,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'ever.co Gauzy SELF-HOSTED license session (subscription mode, ever_hosting=selfhosted)',
+			'ever.co Base360 SELF-HOSTED license session (subscription mode, ever_hosting=selfhosted)',
 			'checkout.session.completed',
 			session({
 				metadata: {
@@ -356,7 +356,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'Gauzy self-hosted license subscription (ever_hosting=selfhosted)',
+			'Base360 self-hosted license subscription (ever_hosting=selfhosted)',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
@@ -369,7 +369,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'Gauzy self-hosted license subscription with no metadata (Dashboard-made) on an ever_gauzy_selfhosted_ price',
+			'Base360 self-hosted license subscription with no metadata (Dashboard-made) on an ever_gauzy_selfhosted_ price',
 			'customer.subscription.created',
 			subscription({
 				status: 'active',
@@ -398,7 +398,7 @@ describe('StripeWebhookController — foreign events are acknowledged with no DB
 			})
 		],
 		[
-			'Gauzy-stamped session whose lookup key is a self-hosted price',
+			'Base360-stamped session whose lookup key is a self-hosted price',
 			'checkout.session.completed',
 			session({
 				metadata: {

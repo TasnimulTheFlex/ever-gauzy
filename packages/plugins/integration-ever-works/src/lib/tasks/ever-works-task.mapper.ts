@@ -168,8 +168,8 @@ export const EVER_WORKS_TITLE_LIMIT = 200;
 export const EVER_WORKS_LABEL_LIMIT = 80;
 export const EVER_WORKS_LABELS_MAX = 50;
 
-const FULL_TITLE_LABEL = '**Full title (from Gauzy):**';
-const FULL_TITLE_APPENDIX = /(?:^|\n\n)> \*\*Full title \(from Gauzy\):\*\* ([^\n]*)\s*$/;
+const FULL_TITLE_LABEL = '**Full title (from Base360):**';
+const FULL_TITLE_APPENDIX = /(?:^|\n\n)> \*\*Full title \(from (?:Base360|Gauzy)\):\*\* ([^\n]*)\s*$/;
 
 /**
  * G → EW title: at most 200 characters; `truncated` when the full title has to travel in the description. A longer
@@ -402,5 +402,5 @@ export function transitionBlockedMessage(kept: string, wanted: string, details: 
 		parts.push(`blocked by ${names.join(', ') || `${blockers.length} task(s)`}${blockers.length > 5 ? ` and ${blockers.length - 5} more` : ''}`);
 	}
 	if (approvers.length) parts.push(`${approvers.length} approval(s) pending`);
-	return `Ever Works kept the status "${kept}" instead of "${wanted}"${parts.length ? `: ${parts.join('; ')}` : ''}.`;
+	return `Base360 Works kept the status "${kept}" instead of "${wanted}"${parts.length ? `: ${parts.join('; ')}` : ''}.`;
 }

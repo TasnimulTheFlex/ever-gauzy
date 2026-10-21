@@ -103,14 +103,14 @@ export class EverWorksMappingService {
 			where: { tenantId: scope.tenantId, isActive: true }
 		});
 		if (!connection || (dto.connectionId && dto.connectionId !== connection.id)) {
-			throw new NotFoundException('Connect this tenant to Ever Works first.');
+			throw new NotFoundException('Connect this tenant to Base360 Works first.');
 		}
 		if (connection.status === EverWorksConnectionStatus.NEEDS_REAUTH) {
-			throw new BadRequestException('The Ever Works key needs replacing before organizations can be mapped.');
+			throw new BadRequestException('The Base360 Works key needs replacing before organizations can be mapped.');
 		}
 		const pinned = this.connections.pins(connection).find((org) => org.id === dto.everWorksOrganizationId);
 		if (!pinned) {
-			throw new BadRequestException('The Ever Works organization is not pinned to the connected key.');
+			throw new BadRequestException('The Base360 Works organization is not pinned to the connected key.');
 		}
 		const integration = await this.catalog.ensure();
 		const mapping = await this.transaction(scope, async (manager) => {
@@ -118,7 +118,7 @@ export class EverWorksMappingService {
 			// here, so no enabled mapping is ever saved onto a disconnected connection.
 			const current = await manager.findOne(EverWorksConnection, { where: { id: connection.id as ID, tenantId: scope.tenantId, isActive: true } });
 			if (!current || current.status === EverWorksConnectionStatus.NEEDS_REAUTH) {
-				throw new ConflictException('The Ever Works connection changed meanwhile (disconnected or needs a new key). Try again.');
+				throw new ConflictException('The Base360 Works connection changed meanwhile (disconnected or needs a new key). Try again.');
 			}
 			const all = await manager.find(IntegrationTenant, {
 				where: { tenantId: scope.tenantId, name: EVER_WORKS_INTEGRATION_NAME },
@@ -127,10 +127,10 @@ export class EverWorksMappingService {
 			const setting = (row: IntegrationTenant, name: S) => row.settings?.find((s) => s.settingsName === name)?.settingsValue;
 			const active = all.filter((row) => row.isActive && !row.isArchived);
 			if (active.some((row) => row.organizationId === scope.organizationId)) {
-				throw new ConflictException('This organization is already mapped to an Ever Works organization. Unmap it first.');
+				throw new ConflictException('This organization is already mapped to a Base360 Works organization. Unmap it first.');
 			}
 			if (active.some((row) => setting(row, S.EVER_WORKS_ORGANIZATION_ID) === pinned.id)) {
-				throw new ConflictException('That Ever Works organization is already mapped to another organization of this tenant.');
+				throw new ConflictException('That Base360 Works organization is already mapped to another organization of this tenant.');
 			}
 			const previous = all.find(
 				(row) =>
@@ -171,7 +171,7 @@ export class EverWorksMappingService {
 			await this.seedIdeas(manager, saved);
 			return saved;
 		});
-		this.logger.log(`Organization ${scope.organizationId} mapped to Ever Works organization ${pinned.id} (mapping ${mapping.id}).`);
+		this.logger.log(`Organization ${scope.organizationId} mapped to Base360 Works organization ${pinned.id} (mapping ${mapping.id}).`);
 		const created = await this.reload(mapping.id);
 		// A restored mapping keeps its directions: when it mirrors agent mail, the webhook asks for it again.
 		if (this.directions(created)['agentEmail'] === 'ew_to_gauzy') {
@@ -186,7 +186,7 @@ export class EverWorksMappingService {
 		// A toggle for an entity Ever Works does not sync would be dropped silently: refused before anything is written.
 		const unsynced = (dto.entitySettings ?? []).filter((change) => !EVER_WORKS_SYNCED_ENTITIES.includes(change.entity));
 		if (unsynced.length) {
-			throw new BadRequestException(`Not a synced Ever Works entity: ${unsynced.map((change) => change.entity).join(', ')}.`);
+			throw new BadRequestException(`Not a synced Base360 Works entity: ${unsynced.map((change) => change.entity).join(', ')}.`);
 		}
 		const connectionId = await this.transaction(scope, async (manager) => {
 			const mapping = await this.require(manager, scope, integrationTenantId);
@@ -326,7 +326,7 @@ export class EverWorksMappingService {
 					name: projectName,
 					tenantId: scope.tenantId,
 					organizationId: scope.organizationId,
-					description: 'Created by the Ever Works integration.'
+					description: 'Created by the Base360 Works integration.'
 				} as never)
 			)) as OrganizationProject);
 		const recorded = await this.transaction(scope, async (manager) => {
@@ -480,7 +480,7 @@ export class EverWorksMappingService {
 
 	private async require(manager: EntityManager, scope: EverWorksScope, integrationTenantId: ID): Promise<Mapping> {
 		const mapping = await this.find(scope, manager);
-		if (!mapping || mapping.id !== integrationTenantId) throw new NotFoundException('Ever Works mapping not found.');
+		if (!mapping || mapping.id !== integrationTenantId) throw new NotFoundException('Base360 Works mapping not found.');
 		return mapping;
 	}
 

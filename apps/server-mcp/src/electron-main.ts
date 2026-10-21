@@ -146,7 +146,7 @@ function initializeAppConfiguration(): void {
 	// Set app-specific configurations that require app to be ready
 	try {
 		// Set app name
-		app.setName(environment.mcpAppName);
+		app.setName(process.env.MCP_APP_NAME || 'Base360 MCP Server');
 
 		/* Setting the app user model id for the app. */
 		if (process.platform === 'win32') {
@@ -263,7 +263,7 @@ async function createMainWindow(): Promise<void> {
 		minWidth: 600,
 		minHeight: 400,
 		show: false,
-		title: 'Gauzy MCP Server Desktop',
+		title: 'Base360 MCP Server Desktop',
 		icon: process.platform === 'darwin'
 			? path.join(actualAppPath, 'icons', 'app.icns')
 			: process.platform === 'win32'

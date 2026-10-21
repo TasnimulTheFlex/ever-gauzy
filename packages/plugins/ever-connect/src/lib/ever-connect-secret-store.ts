@@ -22,7 +22,7 @@ export class EverConnectSecretStore {
 	seal(value: string): string {
 		const problem = connectKeyMaterialProblem(this.env);
 		if (problem) {
-			throw new Error(`An Ever Platform document cannot be stored safely (${problem}).`);
+			throw new Error(`A Base360 Platform document cannot be stored safely (${problem}).`);
 		}
 		const plain = Buffer.from(value, 'utf8');
 		try {

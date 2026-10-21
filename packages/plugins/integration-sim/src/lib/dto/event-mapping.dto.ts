@@ -66,7 +66,7 @@ export const SIM_EVENT_DESCRIPTIONS: Record<SimEventType, string> = {
 
 export class EventMappingDto {
 	@ApiProperty({
-		description: 'The Gauzy event type to map',
+		description: 'The Base360 event type to map',
 		enum: SIM_SUPPORTED_EVENTS
 	})
 	@IsString()

@@ -35,7 +35,7 @@ export class EverWorksStaleLinkError extends ConflictException {
 		readonly storedVersion: number | null,
 		readonly refusedVersion: number | null
 	) {
-		super(`The link of Ever Works record ${ewId} already records version ${storedVersion}; the write of version ${refusedVersion ?? '(none)'} was refused.`);
+		super(`The link of Base360 Works record ${ewId} already records version ${storedVersion}; the write of version ${refusedVersion ?? '(none)'} was refused.`);
 		this.name = 'EverWorksStaleLinkError';
 	}
 }
@@ -156,7 +156,7 @@ export class EverWorksLinkService {
 				if (attempt === 1) throw error;
 			}
 		}
-		throw new Error(`The ${input.entityType} link of Ever Works record ${input.ewId} changed twice while it was being recorded.`);
+		throw new Error(`The ${input.entityType} link of Base360 Works record ${input.ewId} changed twice while it was being recorded.`);
 	}
 
 	/**

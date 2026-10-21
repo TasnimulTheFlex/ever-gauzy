@@ -180,7 +180,7 @@ function parseIssuers(env: Env, isCloud: boolean, warn: (message: string) => voi
 	}
 	if (result.everIssuersAwaitingConnect.length) {
 		warn(
-			`ZITADEL_ISSUERS: ${result.everIssuersAwaitingConnect.join(', ')} can only be enabled through Ever Connect on this install; not used.`
+			`ZITADEL_ISSUERS: ${result.everIssuersAwaitingConnect.join(', ')} can only be enabled through Base360 Connect on this install; not used.`
 		);
 	}
 	return result;
@@ -193,7 +193,7 @@ function parseLinkMode(env: Env, isCloud: boolean, warn: (message: string) => vo
 		if (isCloud) {
 			return 'confirmed';
 		}
-		warn('ZITADEL_LINK_MODE=confirmed is only available on Ever Cloud; using explicit.');
+		warn('ZITADEL_LINK_MODE=confirmed is only available on Base360 Cloud; using explicit.');
 	} else if (requested !== 'explicit') {
 		warn('ZITADEL_LINK_MODE must be "explicit" or "confirmed"; using explicit.');
 	}
@@ -233,7 +233,7 @@ export function parseZitadelSettings(env: Env, warn: (message: string) => void =
 
 	const signupRequested = readStrictBoolean(env, 'ZITADEL_SIGNUP_ENABLED', false, warn);
 	if (signupRequested && !isCloud) {
-		warn('ZITADEL_SIGNUP_ENABLED is only available on Ever Cloud; ignored.');
+		warn('ZITADEL_SIGNUP_ENABLED is only available on Base360 Cloud; ignored.');
 	}
 
 	if (readStrictBoolean(env, 'ZITADEL_JIT_PROVISIONING', false, warn)) {

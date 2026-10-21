@@ -4,7 +4,7 @@ include:
 services:
   api:
     container_name: api
-    image: ghcr.io/ever-co/gauzy-api:latest
+    image: ghcr.io/tasnimultheflex/base360-time-api:latest
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       DB_HOST: db
@@ -45,7 +45,7 @@ services:
 
   webapp:
     container_name: webapp
-    image: ghcr.io/ever-co/gauzy-webapp:latest
+    image: ghcr.io/tasnimultheflex/base360-time-webapp:latest
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       SENTRY_PROFILE_SAMPLE_RATE: ${SENTRY_PROFILE_SAMPLE_RATE:-1}

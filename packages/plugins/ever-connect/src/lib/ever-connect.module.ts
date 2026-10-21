@@ -52,10 +52,10 @@ export class EverConnectLifecycle implements OnApplicationBootstrap {
 			await this.instance.ensure();
 			await this.operator.pinFirstSuperAdmin();
 			await this.connection.start();
-			this.logger.log('The Ever Platform connection module is loaded (EVER_CONNECT_ENABLED=true).');
+			this.logger.log('The Base360 Platform connection module is loaded (EVER_CONNECT_ENABLED=true).');
 		} catch (error) {
 			// Never stop the API: without its tables the module stays idle and its routes answer errors.
-			this.logger.warn(`The Ever Platform connection could not start (${errorCode(error)}); nothing is sent.`);
+			this.logger.warn(`The Base360 Platform connection could not start (${errorCode(error)}); nothing is sent.`);
 		}
 	}
 }

@@ -146,7 +146,7 @@ const ALL = ['INTEGRATION_VIEW', 'INTEGRATION_ADD', 'INTEGRATION_EDIT', 'INTEGRA
 /** The outbound-call rows this release may use. */
 const ALLOWED_ROWS = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 31];
 
-suite('Ever Platform connection against the mock platform', () => {
+suite('Base360 Platform connection against the mock platform', () => {
 	let dir: string;
 	let roots: string;
 	let dataSource: DataSource;
@@ -621,7 +621,7 @@ suite('Ever Platform connection against the mock platform', () => {
 		['a redirect (an access proxy)', () => new Response(null, { status: 302, headers: { location: 'https://access.example.test/' } })],
 		['a 403', () => problemAnswer(403, 'forbidden')],
 		['a 500', () => problemAnswer(500, 'internal_error')]
-	])('switching off answers %s from Ever Platform: off here anyway, told again at the next heartbeat', async (_name, answer) => {
+	])('switching off answers %s from Base360 Platform: off here anyway, told again at the next heartbeat', async (_name, answer) => {
 		app = await start(environment());
 		await connectAcme();
 		await enableStatsLink();

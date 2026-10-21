@@ -106,7 +106,7 @@ export class EverConnectCleanupService implements OnModuleInit, OnModuleDestroy 
 				return true;
 			}
 			this.logger.warn(
-				`Ever Platform was not told that a deleted organization's link is removed (${errorCode(error)}); it is removed here.`
+				`Base360 Platform was not told that a deleted organization's link is removed (${errorCode(error)}); it is removed here.`
 			);
 			return false;
 		}

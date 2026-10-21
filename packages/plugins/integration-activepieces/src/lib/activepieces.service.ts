@@ -145,7 +145,7 @@ export class ActivepiecesService {
 			const externalId = `gauzy-tenant-${tenantId}${organizationId ? `-org-${organizationId}` : ''}`;
 
 			// Create display name for the connection
-			const displayName = input.connectionName || `Ever Gauzy - ${tenantId}`;
+			const displayName = input.connectionName || `Base360 - ${tenantId}`;
 
 			// Prepare the connection request for ActivePieces (upsert format with SECRET_TEXT)
 			const connectionRequest: IActivepiecesConnectionRequest = {

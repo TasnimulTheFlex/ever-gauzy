@@ -25,7 +25,7 @@ require('module').globalPaths.push(path.join(__dirname, 'node_modules'));
 
 process.env = Object.assign(process.env, environment);
 
-app.setName(process.env.NAME);
+app.setName(process.env.NAME || 'Base360 Server');
 
 console.log('Server Node Modules Path', path.join(__dirname, 'node_modules'));
 
@@ -109,7 +109,7 @@ console.log('App is packaged', app.isPackaged);
 const gauzyUIPath = app.isPackaged
 	? path.join(__dirname, '../data/ui/index.html')
 	: path.join(__dirname, './data/ui/index.html');
-console.log('Gauzy UI path', gauzyUIPath);
+console.log('Base360 UI path', gauzyUIPath);
 
 const uiPath = path.join(__dirname, 'index.html');
 console.log('UI path', uiPath);
@@ -162,7 +162,7 @@ LocalStore.setFilePath({
 });
 
 // Register custom protocol for deep linking
-const appProtocol = process.env.PROTOCOL || 'gauzy-server';
+const appProtocol = process.env.PROTOCOL || 'base360-timer';
 if (process.defaultApp) {
 	if (process.argv.length >= 2) {
 		app.setAsDefaultProtocolClient(appProtocol, process.execPath, [path.resolve(process.argv[1])]);
@@ -484,7 +484,7 @@ const contextMenu = () => {
 			id: 'server_help',
 			label: TranslateService.instant('TIMER_TRACKER.MENU.HELP'),
 			click() {
-				shell.openExternal('https://gauzy.co');
+				shell.openExternal('https://base360.ai');
 			}
 		},
 		{
@@ -514,7 +514,7 @@ ipcMain.on('start_server', async (event, arg) => {
 });
 
 ipcMain.on('run_gauzy_server', async (event, arg) => {
-	console.log('Run Ever Gauzy Server Event Handler');
+	console.log('Run Base360 Server Event Handler');
 	await runServer();
 });
 
@@ -523,7 +523,7 @@ const stopServer = () => {
 };
 
 ipcMain.on('stop_gauzy_server', (event, arg) => {
-	console.log('Stop Ever Gauzy Server Event Handler');
+	console.log('Stop Base360 Server Event Handler');
 	stopServer();
 });
 

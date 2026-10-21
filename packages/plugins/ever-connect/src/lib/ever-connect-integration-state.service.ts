@@ -458,7 +458,7 @@ export class EverConnectIntegrationStateService {
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'not_linked',
-				message: 'Link this organization to an Ever organization first.'
+				message: 'Link this organization to a Base360 organization first.'
 			});
 		}
 		return { scope: link.linkId, link };
@@ -512,7 +512,7 @@ export class EverConnectIntegrationStateService {
 		if (!consentLinkAllowed(String(answer?.url ?? ''), this.config.apiUrl)) {
 			// Only an https link to Ever Platform's web app is passed to the browser.
 			throw new HttpException(
-				{ statusCode: 502, code: 'consent_url_invalid', message: 'Ever Platform answered an unusable consent link.' },
+				{ statusCode: 502, code: 'consent_url_invalid', message: 'Base360 Platform answered an unusable consent link.' },
 				HttpStatus.BAD_GATEWAY
 			);
 		}
@@ -541,7 +541,7 @@ export class EverConnectIntegrationStateService {
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'consent_required',
-				message: 'An administrator enables this integration in app.ever.co.',
+				message: 'An administrator enables this integration in the platform settings.',
 				url
 			});
 		}
@@ -753,7 +753,7 @@ export class EverConnectIntegrationStateService {
 				await this.store.saveIntegration(row.scope, row.name, { pendingRemoteRevoke: true });
 			}
 			this.logger.warn(
-				`Ever Platform was not told about the deny of ${key} now (${errorCode(error)}); the next heartbeat carries it.`
+				`Base360 Platform was not told about the deny of ${key} now (${errorCode(error)}); the next heartbeat carries it.`
 			);
 		}
 	}
@@ -779,7 +779,7 @@ export class EverConnectIntegrationStateService {
 		} catch (error) {
 			if (!(error instanceof ProblemError && error.status === 404)) {
 				this.logger.warn(
-					`Ever Platform was not told now that ${row.name} is off (${errorCode(error)}); it is off here, and told again at the next heartbeat.`
+					`Base360 Platform was not told now that ${row.name} is off (${errorCode(error)}); it is off here, and told again at the next heartbeat.`
 				);
 				return false;
 			}
@@ -926,7 +926,7 @@ export class EverConnectIntegrationStateService {
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'consent_required',
-				message: 'Enable "Installation address" in app.ever.co first.'
+				message: 'Enable "Installation address" in the platform settings first.'
 			});
 		}
 		void url;
@@ -934,7 +934,7 @@ export class EverConnectIntegrationStateService {
 			{
 				statusCode: 503,
 				code: 'not_available',
-				message: 'Ever Platform does not accept an installation address from here yet.'
+				message: 'Base360 Platform does not accept an installation address from here yet.'
 			},
 			HttpStatus.SERVICE_UNAVAILABLE
 		);
@@ -946,14 +946,14 @@ export class EverConnectIntegrationStateService {
 	private problem(error: unknown): unknown {
 		if (isUnreachable(error)) {
 			return new HttpException(
-				{ statusCode: 502, code: 'platform_unreachable', message: 'Ever Platform could not be reached.' },
+				{ statusCode: 502, code: 'platform_unreachable', message: 'Base360 Platform could not be reached.' },
 				HttpStatus.BAD_GATEWAY
 			);
 		}
 		if (error instanceof ProblemError) {
 			const status = [404, 409, 422].includes(error.status) ? error.status : 502;
 			return new HttpException(
-				{ statusCode: status, code: error.code, message: 'Ever Platform refused the request.' },
+				{ statusCode: status, code: error.code, message: 'Base360 Platform refused the request.' },
 				status
 			);
 		}
@@ -966,7 +966,7 @@ export class EverConnectIntegrationStateService {
 			throw new ConflictException({
 				statusCode: 409,
 				code: 'not_connected',
-				message: 'This installation is not connected to Ever Platform.'
+				message: 'This installation is not connected to Base360 Platform.'
 			});
 		}
 		return connection;

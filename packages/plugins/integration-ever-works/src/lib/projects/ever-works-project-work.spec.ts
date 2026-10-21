@@ -277,7 +277,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		projectTeams.set('p2', ['g-team-2']);
 		addLink(EverWorksLinkType.TEAM, 'g-team-1', 'ew-team-1');
 		await expect(service.decide('m1' as never, { createInEverWorks: ['p1', 'p2'] as never })).rejects.toThrow(
-			'not paired with an Ever Works team yet'
+			'not paired with a Base360 Works team yet'
 		);
 		expect(postsOf(mock)).toHaveLength(0);
 		await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
@@ -402,7 +402,7 @@ describe('EverWorksProjectsService — create in Ever Works (G-P2-5)', () => {
 		const view = await service.decide('m1' as never, { createInEverWorks: ['p1'] as never });
 		expect(view.failures?.[0]).toMatchObject({
 			projectId: 'p1',
-			message: expect.stringContaining('paired with another Gauzy project')
+			message: expect.stringContaining('paired with another Base360 project')
 		});
 		expect(links.find((l) => l['ewId'] === 'ew-work-old')?.['gauzyId']).toBe('p-other');
 	});

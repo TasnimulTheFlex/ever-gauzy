@@ -292,7 +292,7 @@ describe('EverWorksInitiativesService — EW → G', () => {
 		);
 		expect(initiatives[0]).toMatchObject({
 			state: 'resolved',
-			signals: { strategicNotes: 'Ever Works mission succeeded.' }
+			signals: { strategicNotes: 'Base360 Works mission succeeded.' }
 		});
 	});
 
@@ -446,7 +446,7 @@ describe('EverWorksInitiativesService — G → EW', () => {
 		initiatives.push(initiative({ visibilityScope: 'team', teams: [], projects: [{ id: 'p-1' }] }));
 		expect(await service.push(change('init-1'), pushContext)).toEqual({
 			status: 'skipped',
-			message: 'a team-scoped initiative goes to Ever Works once it is linked to a paired team'
+			message: 'a team-scoped initiative goes to Base360 Works once it is linked to a paired team'
 		});
 		expect(missionsMock.missions.size).toBe(0);
 		// With a paired direct team it goes, team-visible.

@@ -7,11 +7,11 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text font-size="20px" font-family="helvetica"
-					>You've been invited to Gauzy!</mj-text
+					>You've been invited to Base360!</mj-text
 				>
 				<mj-text font-size="16px" font-family="helvetica">
 					<p>Dear {{name}},</p>
@@ -24,26 +24,26 @@
 				<mj-button
 					href="{{generatedUrl}}"
 					font-family="Helvetica"
-					background-color="#3366ff"
+					background-color="#064749"
 					color="white"
 				>
 					השלם את ההרשמה שלך עכשיו
 				</mj-button>
 				<mj-text font-size="16px" font-family="helvetica">
 					<p>Best regards,</p>
-					<p>Gauzy Team</p>
+					<p>Base360 Team</p>
 				</mj-text>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text align="center" font-size="12px" font-family="helvetica"
 					>© 2019,
-					<a href="{{appLink}}" style="color: #598bff"
+					<a href="{{appLink}}" style="color: #064749"
 						>{{appName}}</a
 					>
 					by
-					<a href="{{companyLink}}" style="color: #598bff"
+					<a href="{{companyLink}}" style="color: #064749"
 						>{{companyName}}</a
 					>
 					All rights reserved.

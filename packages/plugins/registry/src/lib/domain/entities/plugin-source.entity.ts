@@ -323,7 +323,7 @@ export class PluginSource extends TenantOrganizationBaseEntity implements IPlugi
 				break;
 			case PluginSourceType.GAUZY:
 				if (!this.fileName) {
-					errors.push('File name is required for Gauzy sources');
+					errors.push('File name is required for Base360 sources');
 				}
 				if (!this.hasValidFileExtension()) {
 					errors.push('File must be a ZIP archive');

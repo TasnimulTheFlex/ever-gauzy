@@ -67,7 +67,7 @@ export function resolveSecret(name: string): string {
 		if (isKnownDefaultSecret(raw)) {
 			warnOnce(
 				name,
-				`${name} is set to a value published in the Gauzy repository. Anyone can forge tokens or ` +
+				`${name} is set to a value published in the Base360 repository. Anyone can forge tokens or ` +
 					'sessions signed with it. Use it for local development only; set a strong unique value ' +
 					'(e.g. `openssl rand -hex 64`) anywhere else.'
 			);

@@ -100,7 +100,7 @@ export function inboxUpsertOf(
 		source: InboxItemSourceEnum.EVER_WORKS,
 		externalSource: EVER_WORKS_INBOX_EXTERNAL_SOURCE,
 		externalId: item.id,
-		title: (item.title || '').trim() || 'Ever Works',
+		title: (item.title || '').trim() || 'Base360 Works',
 		body: item.body ?? null,
 		bodyFormat: InboxItemBodyFormatEnum.MARKDOWN,
 		options: inboxOptionsOf(item.options),

@@ -177,7 +177,7 @@ export class RoleController extends CrudController<Role> {
 	 * @param input
 	 * @returns
 	 */
-	@ApiOperation({ summary: 'Import role from self hosted to gauzy cloud hosted in bulk' })
+	@ApiOperation({ summary: 'Import role from self hosted to Base360 cloud hosted in bulk' })
 	@ApiResponse({
 		status: HttpStatus.CREATED,
 		description: 'Role have been successfully imported.'

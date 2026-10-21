@@ -40,8 +40,8 @@ ARG NX_BRANCH
 
 FROM node:26.11.1-alpine3.24 AS dependencies
 
-LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL maintainer="support@base360.ai"
+LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/ever-gauzy"
 
 RUN apk add --no-cache python3 python3-dev py3-pip py3-setuptools build-base gcc g++ make autoconf automake git \
     && npm install --quiet node-gyp@10.2.0 -g \

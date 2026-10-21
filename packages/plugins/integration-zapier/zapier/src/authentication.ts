@@ -2,7 +2,7 @@
  * Zapier authentication configuration for OAuth2 integration with Gauzy
  */
 import { ZObject, Bundle } from 'zapier-platform-core';
-const appName = process.env.APP_NAME || 'Gauzy';
+const appName = process.env.APP_NAME || 'Base360';
 
 export const authentication = {
 	/** Specifies OAuth2 as the authentication type */

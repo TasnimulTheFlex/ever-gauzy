@@ -121,7 +121,7 @@
 			"actor": {
 				"type": "integration",
 				"id": "3bf3b5d7-9eaf-4be8-8c13-8e9fabbccdde",
-				"label": "Ever Gauzy (Acme)"
+				"label": "Base360 (Acme)"
 			},
 			"origin": {
 				"tag": "gauzy:5c04e2b1-7f3a-4d9e-b6a8-2e1f0c9d8b7a",

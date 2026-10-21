@@ -181,7 +181,7 @@ export class EverWorksPeopleService {
 		try {
 			await this.linkEverIdMatches(context, members);
 		} catch (error) {
-			this.logger.warn(`Ever ID pairing of mapping ${context.integrationTenantId} did not complete (${error instanceof Error ? error.message : String(error)}).`);
+			this.logger.warn(`Base360 ID pairing of mapping ${context.integrationTenantId} did not complete (${error instanceof Error ? error.message : String(error)}).`);
 		}
 		return this.view(context, members);
 	}
@@ -215,7 +215,7 @@ export class EverWorksPeopleService {
 		}
 		const employees = await this.people$(context, pairs.map((p) => p.employeeId));
 		for (const pair of pairs) {
-			if (!byUser.has(pair.ewUserId)) throw new BadRequestException(`${pair.ewUserId} is not a member of the mapped Ever Works organization.`);
+			if (!byUser.has(pair.ewUserId)) throw new BadRequestException(`${pair.ewUserId} is not a member of the mapped Base360 Works organization.`);
 			if (!employees.has(pair.employeeId)) throw new BadRequestException(`${pair.employeeId} is not an active person of this organization.`);
 		}
 		const seenUsers = new Set<string>();
@@ -411,7 +411,7 @@ export class EverWorksPeopleService {
 					.andWhere(`${column('deletedAt')} IS NULL`)
 					.getRawMany();
 			} catch (error) {
-				this.logger.warn(`Ever ID links could not be read (${error instanceof Error ? error.message : String(error)}); people are matched by e-mail only.`);
+				this.logger.warn(`Base360 ID links could not be read (${error instanceof Error ? error.message : String(error)}); people are matched by e-mail only.`);
 				return new Map();
 			}
 			for (const row of rows) {
@@ -470,17 +470,17 @@ export class EverWorksPeopleService {
 	 */
 	async inviteToGauzy(integrationTenantId: ID, input: EverWorksInviteToGauzyInput, organizationId?: ID): Promise<EverWorksInviteToGauzyResult> {
 		if (!RequestContext.hasPermission(PermissionsEnum.ORG_INVITE_EDIT)) {
-			throw new ForbiddenException('Inviting people to Gauzy needs the permission to edit invites.');
+			throw new ForbiddenException('Inviting people to Base360 needs the permission to edit invites.');
 		}
 		const context = await this.contexts.forRequest(integrationTenantId, organizationId);
 		const member = (await this.members(context)).find((m) => m.userId === input.ewUserId);
-		if (!member) throw new BadRequestException(`${input.ewUserId} is not a member of the mapped Ever Works organization.`);
+		if (!member) throw new BadRequestException(`${input.ewUserId} is not a member of the mapped Base360 Works organization.`);
 		if (await this.links.byEw(context.integrationTenantId, EverWorksLinkType.MEMBER, member.userId)) {
-			throw new ConflictException('This member is already paired with a Gauzy person.');
+			throw new ConflictException('This member is already paired with a Base360 person.');
 		}
-		if (member.isActive === false) throw new BadRequestException('This member is deactivated in Ever Works.');
+		if (member.isActive === false) throw new BadRequestException('This member is deactivated in Base360 Works.');
 		if (!member.email || !member.emailVerified) {
-			throw new BadRequestException('Only a member whose e-mail Ever Works has verified can be invited.');
+			throw new BadRequestException('Only a member whose e-mail Base360 Works has verified can be invited.');
 		}
 		const email = member.email;
 		const key = email.toLowerCase();
@@ -494,7 +494,7 @@ export class EverWorksPeopleService {
 			const pending = (await this.pendingInvites(context, [email])).get(key);
 			if (pending) {
 				if (pending.roleId && pending.roleId !== roleId) {
-					throw new ConflictException("An invitation for another role is still pending for this e-mail: revoke it on Gauzy's Invites page first.");
+					throw new ConflictException("An invitation for another role is still pending for this e-mail: revoke it on Base360's Invites page first.");
 				}
 				return { status: 'pending', inviteId: pending.id as ID, email: pending.email, roleId, expireDate: pending.expireDate ?? null };
 			}
@@ -512,7 +512,7 @@ export class EverWorksPeopleService {
 			} as unknown as ICreateEmailInvitesInput;
 			const output: ICreateEmailInvitesOutput = await this.commandBus.execute(new InviteBulkCreateCommand(invite, RequestContext.getLanguageCode()));
 			const created = output?.items?.[0];
-			if (!created) throw new ConflictException('Gauzy did not issue an invitation for this e-mail.');
+			if (!created) throw new ConflictException('Base360 did not issue an invitation for this e-mail.');
 			return { status: 'invited', inviteId: created.id as ID, email: created.email, roleId, expireDate: created.expireDate ?? null };
 		});
 	}
@@ -530,13 +530,13 @@ export class EverWorksPeopleService {
 	 */
 	async inviteToEverWorks(integrationTenantId: ID, input: EverWorksInviteToEverWorksInput, organizationId?: ID): Promise<EverWorksInviteToEverWorksResult> {
 		if (!RequestContext.hasPermission(PermissionsEnum.ORG_INVITE_EDIT)) {
-			throw new ForbiddenException('Inviting people to Ever Works needs the permission to edit invites.');
+			throw new ForbiddenException('Inviting people to Base360 Works needs the permission to edit invites.');
 		}
 		const context = await this.contexts.forRequest(integrationTenantId, organizationId);
 		const person = (await this.people$(context, [input.employeeId])).get(input.employeeId);
 		if (!person) throw new BadRequestException(`${input.employeeId} is not an active person of this organization.`);
 		if (await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.MEMBER, input.employeeId)) {
-			throw new ConflictException('This person is already paired with an Ever Works member.');
+			throw new ConflictException('This person is already paired with a Base360 Works member.');
 		}
 		if (!person.email) throw new BadRequestException('This person has no e-mail to invite.');
 		const email = person.email;
@@ -545,7 +545,7 @@ export class EverWorksPeopleService {
 			(m) => m.email?.toLowerCase() === key
 		);
 		if (same) {
-			throw new ConflictException(`A member of the Ever Works organization already has this e-mail (${same.userId}): pair them instead.`);
+			throw new ConflictException(`A member of the Base360 Works organization already has this e-mail (${same.userId}): pair them instead.`);
 		}
 		const actAsUserId = await everWorksUserOfGauzyUser(this.dataSource, this.links, context, RequestContext.currentUserId() as ID | null);
 		const client: EverWorksClient = this.connections.client(context.connection, context.everWorksOrganizationSlug);
@@ -576,15 +576,15 @@ export class EverWorksPeopleService {
 		if (error instanceof EverWorksNetworkError) return new BadGatewayException(error.message);
 		if (!(error instanceof EverWorksApiError)) return error;
 		if (error.status === 403 && error.code === 'scope_missing') {
-			return new ForbiddenException('The Ever Works key cannot invite members: give it the members:write scope (Ever Works, Settings → API keys).');
+			return new ForbiddenException('The Base360 Works key cannot invite members: give it the members:write scope (Base360 Works, Settings → API keys).');
 		}
 		if (error.status === 404 || error.status === 405) {
-			return new BadRequestException('This Ever Works server cannot invite members yet: it needs integration contract v1-draft.15 (POST /members/invite).');
+			return new BadRequestException('This Base360 Works server cannot invite members yet: it needs integration contract v1-draft.15 (POST /members/invite).');
 		}
-		if (error.status === 401) return new BadRequestException(`Ever Works rejected the key (${error.code}).`);
-		if (error.status === 429) return new ServiceUnavailableException('Ever Works is rate limiting this key; try again shortly.');
-		if (error.status >= 500) return new BadGatewayException(`Ever Works failed (${error.status}).`);
-		return new BadRequestException(`Ever Works refused the invitation (${error.code}): ${error.message}`);
+		if (error.status === 401) return new BadRequestException(`Base360 Works rejected the key (${error.code}).`);
+		if (error.status === 429) return new ServiceUnavailableException('Base360 Works is rate limiting this key; try again shortly.');
+		if (error.status >= 500) return new BadGatewayException(`Base360 Works failed (${error.status}).`);
+		return new BadRequestException(`Base360 Works refused the invitation (${error.code}): ${error.message}`);
 	}
 
 	/**
@@ -599,7 +599,7 @@ export class EverWorksPeopleService {
 		if (!role?.id) throw new BadRequestException('This tenant has no Employee role to invite with.');
 		if (roleId && roleId !== role.id) {
 			throw new BadRequestException(
-				'Only the Employee role makes a Gauzy person the People tab can pair (another role joins without an employee); change the role in Gauzy once they have joined.'
+				'Only the Employee role makes a Base360 person the People tab can pair (another role joins without an employee); change the role in Base360 once they have joined.'
 			);
 		}
 		return role.id as ID;

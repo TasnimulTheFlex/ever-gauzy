@@ -9,7 +9,7 @@ import { EverWorksInitialSyncService } from '../initial/ever-works-initial-sync.
 import { EverWorksSyncStatusService } from './ever-works-sync-status.service';
 
 export class EverWorksResolveConflictDto {
-	@ApiProperty({ enum: ['keep', 'use_other'], description: '`keep` accepts the merged value; `use_other` writes the value that lost into the Gauzy record.' })
+	@ApiProperty({ enum: ['keep', 'use_other'], description: '`keep` accepts the merged value; `use_other` writes the value that lost into the Base360 record.' })
 	@IsIn(['keep', 'use_other'])
 	readonly resolution!: 'keep' | 'use_other';
 }
@@ -19,7 +19,7 @@ export class EverWorksResolveConflictDto {
  * dry run, initial sync and resync, the status, the sync log and the conflicts. Same guards and
  * organization-membership check as every management route; every response is `Cache-Control: no-store`.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/mappings/:integrationTenantId`)
@@ -115,7 +115,7 @@ export class EverWorksSyncController {
 	@HttpCode(HttpStatus.OK)
 	@UseValidationPipe({ whitelist: true })
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'Resolve a conflict: keep the merged value, or use the other value (written into the Gauzy record and pushed).' })
+	@ApiOperation({ summary: 'Resolve a conflict: keep the merged value, or use the other value (written into the Base360 record and pushed).' })
 	resolve(
 		@Param('integrationTenantId', UUIDValidationPipe) id: ID,
 		@Param('conflictId', UUIDValidationPipe) conflictId: ID,

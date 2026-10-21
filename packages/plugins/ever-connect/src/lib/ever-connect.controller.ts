@@ -58,7 +58,7 @@ export interface EverConnectStatus {
  * organization, its integrations and consents, its entitlement document and its audit. The
  * installation-wide integrations answer 404 to everyone but the operator. No answer is cached.
  */
-@ApiTags('Ever Platform')
+@ApiTags('Base360 Platform')
 @ApiBearerAuth()
 @UseGuards(EverConnectEnabledGuard, TenantPermissionGuard, PermissionGuard)
 @Controller('/ever-connect')

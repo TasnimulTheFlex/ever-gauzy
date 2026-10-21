@@ -14,9 +14,9 @@
 	},
 	"private": true,
 	"author": {
-		"name": "Base360",
-		"email": "support@base360.ai",
-		"url": "https://base360.ai"
+		"name": "Ever Co. LTD",
+		"email": "ever@ever.co",
+		"url": "https://ever.co"
 	},
 	"main": "index.js",
 	"bin": "api/main.js",
@@ -27,7 +27,7 @@
 		"appId": "com.base360.server",
 		"artifactName": "base360-server-${arch}-${version}.${ext}",
 		"productName": "Base360 Server",
-		"copyright": "Copyright © 2019-Present. Base360",
+		"copyright": "Copyright © 2019-Present. Ever Co. LTD",
 		"beforeBuild": "tools/electron/before-build.js",
 		"afterSign": "tools/notarize.js",
 		"dmg": {
@@ -49,8 +49,8 @@
 		"publish": [
 			{
 				"provider": "github",
-				"owner": "TasnimulTheFlex",
 				"repo": "ever-gauzy",
+				"owner": "TasnimulTheFlex",
 				"releaseType": "release"
 			}
 		],
@@ -75,17 +75,13 @@
 				"NSAppleEventsUsageDescription": "This app requires access to script browser applications to detect the current URL when triggering instant lookup.",
 				"NSCameraUsageDescription": "Please allow access to the device camera to capture images and videos.",
 				"NSMicrophoneUsageDescription": "Please allow access to the device's microphone to capture audio and voice recordings.",
-				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos.",
-				"CFBundleName": "Base360 Server",
-				"CFBundleDisplayName": "Base360 Server"
+				"NSScreenCaptureUsageDescription": "Please allow access to the device's screen to capture screenshots and videos."
 			}
 		},
 		"win": {
 			"target": "nsis",
 			"icon": "icon.ico",
-			"requestedExecutionLevel": "requireAdministrator",
-			"publisherName": "Base360",
-			"verifyUpdateCodeSignature": false
+			"requestedExecutionLevel": "requireAdministrator"
 		},
 		"snap": {
 			"base": "core22"
@@ -150,16 +146,6 @@
 		},
 		"extraResources": [
 			"./data/**/*"
-		],
-		"executableName": "base360-server",
-		"protocols": [
-			{
-				"name": "Base360 Server Protocol",
-				"schemes": [
-					"base360-server"
-				],
-				"role": "Editor"
-			}
 		]
 	},
 	"dependencies": {

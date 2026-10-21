@@ -8,12 +8,12 @@ import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksProjectsService } from './ever-works-projects.service';
 
 export class EverWorksProjectLinkDto {
-	@ApiProperty({ description: 'Ever Works work id (a work of the mapped organization).' })
+	@ApiProperty({ description: 'Base360 Works work id (a work of the mapped organization).' })
 	@IsString()
 	@MaxLength(64)
 	readonly ewWorkId!: string;
 
-	@ApiProperty({ description: 'Gauzy project id (an active project of this organization).' })
+	@ApiProperty({ description: 'Base360 project id (an active project of this organization).' })
 	@IsUUID()
 	readonly projectId!: string;
 }
@@ -27,7 +27,7 @@ export class EverWorksProjectsDecisionDto {
 	@Type(() => EverWorksProjectLinkDto)
 	readonly links?: EverWorksProjectLinkDto[];
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works work ids whose pairing is removed (neither record changes).' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 Works work ids whose pairing is removed (neither record changes).' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(2000)
@@ -40,7 +40,7 @@ export class EverWorksProjectsDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works work ids to create a Gauzy project from.' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 Works work ids to create a Base360 project from.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
@@ -50,7 +50,7 @@ export class EverWorksProjectsDecisionDto {
 
 	@ApiPropertyOptional({
 		type: [String],
-		description: 'Gauzy project ids to create in Ever Works as repo-less works of kind `project` (G-P2-5; needs Ever Works project works switched on).'
+		description: 'Base360 project ids to create in Base360 Works as repo-less works of kind `project` (G-P2-5; needs Base360 Works project works switched on).'
 	})
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
@@ -63,7 +63,7 @@ export class EverWorksProjectsDecisionDto {
  * `/api/integration/ever-works/mappings/:integrationTenantId/projects` (plan 06 G-P1-8): the Projects tab
  * (projects ↔ works, link only). Same guards and organization-membership check as every management route.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/mappings/:integrationTenantId`)
@@ -72,7 +72,7 @@ export class EverWorksProjectsController {
 
 	@Get('/projects')
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
-	@ApiOperation({ summary: 'Ever Works works with their paired project or a same-URL/same-name suggestion, and the unmatched projects.' })
+	@ApiOperation({ summary: 'Base360 Works works with their paired project or a same-URL/same-name suggestion, and the unmatched projects.' })
 	list(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.projects.projects(id, organizationId);
 	}

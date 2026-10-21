@@ -157,7 +157,7 @@ export class EverWorksConflictsService {
 			ewId: input.ewId,
 			action: CONFLICT_ACTION,
 			status: 'conflict',
-			message: input.message ?? `${input.field}: both sides changed; ${input.winner === 'gauzy' ? 'Gauzy' : 'Ever Works'} was written last and won.`,
+			message: input.message ?? `${input.field}: both sides changed; ${input.winner === 'gauzy' ? 'Base360' : 'Base360 Works'} was written last and won.`,
 			details: details as unknown as Record<string, unknown>
 		});
 	}
@@ -311,7 +311,7 @@ function defaultResolvers(dataSource: DataSource, queue: EverWorksOutboundQueue,
 			useValue: async (context, gauzyId, field, value) => {
 				const repository = dataSource.getRepository(OrganizationTeam);
 				const team = await repository.findOne({ where: { id: gauzyId, tenantId: context.tenantId, organizationId: context.organizationId } as never });
-				if (!team) throw new NotFoundException('The Gauzy team is gone.');
+				if (!team) throw new NotFoundException('The Base360 team is gone.');
 				(team as unknown as Record<string, unknown>)[field] = value;
 				await repository.save(team);
 				await queue.enqueue({ tenantId: context.tenantId, organizationId: context.organizationId, entityType: EverWorksLinkType.TEAM, gauzyId, op: 'upsert', changedFields: [field] });
@@ -323,7 +323,7 @@ function defaultResolvers(dataSource: DataSource, queue: EverWorksOutboundQueue,
 			useValue: async (context, gauzyId, field, value) => {
 				const repository = dataSource.getRepository(OrganizationProject);
 				const project = await repository.findOne({ where: { id: gauzyId, tenantId: context.tenantId, organizationId: context.organizationId } as never });
-				if (!project) throw new NotFoundException('The Gauzy project is gone.');
+				if (!project) throw new NotFoundException('The Base360 project is gone.');
 				(project as unknown as Record<string, unknown>)[field] = value;
 				await repository.save(project);
 			}

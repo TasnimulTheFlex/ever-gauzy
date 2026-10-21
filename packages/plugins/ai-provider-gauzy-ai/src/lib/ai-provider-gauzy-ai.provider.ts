@@ -15,7 +15,7 @@ const PROVIDER_ID = AiProviderEnum.GAUZY_AI;
  */
 export const gauzyAiProviderDefinition: IAiChatProviderDefinition = {
 	id: PROVIDER_ID,
-	label: 'Gauzy AI',
+	label: 'Base360 AI',
 	/**
 	 * Deliberately EMPTY while `createModel` still throws.
 	 *
@@ -55,7 +55,7 @@ export const gauzyAiProviderDefinition: IAiChatProviderDefinition = {
 	 */
 	async createModel(_modelId: string, _credentials: IAiProviderCredentials): Promise<never> {
 		throw new Error(
-			'Chat via Gauzy AI is not implemented yet — configure another provider. See @gauzy/plugin-ai-provider-gauzy-ai README.'
+			'Chat via Base360 AI is not implemented yet — configure another provider.'
 		);
 	}
 };

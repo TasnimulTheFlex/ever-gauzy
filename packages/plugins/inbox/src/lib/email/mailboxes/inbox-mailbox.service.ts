@@ -232,7 +232,7 @@ export class InboxMailboxService implements IInboundAddressNamespace {
 				...this.toMailbox(row),
 				...(row.kind === InboxMailboxKindEnum.FORWARDING || row.kind === InboxMailboxKindEnum.PLATFORM
 					? {
-							forwardingInstructions: `Forward the mail you want in Gauzy to ${row.address} (in your mail provider's forwarding settings); it then arrives in your Inbox.`
+							forwardingInstructions: `Forward the mail you want in Base360 to ${row.address} (in your mail provider's forwarding settings); it then arrives in your Inbox.`
 						}
 					: {})
 			}));

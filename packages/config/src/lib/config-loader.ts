@@ -32,5 +32,5 @@ export function getConfig(): Readonly<ApplicationPluginConfig> {
  */
 export function resetConfig(): void {
 	currentAppConfig = { ...defaultConfiguration };
-	console.log('Gauzy Config Reset to Defaults');
+	console.log('Base360 Config Reset to Defaults');
 }

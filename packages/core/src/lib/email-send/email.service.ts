@@ -1366,7 +1366,7 @@ export class EmailService {
 		// 	}
 		// });
 		const info = await transporter.sendMail({
-			from: 'Gauzy',
+			from: 'Base360 <support@base360.ai>',
 			to: user.email,
 			subject: 'Forgotten Password',
 			text: 'Forgot Password',

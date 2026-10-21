@@ -368,10 +368,10 @@ export class EverWorksGoalsService
 		const context = envelope.organizationId
 			? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId)
 			: null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!fromEverWorks(context.directions.goals))
-			return { status: 'skipped', message: 'goals are not synced from Ever Works' };
+			return { status: 'skipped', message: 'goals are not synced from Base360 Works' };
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.GOAL, envelope.aggregate.id);
 		if (link?.state === EverWorksLinkState.UNLINKED)
 			return { status: 'skipped', message: 'the goal is no longer synced' };
@@ -396,12 +396,12 @@ export class EverWorksGoalsService
 					{ id: link.gauzyId, tenantId: context.tenantId } as never,
 					{ isArchived: true, archivedAt: new Date() } as never
 				);
-			await this.links.unlink(link, 'deleted in Ever Works; the Gauzy goal is archived');
+			await this.links.unlink(link, 'deleted in Base360 Works; the Base360 goal is archived');
 			return { status: 'applied' };
 		}
 		if (!isSyncedVisibility(goal.visibility)) {
-			if (!link) return { status: 'skipped', message: 'the goal is private in Ever Works' };
-			await this.links.unlink(link, 'private in Ever Works; no longer shared from Ever Works');
+			if (!link) return { status: 'skipped', message: 'the goal is private in Base360 Works' };
+			await this.links.unlink(link, 'private in Base360 Works; no longer shared from Base360 Works');
 			return { status: 'applied', message: 'the goal turned private; it is no longer synced' };
 		}
 		if (!envelope.type.startsWith('goal.')) return { status: 'skipped', message: `${envelope.type} is not synced` };
@@ -419,11 +419,11 @@ export class EverWorksGoalsService
 				);
 			} catch (error) {
 				if (error instanceof EverWorksApiError && error.status === 404)
-					return { status: 'skipped', message: 'the goal is not visible in Ever Works' };
+					return { status: 'skipped', message: 'the goal is not visible in Base360 Works' };
 				throw error;
 			}
 			if (!isSyncedVisibility(goal.visibility))
-				return { status: 'skipped', message: 'the goal is private in Ever Works' };
+				return { status: 'skipped', message: 'the goal is private in Base360 Works' };
 			// What was read is the goal as it is now: its version is recorded, so an older event arriving later is skipped
 			// instead of writing older fields over it (review of #11125).
 			if (typeof goal.version === 'number' && (version == null || goal.version > version)) version = goal.version;
@@ -474,7 +474,7 @@ export class EverWorksGoalsService
 				if (next.teamIds.length && !teams.first)
 					return {
 						status: 'deferred',
-						message: "waiting for the goal's Ever Works team to be paired (teams first)"
+						message: "waiting for the goal's Base360 Works team to be paired (teams first)"
 					};
 				const deadline =
 					(await this.timeFrameOf(context, next.deadline)) ??
@@ -507,7 +507,7 @@ export class EverWorksGoalsService
 				else await repository.update({ id } as never, values as never);
 				goalId = id;
 				this.logger.log(
-					`Ever Works goal ${goal.id} created as Gauzy goal ${goalId} (organization ${context.organizationId}).`
+					`Base360 Works goal ${goal.id} created as Base360 goal ${goalId} (organization ${context.organizationId}).`
 				);
 			}
 		} else {
@@ -515,7 +515,7 @@ export class EverWorksGoalsService
 				where: { id: goalId, tenantId: context.tenantId } as never,
 				withDeleted: true
 			});
-			if (!row) return { status: 'skipped', message: 'the Gauzy goal is gone' };
+			if (!row) return { status: 'skipped', message: 'the Base360 goal is gone' };
 			// `keepGauzy`: fields Gauzy changed after the last sync and is pushing now (a 412 retry) — its edit is
 			// the later one, so Ever Works' older value is not written over it; the snapshot still moves to Ever
 			// Works' value, so the retry pushes Gauzy's.
@@ -731,7 +731,7 @@ export class EverWorksGoalsService
 				{ id: link.gauzyId } as never,
 				{ isArchived: true, archivedAt: new Date() } as never
 			);
-			await this.links.unlink(link, 'no longer a key result of the goal in Ever Works; archived in Gauzy');
+			await this.links.unlink(link, 'no longer a key result of the goal in Base360 Works; archived in Base360');
 		}
 		return missing;
 	}
@@ -745,7 +745,7 @@ export class EverWorksGoalsService
 			return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
 		if (!toEverWorks(context.directions.goals))
-			return { status: 'skipped', message: 'goals are not pushed to Ever Works' };
+			return { status: 'skipped', message: 'goals are not pushed to Base360 Works' };
 		if (change.entityType === EverWorksLinkType.KEY_RESULT) {
 			return keyResultsSynced(context)
 				? this.pushSample(context, change)
@@ -775,13 +775,13 @@ export class EverWorksGoalsService
 		});
 		if (change.op === 'delete' || !goal || (goal as { deletedAt?: Date | null }).deletedAt) {
 			// Delete policy: Ever Works goals are not deleted from Gauzy (and an integration cannot archive one).
-			return { status: 'skipped', message: 'Gauzy goal deletes are not pushed to Ever Works (delete policy)' };
+			return { status: 'skipped', message: 'Base360 goal deletes are not pushed to Base360 Works (delete policy)' };
 		}
 		// A new Ever Works goal is made from the Gauzy goal's key results (its metric or Definition of Done).
 		if (!link && !keyResultsSynced(context))
 			return {
 				status: 'skipped',
-				message: `${KEY_RESULTS_NOT_SYNCED}: a goal is created in Ever Works from them`
+				message: `${KEY_RESULTS_NOT_SYNCED}: a goal is created in Base360 Works from them`
 			};
 		const prepared = await this.prepare(context, goal, link);
 		if ('outcome' in prepared) return prepared.outcome;
@@ -808,7 +808,7 @@ export class EverWorksGoalsService
 				return {
 					outcome: {
 						status: 'deferred',
-						message: `waiting for the Gauzy team ${goal.ownerTeamId} to be paired (teams first)`
+						message: `waiting for the Base360 team ${goal.ownerTeamId} to be paired (teams first)`
 					}
 				};
 			// The other Ever Works teams of a goal synced from Ever Works stay with it.
@@ -836,7 +836,7 @@ export class EverWorksGoalsService
 				outcome: {
 					status: 'skipped',
 					message:
-						'nothing Ever Works can hold yet: the goal is pushed once it has a numeric or True/False key result'
+						'nothing Base360 Works can hold yet: the goal is pushed once it has a numeric or True/False key result'
 				}
 			};
 		return { now, rows };
@@ -891,7 +891,7 @@ export class EverWorksGoalsService
 		}
 		const holder = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.GOAL, created.id);
 		if (holder && holder.state !== EverWorksLinkState.UNLINKED && holder.gauzyId !== goal.id)
-			return { status: 'skipped', message: `the Ever Works goal ${created.id} is paired with another goal` };
+			return { status: 'skipped', message: `the Base360 Works goal ${created.id} is paired with another goal` };
 		await this.record(
 			context,
 			goal.id as ID,
@@ -910,8 +910,8 @@ export class EverWorksGoalsService
 		);
 		await this.recordKeyResults(context, created.id, now, rows);
 		await this.syncSamples(context, client, goal.id as ID, rows);
-		this.logger.log(`Gauzy goal ${goal.id} created in Ever Works as a draft goal ${created.id}.`);
-		return { status: 'pushed', message: 'created in Ever Works (draft)' };
+		this.logger.log(`Base360 goal ${goal.id} created in Base360 Works as a draft goal ${created.id}.`);
+		return { status: 'pushed', message: 'created in Base360 Works (draft)' };
 	}
 
 	private async update(
@@ -949,7 +949,7 @@ export class EverWorksGoalsService
 					// A criterion reads a provider in Ever Works: an integration may write the external source
 					// only (422), so the criteria stay as Ever Works has them; the other changes still go.
 					this.logger.warn(
-						`Goal ${goal.id}: its criteria read a provider in Ever Works; criteria changes are not pushed.`
+						`Goal ${goal.id}: its criteria read a provider in Base360 Works; criteria changes are not pushed.`
 					);
 					now = { ...now, criteria: before.criteria ?? [] };
 				}
@@ -1243,7 +1243,7 @@ export class EverWorksGoalsService
 		for (const link of await this.links.list(context.integrationTenantId, EverWorksLinkType.KEY_RESULT)) {
 			if (link.state === EverWorksLinkState.UNLINKED || keyOfLink(link)?.ewGoalId !== ewGoalId) continue;
 			if (!present.has(link.gauzyId as string))
-				await this.links.unlink(link, 'removed in Gauzy; no longer a key result of the goal');
+				await this.links.unlink(link, 'removed in Base360; no longer a key result of the goal');
 		}
 	}
 

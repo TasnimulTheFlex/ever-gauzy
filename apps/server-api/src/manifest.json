@@ -1,7 +1,7 @@
 {
-	"name": "Gauzy",
-	"short_name": "gauzy",
-	"theme_color": "#666",
+	"name": "Base360 API Server",
+	"short_name": "Base360",
+	"theme_color": "#064749",
 	"background_color": "#fff",
 	"display": "standalone",
 	"scope": "/",

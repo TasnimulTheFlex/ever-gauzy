@@ -143,7 +143,7 @@ export class MockEverWorksWorks {
 			return MockEverWorksServer.error(
 				400,
 				'validation_failed',
-				'externalRef.source must be the key\'s link source ("gauzy").'
+				'externalRef.source must be the key\'s link source ("Base360").'
 			);
 		if (ref?.externalId) {
 			const existing = this.visible(context).find((work) =>

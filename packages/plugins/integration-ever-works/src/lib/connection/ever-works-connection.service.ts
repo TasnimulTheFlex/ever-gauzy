@@ -164,7 +164,7 @@ export class EverWorksConnectionService {
 		const validation = this.describe(apiBaseUrl, dto.apiKey, whoami);
 		if (!validation.compatible) {
 			throw new BadRequestException(
-				`This Ever Works speaks integration API v${validation.apiVersion}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}.`
+				`This Base360 Works speaks integration API v${validation.apiVersion}; Base360 speaks v${EVER_WORKS_CONTRACT_VERSION}.`
 			);
 		}
 		this.assertGauzyKey(validation);
@@ -176,7 +176,7 @@ export class EverWorksConnectionService {
 			});
 			if (active) {
 				throw new ConflictException(
-					'This tenant is already connected to Ever Works. Update its key or disconnect it first.'
+					'This tenant is already connected to Base360 Works. Update its key or disconnect it first.'
 				);
 			}
 			// A reconnect to the same Ever Works tenant resumes the earlier connection (same id), so its
@@ -223,7 +223,7 @@ export class EverWorksConnectionService {
 			}
 			return manager.save(EverWorksConnection, connection);
 		});
-		this.logger.log(`Tenant ${scope.tenantId} connected to Ever Works tenant ${whoami.tenant.id} (connection ${saved.id}).`);
+		this.logger.log(`Tenant ${scope.tenantId} connected to Base360 Works tenant ${whoami.tenant.id} (connection ${saved.id}).`);
 		if (orphan.subscriptionId) {
 			// It still delivers to this connection's URL (the id is reused) and every delivery would be refused.
 			// A subscription belongs to the key that made it: the new key first, then the earlier one.
@@ -260,10 +260,10 @@ export class EverWorksConnectionService {
 		const whoami = await this.call(() => this.clients.create({ apiBaseUrl: existing.apiBaseUrl, apiKey: dto.apiKey }).whoami());
 		const validation = this.describe(existing.apiBaseUrl, dto.apiKey, whoami);
 		if (whoami.tenant.id !== existing.ewTenantId) {
-			throw new BadRequestException('The new key belongs to another Ever Works tenant. Disconnect and connect again instead.');
+			throw new BadRequestException('The new key belongs to another Base360 Works tenant. Disconnect and connect again instead.');
 		}
 		if (!validation.compatible) {
-			throw new BadRequestException(`The Ever Works API version changed to v${validation.apiVersion}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}.`);
+			throw new BadRequestException(`The Base360 Works API version changed to v${validation.apiVersion}; Base360 speaks v${EVER_WORKS_CONTRACT_VERSION}.`);
 		}
 		this.assertGauzyKey(validation);
 		// A webhook subscription belongs to the key that made it: under another key it can no longer be
@@ -329,7 +329,7 @@ export class EverWorksConnectionService {
 		const result = await this.checkHealth(connection, { resuming: true });
 		if (!result.healthy) {
 			throw new BadRequestException(
-				`Ever Works did not accept the connection (${result.lastError ?? 'unknown error'}); it stays ${result.status}.`
+				`Base360 Works did not accept the connection (${result.lastError ?? 'unknown error'}); it stays ${result.status}.`
 			);
 		}
 		const saved = await this.reload(id);
@@ -372,7 +372,7 @@ export class EverWorksConnectionService {
 		const url = this.webhookUrl(connection.id as ID);
 		const organizationIds = this.pins(connection).map((org) => org.id);
 		if (!organizationIds.length) {
-			throw new BadRequestException('The key is pinned to no Ever Works organization.');
+			throw new BadRequestException('The key is pinned to no Base360 Works organization.');
 		}
 		const client = this.client(connection);
 		const previousId = connection.webhookSubscriptionId ?? null;
@@ -384,13 +384,13 @@ export class EverWorksConnectionService {
 					events,
 					organizationIds,
 					excludeOriginTags: [`gauzy:${connection.id}`],
-					description: `Ever Gauzy (connection ${connection.id})`
+					description: `Base360 (connection ${connection.id})`
 				},
 				`gauzy:${connection.id}:webhook:${randomUUID()}`
 			)
 		);
 		if (!subscription?.id || typeof subscription.secret !== 'string' || subscription.secret.length < 32) {
-			throw new BadGatewayException('Ever Works did not return a webhook signing secret.');
+			throw new BadGatewayException('Base360 Works did not return a webhook signing secret.');
 		}
 		const race = { lost: false };
 		const saved = await this.mutate(connection.id as ID, scope.tenantId, (row) => {
@@ -553,7 +553,7 @@ export class EverWorksConnectionService {
 			apiKey = this.secretBox.open(connection.apiKeyEncrypted, 'api_key', connection.id as ID);
 		} catch (error) {
 			throw new ServiceUnavailableException(
-				error instanceof EverWorksSecretError ? error.message : 'The stored Ever Works key cannot be read.'
+				error instanceof EverWorksSecretError ? error.message : 'The stored Base360 Works key cannot be read.'
 			);
 		}
 		return this.clients.create({ apiBaseUrl: connection.apiBaseUrl, apiKey, connectionId: connection.id as ID, scopeSlug: scopeSlug ?? null });
@@ -600,10 +600,10 @@ export class EverWorksConnectionService {
 			} else if (whoami && whoami.tenant?.id !== row.ewTenantId) {
 				// An admin pause is kept here too (#11074 review): from ERROR, a new key would make the connection active.
 				next = keepPaused ? EverWorksConnectionStatus.PAUSED : EverWorksConnectionStatus.ERROR;
-				lastError = 'tenant_changed: the key now answers for another Ever Works tenant';
+				lastError = 'tenant_changed: the key now answers for another Base360 Works tenant';
 			} else if (whoami) {
 				next = keepPaused ? EverWorksConnectionStatus.PAUSED : EverWorksConnectionStatus.ERROR;
-				lastError = `api_version: Ever Works speaks integration API v${String(whoami.apiVersion)}; Gauzy speaks v${EVER_WORKS_CONTRACT_VERSION}`;
+				lastError = `api_version: Base360 Works speaks integration API v${String(whoami.apiVersion)}; Base360 speaks v${EVER_WORKS_CONTRACT_VERSION}`;
 			} else if (failure instanceof EverWorksApiError && failure.status === 401) {
 				// An admin pause stays a pause (review F57): the key still has to be replaced and the admin is told so, but
 				// a new key (`rotateKey` keeps PAUSED) must not restart a sync the admin stopped.
@@ -729,7 +729,7 @@ export class EverWorksConnectionService {
 		try {
 			return normaliseApiBaseUrl(raw, { allowLoopback: this.config.allowLoopback === true });
 		} catch (error) {
-			throw new BadRequestException(error instanceof EverWorksUrlError ? error.message : 'Invalid Ever Works API URL.');
+			throw new BadRequestException(error instanceof EverWorksUrlError ? error.message : 'Invalid Base360 Works API URL.');
 		}
 	}
 
@@ -738,7 +738,7 @@ export class EverWorksConnectionService {
 		const base = this.config.gauzyApiUrl;
 		if (!base) {
 			throw new BadRequestException(
-				'The webhook needs the public HTTPS address of this Gauzy API (API_BASE_URL); the change feed keeps syncing without it.'
+				'The webhook needs the public HTTPS address of this Base360 API (API_BASE_URL); the change feed keeps syncing without it.'
 			);
 		}
 		return `${base}/api${EVER_WORKS_ROUTE_PREFIX}/webhooks/${connectionId}`;
@@ -746,7 +746,7 @@ export class EverWorksConnectionService {
 
 	private describe(apiBaseUrl: string, apiKey: string, whoami: EverWorksWhoami): EverWorksKeyValidation {
 		if (!whoami || typeof whoami !== 'object' || !whoami.tenant?.id) {
-			throw new BadGatewayException('Ever Works answered whoami without a tenant.');
+			throw new BadGatewayException('Base360 Works answered whoami without a tenant.');
 		}
 		const scopes = Array.isArray(whoami.scopes) ? whoami.scopes.filter((s) => typeof s === 'string') : [];
 		return {
@@ -775,7 +775,7 @@ export class EverWorksConnectionService {
 	private assertGauzyKey(validation: EverWorksKeyValidation): void {
 		if (validation.integrationKind && validation.integrationKind !== EVER_WORKS_INTEGRATION_KIND) {
 			throw new BadRequestException(
-				`This Ever Works key was made for the "${validation.integrationKind}" integration; create an Ever Gauzy (${EVER_WORKS_INTEGRATION_KIND}) integration key.`
+				`This Base360 Works key was made for the "${validation.integrationKind}" integration; create a Base360 (${EVER_WORKS_INTEGRATION_KIND}) integration key.`
 			);
 		}
 	}
@@ -804,7 +804,7 @@ export class EverWorksConnectionService {
 		const connection = await this.dataSource.getRepository(EverWorksConnection).findOne({
 			where: { id, tenantId: scope.tenantId, isActive: true }
 		});
-		if (!connection) throw new NotFoundException('Ever Works connection not found.');
+		if (!connection) throw new NotFoundException('Base360 Works connection not found.');
 		return connection;
 	}
 
@@ -837,7 +837,7 @@ export class EverWorksConnectionService {
 				where: { id, tenantId },
 				...(type === 'postgres' || type === 'mysql' || type === 'mariadb' ? { lock: { mode: 'pessimistic_write' as const } } : {})
 			});
-			if (!row) throw new NotFoundException('Ever Works connection not found.');
+			if (!row) throw new NotFoundException('Base360 Works connection not found.');
 			change(row);
 			return manager.save(EverWorksConnection, row);
 		});
@@ -915,17 +915,17 @@ export class EverWorksConnectionService {
 		if (error instanceof HttpException) return error;
 		if (error instanceof EverWorksUrlError) return new BadRequestException(error.message);
 		if (error instanceof EverWorksApiError) {
-			if (error.status === 401) return new BadRequestException(`Ever Works rejected the key (${error.code}).`);
-			if (error.status === 403) return new BadRequestException(`Ever Works refused the request (${error.code}): ${error.message}`);
-			if (error.status === 404) return new BadRequestException('No Ever Works integration API answers at this URL (404).');
-			if (error.status === 429) return new ServiceUnavailableException('Ever Works is rate limiting this key; try again shortly.');
-			if (error.status >= 500) return new BadGatewayException(`Ever Works failed (${error.status}).`);
-			return new BadRequestException(`Ever Works answered ${error.status} (${error.code}).`);
+			if (error.status === 401) return new BadRequestException(`Base360 Works rejected the key (${error.code}).`);
+			if (error.status === 403) return new BadRequestException(`Base360 Works refused the request (${error.code}): ${error.message}`);
+			if (error.status === 404) return new BadRequestException('No Base360 Works integration API answers at this URL (404).');
+			if (error.status === 429) return new ServiceUnavailableException('Base360 Works is rate limiting this key; try again shortly.');
+			if (error.status >= 500) return new BadGatewayException(`Base360 Works failed (${error.status}).`);
+			return new BadRequestException(`Base360 Works answered ${error.status} (${error.code}).`);
 		}
 		if (error instanceof EverWorksNetworkError) return new BadGatewayException(error.message);
 		if (error instanceof EverWorksSecretError) return new ServiceUnavailableException(error.message);
-		this.logger.warn(`Unexpected failure calling Ever Works (${this.reason(error)}).`);
-		return new BadGatewayException('Ever Works could not be reached.');
+		this.logger.warn(`Unexpected failure calling Base360 Works (${this.reason(error)}).`);
+		return new BadGatewayException('Base360 Works could not be reached.');
 	}
 
 	/** A short reason safe to store and log: a contract code and message, or a network code. Never a key or header. */

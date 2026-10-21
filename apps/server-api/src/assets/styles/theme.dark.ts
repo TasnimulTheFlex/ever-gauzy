@@ -36,7 +36,7 @@ const theme = {
 	warning: palette.warning,
 	danger: palette.danger,
 
-	primaryLight: '#598bff',
+	primaryLight: '#3e8284',
 	successLight: '#2ce69b',
 	infoLight: '#42aaff',
 	warningLight: '#ffc94d',

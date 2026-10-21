@@ -30,7 +30,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
  * address, and the local accept of installation-wide integrations. Everyone else, every tenant
  * administrator of Ever's cloud included, gets 404. No answer is cached.
  */
-@ApiTags('Ever Platform')
+@ApiTags('Base360 Platform')
 @ApiBearerAuth()
 @Roles(RolesEnum.SUPER_ADMIN)
 @UseGuards(EverConnectOperatorGuard, RoleGuard)

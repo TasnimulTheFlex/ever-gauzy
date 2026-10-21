@@ -107,7 +107,7 @@ export class EverWorksSyncLoop implements OnApplicationBootstrap, OnApplicationS
 		const missing = this.capability?.missingWriteServices() ?? [];
 		if (missing.length) {
 			this.logger.warn(
-				`This process does not host ${missing.join(', ')}, which the sync's Gauzy writes go through, so it stays out of the sync loop; a process that serves the API runs it (EVER_WORKS_SYNC_LOOP=off here silences this).`
+				`This process does not host ${missing.join(', ')}, which the sync's Base360 writes go through, so it stays out of the sync loop; a process that serves the API runs it (EVER_WORKS_SYNC_LOOP=off here silences this).`
 			);
 			return false;
 		}

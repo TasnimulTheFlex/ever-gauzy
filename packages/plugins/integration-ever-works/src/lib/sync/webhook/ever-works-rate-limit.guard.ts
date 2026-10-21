@@ -39,7 +39,7 @@ export class EverWorksRateLimitGuard implements CanActivate {
 		}
 		if (bucket.remaining <= 0) {
 			response.setHeader('Retry-After', Math.max(Math.ceil((bucket.resetAt - now) / 1000), 1));
-			throw new HttpException('Too many Ever Works webhook requests. Retry later.', HttpStatus.TOO_MANY_REQUESTS);
+			throw new HttpException('Too many Base360 Works webhook requests. Retry later.', HttpStatus.TOO_MANY_REQUESTS);
 		}
 		bucket.remaining--;
 		return true;

@@ -7,7 +7,7 @@
 					src="{{appLogo}}"
 				></mj-image>
 				<mj-divider
-					border-color="#1B005D"
+					border-color="#064749"
 					border-width="1px"
 				></mj-divider>
 				<mj-text>
@@ -25,7 +25,7 @@
 				<mj-table>
 					<tr
 						style="
-							background-color: #1b005d !important;
+							background-color: #064749 !important;
 							color: #ffffff;
 							text-align: center;
 							font-weight: bold;
@@ -41,7 +41,7 @@
 						<td>{{ this.tenantName }}</td>
 						<td>{{ this.userName }}</td>
 						<td>
-							<a href="{{ this.resetLink }}" style="color: #598bff; text-decoration: none">
+							<a href="{{ this.resetLink }}" style="color: #064749; text-decoration: none">
 								Reset Password
 							</a>
 						</td>
@@ -53,7 +53,7 @@
 		<mj-section>
 			<mj-column>
 				<mj-divider
-				  	border-color="#1B005D"
+					border-color="#064749"
 				  	border-width="1px"
 				></mj-divider>
 				<mj-text
@@ -62,9 +62,9 @@
 					font-family="helvetica"
 				>
 				  	© 2019,
-					<a href="{{appLink}}" style="color: #598bff">{{appName}}</a>
+					<a href="{{appLink}}" style="color: #064749">{{appName}}</a>
 					by
-					<a href="{{companyLink}}" style="color: #598bff">{{companyName}}</a>
+					<a href="{{companyLink}}" style="color: #064749">{{companyName}}</a>
 					All rights reserved.
 				</mj-text>
 			</mj-column>

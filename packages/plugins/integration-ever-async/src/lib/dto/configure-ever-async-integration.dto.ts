@@ -14,7 +14,7 @@ import {
 import { EverAsyncUserMappingDto } from './ever-async-user-mapping.dto';
 
 export class ConfigureEverAsyncIntegrationDto {
-	@ApiProperty({ description: 'Public HTTPS URL of the Ever Async server', example: 'https://api-async.ever.co' })
+	@ApiProperty({ description: 'Public HTTPS URL of the Base360 Async server', example: 'https://async.example.com' })
 	@IsNotEmpty()
 	@IsString()
 	@IsUrl({ protocols: ['https'], require_protocol: true })

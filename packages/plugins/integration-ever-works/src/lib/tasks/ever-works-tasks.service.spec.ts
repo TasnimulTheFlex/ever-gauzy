@@ -138,8 +138,9 @@ describe('task field rules', () => {
 		expect(truncated).toBe(true);
 		expect(title).toHaveLength(200);
 		const description = descriptionForEverWorks('Body', long);
-		expect(description).toBe(`Body\n\n> **Full title (from Gauzy):** ${long}`);
+		expect(description).toBe(`Body\n\n> **Full title (from Base360):** ${long}`);
 		expect(stripTitleAppendix(description)).toBe('Body');
+		expect(stripTitleAppendix(description.replace('from Base360', 'from Gauzy'))).toBe('Body');
 		expect(titleForEverWorks('Short')).toEqual({ title: 'Short', truncated: false });
 		expect(descriptionForEverWorks('Body', 'Short')).toBe('Body');
 	});
@@ -208,7 +209,7 @@ describe('task field rules', () => {
 
 	it('says why Ever Works kept a status', () => {
 		expect(transitionBlockedMessage('in_progress', 'done', { blockers: [{ slug: 'T-43' }], pendingApprovers: [{ id: 'u' }] })).toBe(
-			'Ever Works kept the status "in_progress" instead of "done": blocked by T-43; 1 approval(s) pending.'
+			'Base360 Works kept the status "in_progress" instead of "done": blocked by T-43; 1 approval(s) pending.'
 		);
 	});
 });
@@ -538,9 +539,9 @@ describe('EW → G tasks', () => {
 		await t.deliver({ type: 'task.updated', data: { ...task, priority: 'p3' }, aggregate: { id: task['id'] as string, version: 2 } });
 		expect(t.writes).toEqual([]);
 		// A Gauzy edit not pushed yet is not overwritten by an unrelated Ever Works change.
-		(t.tasks.get('g-task-1') as GauzyTask)['title'] = 'Renamed in Gauzy';
+		(t.tasks.get('g-task-1') as GauzyTask)['title'] = 'Renamed in Base360';
 		await t.deliver({ type: 'task.updated', data: { ...task, priority: 'p3', labels: ['new'] }, aggregate: { id: task['id'] as string, version: 3 } });
-		expect(t.tasks.get('g-task-1')).toMatchObject({ title: 'Renamed in Gauzy', tags: [{ id: 'tag-new', name: 'new' }] });
+		expect(t.tasks.get('g-task-1')).toMatchObject({ title: 'Renamed in Base360', tags: [{ id: 'tag-new', name: 'new' }] });
 		// An event at or below the link's version is skipped.
 		expect(await t.deliver({ type: 'task.updated', data: task, aggregate: { id: task['id'] as string, version: 3 } })).toEqual({ status: 'skipped', message: 'already applied (version)' });
 	});
@@ -581,7 +582,7 @@ describe('EW → G tasks', () => {
 		// Gauzy created it (cut title, full title in the description) and lost the answer; Ever Works edited it since.
 		const ew = t.mock.addTask(t.org.id, {
 			title: `${'T'.repeat(199)}…`,
-			description: descriptionForEverWorks('Edited in Ever Works', title),
+			description: descriptionForEverWorks('Edited in Base360 Works', title),
 			status: 'done',
 			priority: 'p1',
 			labels: ['Ops']
@@ -589,7 +590,7 @@ describe('EW → G tasks', () => {
 		const own = [{ source: 'gauzy', installationId: 'c1', externalId: 'g1', externalUrl: null }];
 		const event = { type: 'task.updated', data: { ...ew, externalLinks: own }, aggregate: { id: ew['id'] as string, version: 4 } };
 		const outcome = await t.deliver(event);
-		expect(t.tasks.get('g1')).toMatchObject({ title, description: '<p>Edited in Ever Works</p>', status: 'done', priority: 'high', tags: [{ id: 'tag-ops', name: 'Ops' }] });
+		expect(t.tasks.get('g1')).toMatchObject({ title, description: '<p>Edited in Base360 Works</p>', status: 'done', priority: 'high', tags: [{ id: 'tag-ops', name: 'Ops' }] });
 		expect(outcome).toEqual({ status: 'applied' });
 		expect(t.links.find((l) => l.gauzyId === 'g1')).toMatchObject({ ewId: ew['id'], ewVersion: 4 });
 		// Nothing is left to a push this direction never sends; the same delivery again has nothing left to apply.
@@ -631,8 +632,8 @@ describe('EW → G tasks', () => {
 
 	it('tasks synced one way from Ever Works: a task adopted back keeps a parent Ever Works cannot hold, and loses one Ever Works removed (#11108 review)', async () => {
 		const t = setup({ directions: { tasks: 'ew_to_gauzy' } });
-		t.addGauzyTask({ id: 'gp-gauzy-only', title: 'Parent not in Ever Works' });
-		t.addGauzyTask({ id: 'gp-linked', title: 'Parent in Ever Works' });
+		t.addGauzyTask({ id: 'gp-gauzy-only', title: 'Parent not in Base360 Works' });
+		t.addGauzyTask({ id: 'gp-linked', title: 'Parent in Base360 Works' });
 		t.link(EverWorksLinkType.TASK, 'gp-linked', 'ew-parent');
 		t.addGauzyTask({ id: 'g1', title: 'Child of an unlinked parent', parentId: 'gp-gauzy-only' });
 		t.addGauzyTask({ id: 'g2', title: 'Child of a linked parent', parentId: 'gp-linked' });
@@ -655,14 +656,14 @@ describe('EW → G tasks', () => {
 		// Both went out with the long title `sent` (cut, the full one in the description); Gauzy renamed them since.
 		const description = descriptionForEverWorks('Body', sent);
 		const kept = t.mock.addTask(t.org.id, { title: titleForEverWorks(sent).title, description });
-		const edited = t.mock.addTask(t.org.id, { title: 'Renamed in Ever Works', description });
+		const edited = t.mock.addTask(t.org.id, { title: 'Renamed in Base360 Works', description });
 		const shortened = t.mock.addTask(t.org.id, { title: `${'A'.repeat(20)}…`, description });
 		for (const [ew, gauzyId] of [[kept, 'g1'], [edited, 'g2'], [shortened, 'g3']] as const) {
 			const own = [{ source: 'gauzy', installationId: 'c1', externalId: gauzyId, externalUrl: null }];
 			expect(await t.deliver({ type: 'task.updated', data: { ...ew, externalLinks: own }, aggregate: { id: ew['id'] as string, version: 2 } })).toEqual({ status: 'applied' });
 		}
 		expect((t.tasks.get('g1') as GauzyTask)['title']).toBe(renamed);
-		expect((t.tasks.get('g2') as GauzyTask)['title']).toBe('Renamed in Ever Works');
+		expect((t.tasks.get('g2') as GauzyTask)['title']).toBe('Renamed in Base360 Works');
 		// Shortened in Ever Works to a start of the title: a rename too, not the cut copy (#11108 review).
 		expect((t.tasks.get('g3') as GauzyTask)['title']).toBe(`${'A'.repeat(20)}…`);
 	});
@@ -671,9 +672,9 @@ describe('EW → G tasks', () => {
 		const t = setup();
 		const task = t.mock.addTask(t.org.id, { title: 'Original' });
 		await t.deliver({ type: 'task.created', data: task, aggregate: { id: task['id'] as string, version: 1 } });
-		Object.assign(t.tasks.get('g-task-1') as GauzyTask, { title: 'Gauzy title', updatedAt: new Date('2026-10-16T12:00:00Z') });
+		Object.assign(t.tasks.get('g-task-1') as GauzyTask, { title: 'Base360 title', updatedAt: new Date('2026-10-16T12:00:00Z') });
 		await t.deliver({ type: 'task.updated', data: { ...task, title: 'EW title' }, aggregate: { id: task['id'] as string, version: 2 }, occurredAt: '2026-10-16T11:00:00Z' });
-		expect((t.tasks.get('g-task-1') as GauzyTask)['title']).toBe('Gauzy title');
+		expect((t.tasks.get('g-task-1') as GauzyTask)['title']).toBe('Base360 title');
 		expect(t.logged).toEqual([expect.objectContaining({ action: 'conflict:title', status: 'conflict' })]);
 		// Gauzy's value goes out.
 		expect(t.queue.enqueued).toEqual([expect.objectContaining({ gauzyId: 'g-task-1', entityType: EverWorksLinkType.TASK })]);
@@ -718,11 +719,11 @@ describe('G → EW tasks', () => {
 		const t = setup();
 		t.link(EverWorksLinkType.TEAM, 'g-team', 'ew-team');
 		t.link(EverWorksLinkType.MEMBER, 'e-alice', 'ew-alice');
-		t.addGauzyTask({ id: 'g1', title: 'From Gauzy', description: '<p>Hello <em>there</em></p>', status: 'in-progress', priority: 'urgent', teams: [{ id: 'g-team' }], members: [{ id: 'e-alice' }], tags: [{ name: 'Ops' }] });
-		expect(await t.push('g1', 'upsert', 'u-alice')).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+		t.addGauzyTask({ id: 'g1', title: 'From Base360', description: '<p>Hello <em>there</em></p>', status: 'in-progress', priority: 'urgent', teams: [{ id: 'g-team' }], members: [{ id: 'e-alice' }], tags: [{ name: 'Ops' }] });
+		expect(await t.push('g1', 'upsert', 'u-alice')).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 		const [created] = [...t.mock.tasks.values()];
 		expect(created).toMatchObject({
-			title: 'From Gauzy',
+			title: 'From Base360',
 			description: 'Hello *there*',
 			status: 'in_progress',
 			priority: 'p0',
@@ -745,7 +746,7 @@ describe('G → EW tasks', () => {
 	it('waits for an unlinked team instead of going out organization-wide', async () => {
 		const t = setup();
 		t.addGauzyTask({ id: 'g1', title: 'Scoped', teams: [{ id: 'g-team-unlinked' }] });
-		expect(await t.push('g1')).toMatchObject({ status: 'deferred', message: 'the team g-team-unlinked is not linked to Ever Works yet' });
+		expect(await t.push('g1')).toMatchObject({ status: 'deferred', message: 'the team g-team-unlinked is not linked to Base360 Works yet' });
 		expect(t.mock.tasks.size).toBe(0);
 	});
 
@@ -810,10 +811,10 @@ describe('G → EW tasks', () => {
 		t.addGauzyTask({ id: 'g1', title: 'Doomed' });
 		await t.push('g1');
 		(t.tasks.get('g1') as GauzyTask)['deletedAt'] = new Date();
-		expect(await t.push('g1', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Ever Works (delete policy)' });
+		expect(await t.push('g1', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Base360 Works (delete policy)' });
 		const [ew] = [...t.mock.tasks.values()];
 		expect(ew?.['status']).toBe('cancelled');
-		expect([...t.mock.comments.values()]).toEqual([expect.objectContaining({ authorType: 'integration', body: expect.stringContaining('deleted in Ever Gauzy') })]);
+		expect([...t.mock.comments.values()]).toEqual([expect.objectContaining({ authorType: 'integration', body: expect.stringContaining('deleted in Base360') })]);
 		expect(t.links.find((l) => l.gauzyId === 'g1')?.state).toBe(EverWorksLinkState.UNLINKED);
 	});
 
@@ -826,7 +827,7 @@ describe('G → EW tasks', () => {
 		t.mock.links.push({ organizationId: t.org.id, entityType: 'task', entityId: ewId, source: 'gauzy', installationId: 'c-other', externalId: 'g-elsewhere', externalUrl: null });
 		expect(t.mock.links.filter((link) => link.entityId === ewId)).toHaveLength(2);
 		(t.tasks.get('g1') as GauzyTask)['deletedAt'] = new Date();
-		expect(await t.push('g1', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Ever Works (delete policy)' });
+		expect(await t.push('g1', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Base360 Works (delete policy)' });
 		expect(t.mock.links.filter((link) => link.entityId === ewId)).toEqual([expect.objectContaining({ installationId: 'c-other' })]);
 		expect(t.mock.requests.filter((r) => r.method === 'DELETE')).toEqual([expect.objectContaining({ path: `/links/task/${ewId}`, query: { installationId: 'c1' } })]);
 	});
@@ -847,7 +848,7 @@ describe('G → EW tasks', () => {
 		await t.push('g1');
 		const [ew] = [...t.mock.tasks.values()];
 		expect((ew?.['title'] as string).length).toBe(200);
-		expect(ew?.['description']).toBe(`Body\n\n> **Full title (from Gauzy):** ${long}`);
+		expect(ew?.['description']).toBe(`Body\n\n> **Full title (from Base360):** ${long}`);
 	});
 });
 
@@ -981,7 +982,7 @@ describe('task watchers and linked issues (G-P1-9, 2/3)', () => {
 		expect(t.links.find((l) => l.gauzyId === 'g-gone')?.state).toBe(EverWorksLinkState.ORPHANED);
 		expect(t.links.find((l) => l.gauzyId === 'g-kept')?.state).toBe(EverWorksLinkState.OK);
 		// The delete push applies the delete policy: Ever Works cancels the task, the link stops syncing.
-		expect(await t.push('g-gone', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Ever Works (delete policy)' });
+		expect(await t.push('g-gone', 'delete')).toEqual({ status: 'pushed', message: 'cancelled in Base360 Works (delete policy)' });
 		const ewGone = [...t.mock.tasks.values()].find((row) => row['title'] === 'Gone') as Record<string, unknown>;
 		expect(ewGone['status']).toBe('cancelled');
 		expect(t.links.find((l) => l.gauzyId === 'g-gone')?.state).toBe(EverWorksLinkState.UNLINKED);
@@ -1052,9 +1053,9 @@ describe('task sync review fixes (#10804)', () => {
 		expect(t.links.find((l) => l.gauzyId === 'g1')).toMatchObject({ ewId: created['id'] });
 		t.mock.expireIdempotencyKeys(); // a later edit, after Ever Works forgot the create's key
 		// An Ever Works edit arrives before that push: it is applied, and the watchers still to send stay to send (#11079 review).
-		Object.assign(created, { title: 'Work, renamed in Ever Works', version: Number(created['version']) + 1 });
+		Object.assign(created, { title: 'Work, renamed in Base360 Works', version: Number(created['version']) + 1 });
 		await t.deliver({ type: 'task.updated', data: { ...created }, aggregate: { id: created['id'] as string, version: Number(created['version']) } });
-		expect(t.tasks.get('g1')).toMatchObject({ title: 'Work, renamed in Ever Works' });
+		expect(t.tasks.get('g1')).toMatchObject({ title: 'Work, renamed in Base360 Works' });
 		expect(await t.push('g1')).toEqual({ status: 'pushed' });
 		expect(t.mock.tasks.size).toBe(1);
 		expect(created).toMatchObject({ status: 'in_progress', watchers: ['ew-alice'] });
@@ -1070,14 +1071,14 @@ describe('task sync review fixes (#10804)', () => {
 		const created = [...t.mock.tasks.values()][0] as Record<string, unknown>;
 		t.mock.expireIdempotencyKeys();
 		// The first edit gives the link a Gauzy side (the title it applied); the second must not take the watchers as sent.
-		Object.assign(created, { title: 'Work, renamed in Ever Works', version: Number(created['version']) + 1 });
+		Object.assign(created, { title: 'Work, renamed in Base360 Works', version: Number(created['version']) + 1 });
 		await t.deliver({ type: 'task.updated', data: { ...created }, aggregate: { id: created['id'] as string, version: Number(created['version']) } });
 		Object.assign(created, { priority: 'p1', version: Number(created['version']) + 1 });
 		await t.deliver({ type: 'task.updated', data: { ...created }, aggregate: { id: created['id'] as string, version: Number(created['version']) } });
-		expect(t.tasks.get('g1')).toMatchObject({ title: 'Work, renamed in Ever Works' });
+		expect(t.tasks.get('g1')).toMatchObject({ title: 'Work, renamed in Base360 Works' });
 		expect(await t.push('g1')).toEqual({ status: 'pushed' });
 		expect(t.mock.tasks.size).toBe(1);
-		expect(created).toMatchObject({ title: 'Work, renamed in Ever Works', priority: 'p1', status: 'in_progress', watchers: ['ew-alice'] });
+		expect(created).toMatchObject({ title: 'Work, renamed in Base360 Works', priority: 'p1', status: 'in_progress', watchers: ['ew-alice'] });
 	});
 
 	it('an Ever Works watcher change before the retry leaves the Gauzy watchers still to send (#11096 review)', async () => {
@@ -1173,7 +1174,7 @@ describe('task comments and links (G-P1-9, 3/3)', () => {
 		const task = t.mock.addTask(t.org.id, { title: 'Chatty' });
 		await t.deliver({ type: 'task.created', data: task, aggregate: { id: task['id'] as string, version: 1 } });
 		await t.deliver({ type: 'task.comment.created', data: comment(task['id'] as string, { authorType: 'user', authorId: 'ew-nobody', externalAuthor: { name: 'Dana' } }), aggregate: { id: task['id'] as string, version: 1 } });
-		expect(t.comments[0]).toMatchObject({ html: '<p><strong>Dana</strong> (Ever Works):</p><p>Opened <strong>PR #12</strong>.</p>', employeeId: null });
+		expect(t.comments[0]).toMatchObject({ html: '<p><strong>Dana</strong> (Base360 Works):</p><p>Opened <strong>PR #12</strong>.</p>', employeeId: null });
 	});
 
 	it('an edit of the Gauzy copy of a comment Gauzy attributed is sent without the attribution line (review F84)', async () => {
@@ -1185,10 +1186,10 @@ describe('task comments and links (G-P1-9, 3/3)', () => {
 		t.mock.comments.set(ew.id, ew);
 		await t.deliver({ type: 'task.comment.created', data: ew, aggregate: { id: task['id'] as string, version: 1 } });
 		const copy = t.comments[0] as { id: string; html: string };
-		expect(copy.html).toBe('<p><strong>An Ever Works member</strong> (Ever Works):</p><p>hello</p>');
+		expect(copy.html).toBe('<p><strong>A Base360 Works member</strong> (Base360 Works):</p><p>hello</p>');
 		// Paired later, she fixes a typo in the Gauzy copy: Ever Works gets her text, not Gauzy's attribution line.
 		t.link(EverWorksLinkType.MEMBER, 'e-alice', 'ew-alice');
-		copy.html = '<p><strong>An Ever Works member</strong> (Ever Works):</p><p>hello!</p>';
+		copy.html = '<p><strong>A Base360 Works member</strong> (Base360 Works):</p><p>hello!</p>';
 		expect(await t.pushComment(copy.id, 'upsert', 'u-alice')).toEqual({ status: 'pushed' });
 		expect(t.mock.comments.get(ew.id)).toMatchObject({ body: 'hello!' });
 	});
@@ -1213,7 +1214,7 @@ describe('task comments and links (G-P1-9, 3/3)', () => {
 		t.addGauzyTask({ id: 'g1', title: 'Discuss' });
 		await t.push('g1');
 		t.comments.push({ id: 'gc1', taskId: 'g1', html: '<p>Looks <em>good</em></p>', actorType: 'User', employeeId: 'e-alice', createdByUserId: 'u-alice' });
-		expect(await t.pushComment('gc1')).toEqual({ status: 'pushed', message: 'posted to the Ever Works task chat' });
+		expect(await t.pushComment('gc1')).toEqual({ status: 'pushed', message: 'posted to the Base360 Works task chat' });
 		const post = t.mock.requests.find((r) => r.method === 'POST' && r.path.endsWith('/comments'));
 		expect(post?.headers['x-act-as-user']).toBe('ew-alice');
 		expect(post?.body).toMatchObject({ body: 'Looks *good*', externalRef: { source: 'gauzy', installationId: 'c1', externalId: 'gc1' } });
@@ -1237,7 +1238,7 @@ describe('task comments and links (G-P1-9, 3/3)', () => {
 		t.addGauzyTask({ id: 'g-loose', title: 'Unlinked project', projectId: 'p-loose' });
 		t.comments.push({ id: 'gc-idea', taskId: 'g-idea', html: '<p>Hi</p>', actorType: 'User', employeeId: null });
 		t.comments.push({ id: 'gc-loose', taskId: 'g-loose', html: '<p>Hi</p>', actorType: 'User', employeeId: null });
-		expect(await t.pushComment('gc-idea')).toMatchObject({ status: 'skipped', message: expect.stringContaining('ideas sync as Ever Works ideas') });
+		expect(await t.pushComment('gc-idea')).toMatchObject({ status: 'skipped', message: expect.stringContaining('ideas sync as Base360 Works ideas') });
 		expect(await t.pushComment('gc-loose')).toMatchObject({ status: 'skipped', message: expect.stringContaining('not linked to a work') });
 		expect(t.queue.enqueued).toEqual([]);
 	});
@@ -1264,7 +1265,7 @@ describe('task comments and links (G-P1-9, 3/3)', () => {
 		const t = setup();
 		const task = t.mock.addTask(t.org.id, { title: 'Linked', slug: 'T-7' });
 		await t.deliver({ type: 'task.created', data: task, aggregate: { id: task['id'] as string, version: 1 } });
-		expect(t.resourceLinks).toEqual([expect.objectContaining({ taskId: 'g-task-1', title: 'Ever Works task T-7', url: task['webUrl'] })]);
+		expect(t.resourceLinks).toEqual([expect.objectContaining({ taskId: 'g-task-1', title: 'Base360 Works task T-7', url: task['webUrl'] })]);
 		const runtime = { prUrl: 'https://github.com/acme/site/pull/12', prState: 'open', ciState: 'pending', latestRunStatus: 'running' };
 		await t.deliver({ type: 'task.runtime_updated', data: { ...task, runtime }, aggregate: { id: task['id'] as string, version: 1 } });
 		expect(t.resourceLinks).toEqual(expect.arrayContaining([expect.objectContaining({ title: 'Pull request', url: runtime.prUrl })]));
@@ -1283,7 +1284,7 @@ describe('inbound writes re-check the Gauzy task organization (review F23)', () 
 		// PUT /tasks/:id moves it to organization B of the same tenant.
 		row['organizationId'] = 'o2';
 		t.writes.length = 0;
-		const moved = { status: 'skipped', message: 'the Gauzy task belongs to another organization now' };
+		const moved = { status: 'skipped', message: 'the Base360 task belongs to another organization now' };
 		expect(await t.deliver({ type: 'task.updated', data: { ...task, title: 'Org A secret' }, aggregate: { id: task['id'] as string, version: 2 } })).toEqual(moved);
 		const message = { id: 'ew-comment-1', taskId: task['id'], authorType: 'user', authorId: 'ew-nobody', body: 'Org A only', createdAt: '2026-10-17T10:00:00Z', updatedAt: '2026-10-17T10:00:00Z', externalLinks: [] };
 		expect(await t.deliver({ type: 'task.comment.created', data: message, aggregate: { id: task['id'] as string, version: 2 } })).toEqual(moved);
@@ -1300,12 +1301,12 @@ describe('inbound writes re-check the Gauzy task organization (review F23)', () 
 		// An Ever Works delete ends the pairing but leaves the organization-B task alone.
 		expect(await t.deliver({ type: 'task.deleted', data: { id: task['id'] }, aggregate: { id: task['id'] as string, version: 3 } })).toEqual({
 			status: 'skipped',
-			message: 'deleted in Ever Works; the Gauzy task belongs to another organization now and is kept'
+			message: 'deleted in Base360 Works; the Base360 task belongs to another organization now and is kept'
 		});
 		expect(row['title']).toBe('Org A plan');
 		expect(row['deletedAt']).toBeUndefined();
 		expect(t.comments).toEqual([]);
-		expect(t.resourceLinks.filter((link) => link.taskId === 'g-task-1').map((link) => link.title)).toEqual(['Ever Works task T-9']);
+		expect(t.resourceLinks.filter((link) => link.taskId === 'g-task-1').map((link) => link.title)).toEqual(['Base360 Works task T-9']);
 		expect(t.writes.filter((write) => write.id === 'g-task-1')).toEqual([]);
 		expect(t.links.find((link) => link.gauzyId === 'g-task-1')?.state).toBe(EverWorksLinkState.UNLINKED);
 	});
@@ -1400,12 +1401,12 @@ describe('task comments review fixes (#10813)', () => {
 	it('a refused Gauzy edit stays in Gauzy when the author edits in Ever Works later, and is not sent again', async () => {
 		const t = setup();
 		const { ewTask, ew } = await pushed(t, '<p>First</p>');
-		(t.comments.find((c) => c.id === 'gc1') as { html: string }).html = '<p>Edited in Gauzy</p>';
+		(t.comments.find((c) => c.id === 'gc1') as { html: string }).html = '<p>Edited in Base360</p>';
 		t.mock.fail({ method: 'PATCH', path: /\/comments\//, status: 422, body: { error: { code: 'domain_rule', message: 'The edit window has passed.' } } });
 		expect((await t.pushComment('gc1')).status).toBe('skipped');
 		expect(t.logged).toEqual(expect.arrayContaining([expect.objectContaining({ action: 'comment_edit_refused' })]));
-		await t.deliver({ type: 'task.comment.updated', data: { ...ew, body: 'Edited in Ever Works' }, aggregate: { id: ewTask['id'] as string, version: 9 } });
-		expect(t.comments.find((c) => c.id === 'gc1')?.html).toBe('<p>Edited in Gauzy</p>');
+		await t.deliver({ type: 'task.comment.updated', data: { ...ew, body: 'Edited in Base360 Works' }, aggregate: { id: ewTask['id'] as string, version: 9 } });
+		expect(t.comments.find((c) => c.id === 'gc1')?.html).toBe('<p>Edited in Base360</p>');
 		const patches = t.mock.requests.filter((r) => r.method === 'PATCH').length;
 		expect((await t.pushComment('gc1')).status).toBe('skipped');
 		expect(t.mock.requests.filter((r) => r.method === 'PATCH').length).toBe(patches);
@@ -1415,7 +1416,7 @@ describe('task comments review fixes (#10813)', () => {
 		const t = setup();
 		await pushed(t, '<p>Bye</p>');
 		(t.comments.find((c) => c.id === 'gc1') as { deletedAt?: Date }).deletedAt = new Date();
-		expect(await t.pushComment('gc1', 'delete', 'u-alice')).toEqual({ status: 'pushed', message: 'deleted in Ever Works' });
+		expect(await t.pushComment('gc1', 'delete', 'u-alice')).toEqual({ status: 'pushed', message: 'deleted in Base360 Works' });
 		expect(t.mock.requests.find((r) => r.method === 'DELETE')?.headers['x-act-as-user']).toBe('ew-alice');
 		expect(t.mock.comments.size).toBe(0);
 	});
@@ -1447,7 +1448,7 @@ describe('task comments review fixes (#10813)', () => {
 		// Bob deletes it: refused too, the Ever Works message stays.
 		copy.deletedAt = new Date();
 		copy.deletedByUserId = 'u-bob';
-		expect(await t.pushComment(copy.id, 'delete', 'u-bob')).toEqual({ status: 'skipped', message: 'deleted in Gauzy; Ever Works refused the delete, so its copy stays (logged)' });
+		expect(await t.pushComment(copy.id, 'delete', 'u-bob')).toEqual({ status: 'skipped', message: 'deleted in Base360; Base360 Works refused the delete, so its copy stays (logged)' });
 		expect(lastAs('DELETE')).toBeNull();
 		expect(ewSide()['body']).toBe('Original');
 	});
@@ -1483,7 +1484,7 @@ describe('task comments review fixes (#10813)', () => {
 		await t.push('g1');
 		// A caller with no employee of their own posted with Alice's employeeId.
 		t.comments.push({ id: 'gc-spoof', taskId: 'g1', html: '<p>Not Alice</p>', actorType: 'User', employeeId: 'e-alice', createdByUserId: 'u-carol' });
-		expect(await t.pushComment('gc-spoof', 'upsert', 'u-carol')).toEqual({ status: 'pushed', message: 'posted to the Ever Works task chat' });
+		expect(await t.pushComment('gc-spoof', 'upsert', 'u-carol')).toEqual({ status: 'pushed', message: 'posted to the Base360 Works task chat' });
 		const post = t.mock.requests.find((r) => r.method === 'POST' && r.path.endsWith('/comments'));
 		expect(post?.headers['x-act-as-user'] ?? null).toBeNull();
 		expect(post?.body).toMatchObject({ externalAuthor: expect.objectContaining({ source: 'gauzy' }) });
@@ -1610,7 +1611,7 @@ describe('a parent Ever Works refuses (another team or work; local e2e)', () => 
 		t.addGauzyTask({ id: 'g-child', title: 'Child', parentId: 'g-parent', teams: [{ id: 'g-team-b' }], priority: 'urgent' });
 		await t.push('g-parent');
 		// Before: Ever Works' 400 dead-lettered the whole create.
-		expect(await t.push('g-child')).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+		expect(await t.push('g-child')).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 		expect(ewOf(t, 'g-child')).toMatchObject({ title: 'Child', teamIds: ['ew-team-b'], priority: 'p0', parentTaskId: null });
 		expect(t.logged).toEqual([expect.objectContaining({ action: 'parent_scope_refused', gauzyId: 'g-child', status: 'conflict' })]);
 		expect(heldOf(t, 'g-child')).toMatchObject({ parentId: 'g-parent' });
@@ -1677,7 +1678,7 @@ describe('a parent Ever Works refuses (another team or work; local e2e)', () => 
 		Object.assign(ewOf(t, 'g-parent') as Record<string, unknown>, { missionId: 'ew-mission-1' });
 		const parent = ewOf(t, 'g-parent') as Record<string, unknown>;
 		await t.deliver({ type: 'task.updated', data: { ...parent, version: Number(parent['version']) + 1 }, aggregate: { id: parent['id'] as string, version: Number(parent['version']) + 1 } });
-		expect(await t.push('g-child')).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+		expect(await t.push('g-child')).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 		expect(ewOf(t, 'g-child')?.['parentTaskId']).toBeNull();
 		// Someone puts the child in the same mission in Ever Works; the next Gauzy edit sends the parent too.
 		const child = ewOf(t, 'g-child') as Record<string, unknown>;
@@ -1795,7 +1796,7 @@ describe('a parent with sub-tasks moved to another team or project (I3c)', () =>
 		t.addGauzyTask({ id: 'g-parent', title: 'Parent', teams: [{ id: 'g-team-a' }] });
 		await t.push('g-parent');
 		const parentId = ewOf(t, 'g-parent')?.['id'];
-		const foreign = t.mock.addTask(t.org.id, { title: 'Ever Works only', parentTaskId: parentId, teamIds: ['ew-team-a'] });
+		const foreign = t.mock.addTask(t.org.id, { title: 'Base360 Works only', parentTaskId: parentId, teamIds: ['ew-team-a'] });
 		Object.assign(t.tasks.get('g-parent') as GauzyTask, { title: 'Parent moved', teams: [{ id: 'g-team-b' }] });
 		expect(await t.push('g-parent')).toEqual({ status: 'pushed' });
 		expect(ewOf(t, 'g-parent')).toMatchObject({ title: 'Parent moved', teamIds: ['ew-team-a'] });
@@ -1817,7 +1818,7 @@ describe('a parent with sub-tasks moved to another team or project (I3c)', () =>
 		await t.push('g-mid');
 		const topId = ewOf(t, 'g-top')?.['id'];
 		expect(ewOf(t, 'g-mid')?.['parentTaskId']).toBe(topId);
-		t.mock.addTask(t.org.id, { title: 'Ever Works only', parentTaskId: ewOf(t, 'g-mid')?.['id'], teamIds: ['ew-team-a'] });
+		t.mock.addTask(t.org.id, { title: 'Base360 Works only', parentTaskId: ewOf(t, 'g-mid')?.['id'], teamIds: ['ew-team-a'] });
 		Object.assign(t.tasks.get('g-mid') as GauzyTask, { title: 'Mid renamed', teams: [{ id: 'g-team-b' }] });
 		expect(await t.push('g-mid')).toEqual({ status: 'pushed' });
 		// The move is held, so the parent (on the team the task keeps) stays: no detach goes out.
@@ -1831,7 +1832,7 @@ describe('a parent with sub-tasks moved to another team or project (I3c)', () =>
 		const t = withTeams();
 		t.addGauzyTask({ id: 'g-parent', title: 'Parent', teams: [{ id: 'g-team-a' }] });
 		await t.push('g-parent');
-		t.mock.addTask(t.org.id, { title: 'Ever Works only', parentTaskId: ewOf(t, 'g-parent')?.['id'], teamIds: ['ew-team-a'] });
+		t.mock.addTask(t.org.id, { title: 'Base360 Works only', parentTaskId: ewOf(t, 'g-parent')?.['id'], teamIds: ['ew-team-a'] });
 		Object.assign(t.tasks.get('g-parent') as GauzyTask, { teams: [{ id: 'g-team-b' }] });
 		const before = t.mock.requests.length;
 		expect(await t.push('g-parent')).toEqual({ status: 'pushed' });

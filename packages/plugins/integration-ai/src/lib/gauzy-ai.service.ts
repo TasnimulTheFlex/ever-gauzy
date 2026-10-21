@@ -336,7 +336,7 @@ export class GauzyAIService {
 		const gauzyAIEmployeeId = await this.getEmployeeGauzyAIId(employeeId);
 
 		console.log(
-			`updateEmployeeStatus called. EmployeeId: ${employeeId}. Gauzy AI EmployeeId: ${gauzyAIEmployeeId}`
+			`updateEmployeeStatus called. EmployeeId: ${employeeId}. Base360 AI EmployeeId: ${gauzyAIEmployeeId}`
 		);
 
 		const update: UpdateEmployee = {
@@ -1042,7 +1042,7 @@ export class GauzyAIService {
 			// e.g. if it's page 7 and limit is 10, it mean we need to load first 70 records, i.e. do 2 trips to server because each trip get 50 records
 			const loadCounts = Math.ceil((data.page * data.limit) / graphQLPageSize);
 
-			console.log(`Round trips to Gauzy API: ${loadCounts}`);
+			console.log(`Round trips to Base360 API: ${loadCounts}`);
 
 			let currentCount = 1;
 
@@ -1253,7 +1253,7 @@ export class GauzyAIService {
 			};
 
 			if (this.logging) {
-				console.log(this._requestConfigProvider.getConfig(), 'Runtime Gauzy AI Integration Config');
+				console.log(this._requestConfigProvider.getConfig(), 'Runtime Base360 AI Integration Config');
 				console.log('Custom Run Time Headers: %s', customHeaders);
 			}
 
@@ -1292,7 +1292,7 @@ export class GauzyAIService {
 			console.log(chalk.magenta(`GauzyAI GraphQL Endpoint: ${this.gauzyAIGraphQLEndpoint}`));
 
 			if (this.gauzyAIGraphQLEndpoint && gauzyAIRESTEndpoint) {
-				this._logger.log('Gauzy AI Endpoints (GraphQL & REST) are configured in the environment');
+				this._logger.log('Base360 AI Endpoints (GraphQL & REST) are configured in the environment');
 
 				this.initClient();
 
@@ -1330,11 +1330,11 @@ export class GauzyAIService {
 
 				// testConnectionQuery();
 			} else {
-				this._logger.warn('Gauzy AI Endpoints are not configured in the environment');
+				this._logger.warn('Base360 AI Endpoints are not configured in the environment');
 				this._client = null;
 			}
 		} catch (err) {
-			this._logger.warn('Gauzy AI Endpoints are not configured in the environment');
+			this._logger.warn('Base360 AI Endpoints are not configured in the environment');
 			this._logger.error(err);
 			this._client = null;
 		}
@@ -1374,7 +1374,7 @@ export class GauzyAIService {
 			let isAlreadyCreated = employeesResponse.length > 0;
 
 			console.log(
-				`Is Employee ${employee.externalEmployeeId} already exists in Gauzy AI: ${isAlreadyCreated} by externalEmployeeId field`
+				`Is Employee ${employee.externalEmployeeId} already exists in Base360 AI: ${isAlreadyCreated} by externalEmployeeId field`
 			);
 
 			if (!isAlreadyCreated) {
@@ -1409,7 +1409,7 @@ export class GauzyAIService {
 				isAlreadyCreated = employeesResponse.length > 0;
 
 				console.log(
-					`Is Employee ${employee.externalEmployeeId} already exists in Gauzy AI: ${isAlreadyCreated} by name fields`
+					`Is Employee ${employee.externalEmployeeId} already exists in Base360 AI: ${isAlreadyCreated} by name fields`
 				);
 
 				if (!isAlreadyCreated) {
@@ -1539,7 +1539,7 @@ export class GauzyAIService {
 			let isAlreadyCreated = usersQueryResult.data.users.totalCount > 0;
 
 			console.log(
-				`Is User already exists in Gauzy AI: ${isAlreadyCreated} by externalUserId: %s and externalTenantId: %s fields`,
+				`Is User already exists in Base360 AI: ${isAlreadyCreated} by externalUserId: %s and externalTenantId: %s fields`,
 				user.externalUserId,
 				user.externalTenantId
 			);

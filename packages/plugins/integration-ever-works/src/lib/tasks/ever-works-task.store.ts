@@ -56,7 +56,7 @@ export interface EverWorksTaskOption {
  */
 export class EverWorksRequestContextUnavailableError extends Error {
 	constructor() {
-		super('This process cannot make Gauzy task writes (no request context or no task commands); the sync retries it.');
+		super('This process cannot make Base360 task writes (no request context or no task commands); the sync retries it.');
 		this.name = 'EverWorksRequestContextUnavailableError';
 	}
 }
@@ -65,7 +65,7 @@ export class EverWorksRequestContextUnavailableError extends Error {
  * Inbound writes stop on a synced task that was moved to another organization of the tenant (PUT /tasks/:id
  * accepts organizationId): the mapping's Ever Works data belongs to its own organization (review F23).
  */
-export const TASK_IN_ANOTHER_ORGANIZATION = 'the Gauzy task belongs to another organization now';
+export const TASK_IN_ANOTHER_ORGANIZATION = 'the Base360 task belongs to another organization now';
 
 /** The relations every task read of the sync loads. */
 const TASK_RELATIONS = { members: true, teams: true, tags: true, project: true, taskStatus: true, taskPriority: true } as const;
@@ -103,7 +103,7 @@ export class EverWorksTaskStore {
 		// context can be opened, or the task commands are not hosted here, nothing is written and the
 		// change is retried.
 		return runInSyncRequestContext(
-			syncRequestUser(scope, actor?.userId ?? null, actor?.name ?? 'Ever Works'),
+			syncRequestUser(scope, actor?.userId ?? null, actor?.name ?? 'Base360 Works'),
 			work,
 			() => new EverWorksRequestContextUnavailableError()
 		);

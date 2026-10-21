@@ -14,16 +14,16 @@ import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions, SwaggerCustomOp
 export const setupSwagger = async (
 	app: INestApplication,
 	{
-		title = 'Gauzy API',
-		description = 'Gauzy API Documentation',
+		title = 'Base360 API',
+		description = 'Base360 API Documentation',
 		version = '1.0',
 		swaggerPath = 'swg',
 		scalarPath = 'docs',
 		enableScalar = true,
 		contact = {
-			name: 'Ever Co. LTD',
-			url: 'https://ever.co',
-			email: 'support@ever.co'
+			name: 'Base360',
+			url: 'https://base360.ai',
+			email: 'support@base360.ai'
 		},
 		license = {
 			name: 'AGPL-3.0-only',
@@ -31,7 +31,7 @@ export const setupSwagger = async (
 		},
 		externalDocs = {
 			description: 'Find more info here',
-			url: 'https://docs.gauzy.co'
+			url: 'https://base360.ai'
 		},
 		servers = [
 			{
@@ -39,11 +39,11 @@ export const setupSwagger = async (
 				description: 'Development Server'
 			},
 			{
-				url: 'https://apidemo.gauzy.co/api',
+				url: 'https://time-api.base360.ai',
 				description: 'Demo Server'
 			},
 			{
-				url: 'https://api.gauzy.co',
+				url: 'https://time-api.base360.ai',
 				description: 'Production Server'
 			}
 		]

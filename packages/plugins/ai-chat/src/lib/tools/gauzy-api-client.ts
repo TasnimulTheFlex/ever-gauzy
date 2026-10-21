@@ -79,7 +79,7 @@ export class GauzyApiClient {
 			} catch {
 				/* keep raw slice */
 			}
-			throw new Error(`Gauzy API ${response.status} on ${method} ${url.pathname}: ${detail}`);
+			throw new Error(`Base360 API ${response.status} on ${method} ${url.pathname}: ${detail}`);
 		}
 		try {
 			return JSON.parse(text) as T;

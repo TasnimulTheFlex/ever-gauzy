@@ -159,18 +159,18 @@ describe('Ever ID plugin helpers', () => {
 	it('takes only display fields, as plain text and https links, for the code e-mail', () => {
 		expect(
 			emailBranding({
-				appName: '  Ever Teams\r\nBcc: x@example.test ',
+				appName: '  Base360 Teams\r\nBcc: x@example.test ',
 				appLogo: 'https://teams.example.test/logo.png',
-				appSignature: 'The Ever\u2028Teams\u2029team',
+				appSignature: 'The Base360\u2028Teams\u2029team',
 				appLink: 'http://teams.example.test',
 				companyName: 'Ever',
 				companyLink: 'https://someone@ever.example.test',
 				appMagicSignUrl: 'https://evil.example.test/steal'
 			} as never)
 		).toEqual({
-			appName: 'Ever Teams Bcc: x@example.test',
+			appName: 'Base360 Teams Bcc: x@example.test',
 			appLogo: 'https://teams.example.test/logo.png',
-			appSignature: 'The Ever Teams team',
+			appSignature: 'The Base360 Teams team',
 			companyName: 'Ever'
 		});
 		expect(emailBranding({ appName: '   ', appLogo: 'not a url' })).toEqual({});

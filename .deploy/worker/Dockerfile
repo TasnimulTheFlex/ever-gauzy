@@ -21,8 +21,8 @@
 
 FROM node:26.11.1-alpine3.24 AS dependencies
 
-LABEL maintainer="ever@ever.co"
-LABEL org.opencontainers.image.source="https://github.com/ever-co/ever-gauzy"
+LABEL maintainer="support@base360.ai"
+LABEL org.opencontainers.image.source="https://github.com/TasnimulTheFlex/ever-gauzy"
 
 ENV CI=true
 
@@ -506,8 +506,8 @@ ENV GAUZY_APP_COMMIT=${GAUZY_APP_COMMIT}
 ENV API_HOST=api
 ENV API_PORT=3000
 
-ENV API_BASE_URL=http://localhost:3000
-ENV CLIENT_BASE_URL=http://localhost:4200
+ENV API_BASE_URL=https://time-api.base360.ai
+ENV CLIENT_BASE_URL=https://time.base360.ai
 ENV SENTRY_HTTP_TRACING_ENABLED=false
 ENV SENTRY_PROFILING_ENABLED=false
 ENV SENTRY_POSTGRES_TRACKING_ENABLED=false
@@ -525,3 +525,10 @@ ENV WORKER_SCHEDULER_ENABLED=true
 ENTRYPOINT [ "./entrypoint.prod.sh" ]
 
 CMD [ "node", "main.js" ]
+
+ENV APP_NAME="Base360 Time Tracker"
+ENV APP_SIGNATURE="Base360 Team"
+ENV APP_LOGO="https://time.base360.ai/assets/images/logos/logo_Gauzy.png"
+ENV COMPANY_NAME="Base360"
+ENV COMPANY_LINK="https://base360.ai"
+ENV MAIL_FROM_ADDRESS="Base360 <support@base360.ai>"

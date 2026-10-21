@@ -36,7 +36,7 @@ describe('Ever Works idea mappers', () => {
 		['dismissed', 'cancelled'],
 		['failed', 'blocked'],
 		['something-new', null]
-	])('EW idea %s → the Gauzy status of EW task %s', (status, expected) =>
+	])('EW idea %s → the Base360 status of EW task %s', (status, expected) =>
 		expect(ideaStatusAsTaskStatus(status)).toBe(expected)
 	);
 

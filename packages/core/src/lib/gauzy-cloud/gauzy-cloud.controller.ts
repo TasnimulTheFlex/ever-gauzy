@@ -28,10 +28,10 @@ export class GauzyCloudController {
 	 * @param body
 	 * @returns
 	 */
-	@ApiOperation({ summary: 'Migrate self hosted to gauzy cloud hosted' })
+	@ApiOperation({ summary: 'Migrate self hosted to Base360 cloud hosted' })
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		description: 'The user has been successfully created in the Gauzy cloud.'
+		description: 'The user has been successfully created in the Base360 cloud.'
 	})
 	@ApiResponse({
 		status: HttpStatus.BAD_REQUEST,
@@ -48,10 +48,10 @@ export class GauzyCloudController {
 	 * @param token
 	 * @returns
 	 */
-	@ApiOperation({ summary: 'Migrate self hosted tenant into the gauzy cloud tenant' })
+	@ApiOperation({ summary: 'Migrate self hosted tenant into the Base360 cloud tenant' })
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		description: 'The tenant has been successfully created in the Gauzy cloud.'
+		description: 'The tenant has been successfully created in the Base360 cloud.'
 	})
 	@ApiResponse({
 		status: HttpStatus.BAD_REQUEST,
@@ -68,10 +68,10 @@ export class GauzyCloudController {
 	 * @param token
 	 * @returns
 	 */
-	@ApiOperation({ summary: 'Migrate self hosted organization into the gauzy cloud organization' })
+	@ApiOperation({ summary: 'Migrate self hosted organization into the Base360 cloud organization' })
 	@ApiResponse({
 		status: HttpStatus.CREATED,
-		description: 'The organization has been successfully created in the Gauzy cloud.'
+		description: 'The organization has been successfully created in the Base360 cloud.'
 	})
 	@ApiResponse({
 		status: HttpStatus.BAD_REQUEST,

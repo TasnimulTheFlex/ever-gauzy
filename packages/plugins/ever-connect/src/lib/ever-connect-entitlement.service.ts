@@ -392,7 +392,7 @@ export class EverConnectEntitlementService {
 				{
 					statusCode: 409,
 					code: 'not_connected',
-					message: 'Connect this installation to Ever Platform first.'
+					message: 'Connect this installation to Base360 Platform first.'
 				},
 				HttpStatus.CONFLICT
 			);

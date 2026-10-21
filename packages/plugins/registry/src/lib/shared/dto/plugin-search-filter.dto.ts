@@ -39,7 +39,7 @@ export class PluginSearchFilterDTO extends PartialType(BaseQueryDTO<IPlugin>) {
 
 	@ApiPropertyOptional({
 		description: 'Filter by plugin name (exact match)',
-		example: 'Gauzy Time Tracker'
+		example: 'Base360 Time Tracker'
 	})
 	@IsOptional()
 	@IsString()
@@ -90,7 +90,7 @@ export class PluginSearchFilterDTO extends PartialType(BaseQueryDTO<IPlugin>) {
 
 	@ApiPropertyOptional({
 		description: 'Filter by plugin author',
-		example: 'Gauzy Team'
+		example: 'Base360 Team'
 	})
 	@IsOptional()
 	@IsString()

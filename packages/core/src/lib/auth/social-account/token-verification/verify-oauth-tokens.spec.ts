@@ -324,7 +324,7 @@ describe('normalizeSocialIdentity (GHSA-58x4-7mw9-gmqg)', () => {
 	});
 
 	it('stringifies numeric ids and lowercases the email', () => {
-		expect(normalizeSocialIdentity(ProviderEnum.GITHUB, { id: 42, email: ' Victim@Ever.CO ' })).toEqual({
+		expect(normalizeSocialIdentity(ProviderEnum.GITHUB, { id: 42, email: ' Victim@Base360.CO ' })).toEqual({
 			provider: ProviderEnum.GITHUB,
 			id: '42',
 			email: 'victim@ever.co',

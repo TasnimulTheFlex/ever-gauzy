@@ -287,7 +287,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			const playbooks = await page(support['parentId']);
 			const organization = await page(playbooks['parentId']);
 			const root = await page(organization['parentId']);
-			expect([support['name'], playbooks['name'], organization['name'], root['name']]).toEqual(['Support', 'Playbooks', 'Organization', 'Ever Works']);
+			expect([support['name'], playbooks['name'], organization['name'], root['name']]).toEqual(['Support', 'Playbooks', 'Organization', 'Base360 Works']);
 			expect(organization['externalId']).toBe(DOCS_TREE.organization);
 			expect(root['parentId']).toBeNull();
 			expect(context['mapping'].settings).toEqual(
@@ -341,14 +341,14 @@ describe('Ever Works docs sync on SQLite', () => {
 			const document = kb.addDocument(ewOrg.id, { title: 'Policy', body: 'Base' });
 			await apply('kb.document.created', document);
 			const row = (await pageOf(document['id'])) as Row;
-			await documents().update({ id: row['id'] } as never, { contentJson: markdownToDocument('Gauzy edit').contentJson, updatedByUserId: 'u-editor' } as never);
-			Object.assign(document, { body: 'Ever Works edit', version: 2, revision: 2 });
+			await documents().update({ id: row['id'] } as never, { contentJson: markdownToDocument('Base360 edit').contentJson, updatedByUserId: 'u-editor' } as never);
+			Object.assign(document, { body: 'Base360 Works edit', version: 2, revision: 2 });
 			const outcome = await apply('kb.document.updated', document);
-			expect(outcome).toMatchObject({ status: 'applied', message: expect.stringContaining('Ever Works wins') });
-			expect(documentToMarkdown((await page(row['id']))['contentJson'])).toBe('Ever Works edit');
+			expect(outcome).toMatchObject({ status: 'applied', message: expect.stringContaining('Base360 Works wins') });
+			expect(documentToMarkdown((await page(row['id']))['contentJson'])).toBe('Base360 Works edit');
 			const versions = (await dataSource.getRepository(DocumentVersion).find()) as Row[];
-			expect(versions.map((version) => version['name'])).toEqual(['Policy — Gauzy edit (conflict)']);
-			expect(documentToMarkdown(versions[0]['contentJson'])).toBe('Gauzy edit');
+			expect(versions.map((version) => version['name'])).toEqual(['Policy — Base360 edit (conflict)']);
+			expect(documentToMarkdown(versions[0]['contentJson'])).toBe('Base360 edit');
 			expect(conflicts.record).toHaveBeenCalledWith(expect.objectContaining({ entityType: EverWorksLinkType.DOC, field: 'body', winner: 'ever_works', gauzyId: row['id'] }));
 			expect(inbox.upsertExternal).toHaveBeenCalledWith(expect.objectContaining({ entityId: row['id'], recipients: [{ userId: 'u-editor', isRead: false, isArchived: false }] }));
 		});
@@ -407,7 +407,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			await apply('kb.document.updated', document);
 			const row = (await pageOf(document['id'])) as Row;
 			// An image (no Markdown form) and a rename in Gauzy; the rename is pushed.
-			await documents().update({ id: row['id'] } as never, { contentJson: imageOf(row), name: 'Renamed in Gauzy' } as never);
+			await documents().update({ id: row['id'] } as never, { contentJson: imageOf(row), name: 'Renamed in Base360' } as never);
 			expect(await push(row['id'])).toEqual({ status: 'pushed' });
 			Object.assign(document, { body: 'Third', version: Number(document['version']) + 1, revision: 3 });
 			await apply('kb.document.updated', document);
@@ -505,7 +505,7 @@ describe('Ever Works docs sync on SQLite', () => {
 		it('creates a page of Organization/ as an organization document, then pushes only what changed', async () => {
 			const organization = await store.organizationFolder(context as never);
 			const id = await gauzyPage(organization, '# Onboarding\n\nWelcome.');
-			expect(await push(id)).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+			expect(await push(id)).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 			const [created] = [...kb.documents.values()];
 			expect(created).toMatchObject({ scope: { type: 'organization', id: ewOrg.id }, folderId: null, path: 'onboarding.md', title: 'Onboarding', class: 'freeform', body: '# Onboarding\n\nWelcome.', source: 'imported' });
 			expect(created['externalLinks']).toEqual([expect.objectContaining({ source: 'gauzy', externalId: id })]);
@@ -520,7 +520,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			const folder = await gauzyFolder(organization, 'Playbooks');
 			const id = await gauzyPage(folder, 'Text');
 			expect(await push(id)).toMatchObject({ status: 'deferred' });
-			expect(await push(folder, EverWorksLinkType.DOC_FOLDER)).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+			expect(await push(folder, EverWorksLinkType.DOC_FOLDER)).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 			const [ewFolder] = [...kb.folders.values()];
 			expect(ewFolder).toMatchObject({ name: 'Playbooks', parentId: null });
 			expect(await push(id)).toMatchObject({ status: 'pushed' });
@@ -541,7 +541,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			expect(created).toMatchObject({ body: 'Text, edited again' });
 			expect(await dataSource.getRepository(EverWorksSyncLog).count({ where: { action: 'move_not_synced' } as never })).toBe(1);
 			// An Ever Works edit then is no conflict: the Gauzy side is in step.
-			Object.assign(created, { body: 'Edited in Ever Works', version: Number(created['version']) + 1, revision: Number(created['revision']) + 1 });
+			Object.assign(created, { body: 'Edited in Base360 Works', version: Number(created['version']) + 1, revision: Number(created['revision']) + 1 });
 			expect(await apply('kb.document.updated', created)).toEqual({ status: 'applied' });
 		});
 
@@ -550,7 +550,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			const folder = await gauzyFolder(organization, 'Playbooks');
 			await push(folder, EverWorksLinkType.DOC_FOLDER);
 			// The folder was deleted in Ever Works (or dragged out of Organization/ and back): its pairing ended.
-			await links.unlink((await links.byGauzy(M as never, EverWorksLinkType.DOC_FOLDER, folder as never)) as never, 'deleted in Ever Works');
+			await links.unlink((await links.byGauzy(M as never, EverWorksLinkType.DOC_FOLDER, folder as never)) as never, 'deleted in Base360 Works');
 			const id = await gauzyPage(folder, 'Text');
 			expect(await push(id)).toMatchObject({ status: 'pushed' });
 			expect([...kb.documents.values()][0]).toMatchObject({ folderId: null });
@@ -560,10 +560,10 @@ describe('Ever Works docs sync on SQLite', () => {
 			const organization = await store.organizationFolder(context as never);
 			const ended = await gauzyFolder(organization, 'Archive');
 			await push(ended, EverWorksLinkType.DOC_FOLDER);
-			await links.unlink((await links.byGauzy(M as never, EverWorksLinkType.DOC_FOLDER, ended as never)) as never, 'deleted in Ever Works');
+			await links.unlink((await links.byGauzy(M as never, EverWorksLinkType.DOC_FOLDER, ended as never)) as never, 'deleted in Base360 Works');
 			const nested = await gauzyFolder(ended, 'Old playbooks');
 			const id = await gauzyPage(nested, 'Text');
-			expect(await push(nested, EverWorksLinkType.DOC_FOLDER)).toEqual({ status: 'pushed', message: 'created in Ever Works' });
+			expect(await push(nested, EverWorksLinkType.DOC_FOLDER)).toEqual({ status: 'pushed', message: 'created in Base360 Works' });
 			const ewNested = [...kb.folders.values()].find((folder) => folder['name'] === 'Old playbooks') as Row;
 			expect(ewNested).toMatchObject({ parentId: null });
 			expect(await push(id)).toMatchObject({ status: 'pushed' });
@@ -576,11 +576,11 @@ describe('Ever Works docs sync on SQLite', () => {
 			await push(id);
 			const [ew] = [...kb.documents.values()];
 			// Ever Works renames it meanwhile; Gauzy edits the body.
-			Object.assign(ew, { title: 'Renamed in Ever Works', version: Number(ew['version']) + 1 });
+			Object.assign(ew, { title: 'Renamed in Base360 Works', version: Number(ew['version']) + 1 });
 			await documents().update({ id } as never, { contentJson: markdownToDocument('Body two').contentJson } as never);
 			expect(await push(id)).toEqual({ status: 'pushed' });
-			expect(ew).toMatchObject({ title: 'Renamed in Ever Works', body: 'Body two' });
-			expect((await page(id))['name']).toBe('Renamed in Ever Works');
+			expect(ew).toMatchObject({ title: 'Renamed in Base360 Works', body: 'Body two' });
+			expect((await page(id))['name']).toBe('Renamed in Base360 Works');
 		});
 
 		it('on 412 when both sides renamed it, Ever Works\' title wins and the conflict is logged (review #10834)', async () => {
@@ -588,12 +588,12 @@ describe('Ever Works docs sync on SQLite', () => {
 			const id = await gauzyPage(organization, 'Body');
 			await push(id);
 			const [ew] = [...kb.documents.values()];
-			Object.assign(ew, { title: 'Ever Works title', version: Number(ew['version']) + 1 });
-			await documents().update({ id } as never, { name: 'Gauzy title' } as never);
+			Object.assign(ew, { title: 'Base360 Works title', version: Number(ew['version']) + 1 });
+			await documents().update({ id } as never, { name: 'Base360 title' } as never);
 			expect(await push(id)).toEqual({ status: 'skipped', message: 'nothing changed' });
-			expect(ew['title']).toBe('Ever Works title');
-			expect((await page(id))['name']).toBe('Ever Works title');
-			expect(conflicts.record).toHaveBeenCalledWith(expect.objectContaining({ field: 'title', gauzyValue: 'Gauzy title', everWorksValue: 'Ever Works title', winner: 'ever_works' }));
+			expect(ew['title']).toBe('Base360 Works title');
+			expect((await page(id))['name']).toBe('Base360 Works title');
+			expect(conflicts.record).toHaveBeenCalledWith(expect.objectContaining({ field: 'title', gauzyValue: 'Base360 title', everWorksValue: 'Base360 Works title', winner: 'ever_works' }));
 		});
 
 		it('with docs gauzy_to_ew, a 412 never writes Ever Works into Gauzy: the Gauzy edit goes on top of the newer version (review F27)', async () => {
@@ -603,12 +603,12 @@ describe('Ever Works docs sync on SQLite', () => {
 			await push(id);
 			const [ew] = [...kb.documents.values()];
 			// Ever Works edits the body and the title meanwhile (its events are not applied: Gauzy is the source).
-			Object.assign(ew, { body: 'Ever Works body', title: 'Ever Works title', version: Number(ew['version']) + 1 });
-			await documents().update({ id } as never, { contentJson: markdownToDocument('Gauzy body').contentJson } as never);
+			Object.assign(ew, { body: 'Base360 Works body', title: 'Base360 Works title', version: Number(ew['version']) + 1 });
+			await documents().update({ id } as never, { contentJson: markdownToDocument('Base360 body').contentJson } as never);
 			expect(await push(id)).toEqual({ status: 'pushed' });
-			expect(ew['body']).toBe('Gauzy body');
+			expect(ew['body']).toBe('Base360 body');
 			const row = await page(id);
-			expect(documentToMarkdown(row['contentJson'])).toBe('Gauzy body');
+			expect(documentToMarkdown(row['contentJson'])).toBe('Base360 body');
 			expect(row['name']).toBe('Onboarding');
 			expect(await dataSource.getRepository(DocumentVersion).count()).toBe(0);
 			expect(inbox.upsertExternal).not.toHaveBeenCalled();
@@ -620,7 +620,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			const folder = await gauzyFolder(organization, 'Guides');
 			await push(folder, EverWorksLinkType.DOC_FOLDER);
 			const [ewFolder] = [...kb.folders.values()];
-			Object.assign(ewFolder, { name: 'Renamed in Ever Works', version: Number(ewFolder['version']) + 1 });
+			Object.assign(ewFolder, { name: 'Renamed in Base360 Works', version: Number(ewFolder['version']) + 1 });
 			await documents().update({ id: folder } as never, { name: 'Handbooks' } as never);
 			expect(await push(folder, EverWorksLinkType.DOC_FOLDER)).toEqual({ status: 'pushed' });
 			expect(ewFolder['name']).toBe('Handbooks');
@@ -630,7 +630,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			mock.fail({ method: 'PATCH', path: /^\/kb\/folders\//, status: 412, body: { error: { code: 'version_mismatch', message: 'The record changed.' } }, times: 2 });
 			expect(await push(folder, EverWorksLinkType.DOC_FOLDER)).toEqual({
 				status: 'deferred',
-				message: 'Ever Works changed the folder again; the Gauzy change is retried',
+				message: 'Base360 Works changed the folder again; the Base360 change is retried',
 				retryInMs: 60_000
 			});
 			expect(ewFolder['name']).toBe('Handbooks');
@@ -820,7 +820,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			Object.assign(document, { body: 'Second', version: 2, revision: 2 });
 			expect(await apply('kb.document.updated', document)).toEqual({ status: 'applied' });
 			const own = await marker(DOCS_TREE.root);
-			expect(own).toMatchObject({ name: 'Ever Works', parentId: null });
+			expect(own).toMatchObject({ name: 'Base360 Works', parentId: null });
 			expect((await marker(DOCS_TREE.organization))['parentId']).toBe(own['id']);
 			expect(setting('DOCS_ROOT_FOLDER_ID')).toBe(own['id']);
 			expect((await links.byEw(M as never, EverWorksLinkType.DOC, String(document['id'])))?.state).not.toBe(EverWorksLinkState.UNLINKED);
@@ -948,7 +948,7 @@ describe('Ever Works docs sync on SQLite', () => {
 			await documents().softDelete({ id: knowledge } as never);
 			await service.sweep(connection as never);
 			const own = await marker(DOCS_TREE.root);
-			expect(own).toMatchObject({ name: 'Ever Works', parentId: null });
+			expect(own).toMatchObject({ name: 'Base360 Works', parentId: null });
 			expect(await parentOf(DOCS_TREE.organization)).toBe(own['id']);
 			expect(queue.enqueue).toHaveBeenCalled();
 		});

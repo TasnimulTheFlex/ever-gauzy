@@ -55,7 +55,7 @@ export class GithubMiddleware implements NestMiddleware {
 						let integrationTenantSettings: IIntegrationSetting[] = await this.cacheManager.get(cacheKey);
 
 						if (!integrationTenantSettings) {
-							this.logger.debug(`Gauzy integration settings not in cache for ${scope}`);
+							this.logger.debug(`Base360 integration settings not in cache for ${scope}`);
 
 							const fromDb = await this._integrationTenantService.findOneByIdString(integrationId, {
 								where: {
@@ -79,10 +79,10 @@ export class GithubMiddleware implements NestMiddleware {
 								const ttl = 5 * 60 * 1000; // 5 min caching period for GitHub Integration Tenant Settings
 								await this.cacheManager.set(cacheKey, integrationTenantSettings, ttl);
 
-								this.logger.debug(`Gauzy integration settings loaded from DB and cached for ${scope}`);
+								this.logger.debug(`Base360 integration settings loaded from DB and cached for ${scope}`);
 							}
 						} else {
-							this.logger.debug(`Gauzy integration settings loaded from cache for ${scope}`);
+							this.logger.debug(`Base360 integration settings loaded from cache for ${scope}`);
 						}
 
 						if (integrationTenantSettings && integrationTenantSettings.length > 0) {

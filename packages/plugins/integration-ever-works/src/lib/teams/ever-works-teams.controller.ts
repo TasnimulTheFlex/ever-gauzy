@@ -8,12 +8,12 @@ import { EVER_WORKS_ROUTE_PREFIX } from '../ever-works.constants';
 import { EverWorksTeamsService } from './ever-works-teams.service';
 
 export class EverWorksTeamLinkDto {
-	@ApiProperty({ description: 'Ever Works team id (a team of the mapped organization).' })
+	@ApiProperty({ description: 'Base360 Works team id (a team of the mapped organization).' })
 	@IsString()
 	@MaxLength(64)
 	readonly ewTeamId!: string;
 
-	@ApiProperty({ description: 'Gauzy team id (an active team of this organization).' })
+	@ApiProperty({ description: 'Base360 team id (an active team of this organization).' })
 	@IsUUID()
 	readonly teamId!: string;
 }
@@ -27,7 +27,7 @@ export class EverWorksTeamsDecisionDto {
 	@Type(() => EverWorksTeamLinkDto)
 	readonly links?: EverWorksTeamLinkDto[];
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works team ids whose pairing is removed (neither team changes).' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 Works team ids whose pairing is removed (neither team changes).' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(2000)
@@ -40,7 +40,7 @@ export class EverWorksTeamsDecisionDto {
 	@IsBoolean()
 	readonly acceptSuggestions?: boolean;
 
-	@ApiPropertyOptional({ type: [String], description: 'Ever Works team ids to create in Gauzy.' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 Works team ids to create in Base360.' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
@@ -48,7 +48,7 @@ export class EverWorksTeamsDecisionDto {
 	@MaxLength(64, { each: true })
 	readonly createInGauzy?: string[];
 
-	@ApiPropertyOptional({ type: [String], description: 'Gauzy team ids to create in Ever Works (top-level teams).' })
+	@ApiPropertyOptional({ type: [String], description: 'Base360 team ids to create in Base360 Works (top-level teams).' })
 	@ValidateIf((_o, v) => v !== undefined)
 	@IsArray()
 	@ArrayMaxSize(500)
@@ -60,7 +60,7 @@ export class EverWorksTeamsDecisionDto {
  * `/api/integration/ever-works/mappings/:integrationTenantId/teams` (plan 06 G-P1-7): the Teams tab. Same
  * guards and organization-membership check as every management route.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/mappings/:integrationTenantId`)
@@ -69,7 +69,7 @@ export class EverWorksTeamsController {
 
 	@Get('/teams')
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
-	@ApiOperation({ summary: 'Ever Works teams with their pairing or a same-name suggestion, and the unmatched Gauzy teams.' })
+	@ApiOperation({ summary: 'Base360 Works teams with their pairing or a same-name suggestion, and the unmatched Base360 teams.' })
 	list(@Param('integrationTenantId', UUIDValidationPipe) id: ID, @Query('organizationId') organizationId?: ID) {
 		return this.teams.teams(id, organizationId);
 	}

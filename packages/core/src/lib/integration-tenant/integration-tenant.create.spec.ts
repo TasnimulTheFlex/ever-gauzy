@@ -126,7 +126,7 @@ describe('POST /integration-tenant (GHSA-4rwq-65wh-45h4)', () => {
 	);
 
 	describe.each(['apiKey', 'apiSecret', 'openAiSecretKey', 'openAiOrganizationId'])(
-		'Gauzy AI / %s (user-editable)',
+		'Base360 AI / %s (user-editable)',
 		(settingsName) => {
 			it('is created and reaches the service unchanged', async () => {
 				const input = body(IntegrationEnum.GAUZY_AI, [{ settingsName, settingsValue: 'my-key' }]);

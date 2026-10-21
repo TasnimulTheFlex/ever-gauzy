@@ -342,7 +342,7 @@ export class ZitadelSignupService {
 				);
 				userId = created.id;
 				await this.accounts.markEmailVerified(userId);
-				this.logger.log('A workspace owner was created through the confirmed Ever ID sign-up.');
+				this.logger.log('A workspace owner was created through the confirmed Base360 ID sign-up.');
 			}
 			const user = await this.accounts.findActiveUser(userId);
 			if (!user) {

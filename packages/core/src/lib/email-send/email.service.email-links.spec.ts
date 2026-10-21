@@ -55,12 +55,12 @@ describe('EmailService - caller-supplied links', () => {
 		it('keeps an origin and footer links the deployment serves', async () => {
 			await service.welcomeUser(user, LanguagesEnum.ENGLISH, undefined, TEAMS, {
 				appLink: `${TEAMS}/`,
-				appName: 'Ever Teams'
+				appName: 'Base360 Teams'
 			});
 
 			expect(locals().host).toBe(TEAMS);
 			expect(locals().appLink).toBe(`${TEAMS}/`);
-			expect(locals().appName).toBe('Ever Teams');
+			expect(locals().appName).toBe('Base360 Teams');
 		});
 
 		it('uses CLIENT_BASE_URL and the configured links instead of foreign ones', async () => {
@@ -243,12 +243,12 @@ describe('EmailService - caller-supplied links', () => {
 				{ id: 'request-1', email: 'requester@ever.co', code: 'ABC123' } as any,
 				LanguagesEnum.ENGLISH,
 				organization,
-				{ appName: 'Ever Teams', appLink: `${FOREIGN}/login`, companyLink: '//attacker.example' }
+				{ appName: 'Base360 Teams', appLink: `${FOREIGN}/login`, companyLink: '//attacker.example' }
 			);
 
 			expect(locals().appLink).toBe(configured.appLink);
 			expect(locals().companyLink).toBe(configured.companyLink);
-			expect(locals().appName).toBe('Ever Teams');
+			expect(locals().appName).toBe('Base360 Teams');
 			expect(JSON.stringify(locals())).not.toContain('attacker.example');
 		});
 	});

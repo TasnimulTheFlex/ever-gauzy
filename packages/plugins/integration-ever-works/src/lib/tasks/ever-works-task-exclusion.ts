@@ -38,7 +38,7 @@ export async function taskSyncExclusion(
 	const setting = (name: EverWorksSettingName) =>
 		context.mapping.settings?.find((row) => row.settingsName === name)?.settingsValue ?? '';
 	if (isIdeaTask(context, task)) {
-		return 'ideas sync as Ever Works ideas (plan 01 §8), not as tasks';
+		return 'ideas sync as Base360 Works ideas (plan 01 §8), not as tasks';
 	}
 	const projectLink = task.projectId
 		? await links.byGauzy(context.integrationTenantId, EverWorksLinkType.PROJECT_WORK, task.projectId as ID)

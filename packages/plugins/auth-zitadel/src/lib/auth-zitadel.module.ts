@@ -43,7 +43,7 @@ const settingsProvider = {
 		const logger = new Logger('AuthZitadelPlugin');
 		const settings = parseZitadelSettings(process.env, (message) => logger.warn(message));
 		if (!settings.issuers.length || !settings.clientId || !settings.clientSecret) {
-			logger.warn('Ever ID sign-in is loaded but not configured: set ZITADEL_ISSUERS, ZITADEL_CLIENT_ID and ZITADEL_CLIENT_SECRET.');
+			logger.warn('Base360 ID sign-in is loaded but not configured: set ZITADEL_ISSUERS, ZITADEL_CLIENT_ID and ZITADEL_CLIENT_SECRET.');
 		}
 		return settings;
 	}

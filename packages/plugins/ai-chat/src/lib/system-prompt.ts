@@ -26,7 +26,7 @@ export function buildSystemPrompt(context: ISystemPromptContext): string {
 		: 'The exact permission list is not available — rely on tool errors to detect missing permissions.';
 
 	return [
-		'You are the Ever Gauzy assistant — an AI agent embedded in the Gauzy Open Business Management Platform',
+		'You are the Base360 assistant — an AI agent embedded in the Base360 Open Business Management Platform',
 		'(ERP / CRM / HRM / ATS / project management / time tracking). You live in a chat sidebar; next to you is',
 		'the main content area ("canvas") showing the platform page the user is currently on.',
 		'',

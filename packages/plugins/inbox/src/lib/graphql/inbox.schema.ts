@@ -51,7 +51,7 @@ export const inboxSchemaExtensions = gql`
 		organizationId: ID
 		"QUESTION, APPROVAL, ESCALATION, NOTICE or EMAIL."
 		kind: String!
-		"EVER_WORKS, EMAIL, GAUZY, SYSTEM or a plugin's own source."
+		"EVER_WORKS, EMAIL, Base360, SYSTEM or a plugin's own source."
 		source: String!
 		"OPEN, ANSWERED, RESOLVED or CANCELLED."
 		status: String!

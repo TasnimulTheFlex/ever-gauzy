@@ -119,10 +119,10 @@ export class IntegrationAIService {
 			return createdIntegration;
 		} catch (error) {
 			// Handle errors and return an appropriate error response
-			this.logger.error('Error while creating Gauzy AI integration', error.message);
+			this.logger.error('Error while creating Base360 AI integration', error.message);
 
 			throw new HttpException(
-				`Error while creating Gauzy AI integration: ${error.message}`,
+				`Error while creating Base360 AI integration: ${error.message}`,
 				HttpStatus.BAD_REQUEST
 			);
 		}
@@ -163,10 +163,10 @@ export class IntegrationAIService {
 			return integration;
 		} catch (error) {
 			// Handle errors and return an appropriate error response
-			this.logger.error('Error while updating Gauzy AI integration', error.message);
+			this.logger.error('Error while updating Base360 AI integration', error.message);
 
 			throw new HttpException(
-				`Error while updating Gauzy AI integration: ${error.message}`,
+				`Error while updating Base360 AI integration: ${error.message}`,
 				HttpStatus.BAD_REQUEST
 			);
 		}

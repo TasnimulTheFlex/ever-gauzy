@@ -258,7 +258,7 @@ describe('EverWorksGoalsService — EW → G', () => {
 	it('only what changed in Ever Works is written; a key result Ever Works dropped is archived, not deleted', async () => {
 		const { service, goals, keyResults } = setup();
 		await service.apply(envelope('goal.created', ewGoal, 1) as never, applyContext);
-		goals[0]['name'] = 'Renamed in Gauzy';
+		goals[0]['name'] = 'Renamed in Base360';
 		await service.apply(
 			envelope(
 				'goal.progress_changed',
@@ -267,7 +267,7 @@ describe('EverWorksGoalsService — EW → G', () => {
 			) as never,
 			applyContext
 		);
-		expect(goals[0]).toMatchObject({ name: 'Renamed in Gauzy', progress: 70 });
+		expect(goals[0]).toMatchObject({ name: 'Renamed in Base360', progress: 70 });
 		expect(keyResults[0]).toMatchObject({ update: 108, progress: 70 });
 		expect(keyResults[1]['isArchived']).toBe(true);
 	});
@@ -313,12 +313,12 @@ describe('EverWorksGoalsService — EW → G', () => {
 			applyContext
 		);
 		expect(goals[0]).toMatchObject({ level: 'Team', ownerTeamId: 'g-team-1' });
-		goals[0]['name'] = 'Renamed in Gauzy';
+		goals[0]['name'] = 'Renamed in Base360';
 		const before = mock.requests.length;
 		// The Ever Works goal is not in the mock (it came from an event): the PATCH it would send is what matters.
 		await service.push(change(goals[0]['id']), pushContext).catch(() => undefined);
 		const patch = mock.requests.slice(before).find((r) => r.method === 'PATCH');
-		expect(patch?.body).toEqual({ title: 'Renamed in Gauzy' });
+		expect(patch?.body).toEqual({ title: 'Renamed in Base360' });
 	});
 
 	it('a goal Ever Works no longer has a primary mission for keeps the initiative a Gauzy user moved it to (review F90)', async () => {
@@ -462,13 +462,13 @@ describe('EverWorksGoalsService — G → EW', () => {
 		const version = goalLink()['ewVersion'] as number;
 		// Ever Works renames the goal: its event (with the value before the sample) is still on the way. Then a Gauzy
 		// key result value changes.
-		Object.assign(created, { title: 'Renamed in Ever Works', version: version + 1 });
+		Object.assign(created, { title: 'Renamed in Base360 Works', version: version + 1 });
 		const edit = envelope('goal.updated', { ...created }, version + 1);
 		keyResults[0]['update'] = 7;
 		expect(await service.push(change('kr-a', EverWorksLinkType.KEY_RESULT), pushContext)).toMatchObject({
 			status: 'pushed'
 		});
-		expect(goals[0]['name']).toBe('Renamed in Ever Works');
+		expect(goals[0]['name']).toBe('Renamed in Base360 Works');
 		expect(goalLink()['ewVersion']).toBe(version + 2);
 		expect(await service.apply(edit as never, applyContext)).toMatchObject({ status: 'skipped' });
 		// The older event never takes the sample back (#11081 review).
@@ -498,12 +498,12 @@ describe('EverWorksGoalsService — G → EW', () => {
 			envelope('goal.created', { ...ewGoal, deadline: '2027-05-20T00:00:00.000Z' }) as never,
 			applyContext
 		);
-		goals[0]['name'] = 'Renamed in Gauzy';
+		goals[0]['name'] = 'Renamed in Base360';
 		const before = mock.requests.length;
 		// The Ever Works goal is not in the mock (it came from an event): the PATCH it would send is what matters.
 		await service.push(change(goals[0]['id']), pushContext).catch(() => undefined);
 		const patch = mock.requests.slice(before).find((r) => r.method === 'PATCH');
-		expect(patch?.body).toEqual({ title: 'Renamed in Gauzy' });
+		expect(patch?.body).toEqual({ title: 'Renamed in Base360' });
 	});
 
 	it('a team goal waits for its team; a goal without a numeric or True/False key result is not pushed yet', async () => {
@@ -831,12 +831,12 @@ describe('EverWorksGoalsService — the KEY_RESULT sync setting (OQ4, review F77
 			status: 'applied'
 		});
 		expect(keyResults).toEqual([]);
-		goals[0]['name'] = 'Renamed in Gauzy';
+		goals[0]['name'] = 'Renamed in Base360';
 		const before = mock.requests.length;
 		// The Ever Works goal is not in the mock (it came from an event): the PATCH it would send is what matters.
 		await service.push(change(goals[0]['id']), pushContext).catch(() => undefined);
 		const sent = mock.requests.slice(before).filter((r) => r.method !== 'GET');
-		expect(sent.map((r) => [r.method, r.body])).toEqual([['PATCH', { title: 'Renamed in Gauzy' }]]);
+		expect(sent.map((r) => [r.method, r.body])).toEqual([['PATCH', { title: 'Renamed in Base360' }]]);
 	});
 
 	it('off: the key result sweep leaves the mapping alone', async () => {

@@ -196,9 +196,9 @@ describe('worker plugins', () => {
 		it.each([
 			['both off (the default)', undefined, undefined, false],
 			['the Inbox only', undefined, 'true', false],
-			['Ever Works only', 'true', undefined, false],
+			['Base360 Works only', 'true', undefined, false],
 			['both on', 'true', 'true', true],
-			['Ever Works on, the Inbox TRUE', 'true', 'TRUE', false]
+			['Base360 Works on, the Inbox TRUE', 'true', 'TRUE', false]
 		])('%s: hosted %s', (_name, everWorks, inbox, hosted) => {
 			expect(hasInbox(listWith(everWorks, inbox))).toBe(hosted);
 		});

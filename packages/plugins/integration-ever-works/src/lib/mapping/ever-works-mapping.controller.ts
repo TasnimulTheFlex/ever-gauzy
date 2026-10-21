@@ -11,7 +11,7 @@ import { EverWorksMappingService } from './ever-works-mapping.service';
  * Works organization, its settings and sync toggles. Same guards and organization-membership check as
  * the connection routes.
  */
-@ApiTags('Ever Works Integration')
+@ApiTags('Base360 Works Integration')
 @ApiBearerAuth()
 @UseGuards(TenantPermissionGuard, PermissionGuard)
 @Controller(`${EVER_WORKS_ROUTE_PREFIX}/mappings`)
@@ -20,7 +20,7 @@ export class EverWorksMappingController {
 
 	@Get()
 	@Permissions(PermissionsEnum.INTEGRATION_VIEW)
-	@ApiOperation({ summary: "This organization's Ever Works mapping and settings, or null." })
+	@ApiOperation({ summary: "This organization's Base360 Works mapping and settings, or null." })
 	current(@Query('organizationId') organizationId?: ID) {
 		return this.mappings.current(organizationId);
 	}
@@ -28,7 +28,7 @@ export class EverWorksMappingController {
 	@Post()
 	@Permissions(PermissionsEnum.INTEGRATION_ADD)
 	@UseValidationPipe({ whitelist: true })
-	@ApiOperation({ summary: 'Map this organization to a pinned Ever Works organization (seeds the Idea issue type and Ideas view).' })
+	@ApiOperation({ summary: 'Map this organization to a pinned Base360 Works organization (seeds the Idea issue type and Ideas view).' })
 	create(@Body() dto: EverWorksCreateMappingDto, @Query('organizationId') organizationId?: ID) {
 		return this.mappings.create(dto, organizationId);
 	}
@@ -48,7 +48,7 @@ export class EverWorksMappingController {
 	@Permissions(PermissionsEnum.INTEGRATION_EDIT)
 	@HttpCode(HttpStatus.OK)
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'The "Ever Works" project of this organization, created when it does not exist.' })
+	@ApiOperation({ summary: 'The "Base360 Works" project of this organization, created when it does not exist.' })
 	ensureDefaultProject(@Param('integrationTenantId', UUIDValidationPipe) integrationTenantId: ID, @Query('organizationId') organizationId?: ID) {
 		return this.mappings.ensureDefaultProject(integrationTenantId, organizationId);
 	}
@@ -57,7 +57,7 @@ export class EverWorksMappingController {
 	@Permissions(PermissionsEnum.INTEGRATION_EDIT)
 	@HttpCode(HttpStatus.OK)
 	@Header('Cache-Control', 'no-store')
-	@ApiOperation({ summary: 'The "Ever Works — Ideas" project of this organization, created when it does not exist.' })
+	@ApiOperation({ summary: 'The "Base360 Works — Ideas" project of this organization, created when it does not exist.' })
 	ensureIdeasProject(@Param('integrationTenantId', UUIDValidationPipe) integrationTenantId: ID, @Query('organizationId') organizationId?: ID) {
 		return this.mappings.ensureIdeasProject(integrationTenantId, organizationId);
 	}

@@ -235,10 +235,10 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 		const creates = !!decision.createInGauzy?.length || !!decision.createInEverWorks?.length;
 		if (creates && !context.isEnabled) throw new BadRequestException('The mapping is disabled; enable it before creating teams.');
 		if (decision.createInGauzy?.length && !fromEverWorks(context.directions.teams)) {
-			throw new BadRequestException('Teams are not synced from Ever Works for this mapping, so Ever Works teams cannot be created in Gauzy.');
+			throw new BadRequestException('Teams are not synced from Base360 Works for this mapping, so Base360 Works teams cannot be created in Base360.');
 		}
 		if (decision.createInEverWorks?.length && !toEverWorks(context.directions.teams)) {
-			throw new BadRequestException('Teams are not pushed to Ever Works for this mapping, so Gauzy teams cannot be created in Ever Works.');
+			throw new BadRequestException('Teams are not pushed to Base360 Works for this mapping, so Base360 teams cannot be created in Base360 Works.');
 		}
 		const ewTeams = await this.everWorksTeams(context);
 		const byEw = new Map(ewTeams.map((team) => [team.id, team]));
@@ -264,14 +264,14 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 		const seenEw = new Set<string>();
 		const seenGauzy = new Set<string>();
 		for (const pair of pairs) {
-			if (!byEw.has(pair.ewTeamId)) throw new BadRequestException(`${pair.ewTeamId} is not a team of the mapped Ever Works organization.`);
+			if (!byEw.has(pair.ewTeamId)) throw new BadRequestException(`${pair.ewTeamId} is not a team of the mapped Base360 Works organization.`);
 			if (!gauzyTeams.has(pair.teamId)) throw new BadRequestException(`${pair.teamId} is not an active team of this organization.`);
 			if (seenEw.has(pair.ewTeamId) || seenGauzy.has(pair.teamId)) throw new BadRequestException('Each team can be paired once.');
 			seenEw.add(pair.ewTeamId);
 			seenGauzy.add(pair.teamId);
 		}
 		for (const ewTeamId of decision.createInGauzy ?? []) {
-			if (!byEw.has(ewTeamId)) throw new BadRequestException(`${ewTeamId} is not a team of the mapped Ever Works organization.`);
+			if (!byEw.has(ewTeamId)) throw new BadRequestException(`${ewTeamId} is not a team of the mapped Base360 Works organization.`);
 		}
 		for (const teamId of decision.createInEverWorks ?? []) {
 			if (!gauzyTeams.has(teamId)) throw new BadRequestException(`${teamId} is not an active team of this organization.`);
@@ -318,9 +318,9 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 	/** Inbound handler: `team.created/updated/deleted`, `team.member.*`, `team.resource.*`. */
 	async apply(envelope: EverWorksEventEnvelope, applyContext: EverWorksApplyContext): Promise<EverWorksApplyOutcome> {
 		const context = envelope.organizationId ? await this.contexts.forEverWorksOrganization(applyContext.connection, envelope.organizationId) : null;
-		if (!context) return { status: 'skipped', message: 'no mapping for the Ever Works organization' };
+		if (!context) return { status: 'skipped', message: 'no mapping for the Base360 Works organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!fromEverWorks(context.directions.teams)) return { status: 'skipped', message: 'teams are not synced from Ever Works' };
+		if (!fromEverWorks(context.directions.teams)) return { status: 'skipped', message: 'teams are not synced from Base360 Works' };
 		const link = await this.links.byEw(context.integrationTenantId, EverWorksLinkType.TEAM, envelope.aggregate.id);
 		if (link?.state === EverWorksLinkState.UNLINKED) return { status: 'skipped', message: 'the team is no longer synced' };
 		const version = envelope.aggregate.version ?? null;
@@ -369,10 +369,10 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 				repository.create({ name: team.name, emoji: emoji ?? undefined, tenantId: context.tenantId, organizationId: context.organizationId, public: false } as never)
 			);
 			teamId = (row as unknown as OrganizationTeam).id as ID;
-			this.logger.log(`Ever Works team ${team.id} created as Gauzy team ${teamId} (organization ${context.organizationId}).`);
+			this.logger.log(`Base360 Works team ${team.id} created as Base360 team ${teamId} (organization ${context.organizationId}).`);
 		} else {
 			const row = await repository.findOne({ where: { id: teamId, tenantId: context.tenantId } as never, withDeleted: true });
-			if (!row) return { status: 'skipped', message: 'the Gauzy team is gone' };
+			if (!row) return { status: 'skipped', message: 'the Base360 team is gone' };
 			const changes: Record<string, unknown> = {};
 			if (team.name && team.name !== before.name) changes['name'] = team.name;
 			// Only a changed Ever Works icon is written (lossy fields never flap).
@@ -512,7 +512,7 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 			// has its team scope changed from here (review F78, F76).
 			else if (recordLink.state !== EverWorksLinkState.OK) message = `the ${resource.resourceType} is no longer synced`;
 			else if (!(await this.dataSource.getRepository(target.entity).findOne({ where: { id: recordLink.gauzyId } as never, withDeleted: true, select: { id: true } as never })))
-				message = `the Gauzy ${resource.resourceType === 'work' ? 'project' : 'task'} is gone`;
+				message = `the Base360 ${resource.resourceType === 'work' ? 'project' : 'task'} is gone`;
 			else await this.setTeam(target.entity, recordLink.gauzyId as ID, link.gauzyId as ID, !removed);
 		}
 		const snapshot = this.links.snapshot<TeamSnapshot>(link);
@@ -535,7 +535,7 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 		await this.dataSource
 			.getRepository(OrganizationTeam)
 			.update({ id: link.gauzyId, tenantId: context.tenantId } as never, { isActive: false, isArchived: true, archivedAt: new Date() } as never);
-		await this.links.unlink(link, 'deleted in Ever Works; the Gauzy team is archived');
+		await this.links.unlink(link, 'deleted in Base360 Works; the Base360 team is archived');
 		return { status: 'applied' };
 	}
 
@@ -546,21 +546,21 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 		const context = await this.contexts.forOrganization(change.tenantId as ID, change.organizationId as ID);
 		if (!context || context.integrationTenantId !== pushContext.mapping.id) return { status: 'skipped', message: 'no mapping for the organization' };
 		if (!context.isEnabled) return { status: 'skipped', message: 'the mapping is disabled' };
-		if (!toEverWorks(context.directions.teams)) return { status: 'skipped', message: 'teams are not pushed to Ever Works' };
+		if (!toEverWorks(context.directions.teams)) return { status: 'skipped', message: 'teams are not pushed to Base360 Works' };
 		const link = await this.links.byGauzy(context.integrationTenantId, EverWorksLinkType.TEAM, change.gauzyId as ID);
 		if (link?.state === EverWorksLinkState.UNLINKED) return { status: 'skipped', message: 'the team is no longer synced' };
 		const team = await this.dataSource
 			.getRepository(OrganizationTeam)
 			.findOne({ where: { id: change.gauzyId, tenantId: context.tenantId } as never, withDeleted: true });
 		if (change.op === 'delete' || !team || (team as { deletedAt?: Date | null }).deletedAt || team.isArchived) {
-			this.logger.log(`Team ${change.gauzyId}: Gauzy team deletes are not pushed to Ever Works (delete policy).`);
-			return { status: 'skipped', message: 'team deletes are not pushed to Ever Works (delete policy)' };
+			this.logger.log(`Team ${change.gauzyId}: Base360 team deletes are not pushed to Base360 Works (delete policy).`);
+			return { status: 'skipped', message: 'team deletes are not pushed to Base360 Works (delete policy)' };
 		}
 		const client = this.client(context);
 		if (!link) {
 			if (!this.createdAfterMapping(team, context)) return { status: 'skipped', message: 'not linked yet: pair it on the Teams tab' };
 			await this.createInEverWorks(context, client, team);
-			return { status: 'pushed', message: 'created in Ever Works' };
+			return { status: 'pushed', message: 'created in Base360 Works' };
 		}
 		return this.update(context, client, team, link);
 	}
@@ -710,7 +710,7 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 			members = updated?.members ?? merged.members;
 		}
 		await this.record(context, team.id as ID, { ...created, members }, version, { name: team.name, emoji, members: now }, 'outbound');
-		this.logger.log(`Gauzy team ${team.id} created in Ever Works as ${created.id}.`);
+		this.logger.log(`Base360 team ${team.id} created in Base360 Works as ${created.id}.`);
 	}
 
 	// ── Sweep ──────────────────────────────────────────────────────────────────────────────────────
@@ -789,8 +789,8 @@ export class EverWorksTeamsService implements EverWorksInboundHandler, EverWorks
 
 	/** A pair whose Gauzy team was deleted in Gauzy stops syncing (the Teams tab can pair the Ever Works team again). */
 	private async teamGone(link: EverWorksEntityLink): Promise<EverWorksApplyOutcome> {
-		await this.links.unlink(link, 'the Gauzy team was deleted; the pair no longer syncs');
-		return { status: 'skipped', message: 'the Gauzy team is gone' };
+		await this.links.unlink(link, 'the Base360 team was deleted; the pair no longer syncs');
+		return { status: 'skipped', message: 'the Base360 team is gone' };
 	}
 
 	/** The mappings that sync through a connection. */

@@ -61,7 +61,7 @@ export class AppService {
 			console.error(
 				chalk.red(
 					`${matches.join(', ')} still ${matches.length === 1 ? 'uses its' : 'use their'} published default ` +
-						'password from the Gauzy README. Anyone who can reach the login page can sign in as ' +
+						'password from the Base360 README. Anyone who can reach the login page can sign in as ' +
 						`${matches.length === 1 ? 'it' : 'them'}. Change ${matches.length === 1 ? 'that password' : 'those passwords'} ` +
 						'now (or deactivate the account).'
 				)

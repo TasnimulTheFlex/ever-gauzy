@@ -63,7 +63,7 @@ ${textTable('Limits', [
 	['Meals', '40 USD'],
 	['Hotel', '180 USD']
 ])}
-${paragraph('Questions go to finance@ever.co.')}
+${paragraph('Questions go to finance@base360.ai.')}
 </office:text></office:body></office:document-content>`;
 
 /**
