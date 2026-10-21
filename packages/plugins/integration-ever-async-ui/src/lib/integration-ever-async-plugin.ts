@@ -6,7 +6,7 @@ import { INTEGRATION_EVER_ASYNC_PAGE_ROUTE } from './integration-ever-async.rout
 /**
  * Integration Ever Async plugin definition.
  *
- * Registers the /pages/integrations/ever-async route.
+ * Registers the /pages/integrations/async route.
  */
 export const IntegrationEverAsyncPlugin: PluginUiDefinition = {
 	id: 'integration-ever-async',

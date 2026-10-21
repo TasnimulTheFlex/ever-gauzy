@@ -71,7 +71,7 @@ export const DEFAULT_AI_INTEGRATIONS = [
 		isComingSoon: false,
 		integrationTypesMap: <string[]>[IntegrationTypeEnum.ALL_INTEGRATIONS],
 		order: 3,
-		redirectUrl: sluggable(IntegrationEnum.GAUZY_AI),
+		redirectUrl: 'ai',
 		provider: IntegrationEnum.GAUZY_AI
 	},
 	{
@@ -126,7 +126,7 @@ export const PROJECT_MANAGE_DEFAULT_INTEGRATIONS = [
 		isComingSoon: false,
 		integrationTypesMap: <string[]>[IntegrationTypeEnum.ALL_INTEGRATIONS, IntegrationTypeEnum.PROJECT_MANAGEMENT],
 		order: 12,
-		redirectUrl: 'ever-async',
+		redirectUrl: 'async',
 		provider: IntegrationEnum.EVER_ASYNC
 	}
 ];

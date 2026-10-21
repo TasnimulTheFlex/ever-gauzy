@@ -94,7 +94,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 					name: IntegrationEnum.EVER_ASYNC,
 					provider: IntegrationEnum.EVER_ASYNC,
 					imgSrc: 'integrations/integration-async.svg',
-					redirectUrl: 'ever-async',
+					redirectUrl: 'async',
 					isComingSoon: false,
 					isPaid: false,
 					order: 12

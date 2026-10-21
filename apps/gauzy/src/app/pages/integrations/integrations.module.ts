@@ -115,8 +115,8 @@ export class IntegrationsModule {
 			data: { selectors: false },
 			// Register the location 'integrations'
 			location: 'integrations-sections',
-			// Register the path 'gauzy-ai'
-			path: 'gauzy-ai',
+			// Register the path 'ai'
+			path: 'ai',
 			// Register the loadChildren function to load the IntegrationAiUiModule lazy module
 			loadChildren: () => import('@gauzy/plugin-integration-ai-ui').then((m) => m.IntegrationAiUiModule)
 		});

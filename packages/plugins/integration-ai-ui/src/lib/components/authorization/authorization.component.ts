@@ -102,7 +102,7 @@ export class IntegrationAIAuthorizationComponent implements AfterViewInit, OnIni
 	 * Gauzy AI integration remember state API call
 	 */
 	private _redirectToGauzyAIIntegration(integrationId: string) {
-		this._router.navigate(['pages/integrations/gauzy-ai', integrationId]);
+		this._router.navigate(['pages/integrations/ai', integrationId]);
 	}
 
 	/**

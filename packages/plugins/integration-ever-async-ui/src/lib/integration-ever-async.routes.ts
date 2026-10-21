@@ -6,7 +6,7 @@ import { EverAsyncConnectComponent } from './components/ever-async-connect/ever-
 import { IntegrationEverAsyncLayoutComponent } from './integration-ever-async.layout.component';
 
 /** Path for the Ever Async integration section under /pages/integrations. */
-export const INTEGRATION_EVER_ASYNC_PATH = 'ever-async';
+export const INTEGRATION_EVER_ASYNC_PATH = 'async';
 
 /** Full path for the Ever Async integration page. */
 export const INTEGRATION_EVER_ASYNC_PAGE_LINK = `/pages/integrations/${INTEGRATION_EVER_ASYNC_PATH}`;
