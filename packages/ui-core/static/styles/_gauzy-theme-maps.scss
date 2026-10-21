@@ -362,6 +362,58 @@ $gauzy-chart-series-dark: (
   gauzy-chart-label: #ffffff
 );
 
+// The brand fill stays dark teal in every theme; dark canvases use a lighter teal for text.
+$base360-primary: (
+  color-primary-100: #dff1f1,
+  color-primary-200: #c0e0df,
+  color-primary-300: #8bc4c3,
+  color-primary-400: #337b7c,
+  color-primary-500: #064749,
+  color-primary-600: #053c3e,
+  color-primary-700: #043234,
+  color-primary-800: #03282a,
+  color-primary-900: #021e20,
+  color-primary-default: #064749,
+  color-primary-hover: #08585a,
+  color-primary-focus: #053c3e,
+  color-primary-active: #043234,
+  color-primary-transparent-100: rgba(6, 71, 73, 0.10),
+  color-primary-transparent-200: rgba(6, 71, 73, 0.16),
+  color-primary-transparent-300: rgba(6, 71, 73, 0.24),
+  color-primary-transparent-400: rgba(6, 71, 73, 0.32),
+  color-primary-transparent-500: rgba(6, 71, 73, 0.40),
+  color-primary-transparent-600: rgba(6, 71, 73, 0.48),
+  gauzy-background-transparent: rgba(6, 71, 73, 0.10),
+  gauzy-background-transparent-1: rgba(6, 71, 73, 0.10),
+  gauzy-primary-background: rgba(6, 71, 73, 0.10),
+  text-control-color: #ffffff
+);
+$base360-primary-dark: (
+  text-primary-color: #9adbd6,
+  text-primary-hover-color: #b9e8e5,
+  text-primary-focus-color: #b9e8e5,
+  text-primary-active-color: #9adbd6,
+  link-text-color: #9adbd6,
+  link-text-hover-color: #b9e8e5,
+  link-text-focus-color: #b9e8e5,
+  link-text-active-color: #9adbd6,
+  button-outline-primary-text-color: #9adbd6,
+  button-outline-primary-hover-text-color: #b9e8e5,
+  button-outline-primary-focus-text-color: #b9e8e5,
+  button-outline-primary-active-text-color: #9adbd6,
+  button-outline-primary-border-color: #8bc4c3,
+  button-ghost-primary-text-color: #9adbd6,
+  button-ghost-primary-hover-text-color: #b9e8e5,
+  button-ghost-primary-focus-text-color: #b9e8e5,
+  button-ghost-primary-active-text-color: #9adbd6,
+  input-basic-focus-border-color: #8bc4c3,
+  select-outline-basic-focus-border-color: #8bc4c3,
+  checkbox-primary-border-color: #8bc4c3,
+  button-filled-primary-border-color: #8bc4c3,
+  tabset-tab-active-text-color: #9adbd6,
+  route-tabset-tab-active-text-color: #9adbd6
+);
+
 // What actually gets merged into a theme, last, so it wins over the per-theme
 // map — same contract `$gauzy-density` has always had. Themes take the light or
 // the dark accent set depending on the canvas they paint.
@@ -370,14 +422,14 @@ $gauzy-shared-light: map.merge(
     map.merge(map.merge($gauzy-density, $gauzy-action-accents-light), gauzy-action-buttons()),
     $gauzy-menu-scrollbar-light
   ),
-  $gauzy-chart-series-light
+  map.merge($gauzy-chart-series-light, $base360-primary)
 );
 $gauzy-shared-dark: map.merge(
   map.merge(
     map.merge(map.merge($gauzy-density, $gauzy-action-accents-dark), gauzy-action-buttons()),
     $gauzy-menu-scrollbar-dark
   ),
-  $gauzy-chart-series-dark
+  map.merge(map.merge($gauzy-chart-series-dark, $base360-primary), $base360-primary-dark)
 );
 
 // ── Canvas token sets for themes that do not define their own ───────────────
