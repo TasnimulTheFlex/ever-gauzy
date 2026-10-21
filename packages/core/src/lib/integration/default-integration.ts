@@ -122,7 +122,7 @@ export const PROJECT_MANAGE_DEFAULT_INTEGRATIONS = [
 	},
 	{
 		name: IntegrationEnum.EVER_ASYNC,
-		imgSrc: 'ever-async.svg',
+		imgSrc: 'integration-async.svg',
 		isComingSoon: false,
 		integrationTypesMap: <string[]>[IntegrationTypeEnum.ALL_INTEGRATIONS, IntegrationTypeEnum.PROJECT_MANAGEMENT],
 		order: 12,

@@ -7,7 +7,7 @@ export const EVER_WORKS_INTEGRATION_NAME = IntegrationEnum.EVER_WORKS;
 export const EVER_WORKS_REDIRECT_URL = 'ever-works';
 
 /** The catalog icon, relative to the API's public assets (`apps/api/src/assets/seed/integrations`). */
-export const EVER_WORKS_CATALOG_ICON = 'integrations/ever-works.svg';
+export const EVER_WORKS_CATALOG_ICON = 'integrations/integration-works.svg';
 
 /** Position on the Integrations page: after Ever Async (12) and Ever Platform (13). */
 export const EVER_WORKS_CATALOG_ORDER = 14;

@@ -20,9 +20,9 @@ export const AccountingTemplatesPage = {
 	templateSelectCss: 'nb-select[id="templateName"]',
 	languageDropdownOptionCss: 'div.ng-option',
 	templateDropdownOptionCss: '.option-list nb-option',
-	// Server-side generateTemplatePreview injects imgPath: 'assets/images/logos/ever-large.jpg', so the
+	// Server-side generateTemplatePreview injects imgPath: 'assets/images/logos/base360-large.jpg', so the
 	// preview logo <img> carries that literal src (verified in accounting-template.service.ts).
-	logoCss: 'img[src="assets/images/logos/ever-large.jpg"]',
+	logoCss: 'img[src="assets/images/logos/base360-large.jpg"]',
 	// The page header (MENU.SETTINGS / Accounting Templates) — waited on after navigation before interacting.
 	headerCss: 'ngx-header-title',
 	// The green Save button in the template card header (<button nbButton status="success">).

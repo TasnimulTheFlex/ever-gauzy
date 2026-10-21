@@ -5,7 +5,7 @@ export const DEFAULT_EVER_ORGANIZATIONS = [
 		name: 'Base360',
 		currency: CurrenciesEnum.BGN,
 		defaultValueDateType: DefaultValueDateTypeEnum.TODAY,
-		imageUrl: 'assets/images/logos/ever-large.jpg',
+		imageUrl: 'assets/images/logos/base360-large.jpg',
 		isDefault: true,
 		totalEmployees: 17
 	},
@@ -13,7 +13,7 @@ export const DEFAULT_EVER_ORGANIZATIONS = [
 		name: 'Base360 International',
 		currency: CurrenciesEnum.ILS,
 		defaultValueDateType: DefaultValueDateTypeEnum.TODAY,
-		imageUrl: 'assets/images/logos/ever-large.jpg',
+		imageUrl: 'assets/images/logos/base360-large.jpg',
 		isDefault: false,
 		totalEmployees: 0
 	}

@@ -217,7 +217,7 @@ describe.each(TEST_TARGETS)('EverConnect store on $name', (target) => {
 		expect(rows).toHaveLength(1);
 		expect(rows[0]).toMatchObject({
 			provider: 'Ever_Connect',
-			imgSrc: 'integrations/ever-platform.svg',
+			imgSrc: 'integrations/integration-platform.svg',
 			redirectUrl: 'ever-connect'
 		});
 		const types = await dataSource.query(`SELECT * FROM ${q(d, 'integration_integration_type')}`);

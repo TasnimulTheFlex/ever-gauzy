@@ -124,7 +124,7 @@ describe('isSelfResolvingImageUrl', () => {
 
 	it('rejects a bare relative path, which is the value that 404s', () => {
 		expect(isSelfResolvingImageUrl('assets/images/avatars/alish.jpg')).toBe(false);
-		expect(isSelfResolvingImageUrl('assets/images/logos/ever-large.jpg')).toBe(false);
+		expect(isSelfResolvingImageUrl('assets/images/logos/base360-large.jpg')).toBe(false);
 	});
 
 	it('rejects empty, whitespace-only, null and undefined', () => {

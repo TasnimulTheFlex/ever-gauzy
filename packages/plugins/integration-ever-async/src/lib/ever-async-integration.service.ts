@@ -93,7 +93,7 @@ export class EverAsyncIntegrationService implements OnApplicationBootstrap {
 					id: randomUUID(),
 					name: IntegrationEnum.EVER_ASYNC,
 					provider: IntegrationEnum.EVER_ASYNC,
-					imgSrc: 'integrations/ever-async.svg',
+					imgSrc: 'integrations/integration-async.svg',
 					redirectUrl: 'ever-async',
 					isComingSoon: false,
 					isPaid: false,

@@ -49,7 +49,7 @@ export class EverConnectCatalogService {
 					randomUUID(),
 					LINK_INTEGRATION_NAME,
 					LINK_INTEGRATION_NAME,
-					'integrations/ever-platform.svg',
+					'integrations/integration-platform.svg',
 					'ever-connect',
 					false,
 					false,

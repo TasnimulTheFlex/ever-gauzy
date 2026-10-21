@@ -403,7 +403,7 @@ export class EmailHistoryComponent extends TranslationBaseComponent implements O
 		} else if (organizationContact?.imageUrl) {
 			return organizationContact.imageUrl;
 		} else if (!email.user) {
-			return '../../../../assets/images/logos/ever.jpg';
+			return '../../../../assets/images/logos/base360.jpg';
 		} else {
 			return '../../../../assets/images/avatars/avatar-default.svg';
 		}
