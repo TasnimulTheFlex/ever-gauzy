@@ -31,7 +31,7 @@ test('all desktop packages retain npm identities and ship Base360 OS metadata an
 		assert.equal(build.linux.executableName, executable);
 		assert.equal(build.mac.extendInfo.CFBundleName, product);
 		assert.equal(build.mac.extendInfo.CFBundleDisplayName, product);
-		assert.equal(build.win.publisherName, 'Base360');
+		assert.equal(build.win.signtoolOptions?.publisherName, 'Base360');
 		assert.equal(pkg.author.name, 'Base360');
 		assert.equal(pkg.author.email, 'support@base360.ai');
 		assert.equal(build.protocols[0].schemes[0], executable);
