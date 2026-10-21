@@ -38,7 +38,7 @@ test('all desktop packages retain npm identities and ship Base360 OS metadata an
 		for (const entry of build.publish) {
 			assert.equal(entry.provider, 'github');
 			assert.equal(entry.owner, 'TasnimulTheFlex');
-			assert.equal(entry.repo, 'ever-gauzy');
+			assert.equal(entry.repo, 'base360-time-tracker');
 		}
 		for (const config of [build, build.mac, build.dmg, build.nsis, build.linux]) {
 			assert.equal(config.artifactName, `${executable}-\${arch}-\${version}.\${ext}`);
@@ -48,9 +48,9 @@ test('all desktop packages retain npm identities and ship Base360 OS metadata an
 
 test('unsigned Base360 apps cannot check, download or install updates from a shared feed', async () => {
 	const file = 'packages/desktop-lib/src/lib/strategies/abstracts/update-strategy.ts';
-	const source = stripTypeScriptTypes(read(file), { mode: 'transform' })
+	const source = stripTypeScriptTypes(read(file), { mode: 'strip' })
 		.replace(/^import .*;\s*$/gm, '')
-		.replace('export class UpdateStrategy', 'class UpdateStrategy');
+		.replace(/export\s+class UpdateStrategy/, 'class UpdateStrategy');
 	for (const [, , appId] of apps) {
 		let updaterCalls = 0;
 		const updater = new Proxy({}, {
@@ -65,15 +65,15 @@ test('unsigned Base360 apps cannot check, download or install updates from a sha
 		});
 		const strategy = new Strategy();
 		strategy.update();
-		await assert.rejects(strategy.checkUpdate(), /TasnimulTheFlex\/ever-gauzy\/releases/);
+		await assert.rejects(strategy.checkUpdate(), /time\.base360\.ai\/downloads/);
 		assert.equal(updaterCalls, 0);
 	}
 });
 
 test('persisted automatic-update settings cannot restart polling in Base360 apps', () => {
-	const source = stripTypeScriptTypes(read('packages/desktop-lib/src/lib/contexts/automatic-update.ts'), { mode: 'transform' })
+	const source = stripTypeScriptTypes(read('packages/desktop-lib/src/lib/contexts/automatic-update.ts'), { mode: 'strip' })
 		.replace(/^import .*;\s*$/gm, '')
-		.replace('export class AutomaticUpdate', 'class AutomaticUpdate');
+		.replace(/export\s+class AutomaticUpdate/, 'class AutomaticUpdate');
 	for (const [, , appId] of apps) {
 		const AutomaticUpdate = vm.runInNewContext(`${source}\nAutomaticUpdate;`, {
 			process: { env: { APP_ID: appId } },
@@ -96,7 +96,7 @@ test('cloud setup and settings use the Base360 API and About exposes the source 
 	assert.match(setup, /Base360 Cloud/);
 	assert.match(setup, /Base360 Server/);
 	assert.match(read('packages/desktop-ui-lib/src/lib/dialogs/about/about.component.html'),
-		/href="https:\/\/github\.com\/TasnimulTheFlex\/ever-gauzy"[^>]*>Source code<\/a>/);
+		/href="https:\/\/github\.com\/TasnimulTheFlex\/base360-time-tracker"[^>]*>Source code<\/a>/);
 });
 
 test('packaged icon formats and macOS template assets exist for all desktop apps', () => {
