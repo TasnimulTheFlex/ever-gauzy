@@ -1,0 +1,2834 @@
+# Web branding audit
+
+Brand sheet: `branding/README.md`. Area: **web**. Branch: `branding/web`.
+
+## Scope and result
+
+Changed only `apps/gauzy`, `packages/ui-config`, `packages/ui-core`, `packages/ui-auth`, `packages/plugin-ui`, `packages/plugins/*-ui`, `packages/ui-react`, `packages/ui-react-components`, plus this required audit file. No i18n JSON translation files were edited. Imports, exported TypeScript names, Angular selectors, CSS class names, API routes, storage keys, Nx project names, npm package names and license notices remain compatible.
+
+No remaining hardcoded upstream product/company branding is rendered by the audited web surfaces. The mandated fork URLs and repository slug contain `ever-gauzy` by design. Translated copy and API-provided content require the corresponding agents' changes to be merged; this audit does not claim to rebrand user-created records or an external server's responses.
+
+## Changes
+
+- Browser title, author/description, Open Graph tags, theme-color, favicon, Apple touch icon and PWA names/icons use Base360 Time Tracker and the supplied assets.
+- Replaced every upstream logo at its existing path. Old theme and laptop screenshots contained branding in their pixels: replaced them with neutral Base360 thumbnails rather than shipping upstream screenshots. Replaced the invoice preview with a neutral Base360 example. Original raster dimensions are preserved.
+- Auth/onboarding standalone logo and optional identity-provider mark/label use Base360. Removed demo credentials and upstream feature/what's-new panels, and centered the single auth form column.
+- Footer reads `© <current year> Base360. All rights reserved.` Social icons and vendor credit are removed. A small `Source code` link points directly to the fork; build/version and legal menus remain.
+- Removed the gift/changelog sidebar registration and hosted-cloud migration promotion. Other gift icons that represent income, rewards or benefits remain functional product icons.
+- About, Help, support/email and setup links use the brand sheet's website, support email and fork. Integration display names and legacy vendor icons are replaced at presentation time without modifying enum or API names.
+- Shared ui-config export applies the Base360 identity after generated deployment config, preserving the configured API endpoint and credentials. Sets the website/policy/register/reset/download/source URLs, company identity, logo paths and app display names. Unsupported mobile/extension download destinations and vendor social links are empty. Demo mode is disabled for this fork.
+- All eight Angular/Nebular JS palettes and the shared Sass theme maps use `#064749`; the standard tint is `rgba(6, 71, 73, 0.10)`. Primary filled buttons retain white text. Dark-theme links/text/focus indicators use lighter teal for contrast. Replaced remaining purple brand literals in auth/shared/React fallback styles.
+- Removed vendor-hosted Async and shared Plane endpoint defaults because no Base360 equivalent was supplied. Async requires an operator-provided URL; new Plane connections use custom URLs, and opening an unconfigured Plane instance now shows the existing validation message instead of navigating with a token to a relative URL. Existing saved integration settings are preserved. Removed the connector config textarea containing upstream protocol names; pairing IDs/credentials and the fork setup link remain.
+- Removed upstream telemetry-schema links. Replaced bundled Ever commercial/privacy/cookie contracts with short links to Base360's supplied legal URLs, without inventing company registration details, policy versions or effective dates. The legal sync script regenerates these local link documents and cannot reintroduce upstream contracts. Auth's server-issued terms acceptance mechanism is unchanged.
+- Updated the cookie-domain allowlist to accept the Base360 web deployment, with a regression test for reading its encoded sign-in cookie. Updated auth-label and legal-document tests for the new presentation.
+
+## Implementation commits
+
+- `f99acbac70` — Base360 browser/PWA identity, assets, environment export and themes.
+- `cec0d3251f` — Base360 legal links and local document generation.
+- `b5005eeff8` — Shell/auth/integration presentation and removal of vendor promotions.
+
+## Verification
+
+- Parsed all **2,661** owned JS/TS/TSX/MJS files using the already-installed Babel TypeScript parser: no syntax errors.
+- Balanced HTML elements in all **18** changed HTML templates.
+- Assert-based checks passed for generated config overrides while preserving a custom API URL; Base360 cookie acceptance and lookalike-domain rejection; English/German/fallback identity labels; and Plane's missing/custom URL behavior.
+- Legal generator ran successfully with assertions and passed `node --check`; generated policy bodies contain no upstream branding.
+- Verified manifest icon file existence and exact dimensions, changed SVG XML, and PNG/JPG/ICO decoding. Visually inspected the supplied icon, replacement wordmark, theme thumbnail and invoice preview.
+- Calculated WCAG contrast: white text on default/hover/focus/active primary fills and light teal text on representative dark theme canvases all exceed **4.5:1**.
+- `git diff --check` passes. No i18n JSON files or files outside web ownership are staged by these commits.
+- No installs or builds were run, per the brand sheet. Nx MCP tools and workspace `node_modules`/Nx/Jest are absent in this checkout, so Angular/Nx/Jest and browser runtime validation are deferred to the integrator. The existing test assertions were updated, but the Jest suites were not executed.
+
+## Remaining grep matches
+
+Executed the required recursive audit (excluding `node_modules`):
+
+```sh
+grep -rniE 'gauzy|ever co|ever\.co|ever-co|evertech|ever team' apps/gauzy packages/ui-config packages/ui-core packages/ui-auth packages/plugin-ui packages/plugins/*-ui packages/ui-react packages/ui-react-components --exclude-dir=node_modules
+```
+
+The inventory below accounts for every remaining text match in owned non-translation files, grouped by its reason. Each entry lists the matching line numbers in that file. Translation JSON matches are excluded from ownership, not silently rewritten. Legacy names in the hidden connector-config getter are retained protocol field names; its textarea was removed. The old demo proxy is developer-only configuration, not a shipped link. Sentry release/trace labels are internal telemetry. Required fork links are an explicit brand-sheet exception.
+
+Raw audit: **10547** matching lines; **788** are translation JSON lines owned by the translation agent. **9759** non-translation text matches are indexed below.
+
+### Compatibility import, symbol, selector, class, theme/storage key, API route or protocol field; not rendered branding
+
+7453 matches.
+
+- `apps/gauzy/app.js` — 7.
+- `apps/gauzy/src/app/app.component.ts` — 12, 13, 14, 28, 29.
+- `apps/gauzy/src/app/app.module.guard.ts` — 3, 4.
+- `apps/gauzy/src/app/app.module.ts` — 33, 34, 35, 36, 37, 38, 55, 56, 57, 58, 145.
+- `apps/gauzy/src/app/app.routes.ts` — 2, 11, 16, 20, 35, 40, 45, 49.
+- `apps/gauzy/src/app/bootstrap.module.ts` — 13, 14, 21.
+- `apps/gauzy/src/app/pages/about/about.component.scss` — 6, 10, 11.
+- `apps/gauzy/src/app/pages/about/about.component.ts` — 4, 5, 61.
+- `apps/gauzy/src/app/pages/about/about.module.ts` — 5.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates.component.scss` — 1, 16, 17, 46, 75, 215, 247, 258, 282, 375, 476, 670, 683, 764.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates.component.ts` — 18, 19, 20, 31, 395, 398.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates.module.ts` — 12.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy-status/approval-policy-status.component.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy.component.html` — 14, 15, 20.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy.component.scss` — 2, 4.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy.component.ts` — 8, 9, 10, 17.
+- `apps/gauzy/src/app/pages/approval-policy/approval-policy.module.ts` — 18, 24.
+- `apps/gauzy/src/app/pages/approvals/approval-record-view.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/approvals/approvals-routing.module.ts` — 3, 4, 6.
+- `apps/gauzy/src/app/pages/approvals/approvals.component.html` — 27, 28, 33.
+- `apps/gauzy/src/app/pages/approvals/approvals.component.scss` — 5.
+- `apps/gauzy/src/app/pages/approvals/approvals.component.ts` — 16, 17, 18, 31.
+- `apps/gauzy/src/app/pages/approvals/approvals.module.ts` — 24, 25.
+- `apps/gauzy/src/app/pages/approvals/table-components/approval-policy/approval-policy.component.scss` — 23, 24, 25, 26, 28.
+- `apps/gauzy/src/app/pages/approvals/table-components/request-approval-action/request-approval-action.component.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/auth/auth-routing.module.ts` — 3.
+- `apps/gauzy/src/app/pages/auth/auth.module.ts` — 3, 5.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic-charts/average-criterions-rating-chart/average-criterions-rating-chart.component.ts` — 11, 12.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic-charts/criterions-rating-chart/criterions-rating-chart.component.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic-charts/interview-rating-chart/interview-rating-chart.component.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic-charts/overall-rating-chart/overall-rating-chart.component.ts` — 4.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic.component.scss` — 44.
+- `apps/gauzy/src/app/pages/candidates/candidate-statistic/candidate-statistic.component.ts` — 1, 12, 13.
+- `apps/gauzy/src/app/pages/candidates/candidates-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/candidates/candidates.component.html` — 52, 57.
+- `apps/gauzy/src/app/pages/candidates/candidates.component.scss` — 1, 2, 4.
+- `apps/gauzy/src/app/pages/candidates/candidates.component.ts` — 11, 20, 28, 40.
+- `apps/gauzy/src/app/pages/candidates/candidates.module.ts` — 35, 64.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-documents/edit-candidate-documents.component.scss` — 1, 2, 71, 77, 86, 88, 92.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-documents/edit-candidate-documents.component.ts` — 7, 8, 9, 15.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-employment/edit-candidate-employment.component.scss` — 10.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-employment/edit-candidate-employment.component.ts` — 11, 20, 21, 22.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-education/edit-candidate-education.component.html` — 4, 10.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-education/edit-candidate-education.component.scss` — 1, 2, 3, 49, 55, 57.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-education/edit-candidate-education.component.ts` — 5, 7, 8, 10.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-experience.component.scss` — 6, 8.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-experience/edit-candidate-experience-form.component.html` — 4, 11.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-experience/edit-candidate-experience-form.component.scss` — 1, 2, 3, 48, 53, 55.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-experience/edit-candidate-experience-form.component.ts` — 6, 7, 9, 10.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-skills/edit-candidate-skills.component.scss` — 1, 2, 5, 16.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-skills/edit-candidate-skills.component.ts` — 4, 7, 8, 10.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-feedbacks/edit-candidate-feedbacks.component.html` — 37, 42.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-feedbacks/edit-candidate-feedbacks.component.scss` — 1, 2, 3, 40, 105, 220, 270, 285, 290.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-feedbacks/edit-candidate-feedbacks.component.ts` — 17, 19, 29, 30.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-hiring/edit-candidate-hiring.component.scss` — 5.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-hiring/edit-candidate-hiring.component.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-interview/edit-candidate-interview.component.html` — 7, 12.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-interview/edit-candidate-interview.component.scss` — 1, 2, 3, 29, 31.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-interview/edit-candidate-interview.component.ts` — 16, 26, 27, 33.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-main/edit-candidate-main.component.scss` — 27.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-main/edit-candidate-main.component.ts` — 6, 7, 8.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-profile.component.scss` — 2, 48, 118.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-profile.component.ts` — 12, 20, 21, 22, 24.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-rates/edit-candidate-rates.component.ts` — 21.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate.component.ts` — 3, 6, 7, 8, 10, 12.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-calendar/interview-calendar.component.scss` — 1, 2.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-calendar/interview-calendar.component.ts` — 15, 17, 24, 25, 26.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-criterions/candidate-personal-qualities/candidate-personal-qualities.component.ts` — 5, 6, 8, 9.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-criterions/candidate-technologies/candidate-technologies.component.ts` — 5, 6, 8, 9.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-criterions/interview-criterions.component.scss` — 9.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-panel/interview-panel.component.html` — 4, 5, 10.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-panel/interview-panel.component.scss` — 1, 2, 3, 4, 97.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-panel/interview-panel.component.ts` — 12, 18, 20, 30, 39.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-panel/table-components/actions/actions.component.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/manage-candidate-interviews.component.scss` — 11, 34.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/manage-candidate-interviews.component.ts` — 1, 8, 10, 11, 12.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-invite/manage-candidate-invite.component.ts` — 2.
+- `apps/gauzy/src/app/pages/candidates/table-components/candidate-status/candidate-status.component.scss` — 42, 45, 47.
+- `apps/gauzy/src/app/pages/contacts/contact-mutation/contact-mutation.component.scss` — 1, 70, 81, 356, 386, 547, 863, 872, 898.
+- `apps/gauzy/src/app/pages/contacts/contact-mutation/contact-mutation.component.ts` — 13, 20, 21, 22, 29.
+- `apps/gauzy/src/app/pages/contacts/contact-view/contact-view.component.html` — 57, 60, 118, 121.
+- `apps/gauzy/src/app/pages/contacts/contact-view/contact-view.component.scss` — 30, 31, 34, 59, 63, 85, 92, 93, 107, 118, 119, 168, 171, 193, 194, 202, 228, 240, 324, 325, 326, 403, 429, 431, 438, 439, 457, 464, 529, 542, 547, 582, 635, 658, 659, 691, 716, 726, 739.
+- `apps/gauzy/src/app/pages/contacts/contact-view/contact-view.component.ts` — 10, 16, 17, 18, 19.
+- `apps/gauzy/src/app/pages/contacts/contact-view/contact-view.module.ts` — 21, 25.
+- `apps/gauzy/src/app/pages/contacts/contacts-routing.module.ts` — 3, 4, 22.
+- `apps/gauzy/src/app/pages/contacts/contacts.component.html` — 12, 17.
+- `apps/gauzy/src/app/pages/contacts/contacts.component.scss` — 2.
+- `apps/gauzy/src/app/pages/contacts/contacts.component.ts` — 16, 31, 32, 43, 44.
+- `apps/gauzy/src/app/pages/contacts/contacts.module.ts` — 17, 29.
+- `apps/gauzy/src/app/pages/contacts/invite-contact/invite-contact.component.scss` — 1, 14, 44.
+- `apps/gauzy/src/app/pages/contacts/invite-contact/invite-contact.component.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/contacts/table-components/contact-action/contact-action.component.ts` — 2.
+- `apps/gauzy/src/app/pages/dashboard/accounting/accounting.component.scss` — 1, 40, 53, 81, 88, 89, 90, 94, 106, 128, 137, 146, 156, 157, 158, 171, 180, 195, 207, 208, 211, 277, 282, 286, 294, 304, 308, 316, 320, 338, 346, 353, 376, 390, 397, 422, 427, 431, 433, 474, 481, 489.
+- `apps/gauzy/src/app/pages/dashboard/accounting/accounting.component.ts` — 22, 29, 37, 38, 39.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/custom-dashboard.component.scss` — 37, 48.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/custom-dashboard.component.ts` — 9, 17, 18, 19.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/dashboard-canvas.component.scss` — 55, 56, 166, 168, 169, 175, 182.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/dashboard-canvas.component.ts` — 4, 15, 16.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/dashboard-tab-strip.component.scss` — 18, 45, 50, 132, 134.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/dashboard-tab-strip.component.ts` — 6, 7, 8.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/widget-config-dialog.component.ts` — 4.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/widget-palette.component.ts` — 7, 14, 15.
+- `apps/gauzy/src/app/pages/dashboard/dashboard-switcher/dashboard-switcher.component.scss` — 99, 276.
+- `apps/gauzy/src/app/pages/dashboard/dashboard-switcher/dashboard-switcher.component.ts` — 7, 8, 9, 10.
+- `apps/gauzy/src/app/pages/dashboard/dashboard.component.ts` — 7, 8, 9, 10.
+- `apps/gauzy/src/app/pages/dashboard/dashboard.module.ts` — 27, 47, 48.
+- `apps/gauzy/src/app/pages/dashboard/dashboard.routes.ts` — 9, 10, 11.
+- `apps/gauzy/src/app/pages/dashboard/data-entry-shortcuts/data-entry-shortcuts.component.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-chart-legend/employee-chart-legend.component.ts` — 66, 112.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-chart-palette.ts` — 67, 70, 71, 72, 73, 74, 75, 79, 82, 83, 84.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-charts.component.ts` — 2.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-doughnut-chart/employee-doughnut-chart.component.ts` — 8, 9, 10, 11, 12, 13, 93.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-horizontal-bar-chart/employee-horizontal-bar-chart.component.ts` — 8, 9, 10, 11, 12, 13, 75.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-stacked-bar-chart/employee-stacked-bar-chart.component.ts` — 6, 7, 8, 9, 10, 11, 93.
+- `apps/gauzy/src/app/pages/dashboard/human-resources/human-resources.component.scss` — 1, 61, 77, 102, 103, 104, 121, 124, 138, 177, 180, 191, 192, 207, 208, 212, 246, 254, 299, 306, 307, 323, 329, 342, 346, 350, 354, 363, 366, 379, 407, 422, 437, 470, 471, 472, 492, 521, 557, 590, 594, 602, 610, 616, 633, 657, 682, 695, 707, 708, 711, 719, 739, 746, 753.
+- `apps/gauzy/src/app/pages/dashboard/human-resources/human-resources.component.ts` — 5, 14, 20, 21, 22.
+- `apps/gauzy/src/app/pages/dashboard/project-management/project-management-details/project-management-details.component.scss` — 5, 45, 51, 52, 59, 60, 65, 66, 77, 78, 79, 97, 106, 128, 129, 130, 141, 142, 145, 163, 165, 167, 174.
+- `apps/gauzy/src/app/pages/dashboard/project-management/project-management-details/project-management-details.component.ts` — 18, 19, 20, 21, 26.
+- `apps/gauzy/src/app/pages/dashboard/project-management/project-management.component.html` — 10.
+- `apps/gauzy/src/app/pages/dashboard/project-management/project-management.component.scss` — 1, 23, 30.
+- `apps/gauzy/src/app/pages/dashboard/project-management/project-management.component.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/dashboard/team/all-team/all-team.component.html` — 16, 19, 35, 38, 54, 57, 73, 77, 119.
+- `apps/gauzy/src/app/pages/dashboard/team/all-team/all-team.component.scss` — 30, 31, 36, 49, 52, 56, 60, 88, 93, 116, 117, 148, 151, 161, 162.
+- `apps/gauzy/src/app/pages/dashboard/team/all-team/all-team.component.ts` — 3, 7.
+- `apps/gauzy/src/app/pages/dashboard/team/chart/chart.component.scss` — 12.
+- `apps/gauzy/src/app/pages/dashboard/team/chart/chart.component.ts` — 6.
+- `apps/gauzy/src/app/pages/dashboard/team/team-card/team-card.component.html` — 13, 16.
+- `apps/gauzy/src/app/pages/dashboard/team/team-card/team-card.component.scss` — 8, 21, 43, 44, 55.
+- `apps/gauzy/src/app/pages/dashboard/team/team-card/team-card.component.ts` — 2, 5.
+- `apps/gauzy/src/app/pages/dashboard/team/team-member/team-member.component.scss` — 19, 21, 22, 23, 118, 121, 124, 133, 158, 161, 164, 173, 186.
+- `apps/gauzy/src/app/pages/dashboard/team/team-member/team-member.component.ts` — 3, 4, 7.
+- `apps/gauzy/src/app/pages/dashboard/team/team.component.html` — 22, 27, 71, 76, 80.
+- `apps/gauzy/src/app/pages/dashboard/team/team.component.scss` — 1, 16, 23, 55, 57, 59, 60, 85, 89, 108.
+- `apps/gauzy/src/app/pages/dashboard/team/team.component.ts` — 14, 22, 23, 27.
+- `apps/gauzy/src/app/pages/departments/departments-mutation/departments-mutation.component.ts` — 3, 6.
+- `apps/gauzy/src/app/pages/departments/departments-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/departments/departments.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/departments/departments.component.scss` — 2.
+- `apps/gauzy/src/app/pages/departments/departments.component.ts` — 17, 18, 19, 28.
+- `apps/gauzy/src/app/pages/departments/departments.module.ts` — 14, 25.
+- `apps/gauzy/src/app/pages/documents/documents-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/documents/documents.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/documents/documents.component.scss` — 4, 35, 47, 62, 73.
+- `apps/gauzy/src/app/pages/documents/documents.component.ts` — 3, 4, 11, 12, 19.
+- `apps/gauzy/src/app/pages/documents/documents.module.ts` — 21.
+- `apps/gauzy/src/app/pages/documents/upload-document/upload-document.component.ts` — 3.
+- `apps/gauzy/src/app/pages/email-templates/email-templates-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/email-templates/email-templates.component.scss` — 1, 16, 17, 46, 75, 215, 247, 258, 381, 486, 683, 702, 800.
+- `apps/gauzy/src/app/pages/email-templates/email-templates.component.ts` — 4, 13, 17, 18, 19, 20, 31.
+- `apps/gauzy/src/app/pages/email-templates/email-templates.module.ts` — 16, 17.
+- `apps/gauzy/src/app/pages/employee-levels/employee-level-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employee-levels/employee-level.component.html` — 10, 11, 17.
+- `apps/gauzy/src/app/pages/employee-levels/employee-level.component.ts` — 2, 9, 15, 16.
+- `apps/gauzy/src/app/pages/employee-levels/employee-level.module.ts` — 20.
+- `apps/gauzy/src/app/pages/employees/activity/activity.module.ts` — 5, 6, 20, 71.
+- `apps/gauzy/src/app/pages/employees/activity/activity.routes.ts` — 2, 4.
+- `apps/gauzy/src/app/pages/employees/activity/app-url-activity/app-url-activity.component.html` — 17, 46.
+- `apps/gauzy/src/app/pages/employees/activity/app-url-activity/app-url-activity.component.scss` — 19, 20, 58, 63, 73, 100, 107, 123, 143, 171, 183, 190, 194, 199, 200, 215, 216, 239, 242, 256, 260, 271, 275, 288, 310, 315, 322, 343, 364, 378, 393, 403, 407, 421, 424, 450, 481, 510, 541, 581, 593, 643, 646, 716, 720, 721, 725, 742, 749, 756.
+- `apps/gauzy/src/app/pages/employees/activity/app-url-activity/app-url-activity.component.ts` — 18, 25, 26, 27, 140, 205.
+- `apps/gauzy/src/app/pages/employees/activity/layout/layout.component.scss` — 26.
+- `apps/gauzy/src/app/pages/employees/activity/layout/layout.component.ts` — 5, 11.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot.module.ts` — 8, 13, 29.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot/screenshot.component.html` — 4.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot/screenshot.component.scss` — 195, 196, 202, 216, 234, 237, 254, 256, 297, 307, 322, 324, 332, 339, 354, 355, 359.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot/screenshot.component.ts` — 24, 25, 32, 38, 40, 103, 155.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities.module.ts` — 4, 17.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities/time-activities.component.html` — 4, 12, 28.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities/time-activities.component.scss` — 6, 89, 168, 169, 172, 203, 204, 210, 233, 234, 246, 247, 255, 256, 263, 264, 272, 273, 294.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities/time-activities.component.ts` — 3, 4, 5, 8, 21, 29.
+- `apps/gauzy/src/app/pages/employees/appointment/appointment-routing.module.ts` — 3.
+- `apps/gauzy/src/app/pages/employees/appointment/appointment.module.ts` — 3.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-contact/edit-employee-contact.component.ts` — 2, 5, 6, 7.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-documents/edit-employee-documents.component.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-employment/edit-employee-employment.component.ts` — 12, 14, 24, 25.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-hiring/edit-employee-hiring.component.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-main/edit-employee-main.component.scss` — 5, 14, 33, 56, 57, 150, 268.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-main/edit-employee-main.component.ts` — 3, 7, 8.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-networks/edit-employee-networks.component.ts` — 6, 7, 8.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-profile.component.ts` — 6, 17, 18.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-projects/edit-employee-projects.component.ts` — 12, 13, 20, 21.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-settings/edit-employee-other-settings.component.scss` — 7, 23, 39, 87, 140, 145, 153, 154, 166, 201, 281, 289, 290, 330, 332, 337, 466.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-settings/edit-employee-other-settings.component.ts` — 18, 19, 20.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee.component.scss` — 1, 2, 36, 43, 65, 148, 153, 189, 214.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee.component.ts` — 19, 20, 21, 22, 23.
+- `apps/gauzy/src/app/pages/employees/employee.resolver.ts` — 3, 5.
+- `apps/gauzy/src/app/pages/employees/employees-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/employees.component.html` — 35, 36, 47.
+- `apps/gauzy/src/app/pages/employees/employees.component.scss` — 1, 2, 6, 14, 178, 188, 189.
+- `apps/gauzy/src/app/pages/employees/employees.component.ts` — 20, 33, 34, 50.
+- `apps/gauzy/src/app/pages/employees/employees.module.ts` — 28, 56, 87.
+- `apps/gauzy/src/app/pages/employees/event-types/default-event-type.ts` — 1.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type-mutation/event-type-mutation.component.scss` — 1, 4.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type-mutation/event-type-mutation.component.ts` — 7, 8, 9.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type-mutation/event-type-mutation.module.ts` — 17.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type.component.html` — 14, 19.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type.component.scss` — 1, 2, 8.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type.component.ts` — 16, 17, 18, 24.
+- `apps/gauzy/src/app/pages/employees/event-types/event-type.module.ts` — 13, 21.
+- `apps/gauzy/src/app/pages/employees/manage-employee-invite/manage-employee-invite.component.ts` — 2.
+- `apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.component.scss` — 1, 45.
+- `apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.component.ts` — 19, 26, 27, 28, 29.
+- `apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.module.ts` — 7.
+- `apps/gauzy/src/app/pages/employees/schedules/layout/layout.component.scss` — 6.
+- `apps/gauzy/src/app/pages/employees/schedules/layout/layout.component.ts` — 3.
+- `apps/gauzy/src/app/pages/employees/schedules/schedule.module.ts` — 4, 8.
+- `apps/gauzy/src/app/pages/employees/table-components/employee-work-status/employee-work-status.component.scss` — 25, 36, 68, 69, 71, 73.
+- `apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals-routing.module.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals.module.ts` — 16.
+- `apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals/approvals.component.html` — 3, 4, 16.
+- `apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals/approvals.component.scss` — 40.
+- `apps/gauzy/src/app/pages/employees/timesheet/approvals/approvals/approvals.component.ts` — 9, 15, 16, 17, 37.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar.module.ts` — 10, 13, 33.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar/calendar.component.html` — 14, 19.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar/calendar.component.scss` — 5, 20, 37, 67, 68, 69, 82, 91.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar/calendar.component.ts` — 24, 25, 26, 30, 34, 47, 118.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily.module.ts` — 20, 28, 55.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.html` — 5, 6, 8, 10, 18, 27, 29.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.scss` — 10, 81.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.ts` — 11, 12, 21, 26, 29, 59, 250.
+- `apps/gauzy/src/app/pages/employees/timesheet/layout/layout.component.scss` — 5, 14.
+- `apps/gauzy/src/app/pages/employees/timesheet/layout/layout.component.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/employees/timesheet/timesheet.module.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/employees/timesheet/timesheet.resolver.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/employees/timesheet/timesheet.routes.ts` — 3.
+- `apps/gauzy/src/app/pages/employees/timesheet/view/view.module.ts` — 5, 6, 21.
+- `apps/gauzy/src/app/pages/employees/timesheet/view/view.routes.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/employees/timesheet/view/view/view.component.html` — 24, 25, 29.
+- `apps/gauzy/src/app/pages/employees/timesheet/view/view/view.component.scss` — 29, 38, 39, 60, 68, 110.
+- `apps/gauzy/src/app/pages/employees/timesheet/view/view/view.component.ts` — 5, 12, 13, 14.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly.module.ts` — 17, 22, 36.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly/weekly.component.html` — 24, 27.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly/weekly.component.scss` — 1, 41, 42, 62, 72, 89, 143, 152.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly/weekly.component.ts` — 13, 14, 15, 20, 23, 49, 134.
+- `apps/gauzy/src/app/pages/employees/view-employee/employee-hours-chart/employee-hours-chart.component.ts` — 71.
+- `apps/gauzy/src/app/pages/employees/view-employee/view-employee.component.scss` — 1, 26, 33, 43, 72, 82, 96, 109, 114, 118, 122, 147, 157, 173, 181, 199, 200, 204, 212, 216, 220, 238, 239, 250, 258, 270, 277, 309, 324, 328, 354, 385, 401, 402, 403, 415, 421, 429, 442, 451, 464, 469, 501, 502, 503, 529, 535, 546, 552, 564, 568, 600, 623, 624, 641, 676, 683, 699, 707, 720, 724, 728, 732, 754, 758, 772, 773, 774, 784, 790, 796, 800, 822, 827, 851, 857, 866, 871, 876, 894, 905, 937, 941, 959, 964, 974, 983, 988, 999, 1030, 1031, 1037, 1055, 1073, 1076, 1093, 1095, 1133, 1142, 1151, 1159, 1191, 1197, 1210, 1226, 1251, 1252, 1261, 1285, 1303, 1323, 1330, 1386, 1387, 1391, 1412, 1416, 1443, 1458, 1465, 1469, 1480, 1481, 1484, 1489, 1505, 1534, 1536, 1560, 1561, 1564, 1574, 1575, 1581, 1587, 1588, 1605, 1606, 1621, 1626, 1673, 1680, 1681, 1695, 1697, 1710, 1721, 1738, 1747, 1751, 1764, 1793, 1805, 1808, 1816, 1820, 1825, 1841, 1854, 1863, 1876, 1879, 1894, 1910.
+- `apps/gauzy/src/app/pages/employees/view-employee/view-employee.component.ts` — 23, 24, 31, 32, 33.
+- `apps/gauzy/src/app/pages/employment-types/employment-types-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/employment-types/employment-types.component.html` — 12, 13, 19.
+- `apps/gauzy/src/app/pages/employment-types/employment-types.component.scss` — 1, 2, 3, 50, 65, 98.
+- `apps/gauzy/src/app/pages/employment-types/employment-types.component.ts` — 13, 16, 17, 25, 26.
+- `apps/gauzy/src/app/pages/employment-types/employment-types.module.ts` — 20, 21.
+- `apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.component.html` — 11, 12, 17.
+- `apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.component.scss` — 2.
+- `apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.component.ts` — 9, 10, 11, 18.
+- `apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.module.ts` — 24.
+- `apps/gauzy/src/app/pages/equipment-sharing-policy/equipment-sharing-policy.routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing.component.html` — 31, 32, 37.
+- `apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing.component.scss` — 2.
+- `apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing.component.ts` — 12, 24, 25, 34.
+- `apps/gauzy/src/app/pages/equipment-sharing/equipment-sharing.module.ts` — 14, 22.
+- `apps/gauzy/src/app/pages/equipment-sharing/table-components/equipment-sharing-action/equipment-sharing-action.component.ts` — 2.
+- `apps/gauzy/src/app/pages/equipment-sharing/table-components/equipment-sharing-status/equipment-sharing-status.component.ts` — 2.
+- `apps/gauzy/src/app/pages/equipment/equipment-record-view.ts` — 2, 3, 4.
+- `apps/gauzy/src/app/pages/equipment/equipment-routing.module.ts` — 3, 4, 6.
+- `apps/gauzy/src/app/pages/equipment/equipment.component.html` — 21, 26.
+- `apps/gauzy/src/app/pages/equipment/equipment.component.scss` — 2, 51, 57, 58, 62, 63, 70, 71, 83, 84, 85, 86.
+- `apps/gauzy/src/app/pages/equipment/equipment.component.ts` — 4, 11, 12, 21.
+- `apps/gauzy/src/app/pages/equipment/equipment.module.ts` — 20.
+- `apps/gauzy/src/app/pages/expense-recurring/expense-recurring-routing.module.ts` — 3, 5.
+- `apps/gauzy/src/app/pages/expense-recurring/expense-recurring.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/expense-recurring/expense-recurring.component.ts` — 15, 22, 23, 24, 29.
+- `apps/gauzy/src/app/pages/expense-recurring/expense-recurring.module.ts` — 18.
+- `apps/gauzy/src/app/pages/expense-recurring/recurring-expense-record-view.ts` — 7, 8, 9.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-categories.component.html` — 13, 14, 19.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-categories.component.scss` — 1, 2, 3, 4, 7, 102, 107, 111, 125, 129, 166.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-categories.component.ts` — 13, 14, 15, 22, 23.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-category-mutation/expense-category-mutation.component.scss` — 1, 38.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-category-mutation/expense-category-mutation.component.ts` — 7, 8, 9, 10.
+- `apps/gauzy/src/app/pages/expenses/expense-record-view.ts` — 2, 3, 4, 5.
+- `apps/gauzy/src/app/pages/expenses/expenses-routing.module.ts` — 3, 4, 7.
+- `apps/gauzy/src/app/pages/expenses/expenses.component.html` — 18, 28, 33.
+- `apps/gauzy/src/app/pages/expenses/expenses.component.scss` — 25.
+- `apps/gauzy/src/app/pages/expenses/expenses.component.ts` — 14, 22, 30, 47.
+- `apps/gauzy/src/app/pages/expenses/expenses.module.ts` — 16, 27.
+- `apps/gauzy/src/app/pages/feature-documents-redirect.guard.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/goal-settings/edit-kpi/edit-kpi.component.scss` — 1, 12, 13, 48.
+- `apps/gauzy/src/app/pages/goal-settings/edit-kpi/edit-kpi.component.ts` — 14, 15, 16.
+- `apps/gauzy/src/app/pages/goal-settings/edit-time-frame/edit-time-frame.component.scss` — 1, 12, 13, 22, 39, 100, 104, 108.
+- `apps/gauzy/src/app/pages/goal-settings/edit-time-frame/edit-time-frame.component.ts` — 4, 18, 19, 20, 21.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings-record-view.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings-routing.module.ts` — 4.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings.component.html` — 13, 14, 20.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings.component.scss` — 1, 2, 3, 39, 53, 82, 108, 188, 201, 219.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings.component.ts` — 9, 10, 19, 26.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings.module.ts` — 32.
+- `apps/gauzy/src/app/pages/goals/edit-keyresults/edit-keyresults.component.scss` — 1, 13, 14, 36, 53, 191, 213, 298, 299, 314.
+- `apps/gauzy/src/app/pages/goals/edit-keyresults/edit-keyresults.component.ts` — 11, 28, 29.
+- `apps/gauzy/src/app/pages/goals/edit-objective/edit-objective.component.scss` — 1, 13, 14, 43, 60, 166, 243, 244, 259.
+- `apps/gauzy/src/app/pages/goals/edit-objective/edit-objective.component.ts` — 16, 17.
+- `apps/gauzy/src/app/pages/goals/goal-details/goal-details.component.scss` — 1, 12, 13, 14, 15, 27, 49, 103, 170, 199, 214, 300, 306, 337, 338, 395, 420.
+- `apps/gauzy/src/app/pages/goals/goal-details/goal-details.component.ts` — 2, 5, 6, 8, 9.
+- `apps/gauzy/src/app/pages/goals/goal-template-select/goal-template-select.component.scss` — 1, 13, 14, 15, 30, 47, 179, 182, 201, 209, 240, 273, 349, 365.
+- `apps/gauzy/src/app/pages/goals/goal-template-select/goal-template-select.component.ts` — 12, 18, 26.
+- `apps/gauzy/src/app/pages/goals/goal-template-select/goal-template-select.module.ts` — 14.
+- `apps/gauzy/src/app/pages/goals/goals-components.module.ts` — 27.
+- `apps/gauzy/src/app/pages/goals/goals.component.html` — 10, 11, 22.
+- `apps/gauzy/src/app/pages/goals/goals.component.scss` — 1, 2, 25, 26, 33, 44, 71, 121, 144, 153, 160, 236, 281, 284.
+- `apps/gauzy/src/app/pages/goals/goals.component.ts` — 15, 16, 17, 24, 25, 46, 48, 72.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiative-detail/initiative-detail.component.ts` — 16, 24, 25.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiative-mutation/initiative-mutation.component.ts` — 17, 24, 25.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiative-signals.ts` — 1.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiatives-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiatives.component.ts` — 13, 14, 21, 22, 23.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiatives.module.ts` — 15.
+- `apps/gauzy/src/app/pages/goals/key-result-parameters/key-result-parameters.component.scss` — 1, 13, 14, 26, 42, 96, 184, 194, 258, 259, 273.
+- `apps/gauzy/src/app/pages/goals/key-result-parameters/key-result-parameters.component.ts` — 12, 14.
+- `apps/gauzy/src/app/pages/goals/keyresult-details/keyresult-details.component.scss` — 1, 11, 12, 13, 14, 15, 24, 216, 372.
+- `apps/gauzy/src/app/pages/goals/keyresult-details/keyresult-details.component.ts` — 15, 27, 28, 30.
+- `apps/gauzy/src/app/pages/goals/keyresult-progress-chart/keyresult-progress-chart.component.scss` — 33.
+- `apps/gauzy/src/app/pages/goals/keyresult-progress-chart/keyresult-progress-chart.component.ts` — 2, 3, 15, 16, 134, 203.
+- `apps/gauzy/src/app/pages/goals/keyresult-type-select/keyresult-type-select.component.ts` — 3, 7.
+- `apps/gauzy/src/app/pages/goals/keyresult-type-select/keyresult-type-select.module.ts` — 6.
+- `apps/gauzy/src/app/pages/goals/keyresult-update/keyresult-update.component.scss` — 1, 18.
+- `apps/gauzy/src/app/pages/goals/keyresult-update/keyresult-update.component.ts` — 11, 13, 14, 15.
+- `apps/gauzy/src/app/pages/help-center/add-article/add-article.component.scss` — 1, 8, 87.
+- `apps/gauzy/src/app/pages/help-center/add-article/add-article.component.ts` — 6, 7, 14.
+- `apps/gauzy/src/app/pages/help-center/add-article/add-article.module.ts` — 12, 14.
+- `apps/gauzy/src/app/pages/help-center/delete-article/delete-article.component.scss` — 1.
+- `apps/gauzy/src/app/pages/help-center/delete-article/delete-article.component.ts` — 1, 6, 7.
+- `apps/gauzy/src/app/pages/help-center/help-center.component.html` — 39, 40, 45.
+- `apps/gauzy/src/app/pages/help-center/help-center.component.scss` — 1, 2, 54, 79, 136, 162, 170, 189, 190, 194, 295, 296, 307, 317, 319, 336, 342, 352, 355, 356, 357, 358, 359, 370, 371, 372, 414, 415.
+- `apps/gauzy/src/app/pages/help-center/help-center.component.ts` — 1, 3, 8, 10, 12, 17.
+- `apps/gauzy/src/app/pages/help-center/help-center.module.ts` — 19.
+- `apps/gauzy/src/app/pages/help/help.component.ts` — 2, 32.
+- `apps/gauzy/src/app/pages/help/help.module.ts` — 5.
+- `apps/gauzy/src/app/pages/import-export/export/export-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/import-export/export/export.component.scss` — 1, 27, 61, 71, 76, 92, 93, 94, 95, 97, 107, 113, 165, 169, 182.
+- `apps/gauzy/src/app/pages/import-export/export/export.component.ts` — 2, 9, 10, 11.
+- `apps/gauzy/src/app/pages/import-export/export/export.module.ts` — 11, 13.
+- `apps/gauzy/src/app/pages/import-export/import-export-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/import-export/import-export.component.scss` — 1, 6, 12, 24, 56, 57, 91, 98, 120.
+- `apps/gauzy/src/app/pages/import-export/import-export.component.ts` — 23, 24, 25, 29, 34, 50, 64, 180, 198, 199, 216, 233, 237.
+- `apps/gauzy/src/app/pages/import-export/import-export.module.ts` — 6.
+- `apps/gauzy/src/app/pages/import-export/import/import-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/import-export/import/import.component.html` — 70, 74.
+- `apps/gauzy/src/app/pages/import-export/import/import.component.scss` — 1, 13, 17, 73, 100, 109, 122, 123, 139, 157, 281, 311.
+- `apps/gauzy/src/app/pages/import-export/import/import.component.ts` — 8, 12, 13, 14, 15.
+- `apps/gauzy/src/app/pages/import-export/import/import.module.ts` — 18, 20, 45.
+- `apps/gauzy/src/app/pages/income/income-record-view.ts` — 2, 3, 4, 5.
+- `apps/gauzy/src/app/pages/income/income-routing.module.ts` — 3, 4, 6.
+- `apps/gauzy/src/app/pages/income/income.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/income/income.component.scss` — 2.
+- `apps/gauzy/src/app/pages/income/income.component.ts` — 20, 21, 29, 46.
+- `apps/gauzy/src/app/pages/income/income.module.ts` — 25.
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.html` — 10, 11, 14.
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.scss` — 1, 2, 9, 41, 58, 89, 94, 97, 124, 125, 129, 130, 155, 166, 182.
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.ts` — 9, 17, 24, 25, 26, 50, 192, 220, 255.
+- `apps/gauzy/src/app/pages/integrations/components/plugin-builtin/plugin-builtin.component.scss` — 21, 60, 61, 118, 217.
+- `apps/gauzy/src/app/pages/integrations/components/plugin-builtin/plugin-builtin.component.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/integrations/integration-filters.base.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/integrations/integrations.component.scss` — 1, 19, 20, 21, 37, 62, 93, 96, 169, 178, 193, 206, 215, 224, 231.
+- `apps/gauzy/src/app/pages/integrations/integrations.component.ts` — 2.
+- `apps/gauzy/src/app/pages/integrations/integrations.module.ts` — 3, 4, 5, 84, 97, 109, 119, 121, 133, 154, 163.
+- `apps/gauzy/src/app/pages/integrations/integrations.routes.ts` — 2.
+- `apps/gauzy/src/app/pages/integrations/web-plugin.routes.ts` — 2, 13, 37.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item-variant/variant-form.component.scss` — 1, 13, 79, 90.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item-variant/variant-form.component.ts` — 2, 3, 18, 19.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/options-form/options-form.component.scss` — 45, 52, 55, 75, 82, 85, 96, 97, 99, 125.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/options-form/options-form.component.ts` — 7, 9, 15.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/product-form.component.scss` — 1, 2, 102, 139, 153.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/product-form.component.ts` — 15, 17, 18.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/product-gallery/product-gallery.component.scss` — 1, 27, 78, 94, 102.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/product-gallery/product-gallery.component.ts` — 7, 8, 9, 10.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/variant-form/variant-form.component.scss` — 14, 17.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/variant-form/variant-form.component.ts` — 2, 4, 6.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/variant-table/variant-table.component.html` — 7, 8, 12.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/variant-table/variant-table.component.scss` — 1, 2, 4, 19, 29, 30.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/variant-table/variant-table.component.ts` — 4, 5, 13, 14.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/description/description.component.css` — 8, 11, 12.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/description/description.component.ts` — 4.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/enabled-row.component.ts` — 27, 32, 34, 36.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/icon-row.component.ts` — 2.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/image-row.component.ts` — 2.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/inventory-table-components.module.ts` — 12.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/item-img-tags-row.component.ts` — 2, 3, 72, 98, 100, 101.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/name-with-description/name-with-description.component.scss` — 17, 27.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/name-with-description/name-with-description.component.ts` — 4.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/no-image/no-image.component.scss` — 23, 32.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-form/merchant-form.component.scss` — 1, 70, 79.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-form/merchant-form.component.ts` — 10, 11, 12, 13, 14.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-form/merchant-form.resolver.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-record-view.ts` — 2, 3, 4.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-routing.module.ts` — 3, 4, 9.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-table/merchant-table.component.html` — 11, 12, 17.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant-table/merchant-table.component.ts` — 10, 11, 12, 19.
+- `apps/gauzy/src/app/pages/inventory/components/manage-merchants/merchant.module.ts` — 26.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-categories/product-categories-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-categories/product-categories.component.html` — 11, 12, 18.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-categories/product-categories.component.ts` — 9, 10, 11, 18.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-categories/product-categories.module.ts` — 14, 15, 16.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types.component.html` — 11, 12, 18.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types.component.scss` — 2, 83, 84, 88, 89, 106, 107.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types.component.ts` — 9, 10, 11, 18.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types.module.ts` — 10, 11.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/manage-quantity/manage-quantity.component.ts` — 4.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/manage-variants-quantity-form/manage-variants-quantity-form.component.ts` — 3, 6.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/manage-variants-quantity/manage-variants-quantity.component.scss` — 1.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/manage-variants-quantity/manage-variants-quantity.component.ts` — 2, 6.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/select-product-form/select-product-form.component.scss` — 1, 2, 3, 6, 9.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/select-product-form/select-product-form.component.ts` — 3, 5, 8, 14, 15.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouse-form/warehouse-form.component.ts` — 4, 5, 12, 13, 14.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouse-form/warehouse-form.resolver.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouse-products-table/warehouse-products-table.component.html` — 3, 8.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouse-products-table/warehouse-products-table.component.scss` — 1, 2, 3, 6, 13, 43.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouse-products-table/warehouse-products-table.component.ts` — 2, 3, 10, 14, 15.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouses-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouses-table/warehouses-table.component.html` — 11, 12, 17.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouses-table/warehouses-table.component.ts` — 10, 11, 12, 18.
+- `apps/gauzy/src/app/pages/inventory/components/manage-warehouses/warehouses.module.ts` — 26.
+- `apps/gauzy/src/app/pages/inventory/components/table-inventory-items/table-inventory.component.html` — 20, 21, 26.
+- `apps/gauzy/src/app/pages/inventory/components/table-inventory-items/table-inventory.component.scss` — 60.
+- `apps/gauzy/src/app/pages/inventory/components/table-inventory-items/table-inventory.component.ts` — 19, 28, 29, 30.
+- `apps/gauzy/src/app/pages/inventory/components/view-inventory-item/view-inventory-item.component.scss` — 1, 41, 79, 99, 123, 124.
+- `apps/gauzy/src/app/pages/inventory/components/view-inventory-item/view-inventory-item.component.ts` — 8, 9, 10, 11, 12, 13.
+- `apps/gauzy/src/app/pages/inventory/inventory-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/inventory/inventory.module.ts` — 29, 42.
+- `apps/gauzy/src/app/pages/invoices/_invoice-dialog.scss` — 14, 15, 16, 23.
+- `apps/gauzy/src/app/pages/invoices/add-internal-note/add-internal-note.component.scss` — 1.
+- `apps/gauzy/src/app/pages/invoices/add-internal-note/add-internal-note.component.ts` — 3, 6, 7, 9.
+- `apps/gauzy/src/app/pages/invoices/invoice-add/invoice-add.component.ts` — 21, 23, 30, 41, 52.
+- `apps/gauzy/src/app/pages/invoices/invoice-download/invoice-download-mutation.component.scss` — 1, 27, 28.
+- `apps/gauzy/src/app/pages/invoices/invoice-download/invoice-download-mutation.component.ts` — 4, 5, 7.
+- `apps/gauzy/src/app/pages/invoices/invoice-edit/invoice-edit.component.scss` — 1, 2, 3, 31, 32, 70, 73, 74, 124, 140, 327, 353, 355, 356, 435, 478, 498, 504, 506, 517, 613, 614, 615, 622, 643, 681, 684, 686, 687, 688, 701, 712, 713, 719, 720, 721.
+- `apps/gauzy/src/app/pages/invoices/invoice-edit/invoice-edit.component.ts` — 26, 27, 28, 38, 48.
+- `apps/gauzy/src/app/pages/invoices/invoice-email/invoice-email-mutation.component.scss` — 1, 37, 38.
+- `apps/gauzy/src/app/pages/invoices/invoice-email/invoice-email-mutation.component.ts` — 2, 4, 8.
+- `apps/gauzy/src/app/pages/invoices/invoice-estimates/invoice-estimates.component.ts` — 1.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payment-mutation/payment-mutation.component.scss` — 1, 13, 14, 21, 41.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payment-mutation/payment-mutation.component.ts` — 14, 18, 19, 20, 21.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payment-receipt-mutation/payment-receipt-mutation.component.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payments.component.html` — 126, 127, 132.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payments.component.scss` — 1, 2, 33, 36, 48, 55, 59, 66.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payments.component.ts` — 2, 19, 26, 33.
+- `apps/gauzy/src/app/pages/invoices/invoice-pdf/invoice-pdf.component.ts` — 2, 6, 7, 50, 51.
+- `apps/gauzy/src/app/pages/invoices/invoice-send/invoice-send-mutation.component.scss` — 1, 33, 34.
+- `apps/gauzy/src/app/pages/invoices/invoice-send/invoice-send-mutation.component.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/invoices/invoice-totals.ts` — 1.
+- `apps/gauzy/src/app/pages/invoices/invoice-view/invoice-view.component.scss` — 1, 2, 5.
+- `apps/gauzy/src/app/pages/invoices/invoice-view/invoice-view.component.ts` — 9, 10, 11, 12.
+- `apps/gauzy/src/app/pages/invoices/invoices-received/invoices-received.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/invoices/invoices-received/invoices-received.component.scss` — 2.
+- `apps/gauzy/src/app/pages/invoices/invoices-received/invoices-received.component.ts` — 18, 19, 27, 41.
+- `apps/gauzy/src/app/pages/invoices/invoices-routing.module.ts` — 3, 4, 5, 186.
+- `apps/gauzy/src/app/pages/invoices/invoices.component.html` — 695.
+- `apps/gauzy/src/app/pages/invoices/invoices.component.scss` — 2, 3, 4, 26, 126, 137, 184, 245, 264, 352, 361, 380, 388, 468, 529, 543, 582, 592, 598, 607, 617, 622, 644, 648, 706, 727, 822, 857, 909, 950, 978, 1220.
+- `apps/gauzy/src/app/pages/invoices/invoices.component.ts` — 43, 44, 50, 59, 72, 73.
+- `apps/gauzy/src/app/pages/invoices/invoices.module.ts` — 42, 64, 94.
+- `apps/gauzy/src/app/pages/invoices/public-link/public-link.component.scss` — 1, 17.
+- `apps/gauzy/src/app/pages/invoices/public-link/public-link.component.ts` — 4, 5, 8.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-employees-selector.component.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-expense-selector.component.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-paid.component.ts` — 3, 4, 36, 38.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-product-selector.component.ts` — 6, 7.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-project-selector.component.ts` — 2, 6.
+- `apps/gauzy/src/app/pages/invoices/table-components/invoice-tasks-selector.component.ts` — 2, 7.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-location/edit-organization-location.component.scss` — 5, 29, 39.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-location/edit-organization-location.component.ts` — 8, 9, 10, 11, 12.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-main/edit-organization-main.component.scss` — 10, 33, 43, 73, 74, 158, 269.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-main/edit-organization-main.component.ts` — 4, 9, 10, 17.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-other-settings/edit-organization-other-settings.component.scss` — 6, 20, 24, 108, 165, 170, 178, 179, 193, 237, 533, 543, 544, 587, 589, 594, 713.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-other-settings/edit-organization-other-settings.component.ts` — 36, 53, 54, 64, 65.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-settings.component.ts` — 3, 7, 8.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-settings.module.ts` — 32, 51.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-task-setting.resolver.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization.component.scss` — 3, 79, 86, 103, 278, 321.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization.component.ts` — 4, 9, 10, 11.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/organization-list/organization-list.component.scss` — 8.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/organization-list/organization-list.component.ts` — 2.
+- `apps/gauzy/src/app/pages/organizations/organization-delete-confirmation/organization-delete-confirmation.component.scss` — 1, 9, 13, 35, 62, 87, 92.
+- `apps/gauzy/src/app/pages/organizations/organization-delete-confirmation/organization-delete-confirmation.component.ts` — 3.
+- `apps/gauzy/src/app/pages/organizations/organization.resolver.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/organizations/organizations-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/organizations/organizations.component.html` — 11, 16.
+- `apps/gauzy/src/app/pages/organizations/organizations.component.scss` — 2.
+- `apps/gauzy/src/app/pages/organizations/organizations.component.ts` — 3, 10, 18, 25.
+- `apps/gauzy/src/app/pages/organizations/organizations.module.ts` — 18, 34.
+- `apps/gauzy/src/app/pages/organizations/table-components/organizations-status/organizations-status.component.scss` — 13, 20, 21, 22, 26, 27, 32, 34, 42.
+- `apps/gauzy/src/app/pages/pages-routing.module.ts` — 3.
+- `apps/gauzy/src/app/pages/pages.component.scss` — 2.
+- `apps/gauzy/src/app/pages/pages.component.ts` — 8, 9, 19, 20, 300.
+- `apps/gauzy/src/app/pages/pages.module.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/pages.routes.ts` — 2, 3, 4, 145, 176, 298, 480, 539.
+- `apps/gauzy/src/app/pages/payments/payment-record-view.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/payments/payments-routing.module.ts` — 3, 4, 5, 7.
+- `apps/gauzy/src/app/pages/payments/payments.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/payments/payments.component.scss` — 2, 34.
+- `apps/gauzy/src/app/pages/payments/payments.component.ts` — 17, 18, 19, 28, 29, 44.
+- `apps/gauzy/src/app/pages/payments/payments.module.ts` — 10, 18.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deal-form/pipeline-deal-form.component.scss` — 14.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deal-form/pipeline-deal-form.component.ts` — 7, 8, 15, 16.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deals.component.html` — 18, 19, 24.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deals.component.scss` — 2.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deals.component.ts` — 7, 8, 9, 18.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-form/pipeline-form.component.scss` — 1, 11, 12, 28, 88.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-form/pipeline-form.component.ts` — 6, 7, 8.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.component.html` — 12, 13, 18.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.component.scss` — 2, 3, 4, 36, 46, 237.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.component.ts` — 11, 19, 26, 33.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.module.ts` — 19, 23.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.routing.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/pipelines/routes/deal.resolver.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/pipelines/routes/pipeline.resolver.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/pipelines/stage-form/stage-form.component.ts` — 3, 7, 8.
+- `apps/gauzy/src/app/pages/pipelines/stage/stage.component.scss` — 30, 42, 43, 44, 45, 46, 58, 59, 80.
+- `apps/gauzy/src/app/pages/pipelines/stage/stage.component.ts` — 2, 5.
+- `apps/gauzy/src/app/pages/pipelines/table-components/pipeline-deal-excerpt/pipeline-deal-excerpt.component.ts` — 2.
+- `apps/gauzy/src/app/pages/pipelines/table-components/pipeline-deal-probability/pipeline-deal-probability.component.scss` — 22, 23, 24, 26, 32, 33, 37, 38, 42, 43, 50.
+- `apps/gauzy/src/app/pages/pipelines/table-components/pipeline-deal-probability/pipeline-deal-probability.component.ts` — 2.
+- `apps/gauzy/src/app/pages/positions/positions-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/positions/positions.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/positions/positions.component.ts` — 2, 8, 9, 15.
+- `apps/gauzy/src/app/pages/positions/positions.module.ts` — 18, 19.
+- `apps/gauzy/src/app/pages/projects/components/project-create/create.component.ts` — 5, 6, 7, 8.
+- `apps/gauzy/src/app/pages/projects/components/project-edit/edit.component.ts` — 13, 14, 15, 16.
+- `apps/gauzy/src/app/pages/projects/components/project-list/list.component.html` — 11, 16.
+- `apps/gauzy/src/app/pages/projects/components/project-list/list.component.scss` — 3, 56, 59, 60, 66, 74, 78, 79, 99, 106, 107.
+- `apps/gauzy/src/app/pages/projects/components/project-list/list.component.ts` — 22, 23, 32, 49.
+- `apps/gauzy/src/app/pages/projects/components/project-quick-look/project-quick-look.component.scss` — 1, 26, 29, 85, 93, 133, 140, 150, 158, 162, 191, 199, 209, 212, 216, 237, 250, 254, 256, 279, 286, 301, 307, 314, 321, 343, 348, 368, 372, 376, 420, 430, 439, 442, 449, 452, 456, 474, 480, 493, 512, 526, 530, 539, 542, 552, 561, 564, 573, 600, 601, 604, 622, 638, 641, 646, 669, 673, 687, 703, 707, 724, 725, 728, 742, 743, 752, 757, 762, 772, 774, 779, 910, 914, 937, 944, 950, 954, 966, 975, 995, 1002, 1006, 1014, 1019, 1040, 1057, 1064, 1212, 1213, 1214, 1235, 1242.
+- `apps/gauzy/src/app/pages/projects/components/project-quick-look/project-quick-look.component.ts` — 34, 35, 36, 37.
+- `apps/gauzy/src/app/pages/projects/components/project-quick-look/project-view-sections.ts` — 1, 2.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-activity/project-activity.component.scss` — 11, 31, 45, 52, 63, 67, 85, 101, 106, 112, 119, 130.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-activity/project-activity.component.ts` — 9, 10.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-board/project-board.component.scss` — 16, 31, 34, 38, 42, 56, 62, 79, 88, 90, 98, 103, 108, 120, 130, 150, 154, 170, 180, 185, 201, 202, 205, 219, 220.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-board/project-board.component.ts` — 9, 10.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-view-page.component.scss` — 14.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-view-page.component.ts` — 7, 8, 9.
+- `apps/gauzy/src/app/pages/projects/components/project-view/project-view.utils.ts` — 1.
+- `apps/gauzy/src/app/pages/projects/guards/project-manager-or-permission.guard.ts` — 4.
+- `apps/gauzy/src/app/pages/projects/guards/project-manager.guard.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/projects/project.resolver.ts` — 5, 6, 7.
+- `apps/gauzy/src/app/pages/projects/projects-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/projects/projects.module.ts` — 23, 26, 28, 29.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee-routing.module.ts` — 3, 5.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee.component.html` — 12, 13, 18.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee.component.scss` — 1, 2, 18, 27, 82, 172, 173, 174, 214, 218, 219, 221, 222, 228, 229, 233, 237.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee.component.ts` — 15, 24, 25, 26, 31.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee.module.ts` — 18.
+- `apps/gauzy/src/app/pages/reports/all-report/all-report.module.ts` — 11.
+- `apps/gauzy/src/app/pages/reports/all-report/all-report/all-report.component.scss` — 27, 201.
+- `apps/gauzy/src/app/pages/reports/all-report/all-report/all-report.component.ts` — 2, 6.
+- `apps/gauzy/src/app/pages/reports/all-report/report.service.ts` — 10, 11, 13.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report.module.ts` — 4, 20.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report/amounts-owed-report.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report/amounts-owed-report.component.ts` — 7, 14, 15, 19, 22, 41, 114.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report.module.ts` — 4, 19.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report/apps-urls-report.component.html` — 14, 25, 33, 54.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report/apps-urls-report.component.scss` — 82.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report/apps-urls-report.component.ts` — 3, 6, 7, 28, 49.
+- `apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report.module.ts` — 5, 11, 27.
+- `apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report/client-budgets-report.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report/client-budgets-report.component.ts` — 13, 14, 15, 16, 32, 100.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report.module.ts` — 7, 10, 26.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report/expenses-report.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report/expenses-report.component.scss` — 1, 8.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report/expenses-report.component.ts` — 2, 8, 9, 13, 16, 35, 102, 123.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time.module.ts` — 5, 20.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time/manual-time.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time/manual-time.component.scss` — 1, 24, 26.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time/manual-time.component.ts` — 3, 10, 11, 18, 37, 110.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report.module.ts` — 7, 11, 27.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report/payment-report.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report/payment-report.component.scss` — 1.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report/payment-report.component.ts` — 10, 16, 20, 23, 24, 42, 112.
+- `apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report.module.ts` — 5, 11, 27.
+- `apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report/project-budgets-report.component.html` — 15, 22.
+- `apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report/project-budgets-report.component.ts` — 13, 14, 15, 16, 33, 98.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report.module.ts` — 5, 11, 27.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report/time-limit-report.component.html` — 14, 18.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report/time-limit-report.component.ts` — 7, 8, 9, 10, 27, 101.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports.module.ts` — 6, 9, 27.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports/time-reports.component.html` — 14, 18.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports/time-reports.component.ts` — 7, 14, 15, 19, 22, 40, 89.
+- `apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports.module.ts` — 6, 10, 25.
+- `apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports/weekly-time-reports.component.html` — 14, 18.
+- `apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports/weekly-time-reports.component.ts` — 8, 15, 16, 20, 23, 43, 119.
+- `apps/gauzy/src/app/pages/settings/billing/billing-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/settings/billing/billing.component.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/settings/billing/billing.module.ts` — 5.
+- `apps/gauzy/src/app/pages/settings/billing/billing.service.ts` — 4.
+- `apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp-routing.module.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp.component.ts` — 6.
+- `apps/gauzy/src/app/pages/settings/custom-smtp/custom-smtp.module.ts` — 5.
+- `apps/gauzy/src/app/pages/settings/danger-zone/danger-zone.component.html` — 13, 18.
+- `apps/gauzy/src/app/pages/settings/danger-zone/danger-zone.component.ts` — 7, 8, 9, 10, 11.
+- `apps/gauzy/src/app/pages/settings/email-history/email-history.component.scss` — 11, 20, 38, 93, 214, 215, 238, 245, 274, 275, 319, 323, 337, 418, 479, 480, 547.
+- `apps/gauzy/src/app/pages/settings/email-history/email-history.component.ts` — 11, 16, 17, 25.
+- `apps/gauzy/src/app/pages/settings/feature/feature-routing.module.ts` — 3, 4, 6.
+- `apps/gauzy/src/app/pages/settings/feature/feature.component.ts` — 2, 7.
+- `apps/gauzy/src/app/pages/settings/feature/feature.module.ts` — 5.
+- `apps/gauzy/src/app/pages/settings/file-storage/file-storage-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/settings/file-storage/file-storage.component.scss` — 37, 66, 79, 102, 104, 130, 138, 244, 257, 287, 288, 296, 306, 336, 367, 460.
+- `apps/gauzy/src/app/pages/settings/file-storage/file-storage.component.ts` — 8, 16, 17, 18, 19, 20.
+- `apps/gauzy/src/app/pages/settings/file-storage/file-storage.module.ts` — 14, 15.
+- `apps/gauzy/src/app/pages/settings/general-setting/_general-setting-layout.scss` — 18, 19, 20, 74, 135, 149.
+- `apps/gauzy/src/app/pages/settings/general-setting/general-setting.component.scss` — 11, 40, 41, 42, 73.
+- `apps/gauzy/src/app/pages/settings/general-setting/general-setting.component.ts` — 4, 5.
+- `apps/gauzy/src/app/pages/settings/general-setting/general-setting.module.ts` — 18, 19.
+- `apps/gauzy/src/app/pages/settings/general-setting/personal-settings/personal-settings.component.scss` — 26, 27.
+- `apps/gauzy/src/app/pages/settings/general-setting/personal-settings/personal-settings.component.ts` — 5, 6, 7, 13, 14, 17.
+- `apps/gauzy/src/app/pages/settings/monitoring/monitoring.component.scss` — 38, 44, 78, 83, 123, 155, 175, 202.
+- `apps/gauzy/src/app/pages/settings/monitoring/monitoring.component.ts` — 7, 8, 9.
+- `apps/gauzy/src/app/pages/settings/monitoring/monitoring.module.ts` — 14, 15.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-client-form-dialog/oauth-client-form-dialog.component.scss` — 11, 12, 21, 38, 53, 64, 200, 201, 218.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-client-form-dialog/oauth-client-form-dialog.component.ts` — 18.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-client-secret-dialog/oauth-client-secret-dialog.component.scss` — 6, 7, 11, 37, 68, 70.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-client-secret-dialog/oauth-client-secret-dialog.component.ts` — 12.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients.component.scss` — 4, 73, 74, 85, 112, 113, 132, 180, 181.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients.component.ts` — 19, 20, 21.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients.module.ts` — 18.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/permission-sections.ts` — 1.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions.component.scss` — 1, 7, 8, 99, 116, 158, 268, 275, 286, 306, 310, 312, 313, 314.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions.component.ts` — 8, 9, 10, 11.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions.module.ts` — 17, 18.
+- `apps/gauzy/src/app/pages/settings/settings-routing.module.ts` — 3.
+- `apps/gauzy/src/app/pages/settings/settings.component.scss` — 23, 64, 83, 90, 101.
+- `apps/gauzy/src/app/pages/settings/settings.component.ts` — 4.
+- `apps/gauzy/src/app/pages/settings/settings.module.ts` — 19.
+- `apps/gauzy/src/app/pages/settings/settings.routes.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/settings/sms-gateway/sms-gateway.component.scss` — 20, 41, 42, 43, 60, 89.
+- `apps/gauzy/src/app/pages/settings/sms-gateway/sms-gateway.component.ts` — 2.
+- `apps/gauzy/src/app/pages/tags/tags-color/tags-color.component.scss` — 53, 54, 57, 68, 70, 100.
+- `apps/gauzy/src/app/pages/tags/tags-color/tags-color.component.ts` — 2.
+- `apps/gauzy/src/app/pages/tags/tags-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/tags/tags.component.html` — 55, 56, 61.
+- `apps/gauzy/src/app/pages/tags/tags.component.scss` — 1, 2, 3, 21, 25, 75, 76, 77, 117, 135, 147, 189, 227, 231, 235, 336.
+- `apps/gauzy/src/app/pages/tags/tags.component.ts` — 9, 10, 11, 17.
+- `apps/gauzy/src/app/pages/tags/tags.module.ts` — 27.
+- `apps/gauzy/src/app/pages/tasks/components/my-task-dialog/my-task-dialog.component.ts` — 2, 8, 15.
+- `apps/gauzy/src/app/pages/tasks/components/task-view/task-view-header.component.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/tasks/components/task-view/task-view-page.component.ts` — 7, 8, 9, 16.
+- `apps/gauzy/src/app/pages/tasks/components/task-view/task-view-sections.ts` — 1, 2.
+- `apps/gauzy/src/app/pages/tasks/components/task/task-settings/project-view/project-view.component.scss` — 9.
+- `apps/gauzy/src/app/pages/tasks/components/task/task-settings/project-view/project-view.component.ts` — 2, 3.
+- `apps/gauzy/src/app/pages/tasks/components/task/task-settings/task-settings.component.scss` — 5, 9, 18, 20, 21, 25.
+- `apps/gauzy/src/app/pages/tasks/components/task/task-settings/task-settings.component.ts` — 3, 7.
+- `apps/gauzy/src/app/pages/tasks/components/task/task.component.html` — 24, 25, 30.
+- `apps/gauzy/src/app/pages/tasks/components/task/task.component.scss` — 2, 136, 146, 147, 148, 149, 150, 151, 152, 155, 156, 175, 180, 181, 182, 192, 196, 198, 204, 205.
+- `apps/gauzy/src/app/pages/tasks/components/task/task.component.ts` — 18, 39, 51, 52.
+- `apps/gauzy/src/app/pages/tasks/components/task/tasks-layouts/tasks-sprint-view/task/task.component.scss` — 2, 4, 21, 22, 23.
+- `apps/gauzy/src/app/pages/tasks/components/task/tasks-layouts/tasks-sprint-view/task/task.component.ts` — 10, 15, 18, 19.
+- `apps/gauzy/src/app/pages/tasks/components/task/tasks-layouts/tasks-sprint-view/tasks-sprint-view.component.scss` — 15, 19, 31, 60, 68, 73, 77, 78.
+- `apps/gauzy/src/app/pages/tasks/components/task/tasks-layouts/tasks-sprint-view/tasks-sprint-view.component.ts` — 2, 9, 10, 20.
+- `apps/gauzy/src/app/pages/tasks/components/team-task-dialog/team-task-dialog.component.ts` — 11, 17, 26.
+- `apps/gauzy/src/app/pages/tasks/tasks-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/tasks/tasks.module.ts` — 31, 45, 48, 105.
+- `apps/gauzy/src/app/pages/teams/teams-mutation/teams-mutation.component.ts` — 13, 14, 15.
+- `apps/gauzy/src/app/pages/teams/teams-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/teams/teams.component.html` — 10, 11, 16.
+- `apps/gauzy/src/app/pages/teams/teams.component.scss` — 2.
+- `apps/gauzy/src/app/pages/teams/teams.component.ts` — 17, 32, 33, 42.
+- `apps/gauzy/src/app/pages/teams/teams.module.ts` — 17, 29.
+- `apps/gauzy/src/app/pages/teams/view-team/project-view-sections.ts` — 1, 2.
+- `apps/gauzy/src/app/pages/teams/view-team/view-team.component.scss` — 1, 18, 21, 49, 52, 60, 63, 64, 76, 79, 129, 132, 164, 168, 172, 187, 188, 209, 213, 257, 265, 305, 312, 322, 330, 334, 363, 371, 381, 384, 388, 409, 422, 426, 428, 451, 458, 473, 479, 486, 493, 515, 520, 540, 544, 548, 592, 602, 611, 614, 621, 624, 628, 646, 652, 665, 684, 698, 702, 711, 714, 724, 733, 736, 745, 772, 773, 776, 794, 810, 813, 818, 841, 845, 859, 875, 879, 896, 897, 900, 914, 915, 924, 929, 934, 944, 946.
+- `apps/gauzy/src/app/pages/teams/view-team/view-team.component.ts` — 31, 32, 40, 41, 42.
+- `apps/gauzy/src/app/pages/testing/route-matcher.ts` — 4.
+- `apps/gauzy/src/app/pages/time-off/time-off-settings/time-off-settings.component.html` — 12, 17.
+- `apps/gauzy/src/app/pages/time-off/time-off-settings/time-off-settings.component.scss` — 2.
+- `apps/gauzy/src/app/pages/time-off/time-off-settings/time-off-settings.component.ts` — 3, 10, 11, 18.
+- `apps/gauzy/src/app/pages/time-off/time-off.component.html` — 23, 28.
+- `apps/gauzy/src/app/pages/time-off/time-off.component.scss` — 2, 53.
+- `apps/gauzy/src/app/pages/time-off/time-off.component.ts` — 18, 28, 29, 41.
+- `apps/gauzy/src/app/pages/time-off/time-off.module.ts` — 21, 29.
+- `apps/gauzy/src/app/pages/time-off/time-off.routes.ts` — 2, 3, 4.
+- `apps/gauzy/src/app/pages/users/edit-user-mutation/edit-user-mutation.component.scss` — 1, 11, 18.
+- `apps/gauzy/src/app/pages/users/edit-user-mutation/edit-user-mutation.component.ts` — 3, 5, 6, 7.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-data/edit-user-data.component.ts` — 3, 8, 9, 10.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-organizations/edit-user-organizations-mutation/edit-user-organizations-mutation.component.ts` — 4, 5, 6.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-organizations/edit-user-organizations.component.scss` — 5, 8.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-organizations/edit-user-organizations.component.ts` — 2, 9, 16, 17.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-profile.component.scss` — 1, 7, 11.
+- `apps/gauzy/src/app/pages/users/edit-user-profile/edit-user-profile.component.ts` — 8, 9, 10.
+- `apps/gauzy/src/app/pages/users/manage-user-invite/manage-user-invite.component.ts` — 2.
+- `apps/gauzy/src/app/pages/users/users-routing.module.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/users/users.component.html` — 22, 27.
+- `apps/gauzy/src/app/pages/users/users.component.scss` — 2.
+- `apps/gauzy/src/app/pages/users/users.component.ts` — 23, 30, 31, 45.
+- `apps/gauzy/src/app/pages/users/users.module.ts` — 20, 36.
+- `apps/gauzy/src/app/pages/vendors/vendor-record-view.ts` — 2, 3, 4.
+- `apps/gauzy/src/app/pages/vendors/vendors-routing.module.ts` — 3, 4, 6.
+- `apps/gauzy/src/app/pages/vendors/vendors.component.html` — 10, 11, 17, 88, 89, 109, 116.
+- `apps/gauzy/src/app/pages/vendors/vendors.component.scss` — 1, 2, 17, 38, 52, 140, 144, 155, 156, 158, 160, 169, 209, 218, 234, 235, 274.
+- `apps/gauzy/src/app/pages/vendors/vendors.component.ts` — 18, 26, 27, 36.
+- `apps/gauzy/src/app/pages/vendors/vendors.module.ts` — 24.
+- `apps/gauzy/src/app/sentry.ts` — 3, 47, 48, 49, 58.
+- `apps/gauzy/src/index.html` — 254, 255, 257, 258, 266, 269.
+- `apps/gauzy/src/main.ts` — 4, 5.
+- `apps/gauzy/src/plugin-ui.config.ts` — 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-availability.service.ts` — 6, 7, 8.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-react-ui.plugin.ts` — 1, 2.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-sidebar.component.ts` — 3.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-window.component.ts` — 2.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-window.routes.ts` — 2, 3.
+- `packages/plugins/ai-chat-react-ui/src/lib/chat-client-tools.ts` — 2.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/AiChatPanel.tsx` — 16, 17, 26, 27.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/playground/Playground.tsx` — 8, 9, 10, 11.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/playground/PlaygroundChatSidebar.tsx` — 4, 5, 6.
+- `packages/plugins/ai-chat-react-ui/src/lib/page-registry.ts` — 1, 2, 16.
+- `packages/plugins/ai-chat-react-ui/src/lib/playground-chat-sidebar.component.ts` — 3.
+- `packages/plugins/ai-chat-react-ui/src/lib/playground-page.component.ts` — 3.
+- `packages/plugins/ai-chat-react-ui/src/lib/playground.routes.ts` — 1, 2.
+- `packages/plugins/ai-chat-react-ui/src/lib/provide-ai-chat-sidebar.ts` — 3, 4, 7, 52.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.component.scss` — 17, 31, 72, 80, 81, 83, 84, 87, 88, 113, 115, 134, 302, 304, 679, 697, 698, 732, 746, 848, 977, 1149, 1152, 1153, 1187, 1190, 1198.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.component.ts` — 41, 42, 43, 94.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.routes.ts` — 2, 3.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.service.ts` — 12, 13.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/provider-logos.ts` — 64.
+- `packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts` — 1, 2.
+- `packages/plugins/auth-zitadel-ui/src/lib/components/ever-id-workspaces.component.ts` — 4.
+- `packages/plugins/auth-zitadel-ui/src/lib/ever-id-ui.state.ts` — 1.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-confirm.component.ts` — 7.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-handoff.component.ts` — 6.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-signup.component.ts` — 7, 8.
+- `packages/plugins/auth-zitadel-ui/src/lib/services/auth-zitadel-ui.service.ts` — 5, 6.
+- `packages/plugins/auth-zitadel-ui/src/lib/services/ever-id-sign-in.service.ts` — 5, 6.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/components/time-tracking/_swiper.scss` — 16, 17, 18, 19, 32, 33.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/components/time-tracking/time-tracking.component.html` — 91, 95, 116, 120, 137, 155, 159, 190, 194, 220.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/components/time-tracking/time-tracking.component.scss` — 1, 80, 97, 98, 100, 101, 108, 109, 114, 115, 149, 288, 307, 325, 360, 361, 367, 381, 399, 402, 419, 421, 434, 435, 436, 443, 444, 445, 446, 447, 455, 460, 461, 462, 463, 464, 469, 483, 498, 532, 537, 540, 566, 567, 623, 625, 640, 660, 662, 684, 685, 689, 693, 697, 701, 703, 711, 716, 717, 718, 741, 742, 743, 744, 747, 756, 766, 774, 818, 819, 837, 841, 848, 849, 890, 898, 902, 903, 920, 983.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/components/time-tracking/time-tracking.component.ts` — 49, 50, 59, 60, 70.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.constants.ts` — 1, 2.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.module.ts` — 17, 27.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.plugin.ts` — 1, 2.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.routes.ts` — 2, 3.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/apps-urls-widget.component.ts` — 8, 9, 10.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/base-time-track-counter-widget.component.ts` — 5, 6, 7.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/base-time-track-list-widget.component.ts` — 5, 6.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/dashboard-time-track.widgets.ts` — 1, 2.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/manual-time-widget.component.ts` — 6, 7, 8.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/members-list-widget.component.ts` — 6, 7, 8, 9.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/members-worked-widget.component.ts` — 5.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/projects-list-widget.component.ts` — 4, 5, 6, 7.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/projects-worked-widget.component.ts` — 5.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/recent-activities-widget.component.scss` — 55, 56, 57, 58, 66, 67, 95, 96, 102, 108, 134, 137, 154, 156.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/recent-activities-widget.component.ts` — 29, 30, 40.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/tasks-list-widget.component.ts` — 6, 7, 8, 9.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-counter-card.component.html` — 29, 34.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-counter-card.component.ts` — 4.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-list-widget.scss` — 67, 76, 77, 84, 85, 86, 96, 235.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-widget.utils.ts` — 4.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/worked-this-week-widget.component.ts` — 2.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/worked-today-widget.component.ts` — 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/DashboardTimeTrackReactUiPage.tsx` — 5, 6, 7, 8.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/NbButton.tsx` — 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/NbIcon.tsx` — 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/header/HeaderToolbar.tsx` — 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/header/ManageWidgetsPopover.tsx` — 1, 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/header/TimezoneFilter.tsx` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/layout/DraggableLayout.tsx` — 2, 3, 21.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/styles.ts` — 29, 31, 34, 35, 51, 76, 86, 93, 106, 112, 113, 118, 120, 126, 156, 158, 168, 169, 187, 189, 206, 208.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/widgets/CounterWidget.tsx` — 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/AppsUrlsWindow.tsx` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/ManualTimeWindow.tsx` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/MembersWindow.tsx` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/PercentageListWindow.tsx` — 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/RecentActivitiesWindow.tsx` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/ScreenshotItem.tsx` — 4, 5, 6, 7, 8, 9.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/windows/WindowCard.tsx` — 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui-page.component.ts` — 6, 7, 8, 9, 68, 75.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui.events.ts` — 1.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui.plugin.ts` — 1, 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui.routes.ts` — 1, 7, 8.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/hooks/use-dashboard-layout.ts` — 2, 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/hooks/use-permission.ts` — 3, 4.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/hooks/use-time-tracking-context.ts` — 4, 5, 6, 7, 8.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/hooks/use-time-tracking-statistics.ts` — 18, 24, 25, 26.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/hooks/use-timezone-filter.ts` — 5, 6, 7, 8, 9, 10.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/format.utils.ts` — 2, 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/gallery.utils.ts` — 1, 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/payload.utils.ts` — 9, 10, 11.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/period.utils.ts` — 2.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/timezone.utils.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/+state/documents.actions.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/+state/documents.effects.ts` — 6, 7.
+- `packages/plugins/docs-ui/src/lib/+state/documents.query.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/+state/documents.store.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/components/actions/docs-action-menu.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/components/actions/docs-row-actions.service.ts` — 7, 8.
+- `packages/plugins/docs-ui/src/lib/components/activity/docs-activity.model.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/components/activity/docs-detail-activity.component.ts` — 4, 5.
+- `packages/plugins/docs-ui/src/lib/components/bulk/bulk-bar.component.ts` — 5, 6, 7.
+- `packages/plugins/docs-ui/src/lib/components/cards/docs-cards.component.scss` — 46, 198, 205, 206, 208.
+- `packages/plugins/docs-ui/src/lib/components/cards/docs-cards.component.ts` — 7, 8.
+- `packages/plugins/docs-ui/src/lib/components/comments/comment-composer.component.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.component.scss` — 112, 113, 115.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.component.ts` — 4, 5, 6.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.model.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.service.ts` — 11, 12, 13.
+- `packages/plugins/docs-ui/src/lib/components/comments/mention-directory.service.ts` — 3, 4.
+- `packages/plugins/docs-ui/src/lib/components/detail/docs-detail-panel.component.scss` — 11, 12, 13, 116, 117, 119, 440, 441, 447.
+- `packages/plugins/docs-ui/src/lib/components/detail/docs-detail-panel.component.ts` — 23, 24, 25.
+- `packages/plugins/docs-ui/src/lib/components/empty/empty-state.component.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/components/filter-bar/docs-filter-bar.component.scss` — 150.
+- `packages/plugins/docs-ui/src/lib/components/filter-bar/docs-filter-bar.component.ts` — 11, 12.
+- `packages/plugins/docs-ui/src/lib/components/filter-bar/saved-views.component.ts` — 5.
+- `packages/plugins/docs-ui/src/lib/components/folder-picker/docs-folder-picker.component.ts` — 3, 4.
+- `packages/plugins/docs-ui/src/lib/components/links/document-attach-dialog.component.ts` — 15, 16, 17.
+- `packages/plugins/docs-ui/src/lib/components/links/document-links-panel.component.ts` — 24, 25, 26.
+- `packages/plugins/docs-ui/src/lib/components/preview/docs-preview-modal.component.ts` — 18, 19.
+- `packages/plugins/docs-ui/src/lib/components/shell/docs-shell.component.scss` — 14, 16, 18, 19, 20, 22, 25, 26, 32, 63, 101, 109.
+- `packages/plugins/docs-ui/src/lib/components/shell/docs-shell.component.ts` — 8, 9.
+- `packages/plugins/docs-ui/src/lib/components/stats/docs-stats-line.component.ts` — 4, 5, 6.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/category-chips.component.ts` — 2, 26, 35, 36, 38, 39.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/knowledge-badge.component.ts` — 2, 29, 30, 32.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/name-cell.component.ts` — 2, 97, 98, 100.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/row-actions.component.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/source-badge.component.ts` — 2, 30.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/status-badge.component.ts` — 2, 34, 35, 37.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/tag-chips.component.ts` — 2, 26, 35, 36, 38, 39.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/updated-cell.component.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/components/table/docs-table.component.scss` — 1, 17.
+- `packages/plugins/docs-ui/src/lib/components/table/docs-table.component.ts` — 19, 20.
+- `packages/plugins/docs-ui/src/lib/components/tree/docs-tree.component.ts` — 10, 11, 12.
+- `packages/plugins/docs-ui/src/lib/components/upload/docs-drop-strip.component.scss` — 14, 27.
+- `packages/plugins/docs-ui/src/lib/dialogs/bulk-categories-dialog.component.ts` — 5, 6.
+- `packages/plugins/docs-ui/src/lib/dialogs/category-dialog.component.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/dialogs/category-merge-dialog.component.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/dialogs/classification-dialog.component.ts` — 5, 6.
+- `packages/plugins/docs-ui/src/lib/dialogs/create-dialog.component.ts` — 5, 6, 7.
+- `packages/plugins/docs-ui/src/lib/dialogs/delete-dialog.component.ts` — 5, 6.
+- `packages/plugins/docs-ui/src/lib/dialogs/extracted-text-dialog.component.ts` — 5, 6, 7.
+- `packages/plugins/docs-ui/src/lib/dialogs/inbound-secret-dialog.component.ts` — 5, 6, 7.
+- `packages/plugins/docs-ui/src/lib/dialogs/link-dialog.component.ts` — 16, 26, 27.
+- `packages/plugins/docs-ui/src/lib/dialogs/move-dialog.component.ts` — 5, 6, 7.
+- `packages/plugins/docs-ui/src/lib/dialogs/reject-dialog.component.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/dialogs/request-review-dialog.component.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/dialogs/share-dialog.component.ts` — 14, 15, 16.
+- `packages/plugins/docs-ui/src/lib/docs-permission-groups.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/docs-ui.module.ts` — 35, 36, 44.
+- `packages/plugins/docs-ui/src/lib/docs-ui.plugin.ts` — 1, 2, 3.
+- `packages/plugins/docs-ui/src/lib/docs.constants.ts` — 89, 92, 109, 120.
+- `packages/plugins/docs-ui/src/lib/docs.routes.ts` — 2, 3.
+- `packages/plugins/docs-ui/src/lib/editor/comments/block-comment-thread.component.ts` — 18, 19.
+- `packages/plugins/docs-ui/src/lib/editor/document-editor.component.scss` — 20.
+- `packages/plugins/docs-ui/src/lib/editor/document-editor.component.ts` — 25.
+- `packages/plugins/docs-ui/src/lib/editor/node-views/image-node-view.component.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/editor/read-only/document-static-view.component.ts` — 17.
+- `packages/plugins/docs-ui/src/lib/editor/services/document-autosave.service.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/editor/services/editor-upload.service.ts` — 7, 8.
+- `packages/plugins/docs-ui/src/lib/editor/suggestion/document-mention.suggestion.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/editor/suggestion/employee-mention.suggestion.ts` — 6, 7.
+- `packages/plugins/docs-ui/src/lib/editor/version-history/version-history-panel.component.ts` — 15, 16.
+- `packages/plugins/docs-ui/src/lib/guards/docs-feature.guard.ts` — 3, 4.
+- `packages/plugins/docs-ui/src/lib/models/docs-api.model.ts` — 10.
+- `packages/plugins/docs-ui/src/lib/models/docs-filter.model.ts` — 9.
+- `packages/plugins/docs-ui/src/lib/models/docs-inbound.model.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/models/docs-link.model.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/models/docs-share.model.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-breadcrumb.util.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-browse-page.component.scss` — 48.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-browse-page.component.ts` — 16, 17, 18, 19.
+- `packages/plugins/docs-ui/src/lib/pages/file-view/document-file-page.component.ts` — 9, 10, 11, 12.
+- `packages/plugins/docs-ui/src/lib/pages/file-view/document-file-view.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/pages/page-editor/document-page.component.ts` — 35, 36, 37.
+- `packages/plugins/docs-ui/src/lib/pages/review/review-page.component.scss` — 14, 22, 23, 121, 122, 124.
+- `packages/plugins/docs-ui/src/lib/pages/review/review-page.component.ts` — 15, 16, 17, 18.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-inbound-settings-page.component.scss` — 8, 12, 13, 28, 287.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-inbound-settings-page.component.ts` — 26, 27, 28, 29.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-settings-page.component.ts` — 21, 22, 23, 24, 25.
+- `packages/plugins/docs-ui/src/lib/services/docs-export.service.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/services/docs-saved-views.service.ts` — 4.
+- `packages/plugins/docs-ui/src/lib/services/document-activity.service.ts` — 4, 5, 6.
+- `packages/plugins/docs-ui/src/lib/services/document-inbound-address.service.ts` — 12, 13, 14.
+- `packages/plugins/docs-ui/src/lib/services/document-permission.service.ts` — 2, 3.
+- `packages/plugins/docs-ui/src/lib/services/document-tree.store.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/services/documents.service.ts` — 17, 18, 19.
+- `packages/plugins/docs-ui/src/lib/services/upload-queue.service.ts` — 5.
+- `packages/plugins/ever-connect-ui/src/index.ts` — 4, 5.
+- `packages/plugins/ever-connect-ui/src/lib/components/ever-platform-page/ever-platform-page.component.ts` — 17, 18, 27, 49, 183.
+- `packages/plugins/ever-connect-ui/src/lib/components/pending-approvals/pending-approvals.component.ts` — 4, 18.
+- `packages/plugins/ever-connect-ui/src/lib/ever-connect-ui.plugin.ts` — 2, 3, 7, 54.
+- `packages/plugins/ever-connect-ui/src/lib/services/ever-connect.service.ts` — 4, 6.
+- `packages/plugins/ever-stats-ui/src/lib/components/last-payload-viewer/last-payload-viewer.component.ts` — 57, 58, 59.
+- `packages/plugins/ever-stats-ui/src/lib/components/usage-statistics-settings/usage-statistics-settings.component.ts` — 235, 237, 394.
+- `packages/plugins/ever-stats-ui/src/lib/ever-stats-ui.plugin.ts` — 1, 2.
+- `packages/plugins/ever-stats-ui/src/lib/services/ever-stats.service.ts` — 4.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-header-badge/inbox-header-badge.component.ts` — 9.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-item-detail/inbox-item-detail.component.ts` — 16.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-notifications/inbox-notifications.component.ts` — 8, 9.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-page/inbox-page.component.ts` — 28.
+- `packages/plugins/inbox-ui/src/lib/inbox-ui.helpers.ts` — 9, 168.
+- `packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts` — 4, 5, 6.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-availability.service.ts` — 5, 6.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-directory.service.ts` — 15, 16.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-email-settings.service.ts` — 23, 24.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-ui.service.ts` — 15, 16.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-mailboxes-page.component.ts` — 25, 26.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-providers-page.component.ts` — 25, 26.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-settings.helpers.ts` — 2.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-create-dialog.component.ts` — 25.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-edit-dialog.component.ts` — 15.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-members-dialog.component.ts` — 16.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-settings.helpers.ts` — 11.
+- `packages/plugins/inbox-ui/src/lib/settings/my-mailbox-page.component.ts` — 7, 8.
+- `packages/plugins/inbox-ui/src/lib/settings/one-time-secret-dialog.component.ts` — 4.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-account-dialog.component.ts` — 22.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-config-form.component.ts` — 5.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-config-form.helpers.ts` — 6.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-authorize/activepieces-authorize.component.scss` — 6, 14.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-authorize/activepieces-authorize.component.ts` — 7, 13, 14.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-connections/activepieces-connections.component.scss` — 12, 19.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-connections/activepieces-connections.component.ts` — 5, 6, 8.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-mcp-servers/activepieces-mcp-servers.component.scss` — 8, 15.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces-mcp-servers/activepieces-mcp-servers.component.ts` — 5, 6, 8.
+- `packages/plugins/integration-activepieces-ui/src/lib/components/activepieces/activepieces.component.ts` — 7, 8, 9.
+- `packages/plugins/integration-activepieces-ui/src/lib/integration-activepieces-ui.module.ts` — 23.
+- `packages/plugins/integration-activepieces-ui/src/lib/integration-activepieces.layout.component.ts` — 5, 6, 7.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.scss` — 5, 11.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.ts` — 7, 8, 9, 13, 50, 105.
+- `packages/plugins/integration-ai-ui/src/lib/components/integration-setting-card/integration-setting-card.component.scss` — 13, 17.
+- `packages/plugins/integration-ai-ui/src/lib/components/integration-setting-card/integration-setting-card.component.ts` — 4, 5, 6.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.html` — 21.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.scss` — 7.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.ts` — 15, 16, 17, 20, 25, 62, 199.
+- `packages/plugins/integration-ai-ui/src/lib/integration-ai-ui.module.ts` — 13.
+- `packages/plugins/integration-ai-ui/src/lib/integration-ai.layout.component.ts` — 6, 7, 8, 9.
+- `packages/plugins/integration-ai-ui/src/lib/integration-ai.routes.ts` — 3, 9, 41.
+- `packages/plugins/integration-ever-async-ui/src/lib/components/ever-async-connect/ever-async-connect.component.html` — 176.
+- `packages/plugins/integration-ever-async-ui/src/lib/components/ever-async-connect/ever-async-connect.component.ts` — 8, 9, 10, 11, 264, 275, 276.
+- `packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async-plugin.ts` — 1, 2.
+- `packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async-ui.module.ts` — 13, 14.
+- `packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async.layout.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async.routes.ts` — 2, 3, 4.
+- `packages/plugins/integration-ever-async-ui/src/lib/services/ever-async.service.ts` — 3, 5.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/ever-works-page/ever-works-page.component.ts` — 9.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/match-review/ever-works-match-review.component.ts` — 38, 106, 114, 584, 604, 636, 637, 654, 655, 683, 685, 879, 880.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/preview/ever-works-preview.component.ts` — 60, 66, 133.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/settings/ever-works-settings.component.ts` — 11, 280.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/shared/ever-works-ui.utils.ts` — 19.
+- `packages/plugins/integration-ever-works-ui/src/lib/integration-ever-works-ui.plugin.ts` — 2, 3.
+- `packages/plugins/integration-ever-works-ui/src/lib/services/ever-works.service.ts` — 4, 69, 75, 78, 79, 80, 82, 131, 136, 252, 254, 321, 336, 341, 342, 344, 441, 442.
+- `packages/plugins/integration-github-ui/src/lib/components/installation/installation.component.ts` — 5, 6.
+- `packages/plugins/integration-github-ui/src/lib/components/settings/settings.component.scss` — 1.
+- `packages/plugins/integration-github-ui/src/lib/components/settings/settings.component.ts` — 12, 13, 14, 15.
+- `packages/plugins/integration-github-ui/src/lib/components/view/view.component.scss` — 1, 2, 7.
+- `packages/plugins/integration-github-ui/src/lib/components/view/view.component.ts` — 11, 24, 31, 32, 44, 608, 695.
+- `packages/plugins/integration-github-ui/src/lib/components/wizard/wizard.component.scss` — 4.
+- `packages/plugins/integration-github-ui/src/lib/components/wizard/wizard.component.ts` — 5, 6, 7, 8, 119, 120, 121, 194, 202, 204, 234.
+- `packages/plugins/integration-github-ui/src/lib/integration-github-ui.module.ts` — 21.
+- `packages/plugins/integration-github-ui/src/lib/integration-github.routes.ts` — 3, 4.
+- `packages/plugins/integration-hubstaff-ui/src/lib/components/hubstaff-authorize/hubstaff-authorize.component.scss` — 6, 14.
+- `packages/plugins/integration-hubstaff-ui/src/lib/components/hubstaff-authorize/hubstaff-authorize.component.ts` — 6, 7.
+- `packages/plugins/integration-hubstaff-ui/src/lib/components/hubstaff/hubstaff.component.scss` — 1, 2, 3.
+- `packages/plugins/integration-hubstaff-ui/src/lib/components/hubstaff/hubstaff.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-hubstaff-ui/src/lib/components/settings-dialog/settings-dialog.component.ts` — 6, 7.
+- `packages/plugins/integration-hubstaff-ui/src/lib/integration-hubstaff-ui.module.ts` — 21.
+- `packages/plugins/integration-hubstaff-ui/src/lib/integration-hubstaff.layout.component.ts` — 6, 7, 8, 9.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-authorize/make-com-authorize.component.scss` — 15, 20, 43, 50.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-authorize/make-com-authorize.component.ts` — 5, 6, 8, 10.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-callback/make-com-callback.component.ts` — 6, 7.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-connections/make-com-connections.component.scss` — 20.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-connections/make-com-connections.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-hooks/make-com-hooks.component.ts` — 6, 7, 8.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-scenarios/make-com-scenarios.component.ts` — 5, 6, 7.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-settings/make-com-settings.component.scss` — 29, 41, 48, 52.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-settings/make-com-settings.component.ts` — 13, 14, 15.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-templates/make-com-templates.component.scss` — 25, 26, 36, 37, 43.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make-com-templates/make-com-templates.component.ts` — 6, 7, 8.
+- `packages/plugins/integration-make-com-ui/src/lib/components/make/make.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-make-com-ui/src/lib/integration-make-com-ui.module.ts` — 22.
+- `packages/plugins/integration-make-com-ui/src/lib/integration-make-com.layout.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-authorize/plane-authorize.component.scss` — 14, 21.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-authorize/plane-authorize.component.ts` — 10, 11, 12.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-settings/plane-settings.component.scss` — 21, 41.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-settings/plane-settings.component.ts` — 10, 18, 19.
+- `packages/plugins/integration-plane-ui/src/lib/integration-plane-plugin.ts` — 1, 2.
+- `packages/plugins/integration-plane-ui/src/lib/integration-plane-ui.module.ts` — 20, 21.
+- `packages/plugins/integration-plane-ui/src/lib/integration-plane.layout.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/integration-plane-ui/src/lib/integration-plane.routes.ts` — 2, 3, 4.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-authorize/sim-authorize.component.scss` — 6, 14.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-authorize/sim-authorize.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-event-triggers/sim-event-triggers.component.scss` — 6, 11, 24, 33, 52, 77, 90.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-event-triggers/sim-event-triggers.component.ts` — 6, 7.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-executions/sim-executions.component.scss` — 22, 24, 30, 62, 63, 67, 68, 72, 73, 77, 78, 82, 83.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-executions/sim-executions.component.ts` — 6, 7.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-workflows/sim-workflows.component.scss` — 6, 11, 26, 31, 32.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim-workflows/sim-workflows.component.ts` — 6, 7.
+- `packages/plugins/integration-sim-ui/src/lib/components/sim/sim.component.ts` — 7, 8.
+- `packages/plugins/integration-sim-ui/src/lib/integration-sim-ui.module.ts` — 22.
+- `packages/plugins/integration-sim-ui/src/lib/integration-sim.layout.component.ts` — 5, 6, 7.
+- `packages/plugins/integration-upwork-ui/src/lib/components/contracts/contracts.component.scss` — 1.
+- `packages/plugins/integration-upwork-ui/src/lib/components/contracts/contracts.component.ts` — 10, 11, 12, 13.
+- `packages/plugins/integration-upwork-ui/src/lib/components/reports/reports.component.scss` — 1.
+- `packages/plugins/integration-upwork-ui/src/lib/components/reports/reports.component.ts` — 8, 9, 10, 11.
+- `packages/plugins/integration-upwork-ui/src/lib/components/sync-data-selection/sync-data-selection.component.ts` — 7, 8, 9.
+- `packages/plugins/integration-upwork-ui/src/lib/components/transactions/transactions.component.ts` — 5, 6, 7.
+- `packages/plugins/integration-upwork-ui/src/lib/components/upwork-authorize/upwork-authorize.component.scss` — 6, 14.
+- `packages/plugins/integration-upwork-ui/src/lib/components/upwork-authorize/upwork-authorize.component.ts` — 13, 14.
+- `packages/plugins/integration-upwork-ui/src/lib/components/upwork/upwork.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-upwork-ui/src/lib/integration-upwork-plugin.ts` — 1, 2.
+- `packages/plugins/integration-upwork-ui/src/lib/integration-upwork-ui.module.ts` — 25, 26, 27.
+- `packages/plugins/integration-upwork-ui/src/lib/integration-upwork.layout.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/integration-upwork-ui/src/lib/integration-upwork.routes.ts` — 2, 3, 96.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-actions/zapier-actions.component.ts` — 5, 6, 7, 9.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-authorize/zapier-authorize.component.scss` — 6, 14.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-authorize/zapier-authorize.component.ts` — 5, 6, 8, 10.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-callback/zapier-callback.component.ts` — 5, 6.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-settings/zapier-settings.component.scss` — 17, 26.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-settings/zapier-settings.component.ts` — 5, 6, 8.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-triggers/zapier-triggers.component.ts` — 5, 6, 7, 9.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-webhooks/zapier-webhooks.component.ts` — 5, 6, 8.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-zap-templates/zapier-zap-templates.component.ts` — 4, 5, 7.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-zaps/zapier-zaps.component.ts` — 6, 7, 9.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier/zapier.component.scss` — 17, 31.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier/zapier.component.ts` — 8, 9, 10.
+- `packages/plugins/integration-zapier-ui/src/lib/integration-zapier-ui.module.ts` — 27.
+- `packages/plugins/integration-zapier-ui/src/lib/integration-zapier.layout.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/job-employee-ui/src/lib/components/job-employee/job-employee.component.html` — 10, 11, 16.
+- `packages/plugins/job-employee-ui/src/lib/components/job-employee/job-employee.component.scss` — 1, 2, 3, 4, 28, 51, 80, 103, 122, 277, 278, 279, 281, 285, 287, 341, 342, 347, 351, 355, 384, 389.
+- `packages/plugins/job-employee-ui/src/lib/components/job-employee/job-employee.component.ts` — 12, 13, 23, 24, 34.
+- `packages/plugins/job-employee-ui/src/lib/components/job-search-status-editor/job-search-status-editor.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/job-employee-ui/src/lib/job-employee-plugin.ts` — 1, 2.
+- `packages/plugins/job-employee-ui/src/lib/job-employee.module.ts` — 10, 11, 19.
+- `packages/plugins/job-employee-ui/src/lib/job-employee.routes.ts` — 1, 2.
+- `packages/plugins/job-employee-ui/src/lib/providers/job-search-store.service.ts` — 2, 3.
+- `packages/plugins/job-matching-ui/src/lib/components/job-matching/job-matching.component.scss` — 1, 7, 18, 27, 37.
+- `packages/plugins/job-matching-ui/src/lib/components/job-matching/job-matching.component.ts` — 21, 22, 30, 31.
+- `packages/plugins/job-matching-ui/src/lib/job-matching-plugin.ts` — 1, 2.
+- `packages/plugins/job-matching-ui/src/lib/job-matching.module.ts` — 7, 8, 15, 21, 22.
+- `packages/plugins/job-matching-ui/src/lib/job-matching.routes.ts` — 2, 3.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-form/proposal-template-form.component.scss` — 1.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-form/proposal-template-form.component.ts` — 7, 8, 9, 10.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-list/proposal-template-list.component.html` — 13, 14, 19.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-list/proposal-template-list.component.scss` — 1, 2, 3, 4, 22, 54, 60, 86.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-list/proposal-template-list.component.ts` — 19, 20, 27, 28, 37.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/job-proposal-template-plugin.ts` — 1, 2.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/job-proposal-template.module.ts` — 10, 11, 12, 21.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/job-proposal-template.routes.ts` — 2, 3, 5.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/proposal-template-record-view.ts` — 2, 3, 4.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-details/proposal-details.component.scss` — 1, 2, 68, 73, 85, 162.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-details/proposal-details.component.ts` — 6, 7.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-edit/proposal-edit.component.scss` — 1, 2, 17, 19, 31.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-edit/proposal-edit.component.ts` — 7, 14, 15, 16.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-layout.component.ts` — 6, 7, 8, 9.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-register/proposal-register.component.scss` — 1, 2, 63, 65, 77.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-register/proposal-register.component.ts` — 17, 18, 19, 27.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal/proposal.component.html` — 23, 36, 41.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal/proposal.component.scss` — 3, 33, 126, 189, 190, 191, 192, 201, 202, 204, 224, 229, 230, 234, 238, 239, 246, 247, 250, 251.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal/proposal.component.ts` — 23, 31, 32, 49.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/job-proposal-plugin.ts` — 1, 2.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/job-proposal.module.ts` — 12, 13, 14, 29.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/job-proposal.routes.ts` — 2, 3, 4.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/proposal-details.resolver.ts` — 4, 5.
+- `packages/plugins/job-search-ui/src/lib/components/apply-job-manually/apply-job-manually.component.scss` — 1, 13, 15, 17, 45, 48, 62.
+- `packages/plugins/job-search-ui/src/lib/components/apply-job-manually/apply-job-manually.component.ts` — 20, 21, 22, 23, 24, 25.
+- `packages/plugins/job-search-ui/src/lib/components/job-search/job-search.component.html` — 48, 49, 54.
+- `packages/plugins/job-search-ui/src/lib/components/job-search/job-search.component.scss` — 1, 2, 3, 4, 5, 65, 87, 123, 142, 147, 149.
+- `packages/plugins/job-search-ui/src/lib/components/job-search/job-search.component.ts` — 20, 39, 40, 41, 47, 48.
+- `packages/plugins/job-search-ui/src/lib/components/job-status/job-status.component.ts` — 2, 4.
+- `packages/plugins/job-search-ui/src/lib/components/job-title-description-details/job-title-description-details.component.ts` — 4, 5.
+- `packages/plugins/job-search-ui/src/lib/job-search-plugin.ts` — 1, 2.
+- `packages/plugins/job-search-ui/src/lib/job-search.module.ts` — 14, 15, 16, 22, 32.
+- `packages/plugins/job-search-ui/src/lib/job-search.routes.ts` — 2, 3, 47.
+- `packages/plugins/jobs-ui/src/lib/job.routes.ts` — 2.
+- `packages/plugins/jobs-ui/src/lib/jobs-plugin.ts` — 1, 2, 3, 4, 5, 6.
+- `packages/plugins/jobs-ui/src/lib/jobs.module.ts` — 8, 9, 10.
+- `packages/plugins/legal-ui/scripts/sync-legal-content.mjs` — 16, 19.
+- `packages/plugins/legal-ui/src/lib/components/_legal-document.scss` — 19, 44, 50, 55.
+- `packages/plugins/legal-ui/src/lib/components/privacy-policy/privacy-policy.component.scss` — 5, 12, 37, 43, 49, 55, 341, 344, 1395, 1398.
+- `packages/plugins/legal-ui/src/lib/components/terms-and-conditions/terms-and-conditions.component.scss` — 14, 21, 28, 37, 46, 545, 555, 567, 636, 646, 657, 702, 708, 711, 715.
+- `packages/plugins/legal-ui/src/lib/content/cookies.en.generated.ts` — 6.
+- `packages/plugins/legal-ui/src/lib/content/index.ts` — 24.
+- `packages/plugins/legal-ui/src/lib/content/privacy.en.generated.ts` — 6.
+- `packages/plugins/legal-ui/src/lib/content/tos.en.generated.ts` — 6.
+- `packages/plugins/legal-ui/src/lib/legal.module.ts` — 3.
+- `packages/plugins/legal-ui/src/lib/legal.routes.ts` — 3.
+- `packages/plugins/legal-ui/src/lib/page-legal.module.ts` — 3.
+- `packages/plugins/legal-ui/src/lib/page-legal.routes.ts` — 2.
+- `packages/plugins/maintenance-ui/src/lib/maintenance-mode.component.html` — 8.
+- `packages/plugins/maintenance-ui/src/lib/maintenance-mode.component.ts` — 3, 4.
+- `packages/plugins/maintenance-ui/src/lib/maintenance-mode.module.ts` — 6.
+- `packages/plugins/maintenance-ui/src/lib/maintenance-mode.routes.ts` — 2.
+- `packages/plugins/onboarding-ui/src/lib/components/onboarding-complete/onboarding-complete.component.html` — 2, 6.
+- `packages/plugins/onboarding-ui/src/lib/components/onboarding-complete/onboarding-complete.component.scss` — 21, 31.
+- `packages/plugins/onboarding-ui/src/lib/components/onboarding-complete/onboarding-complete.component.ts` — 7, 8, 9.
+- `packages/plugins/onboarding-ui/src/lib/components/tenant-onboarding/tenant-onboarding.component.html` — 1, 4.
+- `packages/plugins/onboarding-ui/src/lib/components/tenant-onboarding/tenant-onboarding.component.ts` — 5, 16.
+- `packages/plugins/onboarding-ui/src/lib/onboarding.module.ts` — 13, 14, 15.
+- `packages/plugins/onboarding-ui/src/lib/onboarding.routes.ts` — 2.
+- `packages/plugins/public-layout-ui/src/lib/components/appointment-form/appointment-form.component.ts` — 2, 7, 8.
+- `packages/plugins/public-layout-ui/src/lib/components/confirm-appointment/confirm-appointment.component.ts` — 10, 11, 12, 13.
+- `packages/plugins/public-layout-ui/src/lib/components/create-appointment/create-appointment.component.ts` — 3, 6, 8.
+- `packages/plugins/public-layout-ui/src/lib/components/edit-appointment/edit-appointment.component.ts` — 7, 8, 9.
+- `packages/plugins/public-layout-ui/src/lib/components/employee/employee.component.scss` — 21, 22, 53, 54, 88, 90, 106, 146, 181, 192, 200, 206, 223, 225, 228, 231, 240, 248, 250, 273, 280, 288, 296, 324, 325, 336, 342, 354, 357, 364, 374, 393, 396, 404, 449, 455, 476, 477, 490, 498.
+- `packages/plugins/public-layout-ui/src/lib/components/employee/employee.component.ts` — 7, 10, 11.
+- `packages/plugins/public-layout-ui/src/lib/components/invoice-estimate/invoice-estimate-view.component.ts` — 7, 8, 9.
+- `packages/plugins/public-layout-ui/src/lib/components/mutation/public-page-employee-mutation/public-page-employee-mutation.component.scss` — 15, 16, 27, 60, 66, 80, 90, 91, 118, 139, 163, 177, 205, 206, 216, 223, 249, 257, 303, 309, 324, 346, 414, 427.
+- `packages/plugins/public-layout-ui/src/lib/components/mutation/public-page-employee-mutation/public-page-employee-mutation.component.ts` — 18, 26, 27.
+- `packages/plugins/public-layout-ui/src/lib/components/mutation/public-page-organization-mutation/public-page-organization-mutation.component.scss` — 14, 15, 26, 59, 65, 80, 90, 91, 118, 139, 163, 177, 194, 195, 202, 228, 240, 286, 293, 308, 341, 342, 355, 379, 407, 483, 496.
+- `packages/plugins/public-layout-ui/src/lib/components/mutation/public-page-organization-mutation/public-page-organization-mutation.component.ts` — 15, 16, 17.
+- `packages/plugins/public-layout-ui/src/lib/components/organization/organization.component.html` — 482.
+- `packages/plugins/public-layout-ui/src/lib/components/organization/organization.component.scss` — 21, 22, 53, 54, 90, 93, 94, 108, 148, 183, 191, 203, 255, 262, 270, 280, 309, 326, 357, 360, 388, 389, 405, 411, 419, 428, 457, 471, 486, 493, 538, 541, 547, 555, 575, 629, 636, 650, 675, 709, 722, 770, 772, 788, 808, 823, 833, 843, 856, 861, 908, 916.
+- `packages/plugins/public-layout-ui/src/lib/components/organization/organization.component.ts` — 4, 18, 19.
+- `packages/plugins/public-layout-ui/src/lib/components/pick-employee/pick-employee.component.scss` — 2, 10, 26, 29, 39, 89, 90, 115.
+- `packages/plugins/public-layout-ui/src/lib/components/pick-employee/pick-employee.component.ts` — 7, 8, 9, 10, 11.
+- `packages/plugins/public-layout-ui/src/lib/components/public-appointment/public-appointment.component.ts` — 7, 8, 9, 10.
+- `packages/plugins/public-layout-ui/src/lib/components/public-layout.component.ts` — 3.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/base-workspace-auth.component.ts` — 5, 6, 7, 8.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/email-code-form/email-code-form.component.ts` — 3.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-common.scss` — 17.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-header/workspace-header.component.html` — 2.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-selection/workspace-selection.component.ts` — 2.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-shared.module.ts` — 6, 7.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-create/workspace-create.component.ts` — 5, 6.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-create/workspace-create.module.ts` — 15, 16, 17.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-find/workspace-find.component.ts` — 5, 6.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-find/workspace-find.module.ts` — 15, 16, 17.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-signin/workspace-signin.component.ts` — 5, 6.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/workspace-signin/workspace-signin.module.ts` — 15, 16, 18.
+- `packages/plugins/public-layout-ui/src/lib/public-layout.module.ts` — 27, 43, 44.
+- `packages/plugins/public-layout-ui/src/lib/public-layout.routes.ts` — 2, 3.
+- `packages/plugins/public-layout-ui/src/lib/resolvers/public-employee.resolver.ts` — 4, 5.
+- `packages/plugins/public-layout-ui/src/lib/resolvers/public-organization.resolver.ts` — 4, 5.
+- `packages/plugins/videos-ui/src/lib/+state/camshot/camshot.action.ts` — 1.
+- `packages/plugins/videos-ui/src/lib/+state/camshot/camshot.effect.ts` — 2.
+- `packages/plugins/videos-ui/src/lib/+state/soundshot/soundshot.action.ts` — 1.
+- `packages/plugins/videos-ui/src/lib/+state/soundshot/soundshot.effect.ts` — 2.
+- `packages/plugins/videos-ui/src/lib/+state/video.effect.ts` — 9.
+- `packages/plugins/videos-ui/src/lib/features/camshot-list/camshot-list.component.ts` — 2, 11.
+- `packages/plugins/videos-ui/src/lib/features/soundshot-list/soundshot-list.component.ts` — 2, 10.
+- `packages/plugins/videos-ui/src/lib/features/video-download-manager/video-download-manager.component.scss` — 9, 12.
+- `packages/plugins/videos-ui/src/lib/features/video/video.component.scss` — 26, 32, 38, 44, 51, 52.
+- `packages/plugins/videos-ui/src/lib/features/video/video.component.ts` — 2.
+- `packages/plugins/videos-ui/src/lib/pages/video-detail-page/video-detail-page.component.scss` — 38.
+- `packages/plugins/videos-ui/src/lib/pages/video-page/video-page.component.html` — 6, 14.
+- `packages/plugins/videos-ui/src/lib/pages/video-page/video-page.component.scss` — 5, 46, 69, 73, 79, 85.
+- `packages/plugins/videos-ui/src/lib/pages/video-page/video-page.component.ts` — 2, 3, 4, 5, 29, 69.
+- `packages/plugins/videos-ui/src/lib/shared/models/camshot.model.ts` — 1.
+- `packages/plugins/videos-ui/src/lib/shared/models/soundshot.model.ts` — 1.
+- `packages/plugins/videos-ui/src/lib/shared/models/video.model.ts` — 7.
+- `packages/plugins/videos-ui/src/lib/shared/services/camshot.service.ts` — 3, 4.
+- `packages/plugins/videos-ui/src/lib/shared/services/download/download-queue.service.ts` — 2.
+- `packages/plugins/videos-ui/src/lib/shared/services/download/file-download.service.ts` — 3.
+- `packages/plugins/videos-ui/src/lib/shared/services/soundshot.service.ts` — 3, 4.
+- `packages/plugins/videos-ui/src/lib/shared/services/video.service.ts` — 3, 4, 5.
+- `packages/plugins/videos-ui/src/lib/shared/services/web-share.service.ts` — 3.
+- `packages/plugins/videos-ui/src/lib/shared/ui/camshot/camshot-item-skeleton/camshot-item-skeleton.component.scss` — 3, 7, 11, 29.
+- `packages/plugins/videos-ui/src/lib/shared/ui/camshot/camshot-item/camshot-item.component.scss` — 13, 47.
+- `packages/plugins/videos-ui/src/lib/shared/ui/camshot/camshot-viewer/camshot-viewer.component.scss` — 9, 57.
+- `packages/plugins/videos-ui/src/lib/shared/ui/soundshot/soundshot-player-skeleton/soundshot-player-skeleton.component.scss` — 8, 149, 153, 157.
+- `packages/plugins/videos-ui/src/lib/shared/ui/soundshot/soundshot-player/soundshot-player.component.scss` — 5, 26, 32.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-actions/buttons/action-button/action-button.component.scss` — 17, 26, 27, 32, 37, 38, 42, 47, 52, 57, 70.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-edit/video-edit.component.scss` — 1.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-item-skeleton/video-item-skeleton.component.scss` — 12, 25, 36, 61, 69, 72, 75.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-item/video-item.component.scss` — 59, 65, 71.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-item/video-item.component.ts` — 3.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-metadata/video-metadata.component.scss` — 5, 42.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-skeleton/video-skeleton.component.scss` — 1, 4, 5, 6.
+- `packages/plugins/videos-ui/src/lib/video-ui-routing.module.ts` — 3, 4.
+- `packages/plugins/videos-ui/src/lib/video-ui.module.ts` — 4, 84.
+- `packages/ui-auth/src/lib/auth.module.ts` — 28, 29, 30.
+- `packages/ui-auth/src/lib/auth.routes.ts` — 3.
+- `packages/ui-auth/src/lib/components/accept-client-invite/accept-client-invite-form/accept-client-invite-form.component.ts` — 9, 13, 14, 15.
+- `packages/ui-auth/src/lib/components/accept-client-invite/accept-client-invite.component.ts` — 4, 5, 6.
+- `packages/ui-auth/src/lib/components/accept-invite/accept-invite-form/accept-invite-form.component.ts` — 3, 5, 6, 7.
+- `packages/ui-auth/src/lib/components/accept-invite/accept-invite.component.ts` — 6, 7, 8.
+- `packages/ui-auth/src/lib/components/auth/auth.component.html` — 10.
+- `packages/ui-auth/src/lib/components/confirm-email/confirm-email.component.ts` — 7, 8, 9.
+- `packages/ui-auth/src/lib/components/confirm-email/confirm-email.resolver.ts` — 5.
+- `packages/ui-auth/src/lib/components/estimate-email/estimate-email.component.ts` — 7, 8, 9.
+- `packages/ui-auth/src/lib/components/estimate-email/estimate-email.resolver.ts` — 4, 5.
+- `packages/ui-auth/src/lib/components/forgot-password/forgot-password.component.html` — 4, 5.
+- `packages/ui-auth/src/lib/components/forgot-password/forgot-password.component.scss` — 10.
+- `packages/ui-auth/src/lib/components/login-magic/login-magic.component.html` — 4, 5.
+- `packages/ui-auth/src/lib/components/login-magic/login-magic.component.scss` — 10.
+- `packages/ui-auth/src/lib/components/login-magic/login-magic.component.ts` — 8, 9, 10.
+- `packages/ui-auth/src/lib/components/login-workspace/login-workspace.component.html` — 11.
+- `packages/ui-auth/src/lib/components/login-workspace/login-workspace.component.scss` — 13.
+- `packages/ui-auth/src/lib/components/login-workspace/login-workspace.component.ts` — 7, 8, 9.
+- `packages/ui-auth/src/lib/components/login/login.component.html` — 4, 5.
+- `packages/ui-auth/src/lib/components/login/login.component.scss` — 13.
+- `packages/ui-auth/src/lib/components/login/login.component.ts` — 6, 7, 8, 9.
+- `packages/ui-auth/src/lib/components/magic-login-workspace/magic-login-workspace.component.html` — 10.
+- `packages/ui-auth/src/lib/components/magic-login-workspace/magic-login-workspace.component.scss` — 12.
+- `packages/ui-auth/src/lib/components/magic-login-workspace/magic-login-workspace.component.ts` — 6, 7, 8.
+- `packages/ui-auth/src/lib/components/oauth-authorize/oauth-authorize.component.scss` — 15, 19.
+- `packages/ui-auth/src/lib/components/oauth-authorize/oauth-authorize.component.ts` — 4, 50, 79.
+- `packages/ui-auth/src/lib/components/register/register-side-features/register-side-features.component.ts` — 2, 5.
+- `packages/ui-auth/src/lib/components/register/register-side-features/register-side-single-feature/register-side-single-feature.component.ts` — 2.
+- `packages/ui-auth/src/lib/components/register/register.component.html` — 4, 5.
+- `packages/ui-auth/src/lib/components/register/register.component.scss` — 18.
+- `packages/ui-auth/src/lib/components/register/register.component.ts` — 9, 10, 11, 12.
+- `packages/ui-auth/src/lib/components/reset-password/reset-password.component.html` — 4, 5.
+- `packages/ui-auth/src/lib/components/reset-password/reset-password.component.scss` — 5.
+- `packages/ui-auth/src/lib/components/reset-password/reset-password.component.ts` — 3.
+- `packages/ui-auth/src/lib/components/social-links/social-links.component.scss` — 57.
+- `packages/ui-auth/src/lib/components/social-links/social-links.component.ts` — 3, 7, 8, 9.
+- `packages/ui-auth/src/lib/components/whats-new/whats-new.component.ts` — 4, 5.
+- `packages/ui-auth/src/lib/components/workspace-selection/workspace-selection.component.html` — 2.
+- `packages/ui-auth/src/lib/components/workspace-selection/workspace-selection.component.scss` — 12, 22, 28, 29, 33, 52, 103.
+- `packages/ui-auth/src/lib/components/workspace-selection/workspace-selection.component.ts` — 3, 4.
+- `packages/ui-auth/src/lib/sign-in-success/sign-in-success.component.ts` — 4.
+- `packages/ui-config/src/lib/brand-environment.ts` — 23.
+- `packages/ui-config/src/lib/environments/environment.tokens.ts` — 4.
+- `packages/ui-config/src/lib/environments/model.ts` — 82, 90, 91, 92, 93, 95.
+- `packages/ui-core/common/src/lib/constants/layout.constants.ts` — 1.
+- `packages/ui-core/common/src/lib/constants/timesheet.constants.ts` — 1.
+- `packages/ui-core/core/src/lib/auth/auth.module.ts` — 4.
+- `packages/ui-core/core/src/lib/auth/cookie-helper.ts` — 1, 46.
+- `packages/ui-core/core/src/lib/auth/no-auth.guard.ts` — 3.
+- `packages/ui-core/core/src/lib/components/base-nav-menu/base-nav-menu.component.ts` — 6, 7, 8.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/children-menu-item/children-menu-item.component.scss` — 88.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/menu-item/menu-item.component.scss` — 29, 34, 39, 43.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/menu-item/menu-item.component.ts` — 15.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/interface/menu-item.interface.ts` — 2.
+- `packages/ui-core/core/src/lib/guards/invite.guard.ts` — 4.
+- `packages/ui-core/core/src/lib/guards/permission.guard.ts` — 5.
+- `packages/ui-core/core/src/lib/interceptors/api.interceptor.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/interceptors/auth-refresh.interceptor.ts` — 14, 15.
+- `packages/ui-core/core/src/lib/interceptors/hubstaff-token-interceptor.ts` — 5.
+- `packages/ui-core/core/src/lib/interceptors/language.interceptor.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/interceptors/tenant.interceptor.ts` — 5.
+- `packages/ui-core/core/src/lib/resolvers/employee-count.resolver.ts` — 4.
+- `packages/ui-core/core/src/lib/resolvers/integration-entity-setting.resolver.ts` — 5.
+- `packages/ui-core/core/src/lib/resolvers/integration-setting.resolver.ts` — 4.
+- `packages/ui-core/core/src/lib/resolvers/integration.resolver.ts` — 4.
+- `packages/ui-core/core/src/lib/resolvers/onboarding.resolver.ts` — 4.
+- `packages/ui-core/core/src/lib/resolvers/user.resolver.ts` — 4.
+- `packages/ui-core/core/src/lib/sentry-error.handler.ts` — 3, 7.
+- `packages/ui-core/core/src/lib/server-connection.factory.ts` — 2.
+- `packages/ui-core/core/src/lib/services/accounting-template/accounting-template.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/activepieces/activepieces-store.service.ts` — 7.
+- `packages/ui-core/core/src/lib/services/activepieces/activepieces.service.ts` — 4, 16.
+- `packages/ui-core/core/src/lib/services/analytics/jitsu.service.ts` — 6.
+- `packages/ui-core/core/src/lib/services/app/app-init-service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/app/app.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/appointment-employee/appointment-employees.service.ts` — 3, 6.
+- `packages/ui-core/core/src/lib/services/approval-policy/approval-policy.service.ts` — 3, 5, 6.
+- `packages/ui-core/core/src/lib/services/auth/auth-strategy.service.ts` — 10, 11.
+- `packages/ui-core/core/src/lib/services/auth/auth.service.ts` — 15, 16.
+- `packages/ui-core/core/src/lib/services/auth/checkout-session.ts` — 19.
+- `packages/ui-core/core/src/lib/services/availability-slot/availability-slots.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-criterions-rating.service.ts` — 9, 10.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-documents.service.ts` — 9, 10, 11.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-educations.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-experience.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-feedbacks.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-interview.service.ts` — 10, 11, 12.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-interviewers.service.ts` — 9, 10.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-level.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-personal-qualities.service.ts` — 8, 9.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-skills.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-source.service.ts` — 9, 10, 11.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-store.service.ts` — 7.
+- `packages/ui-core/core/src/lib/services/candidate/candidate-technologies.service.ts` — 8, 9.
+- `packages/ui-core/core/src/lib/services/candidate/candidates.service.ts` — 11, 13, 14.
+- `packages/ui-core/core/src/lib/services/changelog/changelog.service.ts` — 3, 7.
+- `packages/ui-core/core/src/lib/services/chat-sidebar/chat-sidebar.service.ts` — 3, 44, 77.
+- `packages/ui-core/core/src/lib/services/cloud/gauzy-cloud.service.ts` — 3, 4, 9.
+- `packages/ui-core/core/src/lib/services/cloud/index.ts` — 1.
+- `packages/ui-core/core/src/lib/services/country/country.service.ts` — 6, 7.
+- `packages/ui-core/core/src/lib/services/crud/crud.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/crud/icrud.service.ts` — 2.
+- `packages/ui-core/core/src/lib/services/crud/service.ts` — 1.
+- `packages/ui-core/core/src/lib/services/currency/currency.service.ts` — 6, 7.
+- `packages/ui-core/core/src/lib/services/custom-smtp/custom-smtp.service.ts` — 3, 4, 5.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-context.service.ts` — 16.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-layout.utils.ts` — 8.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-store.service.ts` — 16.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-widget-context.ts` — 3.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/dashboard/timesheet-statistics-cache.service.ts` — 21, 22.
+- `packages/ui-core/core/src/lib/services/deals/deals.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/email/email-template.service.ts` — 10, 12, 13.
+- `packages/ui-core/core/src/lib/services/email/email.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/email/estimate-email.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/employee/employee-appointment.service.ts` — 10, 11.
+- `packages/ui-core/core/src/lib/services/employee/employee-award.service.ts` — 3, 5, 6.
+- `packages/ui-core/core/src/lib/services/employee/employee-level.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/employee/employee-recurring-expense.service.ts` — 12, 13, 15.
+- `packages/ui-core/core/src/lib/services/employee/employee-settings.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/employee/employee-statistics.service.ts` — 12, 13, 15.
+- `packages/ui-core/core/src/lib/services/employee/employee-store.service.ts` — 7.
+- `packages/ui-core/core/src/lib/services/employee/employees.service.ts` — 15, 16.
+- `packages/ui-core/core/src/lib/services/equipment/equipment-sharing-policy.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/equipment/equipment-sharing.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/equipment/equipment.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/event-type/event-type.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/expense/expense-categories-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/expense/expense-categories.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/expense/expenses.service.ts` — 11, 12, 14.
+- `packages/ui-core/core/src/lib/services/favorite/entities-mapping.ts` — 1.
+- `packages/ui-core/core/src/lib/services/favorite/favorite-store.service.ts` — 5.
+- `packages/ui-core/core/src/lib/services/favorite/favorite.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/favorite/generic-favorite.service.ts` — 2.
+- `packages/ui-core/core/src/lib/services/feature/feature-store.service.ts` — 8.
+- `packages/ui-core/core/src/lib/services/feature/feature.service.ts` — 10, 11.
+- `packages/ui-core/core/src/lib/services/file-storage/file-storage.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/gauzy-ai/gauzy-ai.service.ts` — 4, 5, 11, 15, 25.
+- `packages/ui-core/core/src/lib/services/gauzy-ai/index.ts` — 1.
+- `packages/ui-core/core/src/lib/services/github/github.service.ts` — 17, 18, 19.
+- `packages/ui-core/core/src/lib/services/goal/goal-settings.service.ts` — 12, 16.
+- `packages/ui-core/core/src/lib/services/goal/goal-templates.service.ts` — 3, 6.
+- `packages/ui-core/core/src/lib/services/goal/goal.service.ts` — 2, 6.
+- `packages/ui-core/core/src/lib/services/help-center/help-center-article.service.ts` — 1, 5.
+- `packages/ui-core/core/src/lib/services/help-center/help-center-author.service.ts` — 1, 5.
+- `packages/ui-core/core/src/lib/services/help-center/help-center.service.ts` — 1, 5.
+- `packages/ui-core/core/src/lib/services/hubstaff/hubstaff.service.ts` — 18, 19, 20, 241.
+- `packages/ui-core/core/src/lib/services/image-asset/image-asset.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/import-export/export-all.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/import-export/import.service.ts` — 5, 6.
+- `packages/ui-core/core/src/lib/services/income/income.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/index.ts` — 27.
+- `packages/ui-core/core/src/lib/services/integration/integration-entity-setting-store.service.ts` — 11.
+- `packages/ui-core/core/src/lib/services/integration/integration-entity-setting.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/integration/integration-setting.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/integration/integration-tenant.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/integration/integrations-store.service.ts` — 9.
+- `packages/ui-core/core/src/lib/services/integration/integrations.service.ts` — 13, 14, 15.
+- `packages/ui-core/core/src/lib/services/invite/invite.service.ts` — 15, 16.
+- `packages/ui-core/core/src/lib/services/invoice/invoice-estimate-history.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/invoice/invoice-item.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/invoice/invoices.service.ts` — 11, 13.
+- `packages/ui-core/core/src/lib/services/job/job-preset.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/job/job-search-category.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/job/job-search-occupation.service.ts` — 3, 4, 5.
+- `packages/ui-core/core/src/lib/services/job/job.service.ts` — 14, 15.
+- `packages/ui-core/core/src/lib/services/key-result/keyresult-update.service.ts` — 3, 6.
+- `packages/ui-core/core/src/lib/services/key-result/keyresult.service.ts` — 3, 7.
+- `packages/ui-core/core/src/lib/services/language/languages.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/make-com/make-com-store.service.ts` — 14.
+- `packages/ui-core/core/src/lib/services/make-com/make-com.service.ts` — 5, 17.
+- `packages/ui-core/core/src/lib/services/merchant/merchant.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/nav-builder/nav-builder-types.ts` — 3.
+- `packages/ui-core/core/src/lib/services/navigation-builder/navigation-builder.service.ts` — 4.
+- `packages/ui-core/core/src/lib/services/notification/error-handling.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/notification/toastr.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/oauth-client/oauth-client.service.ts` — 16, 24.
+- `packages/ui-core/core/src/lib/services/organization/organization-awards.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/organization/organization-contact.service.ts` — 10, 12, 13.
+- `packages/ui-core/core/src/lib/services/organization/organization-context.service.ts` — 4.
+- `packages/ui-core/core/src/lib/services/organization/organization-departments.service.ts` — 8, 10.
+- `packages/ui-core/core/src/lib/services/organization/organization-documents.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/organization/organization-edit-store.service.ts` — 6.
+- `packages/ui-core/core/src/lib/services/organization/organization-employment-types.service.ts` — 9, 10.
+- `packages/ui-core/core/src/lib/services/organization/organization-expense-categories.service.ts` — 8, 9.
+- `packages/ui-core/core/src/lib/services/organization/organization-languages.service.ts` — 7, 9.
+- `packages/ui-core/core/src/lib/services/organization/organization-positions.ts` — 7, 9.
+- `packages/ui-core/core/src/lib/services/organization/organization-projects-module.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/organization/organization-projects-store.service.ts` — 1.
+- `packages/ui-core/core/src/lib/services/organization/organization-projects.service.ts` — 13, 14, 15.
+- `packages/ui-core/core/src/lib/services/organization/organization-recurring-expense.service.ts` — 11, 13.
+- `packages/ui-core/core/src/lib/services/organization/organization-setting.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/organization/organization-sprint-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/organization/organization-sprint.service.ts` — 4, 8, 9.
+- `packages/ui-core/core/src/lib/services/organization/organization-task-setting.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/organization/organization-team-store.service.ts` — 1.
+- `packages/ui-core/core/src/lib/services/organization/organization-teams.service.ts` — 12, 13.
+- `packages/ui-core/core/src/lib/services/organization/organization-vendors.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/organizations/organizations.service.ts` — 12, 13.
+- `packages/ui-core/core/src/lib/services/page/page-tab-registry.types.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/payment/payment.service.ts` — 12, 13, 14.
+- `packages/ui-core/core/src/lib/services/permission/permissions.service.ts` — 6, 7.
+- `packages/ui-core/core/src/lib/services/pipeline/pipelines.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/plane/plane.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/product/inventory-store.service.ts` — 12.
+- `packages/ui-core/core/src/lib/services/product/product-category.service.ts` — 8, 10, 11.
+- `packages/ui-core/core/src/lib/services/product/product-type.service.ts` — 9, 10.
+- `packages/ui-core/core/src/lib/services/product/product-variant-price.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/product/product-variant-setting.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/product/product-variant.service.ts` — 2, 5.
+- `packages/ui-core/core/src/lib/services/product/product.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/proposal/proposal-template.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/proposal/proposals.service.ts` — 4, 5, 6.
+- `packages/ui-core/core/src/lib/services/request-approval/request-approval.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/role/role-permissions.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/role/role.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/selector-builder/date-range-picker-builder.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/sim/sim.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/skill/skills.service.ts` — 3, 5.
+- `packages/ui-core/core/src/lib/services/store/store.service.ts` — 22, 23.
+- `packages/ui-core/core/src/lib/services/strategic-initiative/strategic-initiatives.service.ts` — 12, 13.
+- `packages/ui-core/core/src/lib/services/tag-type/tag-types.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/tag/tags.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/tasks/my-tasks-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/tasks/priorities.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/tasks/sizes.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/tasks/statuses.service.ts` — 3, 4.
+- `packages/ui-core/core/src/lib/services/tasks/tasks-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/tasks/tasks.service.ts` — 6, 7, 8.
+- `packages/ui-core/core/src/lib/services/tasks/team-tasks-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/tenant/preferred-ui.guards.ts` — 3.
+- `packages/ui-core/core/src/lib/services/tenant/tenant-ui-preferences.service.ts` — 5, 6.
+- `packages/ui-core/core/src/lib/services/tenant/tenant.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/time-off/time-off.service.ts` — 12, 14.
+- `packages/ui-core/core/src/lib/services/time-tracker/interfaces/itimer-icon.ts` — 2.
+- `packages/ui-core/core/src/lib/services/time-tracker/interfaces/itimer-synced.ts` — 1.
+- `packages/ui-core/core/src/lib/services/time-tracker/interfaces/timer-icon.ts` — 2.
+- `packages/ui-core/core/src/lib/services/time-tracker/time-tracker.service.ts` — 9, 20, 21.
+- `packages/ui-core/core/src/lib/services/timesheet/activity.service.ts` — 3, 4, 6.
+- `packages/ui-core/core/src/lib/services/timesheet/employee-tracked-data-access.service.ts` — 5, 6.
+- `packages/ui-core/core/src/lib/services/timesheet/timesheet-filter.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/timesheet/timesheet-statistics.service.ts` — 18, 19.
+- `packages/ui-core/core/src/lib/services/timesheet/timesheet.service.ts` — 27, 28.
+- `packages/ui-core/core/src/lib/services/translatable/translatable.service.ts` — 2.
+- `packages/ui-core/core/src/lib/services/upwork/upwork-store.service.ts` — 5, 6.
+- `packages/ui-core/core/src/lib/services/upwork/upwork.service.ts` — 15, 16.
+- `packages/ui-core/core/src/lib/services/users/users-organizations.service.ts` — 10, 11.
+- `packages/ui-core/core/src/lib/services/users/users.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/warehouse/warehouse.service.ts` — 11, 12.
+- `packages/ui-core/core/src/lib/services/widget/widget-registry.types.ts` — 3.
+- `packages/ui-core/core/src/lib/services/workspace/workspace-auth.service.ts` — 5.
+- `packages/ui-core/core/src/lib/services/workspace/workspace-reset.service.ts` — 4, 5.
+- `packages/ui-core/core/src/lib/services/workspace/workspace-sync.service.ts` — 17, 156, 159.
+- `packages/ui-core/core/src/lib/services/zapier/zapier-store.service.ts` — 3.
+- `packages/ui-core/core/src/lib/services/zapier/zapier.service.ts` — 4, 17.
+- `packages/ui-core/core/src/lib/utils/agent-restriction-ui.util.ts` — 4.
+- `packages/ui-core/core/src/lib/utils/smart-table/server-source.conf.ts` — 1.
+- `packages/ui-core/core/src/lib/utils/smart-table/server.data-source.ts` — 5.
+- `packages/ui-core/core/src/lib/validators/at-least-one-field.validator.ts` — 2.
+- `packages/ui-core/core/src/lib/validators/email.validator.ts` — 2, 3.
+- `packages/ui-core/core/src/lib/validators/match.validator.ts` — 2.
+- `packages/ui-core/core/src/lib/validators/url-pattern.validator.ts` — 2.
+- `packages/ui-core/i18n/src/lib/i18n.service.ts` — 5, 6.
+- `packages/ui-core/i18n/src/lib/utils/get-browser-language.ts` — 1.
+- `packages/ui-core/shared/src/index.ts` — 31.
+- `packages/ui-core/shared/src/lib/appointments/appointment-calendar/appointment-calendar.component.scss` — 44, 59.
+- `packages/ui-core/shared/src/lib/appointments/appointment-calendar/appointment-calendar.component.ts` — 26, 27, 35, 36.
+- `packages/ui-core/shared/src/lib/appointments/appointment-calendar/appointment-calendar.module.ts` — 10.
+- `packages/ui-core/shared/src/lib/appointments/employee-schedules/employee-schedule.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/appointments/manage-appointment/manage-appointment.component.scss` — 2, 34, 42, 45, 56, 113, 118, 131, 175, 176, 181, 225, 279, 285, 317.
+- `packages/ui-core/shared/src/lib/appointments/manage-appointment/manage-appointment.component.ts` — 22, 30, 31.
+- `packages/ui-core/shared/src/lib/appointments/timezone-selector/timezone-selector.component.scss` — 2, 8, 15, 18, 29, 106.
+- `packages/ui-core/shared/src/lib/appointments/timezone-selector/timezone-selector.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/approval-policy/approval-policy-mutation.component.scss` — 1, 9.
+- `packages/ui-core/shared/src/lib/approval-policy/approval-policy-mutation.component.ts` — 3, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/approval-policy/approval-policy-mutation.module.ts` — 15, 16.
+- `packages/ui-core/shared/src/lib/approvals/approvals-mutation.component.scss` — 1, 14.
+- `packages/ui-core/shared/src/lib/approvals/approvals-mutation.component.ts` — 15, 16, 18, 24.
+- `packages/ui-core/shared/src/lib/approvals/approvals-mutation.module.ts` — 15, 16.
+- `packages/ui-core/shared/src/lib/candidate/candidate-calendar-info/candidate-calendar-info.component.ts` — 3, 15, 16.
+- `packages/ui-core/shared/src/lib/candidate/candidate-confirmation/delete-feedback/delete-feedback.component.ts` — 5, 6, 7.
+- `packages/ui-core/shared/src/lib/candidate/candidate-confirmation/delete-interview/delete-interview.component.scss` — 1, 5.
+- `packages/ui-core/shared/src/lib/candidate/candidate-confirmation/delete-interview/delete-interview.component.ts` — 1, 12, 13.
+- `packages/ui-core/shared/src/lib/candidate/candidate-criterion-card/candidate-criterion-card.component.scss` — 1, 10, 11, 28, 29, 47, 93, 119, 120, 150, 151, 169.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-feedback/candidate-interview-feedback.component.scss` — 1, 11, 14, 25, 67, 68, 113, 114, 163, 164, 175, 231.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-feedback/candidate-interview-feedback.component.ts` — 5, 14, 20, 21.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-feedback/candidate-interview-feedback.module.ts` — 17.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-info/candidate-interview-info.component.scss` — 14, 71.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-info/candidate-interview-info.component.ts` — 6, 7, 14, 15.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-criterions-form/candidate-criterions-form.component.scss` — 34, 35.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-criterions-form/candidate-criterions-form.component.ts` — 1, 5, 6.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-form/candidate-interview-form.component.scss` — 76, 82.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-form/candidate-interview-form.component.ts` — 16, 17, 21.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-mutation.component.scss` — 1, 12, 15, 25, 47, 89, 90, 104, 125, 152, 377.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-mutation.component.ts` — 14, 27, 28.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-mutation.module.ts` — 19.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-notification-form/candidate-email/candidate-email.component.scss` — 10, 30, 53.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-notification-form/candidate-email/candidate-email.component.ts` — 2, 4.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-notification-form/candidate-notification-form.component.scss` — 30, 31, 55, 77, 78, 81.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-notification-form/candidate-notification-form.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/communication.service.ts` — 2.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/interview-criterions/candidate-personal-qualities/candidate-personal-qualities.component.ts` — 5, 6, 8, 9.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/interview-criterions/candidate-technologies/candidate-technologies.component.ts` — 5, 6, 8, 9.
+- `packages/ui-core/shared/src/lib/candidate/candidate-mutation/candidate-mutation.component.ts` — 16, 17, 18.
+- `packages/ui-core/shared/src/lib/candidate/candidate-mutation/candidate-mutation.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/candidate/selectors/base-candidate-selector.component.ts` — 4, 5, 6.
+- `packages/ui-core/shared/src/lib/candidate/selectors/candidate-interviewer-select/candidate-interviewer-select.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/candidate/selectors/candidate-multi-select/candidate-multi-select.component.ts` — 2, 3, 4.
+- `packages/ui-core/shared/src/lib/candidate/selectors/candidate-select/candidate-select.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/card-grid/card-grid-custom.component.ts` — 10.
+- `packages/ui-core/shared/src/lib/card-grid/card-grid.component.scss` — 2, 42, 76, 85, 92, 104, 220.
+- `packages/ui-core/shared/src/lib/card-grid/card-grid.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/components/alert-modal/alert-modal.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/components/avatar/avatar.component.scss` — 77, 86, 102, 110, 181.
+- `packages/ui-core/shared/src/lib/components/avatar/avatar.component.ts` — 6.
+- `packages/ui-core/shared/src/lib/components/breadcrumb/breadcrumb.component.scss` — 58, 80.
+- `packages/ui-core/shared/src/lib/components/breadcrumb/breadcrumb.component.ts` — 7.
+- `packages/ui-core/shared/src/lib/components/changelog-entry/changelog-entry.component.scss` — 55, 87, 88, 92, 138.
+- `packages/ui-core/shared/src/lib/components/changelog-entry/changelog-entry.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/components/dashboard-skeleton/dashboard-skeleton.component.scss` — 21, 22, 37, 42, 43, 52, 53, 62, 63, 72, 73, 82, 83, 92, 93, 102, 103, 130, 212.
+- `packages/ui-core/shared/src/lib/components/date-range-title/date-range-title.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/components/dynamic-tabs/dynamic-tabs.component.ts` — 21, 22.
+- `packages/ui-core/shared/src/lib/components/email-verification-notice/email-verification-notice.component.ts` — 8, 9.
+- `packages/ui-core/shared/src/lib/components/header-title/header-title.component.ts` — 17, 18, 41, 42, 43, 44, 49, 51, 52, 321.
+- `packages/ui-core/shared/src/lib/components/layout-selector/layout-selector.component.scss` — 12, 18, 19.
+- `packages/ui-core/shared/src/lib/components/layout-selector/layout-selector.component.ts` — 3, 4, 5.
+- `packages/ui-core/shared/src/lib/components/popup/popup.component.scss` — 14.
+- `packages/ui-core/shared/src/lib/components/popup/popup.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/contact-select/contact-select.component.ts` — 7, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/contact-selector/contact-selector.component.ts` — 2, 7, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/counter-point/counter-point.component.scss` — 11.
+- `packages/ui-core/shared/src/lib/counter-point/counter-point.component.ts` — 3, 7.
+- `packages/ui-core/shared/src/lib/dashboard/concretes/contexts/layout-persistance.class.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/concretes/contexts/persistance-takers.class.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/concretes/contexts/persistance.class.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/concretes/strategies/database-strategy.class.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/concretes/strategies/local-storage-strategy.class.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/info-block/info-block.component.scss` — 4, 6, 7, 12, 29, 30, 58, 65, 69.
+- `packages/ui-core/shared/src/lib/dashboard/profit-history/profit-history.component.scss` — 10.
+- `packages/ui-core/shared/src/lib/dashboard/profit-history/profit-history.component.ts` — 8, 9, 10.
+- `packages/ui-core/shared/src/lib/dashboard/profit-history/table-components/expense-table.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/dashboard/profit-history/table-components/income-table.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/dashboard/records-history/records-history.component.scss` — 1, 2, 3, 4, 32, 33.
+- `packages/ui-core/shared/src/lib/dashboard/records-history/records-history.component.ts` — 12, 13.
+- `packages/ui-core/shared/src/lib/dashboard/widget-host/base-dashboard-widget.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/dashboard/widget-host/dashboard-widget-host.component.scss` — 21, 54, 61, 62, 172, 211, 252.
+- `packages/ui-core/shared/src/lib/dashboard/widget-host/dashboard-widget-host.component.ts` — 25, 38.
+- `packages/ui-core/shared/src/lib/dashboard/widget-layout/widget-layout.component.scss` — 30.
+- `packages/ui-core/shared/src/lib/dashboard/widget-layout/widget-layout.component.ts` — 18.
+- `packages/ui-core/shared/src/lib/dashboard/widget/widget.component.html` — 22.
+- `packages/ui-core/shared/src/lib/dashboard/widget/widget.component.scss` — 5, 51.
+- `packages/ui-core/shared/src/lib/dashboard/widget/widget.component.ts` — 6.
+- `packages/ui-core/shared/src/lib/dashboard/widget/widget.service.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/accounting-statistics-cache.service.ts` — 11, 12.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/accounting.widgets.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/base-accounting-widget.component.ts` — 6, 7.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/base-employee-history-widget.component.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/cash-flow-chart.utils.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/cash-flow-widget.component.ts` — 7.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/employee-statistics-widget.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/profit-history-widget.component.ts` — 9, 10.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/records-history-widget.component.ts` — 3, 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/records-history.constants.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/base-employee-chart-widget.component.ts` — 9, 10.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/charts.widgets.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/employee-chart.utils.ts` — 3, 4, 5.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/employee-month-statistics-cache.service.ts` — 4, 5, 6.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/base-hr-info-widget.component.ts` — 7, 8.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-direct-income-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-expenses-without-salary-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-income-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-info-card.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-profit-bonus-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-profit-widget.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-revenue-bonus-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-statistics.utils.ts` — 1, 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-total-direct-bonus-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-total-expenses-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-total-income-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr.widgets.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/base-project-management-widget.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/most-viewed-projects-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/my-tasks-widget.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/project-management-dashboard.types.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/project-management-tasks.service.ts` — 5, 6, 7.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/project-management-widget.utils.ts` — 1, 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/project-management.widgets.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/recently-assigned-widget.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/provide-core-dashboard-widgets.ts` — 2.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/base-teams-widget.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/data-entry-shortcuts-widget.component.ts` — 6, 7.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-member-details-widget.component.scss` — 46.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-member-details-widget.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-member-row.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-summary-card.component.html` — 25.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams-counter-card.component.html` — 39, 44.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams-dashboard-statistics.service.ts` — 14, 22.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams-dashboard.types.ts` — 1.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams-widget.utils.ts` — 4.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams.widgets.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/dashboard/window-layout/window-layout.component.scss` — 36.
+- `packages/ui-core/shared/src/lib/dashboard/window-layout/window-layout.component.ts` — 17.
+- `packages/ui-core/shared/src/lib/dashboard/window/window.component.html` — 15.
+- `packages/ui-core/shared/src/lib/dashboard/window/window.component.scss` — 5, 52.
+- `packages/ui-core/shared/src/lib/dashboard/window/window.component.ts` — 6.
+- `packages/ui-core/shared/src/lib/dashboard/window/window.service.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/dialogs/confirm/confirm.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/dialogs/directive/prompt.directive.ts` — 5.
+- `packages/ui-core/shared/src/lib/dialogs/quick-actions/quick-actions.component.scss` — 33, 41.
+- `packages/ui-core/shared/src/lib/dialogs/quick-actions/quick-actions.component.ts` — 3, 5, 6.
+- `packages/ui-core/shared/src/lib/directives/img.directive.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/directives/outside.directive.ts` — 4.
+- `packages/ui-core/shared/src/lib/directives/time-tracking-authorized-directive.ts` — 5, 6, 7.
+- `packages/ui-core/shared/src/lib/editable-grid/gauzy-editable-grid.component.html` — 44, 49.
+- `packages/ui-core/shared/src/lib/editable-grid/gauzy-editable-grid.component.scss` — 1, 11, 24.
+- `packages/ui-core/shared/src/lib/editable-grid/gauzy-editable-grid.component.ts` — 6, 13, 14, 18.
+- `packages/ui-core/shared/src/lib/editable-grid/gauzy-editable-grid.module.ts` — 4, 5, 8, 12, 13, 15.
+- `packages/ui-core/shared/src/lib/editable-grid/index.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/employee/edit-employee-membership-form/edit-employee-membership-form.component.scss` — 4, 17, 36, 77, 86.
+- `packages/ui-core/shared/src/lib/employee/edit-employee-membership-form/edit-employee-membership-form.component.ts` — 3, 4.
+- `packages/ui-core/shared/src/lib/employee/employee-end-work-popup/employee-end-work.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/employee/employee-location/employee-location.component.scss` — 5, 27.
+- `packages/ui-core/shared/src/lib/employee/employee-location/employee-location.component.ts` — 3, 7, 8.
+- `packages/ui-core/shared/src/lib/employee/employee-location/employee-location.module.ts` — 12.
+- `packages/ui-core/shared/src/lib/employee/employee-multi-select/employee-multi-select.component.scss` — 31, 46.
+- `packages/ui-core/shared/src/lib/employee/employee-multi-select/employee-multi-select.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/employee/employee-mutation/employee-mutation.component.scss` — 2, 8, 18, 21, 31, 67, 88, 115, 177, 178, 216, 217, 227, 231, 266, 288, 305, 306, 319.
+- `packages/ui-core/shared/src/lib/employee/employee-mutation/employee-mutation.component.ts` — 5, 7, 14.
+- `packages/ui-core/shared/src/lib/employee/employee-mutation/employee-mutation.module.ts` — 13.
+- `packages/ui-core/shared/src/lib/employee/employee-rates/employee-rates.component.scss` — 5, 31, 89.
+- `packages/ui-core/shared/src/lib/employee/employee-rates/employee-rates.component.ts` — 3, 6, 7.
+- `packages/ui-core/shared/src/lib/employee/employee-rates/employee-rates.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/entity-with-members-card/entity-with-members-card.component.ts` — 6.
+- `packages/ui-core/shared/src/lib/equipment/equipment-mutation.component.scss` — 1, 34.
+- `packages/ui-core/shared/src/lib/equipment/equipment-mutation.component.ts` — 3, 8, 9, 10, 11.
+- `packages/ui-core/shared/src/lib/equipment/equipment-mutation.module.ts` — 13, 14.
+- `packages/ui-core/shared/src/lib/equipment/equipment-sharing-policy/equipment-sharing-policy-mutation.component.ts` — 2, 4, 7.
+- `packages/ui-core/shared/src/lib/equipment/equipment-sharing-policy/equipment-sharing-policy-mutation.module.ts` — 15.
+- `packages/ui-core/shared/src/lib/equipment/equipment-sharing/equipment-sharing-mutation.component.scss` — 1, 5.
+- `packages/ui-core/shared/src/lib/equipment/equipment-sharing/equipment-sharing-mutation.component.ts` — 15, 17, 20, 28.
+- `packages/ui-core/shared/src/lib/equipment/equipment-sharing/equipment-sharing-mutation.module.ts` — 16, 17.
+- `packages/ui-core/shared/src/lib/expenses/expense-category-select/expense-category-select.component.ts` — 2, 7, 8, 9.
+- `packages/ui-core/shared/src/lib/expenses/expenses-mutation/attach-receipt/attach-receipt.component.scss` — 1, 6.
+- `packages/ui-core/shared/src/lib/expenses/expenses-mutation/attach-receipt/attach-receipt.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/expenses/expenses-mutation/expenses-mutation.component.scss` — 1, 9.
+- `packages/ui-core/shared/src/lib/expenses/expenses-mutation/expenses-mutation.component.ts` — 18, 19, 20, 21.
+- `packages/ui-core/shared/src/lib/expenses/expenses-mutation/expenses-mutation.module.ts` — 17.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-block/recurring-expense-block.component.scss` — 46, 47, 50, 51, 54, 65, 69, 127, 128, 140, 147, 157, 158, 169, 171, 179, 180, 181.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-block/recurring-expense-block.component.ts` — 4, 10, 11.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-delete-confirmation/recurring-expense-delete-confirmation.component.scss` — 1, 8.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-delete-confirmation/recurring-expense-delete-confirmation.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-history/recurring-expense-history.component.scss` — 23, 35, 44.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-history/recurring-expense-history.component.ts` — 5, 6, 7, 8.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-mutation/recurring-expense-mutation.component.scss` — 1, 18.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-mutation/recurring-expense-mutation.component.ts` — 18, 27, 28, 29.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-mutation/recurring-expense-mutation.module.ts` — 18.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-mutation/recurring-expense.setting.ts` — 4.
+- `packages/ui-core/shared/src/lib/favorite-toggle/favorite-toggle.component.ts` — 4, 5, 6, 7.
+- `packages/ui-core/shared/src/lib/feature-toggle/feature-toggle.component.scss` — 11, 27, 34, 49, 69, 70, 91, 93.
+- `packages/ui-core/shared/src/lib/feature-toggle/feature-toggle.component.ts` — 9, 10, 11, 12.
+- `packages/ui-core/shared/src/lib/feature-toggle/feature-toggle.module.ts` — 13.
+- `packages/ui-core/shared/src/lib/file-uploader-input/file-uploader-input.component.ts` — 3, 4.
+- `packages/ui-core/shared/src/lib/forms/location/location-form.component.ts` — 20, 21, 22, 23, 24.
+- `packages/ui-core/shared/src/lib/forms/maps/leaflet/leaflet.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/gallery/gallery.component.ts` — 8, 11.
+- `packages/ui-core/shared/src/lib/gallery/gallery.directive.ts` — 4.
+- `packages/ui-core/shared/src/lib/gauzy-button-action/gauzy-button-action.component.scss` — 2, 14.
+- `packages/ui-core/shared/src/lib/gauzy-button-action/gauzy-button-action.component.ts` — 12, 15, 16, 17, 21, 52, 84.
+- `packages/ui-core/shared/src/lib/gauzy-button-action/gauzy-button-action.module.ts` — 5, 10, 11, 13.
+- `packages/ui-core/shared/src/lib/gauzy-button-action/index.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/goal/goal-custom-unit/goal-custom-unit-select.component.ts` — 4, 5, 6.
+- `packages/ui-core/shared/src/lib/goal/goal-level-select/goal-level-select.component.ts` — 3, 4, 5.
+- `packages/ui-core/shared/src/lib/goal/goal-templates/goal-templates.component.ts` — 8.
+- `packages/ui-core/shared/src/lib/image-asset/image-asset.component.scss` — 1, 16, 20.
+- `packages/ui-core/shared/src/lib/image-asset/image-asset.component.ts` — 3, 7, 8.
+- `packages/ui-core/shared/src/lib/image-uploader/image-uploader-base.component.ts` — 6, 7, 8, 9.
+- `packages/ui-core/shared/src/lib/image-uploader/image-uploader.component.ts` — 5, 6, 7, 8.
+- `packages/ui-core/shared/src/lib/income/income-mutation/income-mutation.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/income/income-mutation/income-mutation.component.ts` — 4, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/income/income-mutation/income-mutation.module.ts` — 16.
+- `packages/ui-core/shared/src/lib/integrations/github/repository-selector/repository-selector.component.scss` — 11.
+- `packages/ui-core/shared/src/lib/integrations/github/repository-selector/repository-selector.component.ts` — 7, 8.
+- `packages/ui-core/shared/src/lib/invite/forms/email-invite-form/email-invite-form.component.scss` — 33, 34, 164, 182.
+- `packages/ui-core/shared/src/lib/invite/forms/email-invite-form/email-invite-form.component.ts` — 15, 21, 22, 23.
+- `packages/ui-core/shared/src/lib/invite/forms/invite-forms.module.ts` — 18.
+- `packages/ui-core/shared/src/lib/invite/invite-mutation/invite-mutation.component.scss` — 2, 10, 79.
+- `packages/ui-core/shared/src/lib/invite/invite-mutation/invite-mutation.component.ts` — 10, 15, 22, 23.
+- `packages/ui-core/shared/src/lib/invite/invite-mutation/invite-mutation.module.ts` — 11.
+- `packages/ui-core/shared/src/lib/invite/invites/invite-delete-confirmation/invite-delete-confirmation.component.scss` — 1, 9, 13, 35, 62, 91, 96.
+- `packages/ui-core/shared/src/lib/invite/invites/invites.component.html` — 12, 17.
+- `packages/ui-core/shared/src/lib/invite/invites/invites.component.scss` — 1, 2, 4, 35.
+- `packages/ui-core/shared/src/lib/invite/invites/invites.component.ts` — 13, 24, 25.
+- `packages/ui-core/shared/src/lib/invite/invites/resend-confirmation/resend-confirmation.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/invoice/components/inner-component/invoice-view-inner.component.scss` — 2, 11, 12, 85, 94, 99, 130, 131, 157, 187, 196, 204, 211, 244, 251.
+- `packages/ui-core/shared/src/lib/invoice/components/inner-component/invoice-view-inner.component.ts` — 7, 8, 9.
+- `packages/ui-core/shared/src/lib/invoice/components/inner-component/invoice-view-inner.module.ts` — 5.
+- `packages/ui-core/shared/src/lib/invoice/generate-pdf.ts` — 6.
+- `packages/ui-core/shared/src/lib/language/language-selector/language-flag.ts` — 1.
+- `packages/ui-core/shared/src/lib/language/language-selector/language-selector.component.ts` — 2, 3, 4, 6.
+- `packages/ui-core/shared/src/lib/language/language-selector/language-selector.module.ts` — 8.
+- `packages/ui-core/shared/src/lib/miscellaneous/miscellaneous.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/miscellaneous/miscellaneous.routes.ts` — 2.
+- `packages/ui-core/shared/src/lib/modules/country/country.component.ts` — 17, 18, 19, 20, 21.
+- `packages/ui-core/shared/src/lib/modules/currency/currency.component.ts` — 17, 18, 19, 20, 21.
+- `packages/ui-core/shared/src/lib/modules/selectors/file-provider-selector/file-provider-selector.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/modules/selectors/file-provider-selector/file-provider-selector.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/organizations/organizations-mutation/organizations-mutation.module.ts` — 18.
+- `packages/ui-core/shared/src/lib/organizations/organizations-step-form/organizations-step-form.component.scss` — 2, 13, 26, 29, 39, 75, 96, 123, 188, 306, 307, 427, 428, 439.
+- `packages/ui-core/shared/src/lib/organizations/organizations-step-form/organizations-step-form.component.ts` — 22, 34, 35, 36, 37.
+- `packages/ui-core/shared/src/lib/organizations/organizations-step-form/organizations-step-form.module.ts` — 20.
+- `packages/ui-core/shared/src/lib/pipes/budget.pipe.ts` — 3.
+- `packages/ui-core/shared/src/lib/pipes/currency-position.pipe.ts` — 2.
+- `packages/ui-core/shared/src/lib/pipes/date-format.pipe.ts` — 5, 6, 7.
+- `packages/ui-core/shared/src/lib/pipes/datetime-format.pipe.ts` — 5, 6, 7.
+- `packages/ui-core/shared/src/lib/pipes/replace.pipe.ts` — 3.
+- `packages/ui-core/shared/src/lib/pipes/time-format.pipe.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/pipes/utc-to-local.pipe.ts` — 3.
+- `packages/ui-core/shared/src/lib/pipes/utc-to-timezone.pipe.ts` — 3.
+- `packages/ui-core/shared/src/lib/product/product-category-selector/product-category-selector.component.ts` — 7, 12, 13.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-category-mutation/product-category-mutation.component.scss` — 1, 81.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-category-mutation/product-category-mutation.component.ts` — 10, 16, 17, 18.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-mutation.module.ts` — 15.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-option-group-translation/product-option-group-translation.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-option-group-translation/product-option-group-translation.component.ts` — 1, 4, 7.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-type-mutation/product-type-mutation.component.scss` — 1, 36.
+- `packages/ui-core/shared/src/lib/product/product-mutation/product-type-mutation/product-type-mutation.component.ts` — 9, 14, 16, 17.
+- `packages/ui-core/shared/src/lib/product/product-type-selector/product-type-selector.component.ts` — 8, 13, 14.
+- `packages/ui-core/shared/src/lib/progress-status/progress-status/progress-status.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/project-module/project-module-mutation/project-module-mutation.component.ts` — 20, 21, 30, 31.
+- `packages/ui-core/shared/src/lib/project-module/project-module-table/project-module-table.component.html` — 2, 3, 7.
+- `packages/ui-core/shared/src/lib/project-module/project-module-table/project-module-table.component.scss` — 1, 2, 4, 22.
+- `packages/ui-core/shared/src/lib/project-module/project-module-table/project-module-table.component.ts` — 7, 8, 9.
+- `packages/ui-core/shared/src/lib/project/project-mutation/project-mutation.component.scss` — 2, 30, 64, 74, 130, 164.
+- `packages/ui-core/shared/src/lib/project/project-mutation/project-mutation.component.ts` — 10, 32, 33, 34, 44, 45, 46, 626.
+- `packages/ui-core/shared/src/lib/proposal-template-select/proposal-template-select/proposal-template-select.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/record-view/record-view-drawer.component.scss` — 7, 8.
+- `packages/ui-core/shared/src/lib/record-view/record-view-route-page.component.ts` — 7, 8.
+- `packages/ui-core/shared/src/lib/record-view/record-view.component.scss` — 9.
+- `packages/ui-core/shared/src/lib/record-view/record-view.component.ts` — 3, 4.
+- `packages/ui-core/shared/src/lib/report/activities-report-grid/activities-report-grid.component.ts` — 8, 14, 15, 16.
+- `packages/ui-core/shared/src/lib/report/amounts-owed-grid/amounts-owed-grid.component.ts` — 8, 13, 14, 15.
+- `packages/ui-core/shared/src/lib/report/charts/line-chart/line-chart.component.ts` — 31, 32.
+- `packages/ui-core/shared/src/lib/report/daily-grid/daily-grid.component.scss` — 27, 28.
+- `packages/ui-core/shared/src/lib/report/daily-grid/daily-grid.component.ts` — 13, 14, 15, 16, 17.
+- `packages/ui-core/shared/src/lib/report/daily-statistics/daily-statistics/daily-statistics.component.html` — 19, 23, 45, 49, 68, 71, 91, 95.
+- `packages/ui-core/shared/src/lib/report/daily-statistics/daily-statistics/daily-statistics.component.scss` — 15, 51.
+- `packages/ui-core/shared/src/lib/report/daily-statistics/daily-statistics/daily-statistics.component.ts` — 2, 9, 16, 17.
+- `packages/ui-core/shared/src/lib/report/expenses-report-grid/expenses-report-grid.component.scss` — 26, 27.
+- `packages/ui-core/shared/src/lib/report/expenses-report-grid/expenses-report-grid.component.ts` — 12, 13, 14, 15.
+- `packages/ui-core/shared/src/lib/report/payment-report-grid/payment-report-grid.component.ts` — 12, 13, 14, 15.
+- `packages/ui-core/shared/src/lib/report/project-column-view/project-column-view.component.scss` — 24, 59.
+- `packages/ui-core/shared/src/lib/report/project-column-view/project-column-view.component.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-editor.component.scss` — 16, 53.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-toolbar.component.scss` — 11, 12.
+- `packages/ui-core/shared/src/lib/select-asset-modal/img-asset/img-asset.component.scss` — 20, 28, 45.
+- `packages/ui-core/shared/src/lib/select-asset-modal/img-asset/img-asset.component.ts` — 2, 6, 7.
+- `packages/ui-core/shared/src/lib/select-asset-modal/img-preview/img-preview.component.scss` — 9, 23.
+- `packages/ui-core/shared/src/lib/select-asset-modal/img-preview/img-preview.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/select-asset-modal/select-asset.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/select-asset-modal/select-asset.component.ts` — 7, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/select-asset-modal/select-asset.module.ts` — 13.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/arrow/strategies/concrete/next.strategy.ts` — 2.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/arrow/strategies/concrete/previous.strategy.ts` — 2.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-picker.utils.ts` — 2.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-range-picker.component.scss` — 12, 26, 29, 30, 56, 231.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-range-picker.component.ts` — 14, 24, 25, 26, 31.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-range-picker.resolver.ts` — 4, 5, 8.
+- `packages/ui-core/shared/src/lib/selectors/date/date.component.scss` — 11.
+- `packages/ui-core/shared/src/lib/selectors/date/date.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/selectors/employee/default-employee.ts` — 5.
+- `packages/ui-core/shared/src/lib/selectors/employee/employee.component.html` — 16.
+- `packages/ui-core/shared/src/lib/selectors/employee/employee.component.scss` — 21, 32, 33, 34.
+- `packages/ui-core/shared/src/lib/selectors/employee/employee.component.ts` — 26, 34, 35.
+- `packages/ui-core/shared/src/lib/selectors/entity-select-panel-class.ts` — 4.
+- `packages/ui-core/shared/src/lib/selectors/entity-select-panel.directive.ts` — 25, 65.
+- `packages/ui-core/shared/src/lib/selectors/ng-select-panel-sizing.service.ts` — 8.
+- `packages/ui-core/shared/src/lib/selectors/organization/organization.component.html` — 22, 78.
+- `packages/ui-core/shared/src/lib/selectors/organization/organization.component.scss` — 23.
+- `packages/ui-core/shared/src/lib/selectors/organization/organization.component.ts` — 7, 8, 16.
+- `packages/ui-core/shared/src/lib/selectors/project/project/default-project.ts` — 1.
+- `packages/ui-core/shared/src/lib/selectors/project/project/project.component.html` — 9.
+- `packages/ui-core/shared/src/lib/selectors/project/project/project.component.scss` — 29.
+- `packages/ui-core/shared/src/lib/selectors/project/project/project.component.ts` — 14, 15, 23.
+- `packages/ui-core/shared/src/lib/selectors/selectors.module.ts` — 15, 17.
+- `packages/ui-core/shared/src/lib/selectors/team/team/default-team.ts` — 1.
+- `packages/ui-core/shared/src/lib/selectors/team/team/team.component.html` — 9.
+- `packages/ui-core/shared/src/lib/selectors/team/team/team.component.scss` — 29.
+- `packages/ui-core/shared/src/lib/selectors/team/team/team.component.ts` — 10, 15, 23.
+- `packages/ui-core/shared/src/lib/settings/danger-zone-mutation.module.ts` — 15.
+- `packages/ui-core/shared/src/lib/settings/danger-zone-mutation/danger-zone-mutation.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/sidebar/add-icon/add-icon.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/sidebar/delete-base/delete-base.component.ts` — 4, 5, 6.
+- `packages/ui-core/shared/src/lib/sidebar/delete-category/delete-category.component.scss` — 1, 8.
+- `packages/ui-core/shared/src/lib/sidebar/delete-category/delete-category.component.ts` — 1, 5, 6.
+- `packages/ui-core/shared/src/lib/sidebar/knowledge-base/knowledge-base.component.scss` — 1, 7, 29.
+- `packages/ui-core/shared/src/lib/sidebar/knowledge-base/knowledge-base.component.ts` — 5, 6, 7, 8.
+- `packages/ui-core/shared/src/lib/sidebar/sidebar.component.scss` — 18, 69, 75, 111, 116, 129, 139.
+- `packages/ui-core/shared/src/lib/sidebar/sidebar.component.ts` — 1, 6, 7.
+- `packages/ui-core/shared/src/lib/sidebar/sidebar.module.ts` — 17.
+- `packages/ui-core/shared/src/lib/single-statistic/single-statistic.component.scss` — 14, 23, 28.
+- `packages/ui-core/shared/src/lib/skeleton/skeleton.component.scss` — 19, 30, 32, 38, 47, 71.
+- `packages/ui-core/shared/src/lib/skills/skills-input/skills-input.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/smart-data-layout/no-data-message/no-data-message.component.scss` — 1, 5, 19, 29.
+- `packages/ui-core/shared/src/lib/smart-data-layout/no-data-message/no-data-message.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/smart-data-layout/pagination/pagination-filter-base.component.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/smart-data-layout/pagination/pagination-v2/pagination-v2.component.scss` — 1.
+- `packages/ui-core/shared/src/lib/smart-data-layout/pagination/pagination.component.scss` — 2.
+- `packages/ui-core/shared/src/lib/smart-data-layout/pagination/pagination.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/smart-data-layout/smart-data-view-layout.module.ts` — 7, 32, 35.
+- `packages/ui-core/shared/src/lib/smart-data-layout/smart-table-filters/smart-table-filter-toggle.directive.ts` — 53.
+- `packages/ui-core/shared/src/lib/smtp/smtp.component.scss` — 7, 28, 30, 39, 49, 86, 138.
+- `packages/ui-core/shared/src/lib/smtp/smtp.component.ts` — 4, 8, 9, 10, 11.
+- `packages/ui-core/shared/src/lib/smtp/smtp.module.ts` — 13.
+- `packages/ui-core/shared/src/lib/star-rating/star-rating-input/star-rating-input.module.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/star-rating/star-rating-output/star-rating-output.module.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/status-badge/status-badge.component.scss` — 12, 28, 50, 56, 57, 59.
+- `packages/ui-core/shared/src/lib/status-badge/status-badge.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/allow-screenshot-capture/allow-screenshot-capture.component.scss` — 8.
+- `packages/ui-core/shared/src/lib/table-components/allow-screenshot-capture/allow-screenshot-capture.component.ts` — 2, 8.
+- `packages/ui-core/shared/src/lib/table-components/assigned-to/assigned-to.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/company-logo/company-logo.component.scss` — 38.
+- `packages/ui-core/shared/src/lib/table-components/contact-with-tags/contact-with-tags.component.scss` — 11, 12, 25, 27, 29, 36.
+- `packages/ui-core/shared/src/lib/table-components/created-by/created-by-user.component.scss` — 14, 18, 19, 25, 33, 34.
+- `packages/ui-core/shared/src/lib/table-components/created-by/created-by-user.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-components/editors/employee-link-editor.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/email/email.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/table-components/employee-with-links/employee-with-links.component.ts` — 3, 4.
+- `packages/ui-core/shared/src/lib/table-components/employees-merged-teams/employees-merged-teams.component.scss` — 9.
+- `packages/ui-core/shared/src/lib/table-components/employees-merged-teams/employees-merged-teams.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/external-link/external-link.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/table-components/github/issue-title-description/issue-title-description.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-components/github/repository/repository.component.scss` — 12, 16.
+- `packages/ui-core/shared/src/lib/table-components/invoice-total-value/invoice-total-value.component.ts` — 4, 5.
+- `packages/ui-core/shared/src/lib/table-components/notes-with-tags/notes-with-tags.component.scss` — 9, 11, 13, 24, 30.
+- `packages/ui-core/shared/src/lib/table-components/notes-with-tags/notes-with-tags.component.ts` — 2, 8.
+- `packages/ui-core/shared/src/lib/table-components/organization-with-tags/organization-with-tags.component.scss` — 32, 39, 40, 67, 69, 80, 86, 88, 90, 91, 97, 99.
+- `packages/ui-core/shared/src/lib/table-components/organization-with-tags/organization-with-tags.component.ts` — 7.
+- `packages/ui-core/shared/src/lib/table-components/people-list/people-list.component.scss` — 28, 32, 49, 55, 63, 67, 88, 99, 100, 145, 158, 164, 167, 177.
+- `packages/ui-core/shared/src/lib/table-components/people-list/people-list.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/picture-name-tags/picture-name-tags.component.scss` — 14, 15.
+- `packages/ui-core/shared/src/lib/table-components/picture-name-tags/picture-name-tags.component.ts` — 48, 54, 56, 58, 66, 67.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-employees/project-organization-employees.component.scss` — 12, 24.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-employees/project-organization-employees.component.ts` — 13.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid-details/project-organization-grid-details.component.html` — 71, 73.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid-details/project-organization-grid-details.component.scss` — 8, 22.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid-details/project-organization-grid-details.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid/project-organization-grid.component.html` — 2, 3.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid/project-organization-grid.component.ts` — 5.
+- `packages/ui-core/shared/src/lib/table-components/project-organization/project-organization.component.scss` — 6.
+- `packages/ui-core/shared/src/lib/table-components/project-organization/project-organization.component.ts` — 2, 5.
+- `packages/ui-core/shared/src/lib/table-components/project/project.component.scss` — 13, 31, 39.
+- `packages/ui-core/shared/src/lib/table-components/project/project.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/role/role.component.ts` — 3, 6.
+- `packages/ui-core/shared/src/lib/table-components/status-view/status-view.component.html` — 2.
+- `packages/ui-core/shared/src/lib/table-components/status-view/status-view.component.ts` — 3, 14, 24, 25, 27, 29.
+- `packages/ui-core/shared/src/lib/table-components/tags-only/tags-only.component.scss` — 9, 11, 13, 24, 30.
+- `packages/ui-core/shared/src/lib/table-components/tags-only/tags-only.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/table-components/task-teams/task-teams.component.scss` — 9, 11, 20, 25, 35.
+- `packages/ui-core/shared/src/lib/table-components/visibility/visibility.component.scss` — 12.
+- `packages/ui-core/shared/src/lib/table-components/visibility/visibility.component.ts` — 7.
+- `packages/ui-core/shared/src/lib/table-filters/expense-category-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/invite-status-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/organization-contact-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/organization-team-filter.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/table-filters/payment-method-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/product-category-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/product-type-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/tags-color-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/task-status-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/table-filters/toggle-filter/toggle-filter.component.scss` — 12, 32, 35, 43, 49, 59, 60, 64, 76, 81.
+- `packages/ui-core/shared/src/lib/table-filters/vendor-filter.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/tags/tags-color-input/tags-color-input.component.scss` — 111, 112, 130, 134.
+- `packages/ui-core/shared/src/lib/tags/tags-color-input/tags-color-input.component.ts` — 20, 21, 22.
+- `packages/ui-core/shared/src/lib/tags/tags-color-input/tags-color-input.module.ts` — 7.
+- `packages/ui-core/shared/src/lib/tags/tags-mutation.component.scss` — 1, 4.
+- `packages/ui-core/shared/src/lib/tags/tags-mutation.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/tags/tags-mutation.module.ts` — 15.
+- `packages/ui-core/shared/src/lib/tasks-sprint-settings-view/sprint-dialog/sprint-dialog.component.scss` — 1, 10.
+- `packages/ui-core/shared/src/lib/tasks-sprint-settings-view/sprint-dialog/sprint-dialog.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/tasks-sprint-settings-view/tasks-sprint-settings-view.component.ts` — 3, 4, 8.
+- `packages/ui-core/shared/src/lib/tasks-sprint-settings-view/tasks-sprint-settings-view.module.ts` — 7, 23.
+- `packages/ui-core/shared/src/lib/tasks/add-task-dialog/add-task-dialog.component.ts` — 9, 20, 21, 28.
+- `packages/ui-core/shared/src/lib/tasks/task-badge-view/task-badge-view.component.ts` — 2, 3, 8.
+- `packages/ui-core/shared/src/lib/tasks/task-number/task-number-field.component.ts` — 7, 8, 9, 10, 11.
+- `packages/ui-core/shared/src/lib/tasks/task-priority-select/task-priority-select.component.html` — 14, 17.
+- `packages/ui-core/shared/src/lib/tasks/task-priority-select/task-priority-select.component.ts` — 14, 15, 17, 18, 19, 20.
+- `packages/ui-core/shared/src/lib/tasks/task-priority-select/task-priority-select.module.ts` — 5.
+- `packages/ui-core/shared/src/lib/tasks/task-select/task/task.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/tasks/task-size-select/task-size-select.component.html` — 14, 17.
+- `packages/ui-core/shared/src/lib/tasks/task-size-select/task-size-select.component.ts` — 14, 15, 16, 18, 19, 20.
+- `packages/ui-core/shared/src/lib/tasks/task-size-select/task-size-select.module.ts` — 5.
+- `packages/ui-core/shared/src/lib/tasks/task-status-select/task-status-select.component.html` — 11, 14.
+- `packages/ui-core/shared/src/lib/tasks/task-status-select/task-status-select.component.ts` — 6, 7, 8, 9.
+- `packages/ui-core/shared/src/lib/tasks/task-status-select/task-status-select.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/time-off/settings-mutation/time-off-settings-mutation.component.ts` — 5, 6.
+- `packages/ui-core/shared/src/lib/time-off/time-off-holiday-mutation/time-off-holiday-mutation.component.ts` — 3, 9, 10, 11.
+- `packages/ui-core/shared/src/lib/time-off/time-off-mutation.components.scss` — 1, 36.
+- `packages/ui-core/shared/src/lib/time-off/time-off-policy-select/time-off-policy-select.component.ts` — 6, 7, 8, 9.
+- `packages/ui-core/shared/src/lib/time-off/time-off-request-mutation/time-off-request-mutation.component.ts` — 11, 14, 15.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/browser-extension-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/desktop-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/hubstaff-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/mobile-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/team-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/timer-synced.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/upwork-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/concretes/web-timer-icon.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/factory/timer-icon-factory.ts` — 1, 2.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/time-tracker-status.component.ts` — 3.
+- `packages/ui-core/shared/src/lib/time-tracker/components/time-tracker-status/time-tracker-status.service.ts` — 17, 18, 19.
+- `packages/ui-core/shared/src/lib/time-tracker/time-tracker.module.ts` — 17.
+- `packages/ui-core/shared/src/lib/time-tracker/time-tracker/time-tracker.component.html` — 6, 7.
+- `packages/ui-core/shared/src/lib/time-tracker/time-tracker/time-tracker.component.scss` — 1, 151, 192, 302, 386, 632.
+- `packages/ui-core/shared/src/lib/time-tracker/time-tracker/time-tracker.component.ts` — 11, 21, 22, 30.
+- `packages/ui-core/shared/src/lib/timer-picker/timer-picker/timer-picker.component.ts` — 4.
+- `packages/ui-core/shared/src/lib/timer-picker/timer-range-picker/timer-range-picker.component.scss` — 7.
+- `packages/ui-core/shared/src/lib/timer-picker/timer-range-picker/timer-range-picker.component.ts` — 5, 11.
+- `packages/ui-core/shared/src/lib/timesheet/activities/activity-item/activity-item.component.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/timesheet/edit-time-log-modal/edit-time-log-modal.component.scss` — 1, 2, 14, 41, 216.
+- `packages/ui-core/shared/src/lib/timesheet/edit-time-log-modal/edit-time-log-modal.component.ts` — 17, 18, 19.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/base-selector-filter/base-selector-filter.component.ts` — 4, 8, 9, 10.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/gauzy-filters.component.html` — 18, 39, 60.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/gauzy-filters.component.scss` — 2, 181, 228, 229, 233, 234, 244, 246, 247, 253, 254, 255, 256, 262, 272, 273, 278, 289, 300, 323, 329, 330, 331, 334.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/gauzy-filters.component.ts` — 20, 21, 22, 26, 27, 28, 32.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/gauzy-filters.module.ts` — 8, 12, 13, 27.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/index.ts` — 2, 3.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/timezone-filter/time-zone.service.ts` — 4.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/timezone-filter/timezone-filter.component.scss` — 1, 5, 6, 9, 10, 44, 46, 48.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/timezone-filter/timezone-filter.component.ts` — 9, 10, 11, 12, 13.
+- `packages/ui-core/shared/src/lib/timesheet/index.ts` — 2.
+- `packages/ui-core/shared/src/lib/timesheet/screenshots/screenshots-item/screenshots-item.component.scss` — 12, 17, 18, 30, 98, 144, 195, 222, 325, 330, 352, 389, 407.
+- `packages/ui-core/shared/src/lib/timesheet/screenshots/screenshots-item/screenshots-item.component.ts` — 6, 7, 8, 12.
+- `packages/ui-core/shared/src/lib/timesheet/screenshots/view-screenshots-modal/view-screenshots-modal.component.scss` — 11, 22, 40, 81, 154, 186, 209, 213, 240, 310, 337, 358, 379, 428, 445, 452.
+- `packages/ui-core/shared/src/lib/timesheet/screenshots/view-screenshots-modal/view-screenshots-modal.component.ts` — 15, 16, 17, 19.
+- `packages/ui-core/shared/src/lib/timesheet/view-time-log-modal/view-time-log-modal.component.scss` — 1, 2, 51.
+- `packages/ui-core/shared/src/lib/timesheet/view-time-log-modal/view-time-log-modal.component.ts` — 6, 7, 8.
+- `packages/ui-core/shared/src/lib/timesheet/view-time-log/view-time-log.component.scss` — 6, 89, 102, 107.
+- `packages/ui-core/shared/src/lib/timesheet/view-time-log/view-time-log.component.ts` — 2, 7.
+- `packages/ui-core/shared/src/lib/user/edit-profile-form/edit-profile-form.component.html` — 9.
+- `packages/ui-core/shared/src/lib/user/edit-profile-form/edit-profile-form.component.ts` — 5, 6, 7, 17.
+- `packages/ui-core/shared/src/lib/user/edit-profile-form/edit-profile-form.module.ts` — 15.
+- `packages/ui-core/shared/src/lib/user/forms/archive-confirmation/archive-confirmation.component.scss` — 6, 9, 18, 54, 55, 86.
+- `packages/ui-core/shared/src/lib/user/forms/basic-info/basic-info-form.component.scss` — 20, 109, 110.
+- `packages/ui-core/shared/src/lib/user/forms/basic-info/basic-info-form.component.ts` — 17, 21, 31, 32.
+- `packages/ui-core/shared/src/lib/user/forms/delete-confirmation/delete-confirmation.component.scss` — 1, 12, 16, 38, 65.
+- `packages/ui-core/shared/src/lib/user/forms/fields/password/password.component.ts` — 18, 20.
+- `packages/ui-core/shared/src/lib/user/forms/fields/role/role.component.ts` — 7, 8, 9.
+- `packages/ui-core/shared/src/lib/user/forms/user-forms.module.ts` — 16.
+- `packages/ui-core/shared/src/lib/user/user-multi-select/user-multi-select.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/user/user-mutation/user-mutation.component.scss` — 1, 4.
+- `packages/ui-core/shared/src/lib/user/user-mutation/user-mutation.component.ts` — 2, 4, 5.
+- `packages/ui-core/shared/src/lib/user/user-organizations-multi-select/user-organizations-multi-select.component.ts` — 2.
+- `packages/ui-core/shared/src/lib/vendor-select/vendor-select.component.ts` — 2, 7, 8, 9.
+- `packages/ui-core/shared/src/lib/work-in-progress/work-in-progress.module.ts` — 6.
+- `packages/ui-core/shared/src/lib/work-in-progress/work-in-progress.routes.ts` — 2.
+- `packages/ui-core/shared/src/lib/workspaces/workspaces.component.ts` — 7, 8, 9, 10, 14.
+- `packages/ui-core/static/styles/@shared/_add-task-dialog.scss` — 1, 30.
+- `packages/ui-core/static/styles/@shared/_edit-profile-form.scss` — 3, 5, 9, 10.
+- `packages/ui-core/static/styles/@shared/_employee-mutation.scss` — 3, 5, 9.
+- `packages/ui-core/static/styles/@shared/_employee-tab-panel.scss` — 7, 16, 37.
+- `packages/ui-core/static/styles/@shared/_panel.scss` — 5, 6, 7, 8, 11, 23, 34, 44, 53, 89, 102, 144, 158, 165, 171.
+- `packages/ui-core/static/styles/@shared/_pg-card.scss` — 2, 3, 4, 5, 16.
+- `packages/ui-core/static/styles/@shared/_reusable.scss` — 7, 19, 235, 240.
+- `packages/ui-core/static/styles/_gauzy-theme-maps.scss` — 13, 34, 35, 36, 37, 47, 60, 67, 70, 74, 105, 106, 122, 123, 124, 125, 128, 129, 130, 131, 134, 135, 139, 140, 141, 142, 143, 147, 149, 155, 158, 162, 165, 166, 168, 192, 194, 201, 202, 203, 204, 254, 256, 257, 258, 259, 261, 262, 263, 264, 266, 267, 268, 269, 271, 272, 273, 274, 277, 279, 280, 281, 282, 284, 285, 286, 287, 289, 290, 291, 292, 294, 295, 296, 297, 300, 301, 302, 303, 306, 307, 308, 309, 339, 340, 341, 342, 343, 344, 346, 350, 353, 354, 355, 356, 357, 358, 359, 362, 386, 387, 388, 420, 422, 423, 425, 427, 429, 430, 432, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487.
+- `packages/ui-core/static/styles/_overlays.scss` — 38, 45, 51, 54, 65, 74, 82, 94, 120, 123, 148, 239, 274, 294.
+- `packages/ui-core/static/styles/_overrides.scss` — 10, 25, 32, 79, 95, 100, 129, 410, 435, 451, 456, 549, 573, 579, 589, 590, 608, 611, 661, 670, 695, 704, 732, 750, 761, 762, 763, 810, 815, 894, 895, 896, 897, 904, 947, 952, 953, 954, 958, 959, 963, 997, 1094, 1190, 1255, 1256, 1269, 1274, 1284, 1309, 1313, 1327, 1373, 1448, 1462, 1471, 1517, 1633, 1639, 1659, 1662, 1672, 1674, 1676, 1680, 1682, 1684, 1770.
+- `packages/ui-core/static/styles/_spinner.scss` — 40.
+- `packages/ui-core/static/styles/gauzy/_gauzy-button-action.scss` — 3, 7, 8, 11.
+- `packages/ui-core/static/styles/gauzy/_gauzy-cards.scss` — 73.
+- `packages/ui-core/static/styles/gauzy/_gauzy-dialogs.scss` — 2, 3, 26, 109, 120.
+- `packages/ui-core/static/styles/gauzy/_gauzy-overrides.scss` — 11, 31, 54, 82, 218, 363, 374, 386, 393, 439, 440, 494, 498, 514, 518, 530, 542, 546, 558, 702, 738, 741, 854, 863.
+- `packages/ui-core/static/styles/gauzy/_gauzy-skeleton.scss` — 45.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table-filters.scss` — 56, 57, 58, 218.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table-hub.scss` — 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 21, 27, 28, 29, 30, 31, 32, 33, 51, 52, 65, 74, 75, 81, 93, 97, 137, 149, 150, 154, 155, 159, 160, 244, 249, 251, 259, 272, 274, 283, 290, 489, 496, 533, 537, 565, 566, 567, 568, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 624, 625, 626.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table.scss` — 8, 16, 30, 37, 40, 58, 68, 73.
+- `packages/ui-core/static/styles/gauzy/_rich-text-editor.scss` — 18, 36.
+- `packages/ui-core/static/styles/material/_material-dark.scss` — 14, 501.
+- `packages/ui-core/static/styles/material/_material-light.scss` — 14, 497.
+- `packages/ui-core/static/styles/report-table.scss` — 124, 152, 336.
+- `packages/ui-core/static/styles/report.scss` — 4, 7, 66, 113, 133, 142, 164, 169, 230, 236, 253.
+- `packages/ui-core/static/styles/styles.scss` — 25, 26, 27, 65, 68.
+- `packages/ui-core/static/styles/themes.scss` — 17, 18, 39, 44, 45, 46, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 72, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 120, 121, 122, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 171, 194, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 223, 248, 249, 274, 275, 276, 277, 278, 345, 368, 390, 391, 394, 395, 405, 406, 428, 430, 433, 434, 435, 516, 540, 541, 550, 554, 566, 582, 588, 589, 590, 593, 594, 599, 600, 604, 605, 607, 612, 613, 614, 640, 659, 688, 689, 690.
+- `packages/ui-core/theme/src/lib/components/footer/footer.component.scss` — 18, 59, 83, 174, 186.
+- `packages/ui-core/theme/src/lib/components/footer/footer.component.ts` — 5, 6, 9, 10, 69.
+- `packages/ui-core/theme/src/lib/components/gauzy-logo/gauzy-logo.component.ts` — 18, 19, 20, 21, 22, 26, 27, 28, 32, 83, 160.
+- `packages/ui-core/theme/src/lib/components/header/header.component.scss` — 11, 21, 99, 190, 352, 353, 356, 361, 376, 382, 383, 384, 388, 389, 390, 419, 424, 425, 432, 433.
+- `packages/ui-core/theme/src/lib/components/header/header.component.ts` — 22, 23, 24, 25, 45, 46.
+- `packages/ui-core/theme/src/lib/components/index.ts` — 3.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/changelog/changelog.component.html` — 1.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/changelog/changelog.component.scss` — 21, 30, 34.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/changelog/changelog.component.ts` — 2, 7.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/default-sidebars.ts` — 1.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/layout-selector/layout-selector.component.scss` — 1.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/layout-selector/layout-selector.component.ts` — 2, 5, 6, 10.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-language-selector/theme-language-selector.component.scss` — 15.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-language-selector/theme-language-selector.component.ts` — 4, 5, 6, 7, 8.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-language-selector/theme-language-selector.service.ts` — 2, 6, 7, 8.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/container/theme-selector-container.component.html` — 6, 10.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/switch-theme/switch-theme.component.ts` — 4, 11.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/switch-theme/switch-theme.service.ts` — 2.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector-image/theme-selector-image.component.scss` — 94.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector-image/theme-selector-image.component.ts` — 3, 7.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector.component.scss` — 1.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector.component.ts` — 2, 11, 12, 19, 29, 34, 80.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/theme-settings.component.html` — 1, 18, 27.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/theme-settings.component.scss` — 17, 25, 29, 33, 37, 47, 55.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/theme-settings.component.ts` — 7.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/theme-settings.module.ts` — 3.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-sidebar.component.ts` — 12.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-sidebar.module.ts` — 5.
+- `packages/ui-core/theme/src/lib/components/user-menu/user-menu.component.html` — 1, 3, 39.
+- `packages/ui-core/theme/src/lib/components/user-menu/user-menu.component.scss` — 9, 15, 21, 23, 34, 44, 48, 52, 72, 80.
+- `packages/ui-core/theme/src/lib/components/user-menu/user-menu.component.ts` — 3, 4, 5, 6, 20.
+- `packages/ui-core/theme/src/lib/components/user/user.component.scss` — 3, 18.
+- `packages/ui-core/theme/src/lib/components/user/user.component.ts` — 2, 7.
+- `packages/ui-core/theme/src/lib/components/workspace-menu/workspace-menu.component.html` — 1, 4.
+- `packages/ui-core/theme/src/lib/components/workspace-menu/workspace-menu.component.scss` — 16, 17.
+- `packages/ui-core/theme/src/lib/components/workspace-menu/workspace-menu.component.ts` — 5, 8.
+- `packages/ui-core/theme/src/lib/layouts/one-column/one-column.layout.html` — 82, 87, 96, 146, 150.
+- `packages/ui-core/theme/src/lib/layouts/one-column/one-column.layout.scss` — 9, 155, 159, 173, 181, 195, 199, 209, 218, 230, 248, 305, 346, 510, 536, 558.
+- `packages/ui-core/theme/src/lib/layouts/one-column/one-column.layout.ts` — 15.
+- `packages/ui-core/theme/src/lib/layouts/public/public.layout.ts` — 6, 7.
+- `packages/ui-core/theme/src/lib/theme.module.ts` — 36, 44, 45, 55, 56, 64, 114, 145, 152, 153.
+- `packages/ui-core/theme/src/lib/themes/gauzy/theme.gauzy-dark.ts` — 53, 54.
+- `packages/ui-core/theme/src/lib/themes/gauzy/theme.gauzy-light.ts` — 46, 47.
+- `packages/ui-core/theme/src/lib/themes/index.ts` — 12, 13.
+- `packages/ui-react-components/src/lib/theme.ts` — 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 17.
+- `packages/ui-react-components/src/lib/themeTokens.ts` — 16, 18, 24, 26, 28, 32, 36, 38, 46, 50.
+- `packages/ui-react/src/lib/react-bridge.ts` — 10.
+- `packages/ui-react/src/lib/react-hooks/index.ts` — 9.
+- `packages/ui-react/src/lib/react-hooks/use-dynamic-plugin.ts` — 3.
+- `packages/ui-react/src/lib/react-hooks/use-plugin-events.ts` — 10.
+- `packages/ui-react/src/lib/react-hooks/use-plugin-settings.ts` — 2.
+- `packages/ui-react/src/lib/react-hooks/use-plugin-state.ts` — 2.
+- `packages/ui-react/src/lib/react-hooks/use-translation.ts` — 3.
+- `packages/ui-react/src/lib/react-hooks/use-typed-event.ts` — 9.
+
+### Developer documentation / retained licensing text
+
+248 matches.
+
+- `apps/gauzy/README.md` — 1, 3.
+- `packages/plugin-ui/CHANGELOG.md` — 1.
+- `packages/plugin-ui/PLUGIN_UI.md` — 1, 3, 10, 98.
+- `packages/plugin-ui/README.md` — 1, 3, 37, 51, 52, 81, 82, 103, 153, 154, 178, 203, 215, 424, 478, 486, 508, 536, 537, 560, 589, 604.
+- `packages/plugins/ai-chat-react-ui/CHANGELOG.md` — 1.
+- `packages/plugins/ai-chat-react-ui/README.md` — 1, 3, 5, 27, 33, 40, 56.
+- `packages/plugins/auth-zitadel-ui/README.md` — 5, 13, 15, 21, 23, 34.
+- `packages/plugins/dashboard-time-track-angular-ui/CHANGELOG.md` — 1.
+- `packages/plugins/dashboard-time-track-angular-ui/README.md` — 1, 3, 14, 46, 49, 50.
+- `packages/plugins/dashboard-time-track-react-ui/CHANGELOG.md` — 1, 10.
+- `packages/plugins/dashboard-time-track-react-ui/README.md` — 1, 3, 10, 12, 14, 16, 25, 41, 42.
+- `packages/plugins/docs-ui/CHANGELOG.md` — 1.
+- `packages/plugins/docs-ui/README.md` — 1, 3, 7, 37, 38, 58.
+- `packages/plugins/ever-connect-ui/README.md` — 1, 3, 10, 11, 15.
+- `packages/plugins/ever-stats-ui/README.md` — 1, 3.
+- `packages/plugins/inbox-ui/README.md` — 5, 15, 17, 18, 21, 22, 30, 40, 50, 110.
+- `packages/plugins/integration-activepieces-ui/README.md` — 1, 20, 22.
+- `packages/plugins/integration-ai-ui/README.md` — 1, 3, 7, 26, 28.
+- `packages/plugins/integration-ever-async-ui/README.md` — 2, 5, 7, 9, 18.
+- `packages/plugins/integration-ever-works-ui/README.md` — 2, 5, 10, 22, 34, 37, 38, 52, 76.
+- `packages/plugins/integration-github-ui/README.md` — 1, 22, 24.
+- `packages/plugins/integration-hubstaff-ui/README.md` — 1, 22, 24.
+- `packages/plugins/integration-make-com-ui/README.md` — 1, 24, 26.
+- `packages/plugins/integration-plane-ui/README.md` — 1, 18, 20.
+- `packages/plugins/integration-sim-ui/README.md` — 1, 18, 20.
+- `packages/plugins/integration-upwork-ui/README.md` — 1, 22, 24.
+- `packages/plugins/integration-zapier-ui/README.md` — 1, 24, 26.
+- `packages/plugins/job-employee-ui/CHANGELOG.md` — 1.
+- `packages/plugins/job-employee-ui/README.md` — 1, 7, 26, 28.
+- `packages/plugins/job-matching-ui/CHANGELOG.md` — 1.
+- `packages/plugins/job-matching-ui/README.md` — 1, 22, 24.
+- `packages/plugins/job-proposal-ui/CHANGELOG.md` — 1.
+- `packages/plugins/job-proposal-ui/README.md` — 1, 22, 24.
+- `packages/plugins/job-search-ui/CHANGELOG.md` — 1.
+- `packages/plugins/job-search-ui/README.md` — 1, 22, 24.
+- `packages/plugins/jobs-ui/CHANGELOG.md` — 1.
+- `packages/plugins/jobs-ui/README.md` — 1, 7, 26, 28.
+- `packages/plugins/legal-ui/CHANGELOG.md` — 1, 7, 24.
+- `packages/plugins/legal-ui/README.md` — 1, 3, 15, 39, 47, 70, 72.
+- `packages/plugins/maintenance-ui/CHANGELOG.md` — 1.
+- `packages/plugins/maintenance-ui/README.md` — 1.
+- `packages/plugins/onboarding-ui/CHANGELOG.md` — 1.
+- `packages/plugins/onboarding-ui/README.md` — 1, 3, 7, 26, 28.
+- `packages/plugins/posthog-ui/CHANGELOG.md` — 1.
+- `packages/plugins/posthog-ui/README.md` — 1, 26, 28, 41, 88, 167, 309.
+- `packages/plugins/public-layout-ui/CHANGELOG.md` — 1.
+- `packages/plugins/public-layout-ui/README.md` — 1, 3, 7, 22, 24.
+- `packages/plugins/videos-ui/CHANGELOG.md` — 1.
+- `packages/plugins/videos-ui/README.md` — 1, 7, 30, 33, 35.
+- `packages/ui-auth/CHANGELOG.md` — 1.
+- `packages/ui-auth/README.md` — 1, 3, 12, 28, 31, 33.
+- `packages/ui-config/CHANGELOG.md` — 1.
+- `packages/ui-config/README.md` — 1, 7, 11, 31, 34, 36.
+- `packages/ui-core/CHANGELOG.md` — 1.
+- `packages/ui-core/README.md` — 1, 3, 14, 30, 33, 35.
+- `packages/ui-core/common/README.md` — 1, 3.
+- `packages/ui-core/core/README.md` — 1, 3.
+- `packages/ui-core/i18n/README.md` — 1, 3.
+- `packages/ui-core/icons/README.md` — 1, 3.
+- `packages/ui-core/shared/README.md` — 1, 3.
+- `packages/ui-core/theme/README.md` — 1, 3.
+- `packages/ui-react-components/CHANGELOG.md` — 1, 7.
+- `packages/ui-react-components/README.md` — 1, 3, 7, 13, 15, 32, 39.
+- `packages/ui-react/CHANGELOG.md` — 1.
+- `packages/ui-react/README.md` — 1, 3, 7, 10, 12, 14, 20, 26, 81, 103, 124, 140, 154, 157, 179, 195, 210.
+
+### Integration display matcher replaces legacy API names before rendering
+
+9 matches.
+
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.html` — 50, 52, 58, 59.
+- `apps/gauzy/src/app/pages/integrations/components/plugin-builtin/plugin-builtin.component.html` — 32, 34, 82, 83, 94.
+
+### Package/build/proxy/service-worker metadata; no rendered copy
+
+645 matches.
+
+- `apps/gauzy/ngsw-config.json` — 22.
+- `apps/gauzy/ngsw-config.prod.json` — 23.
+- `apps/gauzy/package.json` — 2, 4, 6, 9, 12, 16, 17, 18, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76.
+- `apps/gauzy/project.json` — 2, 5, 6, 19, 21, 22, 23, 24, 25, 30, 31, 32, 33, 57, 58, 91, 162, 163, 168, 169, 172, 173, 182, 188, 189, 201, 202, 203, 204, 209, 210, 211, 212, 242, 243, 296, 317, 319, 320, 321, 322, 323, 328, 329, 330, 331, 354, 355, 403.
+- `apps/gauzy/proxy.demo.conf.json` — 3, 7, 8.
+- `apps/gauzy/tslint.json` — 10.
+- `packages/plugin-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 36, 41.
+- `packages/plugins/ai-chat-react-ui/ng-package.json` — 11, 12, 13, 14, 15, 16.
+- `packages/plugins/ai-chat-react-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 36, 37, 38, 39, 40, 41, 54.
+- `packages/plugins/auth-zitadel-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 36, 48.
+- `packages/plugins/dashboard-time-track-angular-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 33, 34, 35, 56.
+- `packages/plugins/dashboard-time-track-react-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 38, 39, 40, 41, 42, 43, 58.
+- `packages/plugins/docs-ui/package.json` — 2, 4, 6, 7, 8, 13, 17, 19, 36, 37, 38, 39, 97.
+- `packages/plugins/docs-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11, 12.
+- `packages/plugins/ever-connect-ui/ng-package.json` — 3.
+- `packages/plugins/ever-connect-ui/package.json` — 2, 4, 6, 7, 8, 12, 13, 16, 18, 22, 23, 24, 33, 34, 35, 47.
+- `packages/plugins/ever-connect-ui/project.json` — 2, 4, 14, 15, 19, 22, 32, 33.
+- `packages/plugins/ever-stats-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 31, 32, 33, 45.
+- `packages/plugins/inbox-ui/package.json` — 2, 4, 6, 7, 11, 15, 17, 32, 33, 34, 46.
+- `packages/plugins/integration-activepieces-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 49.
+- `packages/plugins/integration-activepieces-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-ai-ui/package.json` — 2, 4, 6, 7, 8, 13, 17, 19, 33, 34, 48.
+- `packages/plugins/integration-ai-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-ever-async-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 33, 34, 35, 36, 49.
+- `packages/plugins/integration-ever-async-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-ever-works-ui/package.json` — 2, 4, 6, 7, 11, 15, 17, 32, 33, 34, 46.
+- `packages/plugins/integration-github-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 36, 51.
+- `packages/plugins/integration-github-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-hubstaff-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 51, 58.
+- `packages/plugins/integration-hubstaff-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-make-com-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 49.
+- `packages/plugins/integration-make-com-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-plane-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 33, 34, 35, 50.
+- `packages/plugins/integration-plane-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-sim-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 33, 34, 49.
+- `packages/plugins/integration-sim-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-upwork-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 50.
+- `packages/plugins/integration-upwork-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/integration-zapier-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 49.
+- `packages/plugins/integration-zapier-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/job-employee-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 36, 54.
+- `packages/plugins/job-employee-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/job-matching-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 52.
+- `packages/plugins/job-matching-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/job-proposal-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 34, 35, 36, 55.
+- `packages/plugins/job-proposal-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/job-search-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 56.
+- `packages/plugins/job-search-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/jobs-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 32, 33, 34, 35, 36, 37, 38, 51.
+- `packages/plugins/legal-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 32, 47.
+- `packages/plugins/legal-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/maintenance-ui/package.json` — 2, 6, 7, 8, 12, 16, 18, 32, 33.
+- `packages/plugins/maintenance-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/onboarding-ui/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 32, 33, 51.
+- `packages/plugins/onboarding-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/posthog-ui/package.json` — 2, 4, 6, 7, 8, 13, 17, 19, 31, 42.
+- `packages/plugins/posthog-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/public-layout-ui/package.json` — 2, 4, 6, 7, 8, 12, 15, 17, 33, 34, 35, 56, 58.
+- `packages/plugins/public-layout-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/plugins/videos-ui/package.json` — 2, 4, 6, 7, 8, 13, 17, 19, 33, 34, 50.
+- `packages/plugins/videos-ui/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/ui-auth/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 33, 34, 35, 36, 57, 58.
+- `packages/ui-auth/tsconfig.lib.prod.json` — 7, 8, 9, 10, 11.
+- `packages/ui-config/package.json` — 2, 4, 7, 8, 9, 13, 17, 19, 51.
+- `packages/ui-core/.eslintrc.json` — 13.
+- `packages/ui-core/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 56, 57, 58, 134.
+- `packages/ui-core/tsconfig.json` — 13, 14.
+- `packages/ui-core/tsconfig.lib.json` — 12, 13, 14, 15.
+- `packages/ui-core/tsconfig.lib.prod.json` — 8, 9, 10, 11.
+- `packages/ui-react-components/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 34, 37.
+- `packages/ui-react/package.json` — 2, 4, 6, 7, 8, 12, 16, 18, 29, 42, 47.
+
+### Required fork source/release URL or repository slug; visible labels say Base360 / Source code
+
+17 matches.
+
+- `apps/gauzy/src/app/pages/about/about.component.ts` — 62.
+- `apps/gauzy/src/app/pages/help/help.component.html` — 15.
+- `apps/gauzy/src/app/pages/help/help.component.ts` — 34.
+- `packages/plugins/integration-ever-async-ui/src/lib/components/ever-async-connect/ever-async-connect.component.html` — 224.
+- `packages/ui-config/src/lib/brand-environment.ts` — 8, 16, 24, 25, 26, 27, 36, 43, 49, 55, 61.
+- `packages/ui-core/theme/src/lib/components/footer/footer.component.html` — 55.
+- `packages/ui-core/theme/src/lib/components/footer/footer.component.ts` — 73.
+
+### Retained developer comment or implementation identifier; not rendered copy
+
+40 matches.
+
+- `apps/gauzy/src/main.ts` — 16.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.ts` — 61, 104, 126, 151.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.ts` — 236.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/match-review/ever-works-match-review.component.ts` — 108, 116, 270, 284, 289, 413, 418, 563, 574, 577, 596, 597, 608, 686, 708, 710, 714, 720, 742, 743, 747, 769, 774, 778, 784.
+- `packages/plugins/integration-ever-works-ui/src/lib/services/ever-works.service.ts` — 74, 77, 81, 84, 195, 217, 239, 253.
+- `packages/ui-core/shared/src/lib/selectors/organization/organization.component.html` — 40.
+
+### Retained source comment / provenance / license notice
+
+869 matches.
+
+- `apps/gauzy/src/app/app.component.ts` — 245.
+- `apps/gauzy/src/app/app.module.ts` — 144.
+- `apps/gauzy/src/app/bootstrap.module.ts` — 28.
+- `apps/gauzy/src/app/pages/about/about.component.scss` — 3.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates.component.scss` — 10.
+- `apps/gauzy/src/app/pages/accounting-templates/accounting-templates.component.ts` — 28.
+- `apps/gauzy/src/app/pages/approvals/approvals.component.scss` — 16, 40.
+- `apps/gauzy/src/app/pages/approvals/table-components/approval-policy/approval-policy.component.scss` — 10, 14.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-education/edit-candidate-education.component.scss` — 68.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-experience/edit-candidate-experience/edit-candidate-experience-form.component.scss` — 66.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-feedbacks/edit-candidate-feedbacks.component.scss` — 301.
+- `apps/gauzy/src/app/pages/candidates/edit-candidate/edit-candidate-profile/edit-candidate-interview/edit-candidate-interview.component.scss` — 41.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-calendar/interview-calendar.component.scss` — 29.
+- `apps/gauzy/src/app/pages/candidates/manage-candidate-interviews/interview-panel/interview-panel.component.scss` — 117.
+- `apps/gauzy/src/app/pages/candidates/table-components/candidate-status/candidate-status.component.scss` — 36.
+- `apps/gauzy/src/app/pages/contacts/contact-mutation/contact-mutation.component.scss` — 736, 854, 856, 867, 869.
+- `apps/gauzy/src/app/pages/contacts/contact-view/contact-view.component.scss` — 14, 16, 17, 18, 250.
+- `apps/gauzy/src/app/pages/contacts/contacts.component.scss` — 38.
+- `apps/gauzy/src/app/pages/contacts/invite-contact/invite-contact.component.scss` — 8, 11, 19, 25.
+- `apps/gauzy/src/app/pages/dashboard/accounting/accounting.component.scss` — 8.
+- `apps/gauzy/src/app/pages/dashboard/accounting/accounting.component.ts` — 94.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/dashboard-canvas.component.ts` — 86.
+- `apps/gauzy/src/app/pages/dashboard/custom-dashboard/widget-config-dialog.component.ts` — 18.
+- `apps/gauzy/src/app/pages/dashboard/dashboard-switcher/dashboard-switcher.component.scss` — 63, 122.
+- `apps/gauzy/src/app/pages/dashboard/employee-charts/employee-chart-palette.ts` — 36, 39, 40, 56.
+- `apps/gauzy/src/app/pages/dashboard/human-resources/human-resources.component.scss` — 11, 317.
+- `apps/gauzy/src/app/pages/email-templates/email-templates.component.scss` — 9.
+- `apps/gauzy/src/app/pages/email-templates/email-templates.component.ts` — 28.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot/screenshot.component.scss` — 118.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities/time-activities.component.scss` — 198, 224, 288.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee-profile/edit-employee-settings/edit-employee-other-settings.component.scss` — 59, 143, 144, 245, 443, 519, 521.
+- `apps/gauzy/src/app/pages/employees/edit-employee/edit-employee.component.scss` — 184, 185, 196, 197, 199.
+- `apps/gauzy/src/app/pages/employees/employees.component.scss` — 20, 112.
+- `apps/gauzy/src/app/pages/employees/schedules/availability-slots/availability-slots.component.scss` — 28.
+- `apps/gauzy/src/app/pages/employees/table-components/employee-work-status/employee-work-status.component.scss` — 11, 16, 22.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.scss` — 20.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.ts` — 58.
+- `apps/gauzy/src/app/pages/employees/timesheet/layout/layout.component.scss` — 10.
+- `apps/gauzy/src/app/pages/employees/view-employee/view-employee.component.scss` — 9.
+- `apps/gauzy/src/app/pages/employment-types/employment-types.component.scss` — 34, 45, 46, 47.
+- `apps/gauzy/src/app/pages/equipment/equipment.component.scss` — 14, 46.
+- `apps/gauzy/src/app/pages/expenses/expense-categories/expense-categories.component.scss` — 116, 143, 161.
+- `apps/gauzy/src/app/pages/expenses/expenses.component.scss` — 1, 2, 14, 32.
+- `apps/gauzy/src/app/pages/goal-settings/edit-kpi/edit-kpi.component.scss` — 6, 155.
+- `apps/gauzy/src/app/pages/goal-settings/edit-time-frame/edit-time-frame.component.scss` — 5, 17, 19, 21, 128.
+- `apps/gauzy/src/app/pages/goal-settings/goal-settings.component.scss` — 35, 37, 52, 163.
+- `apps/gauzy/src/app/pages/goals/edit-keyresults/edit-keyresults.component.scss` — 7, 34, 253.
+- `apps/gauzy/src/app/pages/goals/edit-objective/edit-objective.component.scss` — 7, 41, 205.
+- `apps/gauzy/src/app/pages/goals/goal-details/goal-details.component.scss` — 7.
+- `apps/gauzy/src/app/pages/goals/goal-template-select/goal-template-select.component.scss` — 6, 28, 83.
+- `apps/gauzy/src/app/pages/goals/goals.component.scss` — 8, 10.
+- `apps/gauzy/src/app/pages/goals/key-result-parameters/key-result-parameters.component.scss` — 7.
+- `apps/gauzy/src/app/pages/goals/keyresult-details/keyresult-details.component.scss` — 7.
+- `apps/gauzy/src/app/pages/goals/keyresult-update/keyresult-update.component.scss` — 14, 16.
+- `apps/gauzy/src/app/pages/help-center/add-article/add-article.component.scss` — 98.
+- `apps/gauzy/src/app/pages/help-center/help-center.component.scss` — 183, 185, 265, 269.
+- `apps/gauzy/src/app/pages/import-export/export/export.component.scss` — 17, 20.
+- `apps/gauzy/src/app/pages/import-export/import-export.component.scss` — 4.
+- `apps/gauzy/src/app/pages/import-export/import-export.component.ts` — 146.
+- `apps/gauzy/src/app/pages/import-export/import/import.component.scss` — 4, 265.
+- `apps/gauzy/src/app/pages/income/income.component.scss` — 8.
+- `apps/gauzy/src/app/pages/integrations/components/plugin-builtin/plugin-builtin.component.scss` — 156.
+- `apps/gauzy/src/app/pages/integrations/integrations.component.scss` — 33, 90.
+- `apps/gauzy/src/app/pages/integrations/integrations.module.ts` — 112, 118.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/options-form/options-form.component.scss` — 32.
+- `apps/gauzy/src/app/pages/inventory/components/edit-inventory-item/product-form.component.scss` — 100.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/description/description.component.css` — 7.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/item-img-tags-row.component.ts` — 97.
+- `apps/gauzy/src/app/pages/inventory/components/inventory-table-components/name-with-description/name-with-description.component.scss` — 1, 2, 8.
+- `apps/gauzy/src/app/pages/inventory/components/manage-product-types/product-types.component.scss` — 4, 5, 16, 58.
+- `apps/gauzy/src/app/pages/inventory/components/table-inventory-items/table-inventory.component.scss` — 14, 50.
+- `apps/gauzy/src/app/pages/inventory/components/view-inventory-item/view-inventory-item.component.scss` — 36.
+- `apps/gauzy/src/app/pages/invoices/_invoice-dialog.scss` — 8, 21, 92.
+- `apps/gauzy/src/app/pages/invoices/invoice-edit/invoice-edit.component.scss` — 99, 229, 511, 604, 626.
+- `apps/gauzy/src/app/pages/invoices/invoice-edit/invoice-edit.component.ts` — 903.
+- `apps/gauzy/src/app/pages/invoices/invoice-payments/payment-mutation/payment-mutation.component.scss` — 7, 96.
+- `apps/gauzy/src/app/pages/invoices/invoices.component.scss` — 74, 241, 243, 249, 321, 694, 1020, 1209, 1210, 1215.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-location/edit-organization-location.component.scss` — 165.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-other-settings/edit-organization-other-settings.component.scss` — 54, 55, 61, 62, 168, 169, 213, 214, 493, 495, 666, 684, 691, 694, 839.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization-settings/edit-organization-settings.component.scss` — 14, 18.
+- `apps/gauzy/src/app/pages/organizations/edit-organization/edit-organization.component.scss` — 31, 34, 36, 267, 271, 283, 286, 291, 296, 298.
+- `apps/gauzy/src/app/pages/organizations/organization-delete-confirmation/organization-delete-confirmation.component.scss` — 7.
+- `apps/gauzy/src/app/pages/organizations/organizations.component.scss` — 7.
+- `apps/gauzy/src/app/pages/organizations/table-components/organizations-status/organizations-status.component.scss` — 5.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-deals/pipeline-deal-form/pipeline-deal-form.component.scss` — 9, 11.
+- `apps/gauzy/src/app/pages/pipelines/pipeline-form/pipeline-form.component.scss` — 5, 67.
+- `apps/gauzy/src/app/pages/pipelines/pipelines.component.scss` — 31, 33, 97, 157, 229, 230, 231, 233.
+- `apps/gauzy/src/app/pages/pipelines/stage/stage.component.scss` — 14.
+- `apps/gauzy/src/app/pages/pipelines/table-components/pipeline-deal-probability/pipeline-deal-probability.component.scss` — 10, 13.
+- `apps/gauzy/src/app/pages/projects/components/project-list/list.component.scss` — 42, 52.
+- `apps/gauzy/src/app/pages/recurring-expense-employee/recurring-expense-employee.component.scss` — 13, 24, 79, 108, 148, 201.
+- `apps/gauzy/src/app/pages/reports/all-report/all-report/all-report.component.scss` — 7.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report/amounts-owed-report.component.ts` — 109, 113.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report/apps-urls-report.component.scss` — 6, 13, 25.
+- `apps/gauzy/src/app/pages/reports/client-budgets-report/client-budgets-report/client-budgets-report.component.ts` — 93.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report/expenses-report.component.ts` — 80, 117, 122.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time/manual-time.component.ts` — 105.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report/payment-report.component.ts` — 105.
+- `apps/gauzy/src/app/pages/reports/project-budgets-report/project-budgets-report/project-budgets-report.component.ts` — 91.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report/time-limit-report.component.ts` — 76, 94.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports/time-reports.component.ts` — 84, 98.
+- `apps/gauzy/src/app/pages/reports/weekly-time-reports/weekly-time-reports/weekly-time-reports.component.ts` — 91, 113.
+- `apps/gauzy/src/app/pages/settings/danger-zone/danger-zone.component.scss` — 20.
+- `apps/gauzy/src/app/pages/settings/email-history/email-history.component.scss` — 8.
+- `apps/gauzy/src/app/pages/settings/file-storage/file-storage.component.scss` — 5.
+- `apps/gauzy/src/app/pages/settings/general-setting/_general-setting-layout.scss` — 10.
+- `apps/gauzy/src/app/pages/settings/monitoring/monitoring.component.scss` — 37, 240.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-client-form-dialog/oauth-client-form-dialog.component.scss` — 6.
+- `apps/gauzy/src/app/pages/settings/oauth-clients/oauth-clients.component.scss` — 2.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/roles-permissions.component.scss` — 115, 296.
+- `apps/gauzy/src/app/pages/settings/sms-gateway/sms-gateway.component.scss` — 5.
+- `apps/gauzy/src/app/pages/tags/tags-color/tags-color.component.scss` — 22, 24.
+- `apps/gauzy/src/app/pages/tags/tags.component.scss` — 6, 8, 9, 84, 93, 139, 201, 325.
+- `apps/gauzy/src/app/pages/tasks/components/task/task.component.scss` — 126, 166, 183, 213, 216, 223.
+- `apps/gauzy/src/app/pages/tasks/components/task/tasks-layouts/tasks-sprint-view/task/task.component.scss` — 11, 13, 17, 18.
+- `apps/gauzy/src/app/pages/teams/teams.component.scss` — 14, 20, 29.
+- `apps/gauzy/src/app/pages/time-off/time-off.component.scss` — 64.
+- `apps/gauzy/src/app/pages/users/edit-user-mutation/edit-user-mutation.component.scss` — 6.
+- `apps/gauzy/src/app/pages/users/users.component.scss` — 31.
+- `apps/gauzy/src/app/pages/vendors/vendors.component.scss` — 11, 14, 147, 215, 231, 248.
+- `apps/gauzy/src/plugin-ui.config.ts` — 84.
+- `apps/gauzy/version.ts` — 3, 9.
+- `packages/plugin-ui/src/index.ts` — 2.
+- `packages/plugin-ui/src/lib/adapters/feature-adapter.service.ts` — 9, 10.
+- `packages/plugin-ui/src/lib/adapters/permission-adapter.service.ts` — 9, 10.
+- `packages/plugin-ui/src/lib/adapters/translate-adapter.service.ts` — 11.
+- `packages/plugin-ui/src/lib/plugin-dependency-graph.ts` — 56.
+- `packages/plugin-ui/src/lib/plugin-extension/page-extension-slot.types.ts` — 36.
+- `packages/plugin-ui/src/lib/plugin-host/plugin-state.service.ts` — 9.
+- `packages/plugin-ui/src/lib/plugin-ui-config-loader.ts` — 12.
+- `packages/plugin-ui/src/lib/plugin-ui.helper.ts` — 48, 57, 73, 82, 91, 133, 221, 224, 230.
+- `packages/plugin-ui/src/lib/plugin-ui.types.ts` — 7, 55, 86, 89, 97, 129, 132, 146, 177, 271, 277.
+- `packages/plugin-ui/src/lib/ui-bridge/ui-bridge-registry.service.ts` — 52.
+- `packages/plugin-ui/src/lib/ui-bridge/ui-bridge.adapter.ts` — 8, 58, 59, 93, 94.
+- `packages/plugins/ai-chat-react-ui/src/index.ts` — 2, 5.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-availability.service.ts` — 22.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-react-ui.plugin.ts` — 22.
+- `packages/plugins/ai-chat-react-ui/src/lib/ai-chat-window.routes.ts` — 9, 17.
+- `packages/plugins/ai-chat-react-ui/src/lib/chat-client-tools.ts` — 19.
+- `packages/plugins/ai-chat-react-ui/src/lib/chat-markdown-css.ts` — 17.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/AiChatPanel.tsx` — 103, 853.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/ChatInput.tsx` — 58.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/ChatMessageItem.tsx` — 109.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/MarkdownContent.tsx` — 39.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/playground/Playground.tsx` — 33.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/playground/PlaygroundChatSidebar.tsx` — 15.
+- `packages/plugins/ai-chat-react-ui/src/lib/components/playground/PlaygroundSettings.tsx` — 17.
+- `packages/plugins/ai-chat-react-ui/src/lib/docs-citations.model.ts` — 11.
+- `packages/plugins/ai-chat-react-ui/src/lib/page-registry.ts` — 5, 8, 11.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.component.scss` — 13, 15, 108, 219, 226, 292.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/ai-chat-settings.service.ts` — 18.
+- `packages/plugins/ai-chat-react-ui/src/lib/settings/provider-logos.ts` — 24, 25, 60.
+- `packages/plugins/auth-zitadel-ui/src/index.ts` — 2.
+- `packages/plugins/auth-zitadel-ui/src/lib/auth-zitadel-ui.plugin.ts` — 14, 22, 47.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/connected-identities.component.ts` — 17.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-confirm.component.ts` — 14.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-signup.component.ts` — 23, 26, 27, 207.
+- `packages/plugins/dashboard-time-track-angular-ui/src/index.ts` — 2.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/components/time-tracking/time-tracking.component.scss` — 276.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/dashboard-time-track-angular-ui.plugin.ts` — 30.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/recent-activities-widget.component.scss` — 8.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-counter-card.component.ts` — 10.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-list-widget.scss` — 12.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-widget-state.component.ts` — 20.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-widget.utils.ts` — 24, 144.
+- `packages/plugins/dashboard-time-track-react-ui/src/index.ts` — 2, 5.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/NbIcon.tsx` — 19, 20.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/nebular-jsx.ts` — 8, 9.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/components/widgets/CounterWidget.tsx` — 25.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/dashboard-time-track-react-ui.plugin.ts` — 13, 19, 44.
+- `packages/plugins/docs-ui/src/index.ts` — 5.
+- `packages/plugins/docs-ui/src/lib/components/links/document-links-panel.component.ts` — 40.
+- `packages/plugins/docs-ui/src/lib/components/table/docs-table-columns.model.ts` — 9.
+- `packages/plugins/docs-ui/src/lib/components/table/docs-table.component.html` — 10.
+- `packages/plugins/docs-ui/src/lib/dialogs/link-dialog.component.ts` — 37.
+- `packages/plugins/docs-ui/src/lib/docs-ui.module.ts` — 201.
+- `packages/plugins/docs-ui/src/lib/docs-ui.plugin.ts` — 92, 99.
+- `packages/plugins/docs-ui/src/lib/docs.constants.ts` — 5.
+- `packages/plugins/docs-ui/src/lib/editor/document-editor.component.scss` — 5.
+- `packages/plugins/docs-ui/src/lib/editor/editor.constants.ts` — 21.
+- `packages/plugins/docs-ui/src/lib/editor/menus/text-bubble-menu.component.ts` — 45.
+- `packages/plugins/docs-ui/src/lib/editor/read-only/safe-url.util.ts` — 20.
+- `packages/plugins/docs-ui/src/lib/editor/services/document-binary.util.ts` — 71.
+- `packages/plugins/docs-ui/src/lib/models/docs-api.model.ts` — 14, 78.
+- `packages/plugins/docs-ui/src/lib/models/docs-inbound.model.ts` — 22, 41.
+- `packages/plugins/docs-ui/src/lib/models/docs-share.model.ts` — 14.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-breadcrumb.util.ts` — 3, 12.
+- `packages/plugins/docs-ui/src/lib/pages/page-editor/document-page-view.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-inbound-settings-page.component.scss` — 5, 285.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-inbound-settings-page.component.ts` — 220.
+- `packages/plugins/docs-ui/src/lib/services/docs-saved-views.service.ts` — 20.
+- `packages/plugins/docs-ui/src/lib/services/document-inbound-address.service.ts` — 18, 79.
+- `packages/plugins/docs-ui/src/lib/services/documents.service.ts` — 57.
+- `packages/plugins/docs-ui/src/lib/services/local-id.util.ts` — 35.
+- `packages/plugins/docs-ui/src/lib/styles/_docs.scss` — 1.
+- `packages/plugins/ever-connect-ui/src/index.ts` — 2.
+- `packages/plugins/ever-connect-ui/src/lib/components/ever-platform-page/ever-platform-page.component.ts` — 40, 42, 679, 743.
+- `packages/plugins/ever-connect-ui/src/lib/components/pending-approvals/pending-approvals.component.ts` — 13, 122.
+- `packages/plugins/ever-connect-ui/src/lib/ever-connect-ui.plugin.ts` — 30, 51.
+- `packages/plugins/ever-connect-ui/src/lib/services/ever-connect.service.ts` — 10, 57.
+- `packages/plugins/ever-stats-ui/src/index.ts` — 2.
+- `packages/plugins/ever-stats-ui/src/lib/components/usage-statistics-settings/usage-statistics-settings.component.ts` — 233.
+- `packages/plugins/ever-stats-ui/src/lib/ever-stats-ui.plugin.ts` — 32.
+- `packages/plugins/inbox-ui/src/index.ts` — 2.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-notifications/inbox-notifications.component.ts` — 21.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-page/inbox-page.component.ts` — 61.
+- `packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.ts` — 124, 163, 164, 215, 218.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-availability.service.ts` — 20.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-directory.service.ts` — 44, 103.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-email-availability.service.ts` — 17.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-email-settings.service.ts` — 46, 49.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-ui.service.ts` — 23, 24, 84.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-mailboxes-page.component.ts` — 54, 56.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-create-dialog.component.ts` — 50.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-settings.helpers.ts` — 203.
+- `packages/plugins/integration-activepieces-ui/src/index.ts` — 2.
+- `packages/plugins/integration-ai-ui/src/index.ts` — 2.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.ts` — 102, 149.
+- `packages/plugins/integration-ever-async-ui/src/index.ts` — 2.
+- `packages/plugins/integration-ever-works-ui/src/index.ts` — 2.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/connect/ever-works-connect.component.ts` — 28.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/ever-works-page/ever-works-page.component.ts` — 158.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/match-review/ever-works-match-review.component.ts` — 25, 36, 39, 48, 56, 515, 562, 573, 580, 587, 593, 607, 633, 634, 641, 772, 878.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/shared/ever-works-ui.utils.ts` — 18.
+- `packages/plugins/integration-ever-works-ui/src/lib/integration-ever-works-ui.plugin.ts` — 50.
+- `packages/plugins/integration-ever-works-ui/src/lib/services/ever-works.service.ts` — 83, 130, 135, 169, 226, 238, 240, 330, 440, 445.
+- `packages/plugins/integration-github-ui/src/index.ts` — 2.
+- `packages/plugins/integration-github-ui/src/lib/components/installation/installation.component.ts` — 162.
+- `packages/plugins/integration-hubstaff-ui/src/index.ts` — 2.
+- `packages/plugins/integration-plane-ui/src/index.ts` — 2.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-authorize/plane-authorize.component.ts` — 18.
+- `packages/plugins/integration-plane-ui/src/lib/components/plane-settings/plane-settings.component.ts` — 25, 147.
+- `packages/plugins/integration-sim-ui/src/index.ts` — 2.
+- `packages/plugins/integration-upwork-ui/src/index.ts` — 2.
+- `packages/plugins/integration-zapier-ui/src/index.ts` — 2.
+- `packages/plugins/integration-zapier-ui/src/lib/components/zapier-zaps/zapier-zaps.component.ts` — 126.
+- `packages/plugins/job-employee-ui/src/index.ts` — 2.
+- `packages/plugins/job-employee-ui/src/lib/components/job-employee/job-employee.component.scss` — 58, 188, 208, 246, 306, 323.
+- `packages/plugins/job-matching-ui/src/index.ts` — 2.
+- `packages/plugins/job-proposal-ui/src/index.ts` — 2.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-list/proposal-template-list.component.scss` — 67.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-edit/proposal-edit.component.scss` — 23, 36.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal-register/proposal-register.component.scss` — 69, 82.
+- `packages/plugins/job-proposal-ui/src/lib/proposal/components/proposal/proposal.component.scss` — 9, 116, 180.
+- `packages/plugins/job-search-ui/src/index.ts` — 2.
+- `packages/plugins/job-search-ui/src/lib/components/apply-job-manually/apply-job-manually.component.ts` — 264, 414.
+- `packages/plugins/job-search-ui/src/lib/components/job-search/job-search.component.scss` — 115, 130.
+- `packages/plugins/jobs-ui/src/index.ts` — 2.
+- `packages/plugins/legal-ui/src/index.ts` — 2.
+- `packages/plugins/legal-ui/src/lib/components/_legal-document.scss` — 1.
+- `packages/plugins/legal-ui/src/lib/components/privacy-policy/privacy-policy.component.scss` — 1411.
+- `packages/plugins/legal-ui/src/lib/components/privacy-policy/privacy-policy.component.ts` — 79.
+- `packages/plugins/legal-ui/src/lib/components/terms-and-conditions/terms-and-conditions.component.scss` — 728.
+- `packages/plugins/legal-ui/src/lib/components/terms-and-conditions/terms-and-conditions.component.ts` — 35.
+- `packages/plugins/legal-ui/src/lib/content/index.ts` — 5, 20.
+- `packages/plugins/legal-ui/src/lib/models/legal-document.model.ts` — 4, 9, 19, 22, 25.
+- `packages/plugins/legal-ui/src/lib/providers/legal.service.ts` — 16.
+- `packages/plugins/maintenance-ui/src/index.ts` — 2.
+- `packages/plugins/onboarding-ui/src/index.ts` — 2.
+- `packages/plugins/onboarding-ui/src/lib/components/onboarding-complete/onboarding-complete.component.html` — 4.
+- `packages/plugins/public-layout-ui/src/index.ts` — 2.
+- `packages/plugins/public-layout-ui/src/lib/components/employee/employee.component.scss` — 9.
+- `packages/plugins/public-layout-ui/src/lib/components/organization/organization.component.scss` — 9.
+- `packages/plugins/public-layout-ui/src/lib/components/pick-employee/pick-employee.component.scss` — 8.
+- `packages/plugins/public-layout-ui/src/lib/pipes/sanitize-html.pipe.ts` — 15, 21.
+- `packages/plugins/videos-ui/src/lib/video-ui.module.ts` — 104, 105, 110.
+- `packages/ui-auth/src/index.ts` — 2.
+- `packages/ui-auth/src/lib/components/register/register.component.ts` — 103, 164.
+- `packages/ui-auth/src/lib/components/social-links/social-links.component.html` — 6.
+- `packages/ui-auth/src/lib/components/social-links/social-links.component.scss` — 11.
+- `packages/ui-config/src/index.ts` — 2.
+- `packages/ui-core/common/src/index.ts` — 2.
+- `packages/ui-core/core/src/index.ts` — 2.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/children-menu-item/children-menu-item.component.scss` — 91.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/children-menu-item/children-menu-item.component.ts` — 83.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/menu-item/menu-item.component.scss` — 22, 23, 25, 41, 219.
+- `packages/ui-core/core/src/lib/components/sidebar-menu/menu-items/concrete/menu-item/menu-item.component.ts` — 455.
+- `packages/ui-core/core/src/lib/services/auth/checkout-session.ts` — 2, 5.
+- `packages/ui-core/core/src/lib/services/auth/register-error.ts` — 5.
+- `packages/ui-core/core/src/lib/services/chat-sidebar/chat-sidebar.service.ts` — 37, 40, 65.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-context.service.ts` — 40, 41, 152.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-layout.utils.ts` — 45, 233.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-store.service.ts` — 34.
+- `packages/ui-core/core/src/lib/services/favorite/entities-mapping.ts` — 100.
+- `packages/ui-core/core/src/lib/services/hubstaff/hubstaff.service.ts` — 216.
+- `packages/ui-core/core/src/lib/services/navigation/navigation.service.ts` — 80.
+- `packages/ui-core/core/src/lib/services/page/page-route-registry.service.ts` — 12, 234.
+- `packages/ui-core/core/src/lib/services/widget/widget-registry.types.ts` — 41.
+- `packages/ui-core/i18n/src/index.ts` — 2.
+- `packages/ui-core/i18n/src/lib/i18n.providers.ts` — 64, 83.
+- `packages/ui-core/i18n/src/lib/translate-http-loader.ts` — 40, 57.
+- `packages/ui-core/shared/src/index.ts` — 2.
+- `packages/ui-core/shared/src/lib/appointments/appointment-calendar/appointment-calendar.component.scss` — 64.
+- `packages/ui-core/shared/src/lib/appointments/manage-appointment/manage-appointment.component.scss` — 33.
+- `packages/ui-core/shared/src/lib/appointments/timezone-selector/timezone-selector.component.scss` — 7.
+- `packages/ui-core/shared/src/lib/candidate/candidate-interview-mutation/candidate-interview-mutation.component.scss` — 211.
+- `packages/ui-core/shared/src/lib/card-grid/card-grid.component.scss` — 14.
+- `packages/ui-core/shared/src/lib/components/breadcrumb/breadcrumb.component.scss` — 75.
+- `packages/ui-core/shared/src/lib/components/changelog-entry/changelog-entry.component.scss` — 158.
+- `packages/ui-core/shared/src/lib/components/dashboard-skeleton/dashboard-skeleton.component.scss` — 11, 14, 33, 34, 123.
+- `packages/ui-core/shared/src/lib/components/date-range-title/date-range-title.component.ts` — 16.
+- `packages/ui-core/shared/src/lib/components/header-title/header-title.component.ts` — 31.
+- `packages/ui-core/shared/src/lib/dashboard/records-history/records-history.component.scss` — 9, 37.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/accounting-statistics-cache.service.ts` — 82.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/accounting/profit-widget.component.ts` — 11.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/charts.widgets.ts` — 6.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/employee-chart.constants.ts` — 8.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/charts/employee-chart.utils.ts` — 12, 94, 249.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/hr/hr-statistics.utils.ts` — 3.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/my-tasks-widget.component.ts` — 18.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-cards-widget.component.ts` — 12.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-member-details-widget.component.ts` — 18.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-member-row.component.ts` — 14.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-members-widget.component.ts` — 11.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-overview-widget.component.ts` — 13.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-status-chart.utils.ts` — 53.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/team-summary-card.component.ts` — 12.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/teams/teams-counter-card.component.ts` — 10.
+- `packages/ui-core/shared/src/lib/dialogs/quick-actions/quick-actions.component.ts` — 87.
+- `packages/ui-core/shared/src/lib/employee/employee-mutation/employee-mutation.component.scss` — 7.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-block/recurring-expense-block.component.scss` — 4, 18, 19, 28, 31, 63, 155.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-delete-confirmation/recurring-expense-delete-confirmation.component.scss` — 5.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-history/recurring-expense-history.component.scss` — 18.
+- `packages/ui-core/shared/src/lib/expenses/recurring-expense-mutation/recurring-expense-mutation.component.scss` — 14.
+- `packages/ui-core/shared/src/lib/feature-toggle/feature-toggle.component.scss` — 8.
+- `packages/ui-core/shared/src/lib/forms/maps/leaflet/leaflet.component.ts` — 51.
+- `packages/ui-core/shared/src/lib/gallery/gallery.component.scss` — 39.
+- `packages/ui-core/shared/src/lib/goal/goal-level-select/goal-level-select.component.html` — 46.
+- `packages/ui-core/shared/src/lib/invite/invites/invite-delete-confirmation/invite-delete-confirmation.component.scss` — 7.
+- `packages/ui-core/shared/src/lib/invite/invites/invites.component.scss` — 26.
+- `packages/ui-core/shared/src/lib/invoice/components/inner-component/invoice-view-inner.component.scss` — 58, 59.
+- `packages/ui-core/shared/src/lib/invoice/generate-csv.ts` — 6, 7.
+- `packages/ui-core/shared/src/lib/language/language-selector/language-flag.ts` — 6.
+- `packages/ui-core/shared/src/lib/organizations/organizations-step-form/organizations-step-form.component.scss` — 12.
+- `packages/ui-core/shared/src/lib/project/project-mutation/project-mutation.component.scss` — 1, 23, 25, 60, 127, 161.
+- `packages/ui-core/shared/src/lib/record-view/record-view-markdown.ts` — 13, 375.
+- `packages/ui-core/shared/src/lib/report/activities-report-grid/activities-report-grid.component.ts` — 108.
+- `packages/ui-core/shared/src/lib/report/amounts-owed-grid/amounts-owed-grid.component.ts` — 78, 96.
+- `packages/ui-core/shared/src/lib/report/daily-grid/daily-grid.component.ts` — 103.
+- `packages/ui-core/shared/src/lib/report/expenses-report-grid/expenses-report-grid.component.ts` — 76.
+- `packages/ui-core/shared/src/lib/report/payment-report-grid/payment-report-grid.component.ts` — 90.
+- `packages/ui-core/shared/src/lib/report/project-column-view/project-column-view.component.scss` — 49.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-editor.component.scss` — 2, 3, 4.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-toolbar.component.scss` — 4.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-toolbar.component.ts` — 71.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-range-picker.component.scss` — 18.
+- `packages/ui-core/shared/src/lib/selectors/entity-select-panel.directive.ts` — 47.
+- `packages/ui-core/shared/src/lib/skeleton/skeleton.component.scss` — 5, 7, 9, 11, 104.
+- `packages/ui-core/shared/src/lib/smart-data-layout/smart-table-filters/smart-table-filter-toggle.directive.ts` — 49.
+- `packages/ui-core/shared/src/lib/smart-data-layout/smart-table-loading/smart-table-settling.directive.ts` — 20.
+- `packages/ui-core/shared/src/lib/status-badge/status-badge.component.scss` — 3, 4, 8, 11, 30, 33, 45.
+- `packages/ui-core/shared/src/lib/table-components/created-by/created-by-user.component.scss` — 3.
+- `packages/ui-core/shared/src/lib/table-components/notes-with-tags/notes-with-tags.component.scss` — 2.
+- `packages/ui-core/shared/src/lib/table-components/organization-with-tags/organization-with-tags.component.scss` — 29.
+- `packages/ui-core/shared/src/lib/table-components/people-list/people-list.component.scss` — 12, 13, 124.
+- `packages/ui-core/shared/src/lib/table-components/people-list/people-list.component.ts` — 33, 34.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-employees/project-organization-employees.component.scss` — 6.
+- `packages/ui-core/shared/src/lib/table-components/project-organization-grid-details/project-organization-grid-details.component.scss` — 1, 2, 3.
+- `packages/ui-core/shared/src/lib/table-components/tags-only/tags-only.component.scss` — 4.
+- `packages/ui-core/shared/src/lib/table-components/visibility/visibility.component.scss` — 7.
+- `packages/ui-core/shared/src/lib/time-tracker/time-tracker/time-tracker.component.scss` — 31, 498, 555, 589.
+- `packages/ui-core/shared/src/lib/timer-picker/timer-range-picker/timer-range-picker.component.ts` — 9, 100, 119.
+- `packages/ui-core/shared/src/lib/timesheet/screenshots/screenshots-item/screenshots-item.component.scss` — 34, 366.
+- `packages/ui-core/shared/src/lib/user/forms/delete-confirmation/delete-confirmation.component.scss` — 10.
+- `packages/ui-core/static/styles/@shared/_whats-new.scss` — 8, 23.
+- `packages/ui-core/static/styles/_gauzy-theme-maps.scss` — 1, 5, 42, 62, 64, 119, 133, 145, 154, 316, 325, 347, 418, 436, 439.
+- `packages/ui-core/static/styles/_overlays.scss` — 28, 31, 32, 50, 58, 62, 67.
+- `packages/ui-core/static/styles/_overrides.scss` — 31, 34, 68, 83, 230, 418, 446, 447, 535, 538, 568, 570, 605, 677, 687, 931, 940, 1046, 1069, 1074, 1075, 1102, 1167, 1192, 1260, 1515, 1645, 1657.
+- `packages/ui-core/static/styles/_spinner.scss` — 2, 10, 11, 17, 18, 21, 39, 139.
+- `packages/ui-core/static/styles/gauzy/_gauzy-dialogs.scss` — 1.
+- `packages/ui-core/static/styles/gauzy/_gauzy-overrides.scss` — 4, 6, 8, 19, 24, 30, 35, 87, 408, 411, 434.
+- `packages/ui-core/static/styles/gauzy/_gauzy-skeleton.scss` — 28.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table-filters.scss` — 16, 27, 30, 42.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table-hub.scss` — 16, 23, 25, 47, 113, 180, 187, 316, 323, 406, 563, 583, 592, 599, 623.
+- `packages/ui-core/static/styles/gauzy/_gauzy-table.scss` — 5, 22.
+- `packages/ui-core/static/styles/gauzy/_rich-text-editor.scss` — 6, 8, 11, 12.
+- `packages/ui-core/static/styles/gauzy/_tabset-actions.scss` — 11, 78, 79, 89, 95.
+- `packages/ui-core/static/styles/material/_material-dark.scss` — 12.
+- `packages/ui-core/static/styles/material/_material-light.scss` — 12.
+- `packages/ui-core/static/styles/report-table.scss` — 25, 105, 182, 195, 196, 227, 237.
+- `packages/ui-core/static/styles/themes.scss` — 301, 415, 427, 453, 454, 461, 527, 546, 560, 568, 569, 625, 629, 680.
+- `packages/ui-core/static/styles/var.scss` — 25.
+- `packages/ui-core/theme/src/index.ts` — 2.
+- `packages/ui-core/theme/src/lib/components/footer/footer.component.ts` — 29.
+- `packages/ui-core/theme/src/lib/components/gauzy-logo/gauzy-logo.component.scss` — 54.
+- `packages/ui-core/theme/src/lib/components/header/header.component.scss` — 14, 372.
+- `packages/ui-core/theme/src/lib/components/header/header.component.ts` — 1215.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/changelog/changelog.component.ts` — 77.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/theme-settings.component.ts` — 52.
+- `packages/ui-core/theme/src/lib/components/user-menu/user-menu.component.ts` — 46.
+- `packages/ui-core/theme/src/lib/components/workspace-menu/workspace-menu.component.scss` — 10, 11, 77.
+- `packages/ui-core/theme/src/lib/components/workspace-menu/workspace-menu.component.ts` — 28, 42, 65.
+- `packages/ui-core/theme/src/lib/layouts/one-column/one-column.layout.scss` — 601, 677.
+- `packages/ui-core/theme/src/lib/layouts/one-column/one-column.layout.ts` — 50, 315.
+- `packages/ui-core/theme/src/lib/services/index.ts` — 2.
+- `packages/ui-core/theme/src/lib/themes/gauzy/theme.gauzy-dark.ts` — 15.
+- `packages/ui-core/theme/src/lib/themes/index.ts` — 11.
+- `packages/ui-react-components/src/index.ts` — 2, 4, 39.
+- `packages/ui-react-components/src/lib/components/CounterPoint.tsx` — 24, 65, 71.
+- `packages/ui-react-components/src/lib/components/ProgressBar.tsx` — 11, 15.
+- `packages/ui-react-components/src/lib/components/ui/Card.tsx` — 6.
+- `packages/ui-react-components/src/lib/helpers/progress-status.ts` — 4, 6, 7.
+- `packages/ui-react-components/src/lib/themeTokens.ts` — 2, 4, 7, 11, 14, 35, 37.
+- `packages/ui-react/src/index.ts` — 2.
+- `packages/ui-react/src/lib/react-bridge.provider.ts` — 15, 28.
+
+### Stable asset filename; its pixels/content now carry Base360
+
+10 matches.
+
+- `apps/gauzy/src/app/pages/about/about.component.html` — 24.
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.html` — 51.
+- `apps/gauzy/src/app/pages/integrations/components/plugin-builtin/plugin-builtin.component.html` — 81.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-selection/workspace-selection.component.html` — 30.
+- `packages/plugins/public-layout-ui/src/lib/components/workspace-actions/shared/workspace-selection/workspace-selection.component.ts` — 44, 45.
+- `packages/ui-config/src/lib/brand-environment.ts` — 9, 11.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector.component.ts` — 31, 36.
+
+### Test fixture, assertion, mock or test-only configuration
+
+419 matches.
+
+- `apps/gauzy/jest.config.ts` — 3, 9.
+- `apps/gauzy/src/app/app.component.spec.ts` — 5, 6.
+- `apps/gauzy/src/app/pages/approvals/approval-record-view.spec.ts` — 3, 4, 5.
+- `apps/gauzy/src/app/pages/drawer-full-view-links.routes.spec.ts` — 20, 21.
+- `apps/gauzy/src/app/pages/employees/activity/app-url-activity/app-url-activity.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/employees/activity/screenshot/screenshot/screenshot.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/employees/activity/time-activities/time-activities/time-activities.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/employees/employees.component.kind-filter.spec.ts` — 2.
+- `apps/gauzy/src/app/pages/employees/timesheet/calendar/calendar/calendar.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/employees/timesheet/daily/daily/daily.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/employees/timesheet/weekly/weekly/weekly.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/favorite-links.routes.spec.ts` — 20, 21, 22, 23.
+- `apps/gauzy/src/app/pages/goals/initiatives/initiatives.components.spec.ts` — 21, 30, 49, 212.
+- `apps/gauzy/src/app/pages/invoices/invoice-totals.spec.ts` — 1.
+- `apps/gauzy/src/app/pages/pages.routes.spec.ts` — 1.
+- `apps/gauzy/src/app/pages/reports/amounts-owed-report/amounts-owed-report/amounts-owed-report.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/apps-urls-report/apps-urls-report/apps-urls-report.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/expenses-report/expenses-report/expenses-report.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/manual-time/manual-time/manual-time.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/payment-report/payment-report/payment-report.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/time-limit-report/time-limit-report/time-limit-report.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/reports/time-reports/time-reports/time-reports.component.spec.ts` — 4.
+- `apps/gauzy/src/app/pages/settings/general-setting/general-setting.component.spec.ts` — 3, 4.
+- `apps/gauzy/src/app/pages/settings/roles-permissions/permission-i18n.spec.ts` — 3.
+- `apps/gauzy/src/app/pages/tasks/components/my-task-dialog/my-task-dialog.component.spec.ts` — 4, 5, 13.
+- `apps/gauzy/src/app/pages/tasks/components/task-view/task-view-page.component.spec.ts` — 6, 7.
+- `packages/plugin-ui/src/lib/plugin-translations.spec.ts` — 11.
+- `packages/plugins/auth-zitadel-ui/src/lib/ever-id-ui.state.spec.ts` — 1.
+- `packages/plugins/auth-zitadel-ui/src/lib/pages/ever-id-signup.component.spec.ts` — 4, 37, 64, 110.
+- `packages/plugins/dashboard-time-track-angular-ui/src/lib/widgets/time-track-widget.utils.spec.ts` — 2, 3.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/format.utils.spec.ts` — 1, 4, 7.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/gallery.utils.spec.ts` — 1.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/payload.utils.spec.ts` — 2, 5, 11, 21.
+- `packages/plugins/dashboard-time-track-react-ui/src/lib/utils/timezone.utils.spec.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/components/actions/docs-action-menu.spec.ts` — 2.
+- `packages/plugins/docs-ui/src/lib/components/actions/docs-row-actions.spec.ts` — 2, 6, 14, 290.
+- `packages/plugins/docs-ui/src/lib/components/activity/docs-activity.model.spec.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/components/activity/docs-detail-activity.component.spec.ts` — 3, 10, 11, 30.
+- `packages/plugins/docs-ui/src/lib/components/cards/docs-cards-thumbnail.spec.ts` — 2, 7, 13, 20, 31.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.component.spec.ts` — 4, 8, 13, 23.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.model.spec.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/components/comments/document-comments.service.spec.ts` — 2, 7, 11, 12.
+- `packages/plugins/docs-ui/src/lib/components/detail/docs-detail-panel.spec.ts` — 3, 7, 18, 28.
+- `packages/plugins/docs-ui/src/lib/components/filter-bar/content-search-min.spec.ts` — 2, 6.
+- `packages/plugins/docs-ui/src/lib/components/links/document-links-panel.spec.ts` — 2, 8, 16, 20.
+- `packages/plugins/docs-ui/src/lib/components/preview/docs-preview-modal.lifecycle.spec.ts` — 13.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/chip-cells.spec.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/components/table/cells/name-cell-thumbnail.spec.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/docs-permission-groups.spec.ts` — 20.
+- `packages/plugins/docs-ui/src/lib/docs-ui.module.effects-manager.spec.ts` — 10, 20.
+- `packages/plugins/docs-ui/src/lib/editor/read-only/markdown-render.util.spec.ts` — 136, 140, 208, 209, 216, 217.
+- `packages/plugins/docs-ui/src/lib/editor/read-only/raw-image.util.spec.ts` — 23, 28.
+- `packages/plugins/docs-ui/src/lib/editor/read-only/safe-url.util.spec.ts` — 89, 90, 91, 92, 100, 128, 193, 195, 213.
+- `packages/plugins/docs-ui/src/lib/editor/services/document-autosave.service.spec.ts` — 2, 6, 12.
+- `packages/plugins/docs-ui/src/lib/editor/services/document-binary.util.spec.ts` — 40.
+- `packages/plugins/docs-ui/src/lib/editor/services/editor-upload.service.spec.ts` — 2, 6, 16, 17.
+- `packages/plugins/docs-ui/src/lib/i18n/docs-i18n-keys.spec.ts` — 12.
+- `packages/plugins/docs-ui/src/lib/models/docs-api.model.spec.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-breadcrumb.util.spec.ts` — 5.
+- `packages/plugins/docs-ui/src/lib/pages/browse/docs-browse-shortcuts.spec.ts` — 6.
+- `packages/plugins/docs-ui/src/lib/pages/file-view/document-file-page.component.spec.ts` — 3.
+- `packages/plugins/docs-ui/src/lib/pages/file-view/document-file-view.spec.ts` — 1.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-inbound-settings-page.component.spec.ts` — 2, 7, 15, 23, 34, 64, 65, 124, 136, 168, 447, 454.
+- `packages/plugins/docs-ui/src/lib/pages/settings/docs-settings-page.component.spec.ts` — 2, 7, 15, 16, 19.
+- `packages/plugins/docs-ui/src/lib/services/document-activity.service.spec.ts` — 2, 7, 11, 12.
+- `packages/plugins/docs-ui/src/lib/services/document-inbound-address.service.spec.ts` — 2, 7, 16, 17, 53, 181.
+- `packages/plugins/docs-ui/src/lib/services/document-permission.service.spec.ts` — 2, 7, 9, 10.
+- `packages/plugins/docs-ui/src/lib/services/document-tree.store.spec.ts` — 2, 5.
+- `packages/plugins/docs-ui/src/lib/services/documents.service.spec.ts` — 2, 7, 11, 12.
+- `packages/plugins/ever-connect-ui/jest.config.ts` — 2, 6.
+- `packages/plugins/ever-connect-ui/src/lib/components/ever-platform-page/ever-platform-page.component.spec.ts` — 4, 5, 25, 142, 149, 158.
+- `packages/plugins/ever-connect-ui/src/lib/components/pending-approvals/pending-approvals.component.spec.ts` — 2.
+- `packages/plugins/ever-stats-ui/src/lib/components/usage-statistics-settings/usage-statistics-settings.component.spec.ts` — 13, 15, 19, 66.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-notifications/inbox-notifications.component.spec.ts` — 3, 4, 10.
+- `packages/plugins/inbox-ui/src/lib/components/inbox-page/inbox-page.component.spec.ts` — 3, 4, 13.
+- `packages/plugins/inbox-ui/src/lib/inbox-ui.helpers.spec.ts` — 1, 133.
+- `packages/plugins/inbox-ui/src/lib/inbox-ui.plugin.spec.ts` — 3, 4.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-availability.service.spec.ts` — 3.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-directory.service.spec.ts` — 47.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-email-settings.service.spec.ts` — 3.
+- `packages/plugins/inbox-ui/src/lib/services/inbox-ui.service.spec.ts` — 3.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-mailboxes-page.component.spec.ts` — 12, 13, 160, 161, 168.
+- `packages/plugins/inbox-ui/src/lib/settings/inbox-providers-page.component.spec.ts` — 9, 10.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-dialogs.component.spec.ts` — 12.
+- `packages/plugins/inbox-ui/src/lib/settings/mailbox-settings.helpers.spec.ts` — 9.
+- `packages/plugins/inbox-ui/src/lib/settings/my-mailbox-page.component.spec.ts` — 3, 4, 52, 64.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-account-dialog.component.spec.ts` — 9.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-config-form.component.spec.ts` — 3.
+- `packages/plugins/inbox-ui/src/lib/settings/provider-config-form.helpers.spec.ts` — 1.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.spec.ts` — 4.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.spec.ts` — 4.
+- `packages/plugins/integration-ever-async-ui/src/lib/components/ever-async-connect/ever-async-connect.component.spec.ts` — 6, 7, 8, 16, 17, 18, 25, 26, 35, 62, 168, 169, 170, 172.
+- `packages/plugins/integration-ever-async-ui/src/lib/integration-ever-async-ui.module.spec.ts` — 2, 3, 8, 14, 18.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/connect/ever-works-connect.component.spec.ts` — 11, 28, 81, 83.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/directions/ever-works-directions.component.spec.ts` — 9, 42, 43, 53, 56, 95.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/ever-works-page/ever-works-page.component.spec.ts` — 3.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/match-review/ever-works-match-review.component.spec.ts` — 35, 46, 94, 142, 146, 147, 151, 159, 160, 169, 170, 178, 191, 221, 291, 326, 335, 341, 373, 374, 383, 395, 450, 452, 453, 454, 457, 458, 460, 466, 470, 472, 478, 483, 486, 529, 532, 535, 562, 564.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/preview/ever-works-preview.component.spec.ts` — 12, 13, 14, 38.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/settings/ever-works-settings.component.spec.ts` — 6, 18, 65, 68.
+- `packages/plugins/integration-github-ui/src/lib/components/view/view.component.spec.ts` — 4.
+- `packages/plugins/integration-upwork-ui/src/lib/components/sync-data-selection/sync-data-selection.component.spec.ts` — 4.
+- `packages/plugins/integration-upwork-ui/src/lib/components/upwork/upwork.component.spec.ts` — 5.
+- `packages/plugins/job-employee-ui/src/lib/components/job-employee/job-employee.component.spec.ts` — 4.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-form/proposal-template-form.component.spec.ts` — 4.
+- `packages/plugins/job-proposal-ui/src/lib/proposal-template/components/proposal-template-list/proposal-template-list.component.spec.ts` — 4.
+- `packages/plugins/legal-ui/src/lib/providers/legal.service.spec.ts` — 33.
+- `packages/plugins/onboarding-ui/src/lib/components/tenant-onboarding/tenant-onboarding.component.spec.ts` — 2.
+- `packages/plugins/public-layout-ui/src/lib/pipes/sanitize-html.pipe.spec.ts` — 109, 116.
+- `packages/plugins/public-layout-ui/src/lib/public-layout-templates.spec.ts` — 12.
+- `packages/plugins/videos-ui/jest.config.ts` — 17.
+- `packages/plugins/videos-ui/src/lib/features/camshot-list/camshot-list.component.spec.ts` — 1, 6.
+- `packages/plugins/videos-ui/src/lib/features/video/video.component.spec.ts` — 1, 4, 5, 30.
+- `packages/plugins/videos-ui/src/lib/pages/video-page/video-page.component.spec.ts` — 1, 2, 7, 8, 19, 25, 27, 38, 39, 76.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-item/video-item.component.spec.ts` — 1, 6.
+- `packages/plugins/videos-ui/src/lib/shared/ui/video-metadata/video-metadata.component.spec.ts` — 25.
+- `packages/plugins/videos-ui/src/lib/video-ui.module.effects-manager.spec.ts` — 10, 11, 14.
+- `packages/plugins/videos-ui/src/test-setup.ts` — 12.
+- `packages/plugins/videos-ui/tsconfig.spec.json` — 9.
+- `packages/ui-auth/src/lib/components/login-magic/login-magic.component.spec.ts` — 11.
+- `packages/ui-auth/src/lib/components/social-links/social-links.component.spec.ts` — 6, 7.
+- `packages/ui-core/common/src/lib/utils/shared-utils.is-empty.spec.ts` — 4, 5, 10.
+- `packages/ui-core/core/src/lib/auth/cookie-helper.spec.ts` — 4.
+- `packages/ui-core/core/src/lib/interceptors/token.interceptor.spec.ts` — 43.
+- `packages/ui-core/core/src/lib/resolvers/onboarding.resolver.spec.ts` — 4.
+- `packages/ui-core/core/src/lib/services/ai-agent/agent-form-bridge.service.spec.ts` — 64, 69, 97, 100, 145, 152.
+- `packages/ui-core/core/src/lib/services/auth/register-error.spec.ts` — 4.
+- `packages/ui-core/core/src/lib/services/chat-sidebar/chat-sidebar.service.spec.ts` — 4, 13, 84, 85, 86, 95, 96, 106, 107, 111, 145, 146.
+- `packages/ui-core/core/src/lib/services/dashboard/dashboard-layout.utils.spec.ts` — 1.
+- `packages/ui-core/core/src/lib/services/favorite/entities-mapping.spec.ts` — 1, 13.
+- `packages/ui-core/core/src/lib/services/page/page-route-registry.service.spec.ts` — 54.
+- `packages/ui-core/core/src/lib/services/permission/permissions.service.spec.ts` — 5.
+- `packages/ui-core/core/src/lib/services/selector-builder/date-range-picker-builder.service.spec.ts` — 2.
+- `packages/ui-core/core/src/lib/services/upwork/upwork-store.service.spec.ts` — 10, 13.
+- `packages/ui-core/shared/src/lib/components/avatar/avatar.component.spec.ts` — 2.
+- `packages/ui-core/shared/src/lib/components/email-verification-notice/email-verification-notice.component.spec.ts` — 7, 8.
+- `packages/ui-core/shared/src/lib/dashboard/widgets/project-management/project-management-widget.utils.spec.ts` — 1, 2, 3.
+- `packages/ui-core/shared/src/lib/dialogs/quick-actions/quick-actions.component.spec.ts` — 4.
+- `packages/ui-core/shared/src/lib/record-view/record-view-route-page.component.spec.ts` — 6, 7.
+- `packages/ui-core/shared/src/lib/report/daily-statistics/daily-statistics/daily-statistics.component.spec.ts` — 4.
+- `packages/ui-core/shared/src/lib/rich-text-editor/legacy-html-corpus.spec.ts` — 56, 74, 95, 96, 114, 129, 130, 218, 219, 222, 225, 226, 230, 233, 317, 363, 365, 408, 409, 438.
+- `packages/ui-core/shared/src/lib/rich-text-editor/rich-text-editor.spec.ts` — 96, 97, 120, 122.
+- `packages/ui-core/shared/src/lib/selectors/date-range-picker/date-range-picker.resolver.spec.ts` — 6, 7.
+- `packages/ui-core/shared/src/lib/selectors/entity-select-panel.integration.spec.ts` — 21, 68.
+- `packages/ui-core/shared/src/lib/tasks/add-task-dialog/add-task-dialog.component.spec.ts` — 4.
+- `packages/ui-core/shared/src/lib/timer-picker/timer-range-picker/timer-range-picker.component.spec.ts` — 5, 130.
+- `packages/ui-core/shared/src/lib/timesheet/edit-time-log-modal/edit-time-log-modal.component.spec.ts` — 4.
+- `packages/ui-core/shared/src/lib/timesheet/gauzy-filters/gauzy-filters.component.spec.ts` — 2, 3, 4, 5, 6, 9, 11, 15.
+- `packages/ui-core/tsconfig.spec.json` — 12, 15, 18, 19, 20, 21.
+- `packages/ui-react-components/src/lib/components/primitives.spec.ts` — 5, 29.
+
+### Unchanged i18n key or feature/permission identifier; values handled by translation owner
+
+49 matches.
+
+- `apps/gauzy/src/app/pages/integrations/components/integration-list/list.component.ts` — 51.
+- `apps/gauzy/src/app/pages/settings/general-setting/personal-settings/personal-settings.component.ts` — 31, 32.
+- `packages/plugins/integration-ai-ui/src/lib/components/authorization/authorization.component.html` — 10, 19, 25, 32, 38, 45, 57.
+- `packages/plugins/integration-ai-ui/src/lib/components/integration-setting-card/integration-setting-card.component.html` — 75.
+- `packages/plugins/integration-ai-ui/src/lib/components/integration-setting-card/integration-setting-card.component.ts` — 37, 39, 42, 44, 47, 49, 52, 54.
+- `packages/plugins/integration-ai-ui/src/lib/components/view/view.component.html` — 10, 34, 37, 44, 50, 79, 118.
+- `packages/plugins/integration-ever-async-ui/src/lib/components/ever-async-connect/ever-async-connect.component.html` — 175.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/match-review/ever-works-match-review.component.ts` — 78, 107, 118, 145, 169, 173, 180, 182, 185, 271, 285, 343, 399, 414.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/preview/ever-works-preview.component.ts` — 29, 30, 61.
+- `packages/plugins/integration-ever-works-ui/src/lib/components/settings/ever-works-settings.component.ts` — 269.
+- `packages/plugins/public-layout-ui/src/lib/components/mutation/public-page-organization-mutation/public-page-organization-mutation.component.ts` — 70.
+- `packages/ui-auth/src/lib/components/register/register-side-features/register-side-features.component.html` — 3.
+- `packages/ui-core/theme/src/lib/components/theme-sidebar/theme-settings/components/theme-selector/theme-selector.component.ts` — 30, 35.
