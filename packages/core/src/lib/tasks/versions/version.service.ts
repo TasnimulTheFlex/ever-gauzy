@@ -85,7 +85,7 @@ export class TaskVersionService extends TaskMetadataService<TaskVersion> {
 				(version) =>
 					new TaskVersion({
 						...version,
-						icon: `ever-icons/${version.icon}`,
+						icon: `base360-icons/${version.icon}`,
 						isSystem: false,
 						tenant
 					})

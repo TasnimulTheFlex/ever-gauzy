@@ -83,7 +83,7 @@ export class TaskPriorityService extends TaskMetadataService<TaskPriority> {
 					(priority) =>
 						new TaskPriority({
 							...priority,
-							icon: `ever-icons/${priority.icon}`,
+							icon: `base360-icons/${priority.icon}`,
 							tenant,
 							isSystem: false
 						})

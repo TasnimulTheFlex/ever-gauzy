@@ -46,7 +46,7 @@ export const createDefaultIssueTypes = async (
 
     try {
 		// Clean up old issue type assets
-		await cleanAssets(config, path.join('ever-icons', 'task-issue-types'));
+		await cleanAssets(config, path.join('base360-icons', 'task-issue-types'));
 
 		let issueTypes: IIssueType[] = [];
 
@@ -54,7 +54,7 @@ export const createDefaultIssueTypes = async (
         for await (const issueType of DEFAULT_GLOBAL_ISSUE_TYPES) {
             try {
                 // Copy issue type icon and get its path.
-                const iconPath = copyAssets(issueType.icon, config, 'ever-icons');
+                const iconPath = copyAssets(issueType.icon, config, 'base360-icons');
 				// Calculate dimensions and size of the icon.
                 const absoluteFilePath = path.join(assetPublicPath, iconPath);
 				// Get image dimensions.

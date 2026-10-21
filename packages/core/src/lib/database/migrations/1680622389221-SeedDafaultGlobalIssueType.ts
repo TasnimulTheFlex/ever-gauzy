@@ -62,7 +62,7 @@ export class SeedDafaultGlobalIssueType1680622389221 implements MigrationInterfa
 
 			for await (const issueType of DEFAULT_GLOBAL_ISSUE_TYPES) {
 				// Copy issue type icon and get its path
-				const filePath = copyAssets(issueType.icon, config, 'ever-icons');
+				const filePath = copyAssets(issueType.icon, config, 'base360-icons');
 				// Calculate dimensions and size of the icon
 				const absoluteFilePath = path.join(assetPublicPath, filePath);
 				// Get image dimensions
@@ -122,7 +122,7 @@ export class SeedDafaultGlobalIssueType1680622389221 implements MigrationInterfa
 			for await (const issueType of DEFAULT_GLOBAL_ISSUE_TYPES) {
 				const { name, value, description, color, isSystem } = issueType;
 				// Copy issue type icon and get its path
-				const filePath = copyAssets(issueType.icon, config, 'ever-icons');
+				const filePath = copyAssets(issueType.icon, config, 'base360-icons');
 				// Calculate dimensions and size of the icon
 				const absoluteFilePath = path.join(assetPublicPath, filePath);
 				// Get image dimensions

@@ -86,7 +86,7 @@ export class TaskSizeService extends TaskMetadataService<TaskSize> {
 					(size) =>
 						new TaskSize({
 							...size,
-							icon: `ever-icons/${size.icon}`,
+							icon: `base360-icons/${size.icon}`,
 							tenant,
 							isSystem: false
 						})

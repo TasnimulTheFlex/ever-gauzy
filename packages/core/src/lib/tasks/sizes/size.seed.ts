@@ -22,14 +22,14 @@ export const createDefaultSizes = async (
 ): Promise<ITaskSize[]> => {
 	try {
 		// Clean up old task size assets
-		await cleanAssets(config, 'ever-icons/task-sizes');
+		await cleanAssets(config, 'base360-icons/task-sizes');
 
 		// Map default sizes to TaskSize entities with updated icons
 		const sizes = DEFAULT_GLOBAL_SIZES.map(
 			(size) =>
 				new TaskSize({
 					...size,
-					icon: copyAssets(size.icon, config, 'ever-icons')
+					icon: copyAssets(size.icon, config, 'base360-icons')
 				})
 		);
 

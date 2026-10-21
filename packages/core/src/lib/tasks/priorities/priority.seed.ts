@@ -22,14 +22,14 @@ export const createDefaultPriorities = async (
 ): Promise<ITaskPriority[]> => {
 	try {
 		// Clean up old task priority assets
-		await cleanAssets(config, 'ever-icons/task-priorities');
+		await cleanAssets(config, 'base360-icons/task-priorities');
 
 		// Map default priorities to TaskPriority entities with updated icons
 		const priorities = DEFAULT_GLOBAL_PRIORITIES.map(
 			(priority) =>
 				new TaskPriority({
 					...priority,
-					icon: copyAssets(priority.icon, config, 'ever-icons')
+					icon: copyAssets(priority.icon, config, 'base360-icons')
 				})
 		);
 

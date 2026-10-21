@@ -32,7 +32,7 @@ describe('seed cleanup of generated files', () => {
 	const settle = () => new Promise((resolve) => setTimeout(resolve, 20));
 
 	it('cleanAssets resolves when the cleanup fails, and reports the failure', async () => {
-		await expect(cleanAssets(config, 'ever-icons')).resolves.toBeUndefined();
+		await expect(cleanAssets(config, 'base360-icons')).resolves.toBeUndefined();
 		await settle();
 
 		expect(rimraf).toHaveBeenCalledTimes(1);
@@ -56,7 +56,7 @@ describe('seed cleanup of generated files', () => {
 		const service = new SeedDataService({} as any, config);
 
 		await expect((service as any).cleanUpPreviousRuns()).resolves.toBeUndefined();
-		await expect(cleanAssets(config, 'ever-icons')).resolves.toBeUndefined();
+		await expect(cleanAssets(config, 'base360-icons')).resolves.toBeUndefined();
 
 		expect(console.log).toHaveBeenCalledWith(expect.stringContaining('CLEANED UP'));
 		expect(console.error).not.toHaveBeenCalled();

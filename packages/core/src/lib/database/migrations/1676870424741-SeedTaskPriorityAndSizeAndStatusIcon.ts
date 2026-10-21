@@ -64,7 +64,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = status;
 
 				// Build the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// SQLite query to update task status
 				const query = `
@@ -79,7 +79,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [filepath, color, name, value]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					console.error(`Error updating status "${name}" in SQLite:`, queryError);
 				}
@@ -107,7 +107,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = priority;
 
 				// Build the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// SQLite query to update task priority
 				const query = `
@@ -122,7 +122,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [filepath, color, name, value]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					console.error(`Error updating priority "${name}" in SQLite:`, queryError);
 				}
@@ -151,7 +151,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = size;
 
 				// Construct the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// SQLite query to update the task size table
 				const query = `
@@ -166,7 +166,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [filepath, color, name, value]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					// Handle errors for specific sizes
 					console.error(`Error updating size "${name}" with icon "${icon}":`, queryError);
@@ -195,7 +195,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = status;
 
 				// Construct the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// PostgreSQL query to update the task status table
 				const query = `
@@ -210,7 +210,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [name, value, filepath, color]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					// Log specific errors for individual status updates
 					console.error(`Error updating status "${name}" with icon "${icon}":`, queryError);
@@ -239,7 +239,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = priority;
 
 				// Construct the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// PostgreSQL query to update task priority
 				const query = `
@@ -254,7 +254,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [name, value, filepath, color]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					// Log specific errors for individual priorities
 					console.error(`Error updating priority "${name}" with icon "${icon}":`, queryError);
@@ -284,7 +284,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 				const { name, value, icon, color } = size;
 
 				// Construct the file path for the icon
-				const filepath = `ever-icons/${icon}`;
+				const filepath = `base360-icons/${icon}`;
 
 				// PostgreSQL query to update task size
 				const query = `
@@ -299,7 +299,7 @@ export class SeedTaskPriorityAndSizeAndStatusIcon1676870424741 implements Migrat
 					await queryRunner.dataSource.manager.query(query, [name, value, filepath, color]);
 
 					// Copy the icon asset to the destination directory
-					copyAssets(icon, this.config, 'ever-icons');
+					copyAssets(icon, this.config, 'base360-icons');
 				} catch (queryError) {
 					// Log specific errors for individual sizes
 					console.error(`Error updating size "${name}" with icon "${icon}":`, queryError);

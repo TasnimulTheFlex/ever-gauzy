@@ -19,14 +19,14 @@ export const createDefaultStatuses = async (
 ): Promise<ITaskStatus[]> => {
 	try {
 		// Clean task status assets directory
-		await cleanAssets(config, 'ever-icons/task-statuses');
+		await cleanAssets(config, 'base360-icons/task-statuses');
 
 		// Map default statuses to TaskStatus entities with updated icons
 		const statuses = DEFAULT_GLOBAL_STATUSES.map(
 			(status) =>
 				new TaskStatus({
 					...status,
-					icon: copyAssets(status.icon, config, 'ever-icons')
+					icon: copyAssets(status.icon, config, 'base360-icons')
 				})
 		);
 

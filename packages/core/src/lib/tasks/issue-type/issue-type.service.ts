@@ -137,7 +137,7 @@ export class IssueTypeService extends TaskMetadataService<IssueType> {
 							name: issueType.name,
 							value: issueType.value,
 							description: issueType.description,
-							icon: `ever-icons/${issueType.icon}`,
+							icon: `base360-icons/${issueType.icon}`,
 							color: issueType.color,
 							imageId: issueType.imageId ?? null,
 							isDefault: issueType.isDefault,

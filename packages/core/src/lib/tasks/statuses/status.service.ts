@@ -117,7 +117,7 @@ export class TaskStatusService extends TaskMetadataService<TaskStatus> {
 				(status) =>
 					new TaskStatus({
 						...status,
-						icon: `ever-icons/${status.icon}`,
+						icon: `base360-icons/${status.icon}`,
 						isSystem: false,
 						tenant
 					})
