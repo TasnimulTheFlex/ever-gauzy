@@ -5,6 +5,14 @@ dns.setDefaultResultOrder('ipv4first');
 import { INetworkState } from '../../interfaces';
 import { LocalStore } from '../../desktop-store';
 
+// One keep-alive agent for every check: a new agent per check paid a full TCP + TLS handshake each time,
+// which is most of the delay before a timer starts on a distant server.
+const agent = new Agent({
+	connect: {
+		timeout: 30 * 1000
+	}
+});
+
 export class ApiServerConnectivity implements INetworkState {
 	public async established(): Promise<boolean> {
 		try {
@@ -17,11 +25,7 @@ export class ApiServerConnectivity implements INetworkState {
 				headers: {
 					'Cache-Control': 'no-cache'
 				},
-				dispatcher: new Agent({
-					connect: {
-						timeout: 30 * 1000
-					}
-				})
+				dispatcher: agent
 			});
 
 			if (res?.ok && res?.status === 200) {

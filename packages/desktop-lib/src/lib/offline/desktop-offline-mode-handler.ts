@@ -71,6 +71,9 @@ export class DesktopOfflineModeHandler extends EventEmitter implements IOfflineM
 
 					console.log('[OfflineModeHandler]:', 'Offline mode enabled');
 				}
+			} else if (!this._isEnabled) {
+				// Already online: a second check would only delay the caller (e.g. starting the timer)
+				console.log('[OfflineModeHandler]: Connection already working, no need to restore.');
 			} else {
 				// Check again before restore
 				if (await networkContext.established()) {
