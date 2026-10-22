@@ -1,0 +1,27 @@
+# Live config for the Base360 Time Tracker box (~/gauzy/Caddyfile, bind-mounted into the caddy container).
+# After editing it there, run `docker compose restart caddy`: a reload alone keeps serving the old file.
+
+time.base360.ai {
+	# desktop timer installers
+	handle /downloads* {
+		root * /srv
+		file_server
+	}
+	reverse_proxy webapp:4200
+}
+
+time-api.base360.ai {
+	request_body {
+		max_size 100MB
+	}
+	# API docs expose internal route names; nobody needs them publicly
+	@docs path /swg /swg/* /swg-json /docs /docs/* /api/docs /api/docs/*
+	respond @docs 404
+	# the desktop timer loads logos/screenshots from a file:// page, which same-site CORP blocks
+	handle /public/* {
+		reverse_proxy api:3000 {
+			header_down Cross-Origin-Resource-Policy cross-origin
+		}
+	}
+	reverse_proxy api:3000
+}
