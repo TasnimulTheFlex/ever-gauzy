@@ -63,7 +63,7 @@
 			},
 			"asarUnpack": "**/*.node",
 			"artifactName": "base360-timer-${arch}-${version}.${ext}",
-			"hardenedRuntime": true,
+			"hardenedRuntime": false,
 			"gatekeeperAssess": false,
 			"entitlements": "tools/build/entitlements.mas.plist",
 			"entitlementsInherit": "tools/build/entitlements.mas.plist",
@@ -83,7 +83,8 @@
 						"CFBundleTypeRole": "Editor"
 					}
 				]
-			}
+			},
+			"identity": "-"
 		},
 		"win": {
 			"target": "nsis",
