@@ -2,6 +2,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, map, Observable, of, shareReplay } from 'rxjs';
 import { NavMenuSectionItem, NavMenuItemsConfig, NavMenuSectionConfig } from './nav-builder-types';
 
+/**
+ * Base360: sidebar sections we don't use. Their pages still exist (direct links keep working);
+ * they are only kept out of the menu so staff see time tracking, people and reports.
+ */
+export const HIDDEN_NAV_MENU_SECTION_IDS: ReadonlySet<string> = new Set([
+	'documents',
+	'accounting',
+	'sales',
+	'tasks',
+	'jobs',
+	'contacts',
+	'goals'
+]);
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -189,7 +203,7 @@ export class NavMenuBuilderService {
 					}
 				}
 
-				return orderedIds.map((id) => configMap.get(id)!);
+				return orderedIds.filter((id) => !HIDDEN_NAV_MENU_SECTION_IDS.has(id)).map((id) => configMap.get(id)!);
 			}),
 			shareReplay(1)
 		);
