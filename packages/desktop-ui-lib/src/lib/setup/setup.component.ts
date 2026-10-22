@@ -163,8 +163,8 @@ export class SetupComponent implements OnInit, OnDestroy {
 	};
 
 	thirdParty: any = {
-		activitywatch: true,
-		wakatime: true
+		activitywatch: false,
+		wakatime: false
 	};
 
 	databaseDriver: any = {
