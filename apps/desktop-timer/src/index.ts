@@ -1,5 +1,16 @@
 // Adapted from https://github.com/maximegris/angular-electron/blob/master/main.ts
-import { app, BrowserWindow, dialog, ipcMain, Menu, MenuItemConstructorOptions, nativeTheme, shell } from 'electron';
+import {
+	app,
+	BrowserWindow,
+	desktopCapturer,
+	dialog,
+	ipcMain,
+	Menu,
+	MenuItemConstructorOptions,
+	nativeTheme,
+	shell,
+	systemPreferences
+} from 'electron';
 import { environment } from './environments/environment';
 import { logger as log, store, IConfig } from '@gauzy/desktop-core';
 
@@ -502,6 +513,18 @@ async function checkOfflineMode(configs: IConfig) {
 // Added 5000 ms to fix the black background issue while using transparent window.
 // More details at https://github.com/electron/electron/issues/15947
 
+// macOS never lets an app grant itself these; asking up front lists the app in System Settings
+// and shows the system prompts, so the user only has to flip the switches.
+function requestMacPermissions(): void {
+	if (process.platform !== 'darwin') return;
+	if (systemPreferences.getMediaAccessStatus('screen') !== 'granted') {
+		desktopCapturer
+			.getSources({ types: ['screen'], thumbnailSize: { width: 1, height: 1 } })
+			.catch((error) => log.error('Screen recording permission request failed', error));
+	}
+	systemPreferences.isTrustedAccessibilityClient(true);
+}
+
 app.on('ready', async () => {
 	initializeAppManager();
 
@@ -544,6 +567,7 @@ app.on('ready', async () => {
 		return;
 	}
 	await launchSplashScreen();
+	requestMacPermissions();
 	await setupDatabase();
 	setAppVersion(configs);
 	initialAppMenu();
