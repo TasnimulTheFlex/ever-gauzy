@@ -46,40 +46,54 @@ test('all desktop packages retain npm identities and ship Base360 OS metadata an
 	}
 });
 
-test('unsigned Base360 apps cannot check, download or install updates from a shared feed', async () => {
+const base360UpdateHelpers = (appId) => ({
+	isBase360App: () => appId.startsWith('com.base360.'),
+	isSelfUpdatingBase360App: () => appId === 'com.base360.timetracker'
+});
+
+test('only the timer updates itself; other Base360 apps cannot check, download or install from its feed', async () => {
 	const file = 'packages/desktop-lib/src/lib/strategies/abstracts/update-strategy.ts';
 	const source = stripTypeScriptTypes(read(file), { mode: 'strip' })
 		.replace(/^import .*;\s*$/gm, '')
 		.replace(/export\s+class UpdateStrategy/, 'class UpdateStrategy');
 	for (const [, , appId] of apps) {
 		let updaterCalls = 0;
+		const assigned = {};
 		const updater = new Proxy({}, {
-			get() { return () => { updaterCalls++; }; },
-			set() { updaterCalls++; return true; }
+			get() { return () => { updaterCalls++; return Promise.resolve(); }; },
+			set(_, key, value) { updaterCalls++; assigned[key] = value; return true; }
 		});
 		const Strategy = vm.runInNewContext(`${source}\nUpdateStrategy;`, {
 			process: { env: { APP_ID: appId } },
 			autoUpdater: updater,
 			DesktopNotification: class {},
-			CancellationToken: class {}
+			CancellationToken: class {},
+			console: { log() {} },
+			...base360UpdateHelpers(appId)
 		});
 		const strategy = new Strategy();
+		if (appId === 'com.base360.timetracker') {
+			await strategy.checkUpdate();
+			assert.equal(assigned.autoDownload, true);
+			continue;
+		}
 		strategy.update();
 		await assert.rejects(strategy.checkUpdate(), /time\.base360\.ai\/downloads/);
 		assert.equal(updaterCalls, 0);
 	}
 });
 
-test('persisted automatic-update settings cannot restart polling in Base360 apps', () => {
+test('the timer always polls for updates; persisted settings cannot start polling in other Base360 apps', () => {
 	const source = stripTypeScriptTypes(read('packages/desktop-lib/src/lib/contexts/automatic-update.ts'), { mode: 'strip' })
 		.replace(/^import .*;\s*$/gm, '')
 		.replace(/export\s+class AutomaticUpdate/, 'class AutomaticUpdate');
 	for (const [, , appId] of apps) {
 		const AutomaticUpdate = vm.runInNewContext(`${source}\nAutomaticUpdate;`, {
 			process: { env: { APP_ID: appId } },
-			LocalStore: { getStore: () => ({ automaticUpdate: true }) }
+			LocalStore: { getStore: () => ({ automaticUpdate: appId !== 'com.base360.timetracker' }) },
+			...base360UpdateHelpers(appId)
 		});
-		assert.equal(new AutomaticUpdate(null, null).isEnabled, false);
+		assert.equal(new AutomaticUpdate(null, null).isEnabled, appId === 'com.base360.timetracker');
 	}
 });
 

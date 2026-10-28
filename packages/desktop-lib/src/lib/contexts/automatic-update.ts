@@ -2,6 +2,7 @@ import { BrowserWindow } from 'electron';
 import { UpdateContext } from './update-context';
 import * as moment from 'moment';
 import { LocalStore } from './../desktop-store';
+import { isBase360App, isSelfUpdatingBase360App } from '../base360-update';
 
 export class AutomaticUpdate {
 	private _context: UpdateContext;
@@ -78,7 +79,9 @@ export class AutomaticUpdate {
 
 	public get isEnabled(): boolean {
 		const setting = LocalStore.getStore('appSetting');
-		return !process.env.APP_ID?.startsWith('com.base360.') && setting?.automaticUpdate == true;
+		// The timer always keeps itself up to date; other Base360 apps have no feed of their own
+		if (isBase360App()) return isSelfUpdatingBase360App();
+		return setting?.automaticUpdate == true;
 	}
 
 	/**

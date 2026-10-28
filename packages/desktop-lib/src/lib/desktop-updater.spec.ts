@@ -17,7 +17,7 @@ jest.mock(
 	'electron',
 	() => ({
 		app: { getVersion: () => '111.44.45', getName: () => 'gauzy-server' },
-		ipcMain: { on: jest.fn(), once: jest.fn() },
+		ipcMain: { on: jest.fn(), once: jest.fn(), emit: jest.fn() },
 		BrowserWindow: class {}
 	}),
 	{ virtual: true }
@@ -107,6 +107,7 @@ jest.mock('./decorators', () => {
 	}
 	return {
 		...jest.requireActual('./decorators/concretes/github-cdn'),
+		...jest.requireActual('./decorators/concretes/base360-feed'),
 		DialogConfirmInstallDownload: InstallDialog,
 		DialogConfirmUpgradeDownload: UpgradeDialog,
 		DialogLocalUpdate: Dialog,
@@ -465,6 +466,60 @@ describe('GitHub update feed', () => {
 			autoUpdater.emit('update-available', { version: '111.44.46' });
 
 			expect(offered()).toEqual(['111.44.46']);
+		});
+	});
+
+	describe('Base360 timer', () => {
+		const ipcEmit: jest.Mock = jest.requireMock('electron').ipcMain.emit;
+		beforeEach(() => {
+			process.env.APP_ID = 'com.base360.timetracker';
+			setPlatform('darwin', 'arm64');
+		});
+		afterEach(() => delete process.env.APP_ID);
+
+		it('checks its own feed and downloads a new version without asking first', async () => {
+			const updater = new DesktopUpdater(CONFIG);
+			await updater.checkUpdate();
+			await jest.advanceTimersByTimeAsync(5000);
+			await flush();
+
+			expect(lastChecked()).toBe('https://time.base360.ai/downloads/updates');
+			expect(autoUpdater.autoDownload).toBe(true);
+			expect(fetchMock).not.toHaveBeenCalled();
+			autoUpdater.emit('update-available', { version: '1.0.7' });
+			await flush();
+			expect(showUpgradeDialog).not.toHaveBeenCalled();
+			expect(customNotification).not.toHaveBeenCalled();
+		});
+
+		it('asks to restart once the download is done, once per version, and restarts on Restart', async () => {
+			showInstallDialog.mockResolvedValue({ response: 0 });
+			new DesktopUpdater(CONFIG);
+			await flush();
+
+			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+			await flush();
+			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+			await flush();
+
+			expect(showInstallDialog).toHaveBeenCalledTimes(1);
+			expect(ipcEmit).toHaveBeenCalledWith('restart_and_update');
+		});
+
+		it('does not interrupt a running timer; it asks after a later check once the timer is stopped', async () => {
+			appSetting.timerStarted = true;
+			new DesktopUpdater(CONFIG);
+			await flush();
+
+			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+			await flush();
+			expect(showInstallDialog).not.toHaveBeenCalled();
+
+			appSetting.timerStarted = false;
+			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+			await flush();
+			expect(showInstallDialog).toHaveBeenCalledTimes(1);
+			expect(ipcEmit).not.toHaveBeenCalled();
 		});
 	});
 

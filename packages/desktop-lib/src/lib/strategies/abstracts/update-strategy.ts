@@ -3,6 +3,7 @@ import DesktopNotification from '../../desktop-notifier';
 import { autoUpdater, UpdateInfo, CancellationToken } from 'electron-updater';
 import { app } from 'electron';
 import { TranslateService } from '../../translation';
+import { isBase360App, isSelfUpdatingBase360App } from '../../base360-update';
 
 export abstract class UpdateStrategy implements IDesktopUpdate {
 	protected _cancellationToken: CancellationToken;
@@ -18,8 +19,7 @@ export abstract class UpdateStrategy implements IDesktopUpdate {
 	}
 
 	public update(): void {
-		// shortcut: unsigned Base360 apps share a release feed; enable installs after signing and product-specific manifests exist.
-		if (process.env.APP_ID?.startsWith('com.base360.')) return;
+		if (isBase360App() && !isSelfUpdatingBase360App()) return;
 		autoUpdater.autoDownload = !this._isUpdateTriggered;
 		if (this.url) {
 			autoUpdater.setFeedURL({
@@ -44,11 +44,12 @@ export abstract class UpdateStrategy implements IDesktopUpdate {
 	}
 
 	public async checkUpdate() {
-		if (process.env.APP_ID?.startsWith('com.base360.')) {
+		if (isBase360App() && !isSelfUpdatingBase360App()) {
 			throw new Error('Base360 updates must be installed manually: https://time.base360.ai/downloads');
 		}
 		try {
-			autoUpdater.autoDownload = false;
+			// The timer downloads in the background and asks to restart once ready, like Sparkle apps (ChatGPT, Slack)
+			autoUpdater.autoDownload = isSelfUpdatingBase360App();
 			autoUpdater.setFeedURL({
 				channel: ['linux', 'win32'].includes(process.platform) ? `latest-${process.arch}` : 'latest',
 				provider: 'generic',

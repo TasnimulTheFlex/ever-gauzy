@@ -2,7 +2,9 @@ import { BrowserWindow, app, ipcMain } from 'electron';
 import { autoUpdater, UpdateInfo, UpdateDownloadedEvent } from 'electron-updater';
 import { LOCAL_SERVER_UPDATE_CONFIG } from './config';
 import { AutomaticUpdate, UpdateContext } from './contexts';
+import { isSelfUpdatingBase360App } from './base360-update';
 import {
+	Base360Feed,
 	DialogConfirmInstallDownload,
 	DialogConfirmUpgradeDownload,
 	DialogLocalUpdate,
@@ -32,7 +34,7 @@ export class DesktopUpdater {
 		config = { ...config, owner: 'TasnimulTheFlex', repository: 'ever-gauzy' };
 		this._updateContext = new UpdateContext();
 		this._updateServer = new DesktopLocalUpdateServer();
-		this._strategy = new GithubCdn(new CdnUpdate(config));
+		this._strategy = isSelfUpdatingBase360App() ? new Base360Feed(new CdnUpdate(config)) : new GithubCdn(new CdnUpdate(config));
 		// The DigitalOcean Spaces CDN update feed (ever.sfo3.cdn.digitaloceanspaces.com) was
 		// decommissioned; GitHub Releases is the only live feed. Default the active strategy to
 		// GitHub so no install is stranded on the dead CDN — including apps that never call
@@ -145,6 +147,8 @@ export class DesktopUpdater {
 		// install prompt) is still showing; the next check offers it again.
 		autoUpdater.on('update-available', async (info: UpdateInfo) => {
 			const setting = LocalStore.getStore('appSetting');
+			// The timer is already downloading it in the background (autoDownload); it asks once the download is done
+			if (isSelfUpdatingBase360App()) return;
 			if (setting && !setting.automaticUpdate) return;
 			if (this._openDialog || this._answeredVersions.has(info.version)) return;
 			try {
@@ -180,6 +184,10 @@ export class DesktopUpdater {
 			this._settingWindow?.webContents?.send?.('setting_page_ipc', {
 				type: 'update_downloaded'
 			});
+			if (isSelfUpdatingBase360App()) {
+				await this._offerRestart(event.version);
+				return;
+			}
 			if (setting && !setting.automaticUpdate) return;
 			// Wait until an open "new version" dialog is answered instead of opening on top of it.
 			while (this._openDialog) await this._openDialog.catch(() => undefined);
@@ -214,7 +222,7 @@ export class DesktopUpdater {
 			this._settingWindow?.webContents?.send?.('setting_page_ipc', {
 				type: 'update_available'
 			});
-			this._updateContext.notify(info);
+			if (!isSelfUpdatingBase360App()) this._updateContext.notify(info);
 		});
 
 		autoUpdater.requestHeaders = {
@@ -246,6 +254,33 @@ export class DesktopUpdater {
 			console.log('error');
 			this._updateServer.stop();
 		});
+	}
+
+	/**
+	 * Asks once per downloaded version to restart now. Never while the timer runs, so tracking is not cut off;
+	 * an unanswered or postponed update installs the next time the app quits (autoInstallOnAppQuit).
+	 */
+	private async _offerRestart(version: string): Promise<void> {
+		const setting = LocalStore.getStore('appSetting');
+		if (setting?.timerStarted || this._openDialog || this._answeredVersions.has(version)) return;
+		const dialog = new DialogConfirmInstallDownload(
+			new DesktopDialog(
+				process.env.DESCRIPTION,
+				TranslateService.instant('TIMER_TRACKER.DIALOG.READY_INSTALL'),
+				this._gauzyWindow
+			)
+		);
+		dialog.options.detail = TranslateService.instant('TIMER_TRACKER.DIALOG.HAS_BEEN_DOWNLOADED', { version });
+		try {
+			this._openDialog = dialog.show();
+			const button = await this._openDialog;
+			this._answeredVersions.add(version);
+			if (button?.response === 0) ipcMain.emit('restart_and_update');
+		} catch (e) {
+			console.log('Error on showing the install dialog:', e);
+		} finally {
+			this._openDialog = null;
+		}
 	}
 
 	public set settingWindow(value: BrowserWindow) {
