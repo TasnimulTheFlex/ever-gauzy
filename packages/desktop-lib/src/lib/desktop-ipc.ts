@@ -1125,6 +1125,8 @@ export function ipcTimer(
 
 			cleanupPowerManagers();
 			timeTrackerWindow.webContents.send('TIMER_SESSION_UPDATED');
+			// An update that waited for the timer installs now (unless the app is quitting, which installs it anyway)
+			if (!arg.quitApp) getAppWindowManager().updater?.onTimerStopped();
 
 			return timerResponse;
 		} catch (error) {

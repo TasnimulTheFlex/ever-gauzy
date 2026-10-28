@@ -64,6 +64,8 @@ export class AutomaticUpdate {
 	 * @returns The delay in milliseconds.
 	 */
 	public get delay(): number {
+		// The timer checks every 15 minutes so a release reaches everyone the same day
+		if (isSelfUpdatingBase360App()) return moment.duration(15, 'minutes').asMilliseconds();
 		const setting = LocalStore.getStore('appSetting');
 		// The delay last sent from the settings page, else the stored one (e.g. at startup), else 1 hour.
 		const hours =

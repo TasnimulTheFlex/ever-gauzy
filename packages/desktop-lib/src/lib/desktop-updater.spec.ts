@@ -492,34 +492,59 @@ describe('GitHub update feed', () => {
 			expect(customNotification).not.toHaveBeenCalled();
 		});
 
-		it('asks to restart once the download is done, once per version, and restarts on Restart', async () => {
-			showInstallDialog.mockResolvedValue({ response: 0 });
+		it('installs a downloaded update by itself once the timer is idle, without asking, once', async () => {
 			new DesktopUpdater(CONFIG);
 			await flush();
 
 			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
-			await flush();
 			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
-			await flush();
+			await jest.advanceTimersByTimeAsync(29_000);
+			expect(ipcEmit).not.toHaveBeenCalled();
+			await jest.advanceTimersByTimeAsync(1_000);
 
-			expect(showInstallDialog).toHaveBeenCalledTimes(1);
+			expect(showInstallDialog).not.toHaveBeenCalled();
+			expect(ipcEmit).toHaveBeenCalledTimes(1);
 			expect(ipcEmit).toHaveBeenCalledWith('restart_and_update');
 		});
 
-		it('does not interrupt a running timer; it asks after a later check once the timer is stopped', async () => {
+		it('never restarts while the timer runs; it installs shortly after the timer is stopped', async () => {
 			appSetting.timerStarted = true;
-			new DesktopUpdater(CONFIG);
+			const updater = new DesktopUpdater(CONFIG);
 			await flush();
 
 			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
-			await flush();
-			expect(showInstallDialog).not.toHaveBeenCalled();
+			await jest.advanceTimersByTimeAsync(60_000);
+			expect(ipcEmit).not.toHaveBeenCalled();
 
 			appSetting.timerStarted = false;
-			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+			updater.onTimerStopped();
+			await jest.advanceTimersByTimeAsync(30_000);
+			expect(ipcEmit).toHaveBeenCalledWith('restart_and_update');
+		});
+
+		it('does not restart if the timer was started again during the wait', async () => {
+			const updater = new DesktopUpdater(CONFIG);
 			await flush();
-			expect(showInstallDialog).toHaveBeenCalledTimes(1);
+			autoUpdater.emit('update-downloaded', { version: '1.0.7' });
+
+			appSetting.timerStarted = true;
+			await jest.advanceTimersByTimeAsync(30_000);
 			expect(ipcEmit).not.toHaveBeenCalled();
+
+			appSetting.timerStarted = false;
+			updater.onTimerStopped();
+			await jest.advanceTimersByTimeAsync(30_000);
+			expect(ipcEmit).toHaveBeenCalledTimes(1);
+		});
+
+		it('checks for updates every 15 minutes', async () => {
+			new DesktopUpdater(CONFIG);
+			await flush();
+			const checks = () => autoUpdater.checked.length;
+			const before = checks();
+			await jest.advanceTimersByTimeAsync(15 * 60 * 1000);
+			await flush();
+			expect(checks()).toBe(before + 1);
 		});
 	});
 

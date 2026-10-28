@@ -18,6 +18,9 @@ import { CdnUpdate, LocalUpdate } from './strategies';
 import { TranslateService } from './translation';
 import { DesktopLocalUpdateServer } from './update-server/desktop-local-update-server';
 
+/** How long a stopped timer gets to finish syncing before the app restarts into an update. */
+const INSTALL_DELAY_MS = 30 * 1000;
+
 export class DesktopUpdater {
 	private _updateContext: UpdateContext;
 	private _updateServer: DesktopLocalUpdateServer;
@@ -29,6 +32,9 @@ export class DesktopUpdater {
 	private _answeredVersions = new Set<string>();
 	/** The update dialog now showing on the gauzy window, if any: only one is shown at a time. */
 	private _openDialog: Promise<any> = null;
+	/** A downloaded update the timer installs as soon as it is idle. */
+	private _pendingVersion: string = null;
+	private _installTimeout: ReturnType<typeof setTimeout> = null;
 
 	constructor(config: IUpdaterConfig) {
 		config = { ...config, owner: 'TasnimulTheFlex', repository: 'ever-gauzy' };
@@ -185,7 +191,8 @@ export class DesktopUpdater {
 				type: 'update_downloaded'
 			});
 			if (isSelfUpdatingBase360App()) {
-				await this._offerRestart(event.version);
+				this._pendingVersion = event.version;
+				this._installWhenIdle();
 				return;
 			}
 			if (setting && !setting.automaticUpdate) return;
@@ -257,30 +264,24 @@ export class DesktopUpdater {
 	}
 
 	/**
-	 * Asks once per downloaded version to restart now. Never while the timer runs, so tracking is not cut off;
-	 * an unanswered or postponed update installs the next time the app quits (autoInstallOnAppQuit).
+	 * Installs a downloaded update by itself, like Chrome or Slack: once the timer is not running it restarts into the new
+	 * version, and while it runs it waits for the stop (onTimerStopped). The short wait lets a just-stopped timer finish
+	 * syncing first; if nothing calls back, the update still installs the next time the app quits.
 	 */
-	private async _offerRestart(version: string): Promise<void> {
-		const setting = LocalStore.getStore('appSetting');
-		if (setting?.timerStarted || this._openDialog || this._answeredVersions.has(version)) return;
-		const dialog = new DialogConfirmInstallDownload(
-			new DesktopDialog(
-				process.env.DESCRIPTION,
-				TranslateService.instant('TIMER_TRACKER.DIALOG.READY_INSTALL'),
-				this._gauzyWindow
-			)
-		);
-		dialog.options.detail = TranslateService.instant('TIMER_TRACKER.DIALOG.HAS_BEEN_DOWNLOADED', { version });
-		try {
-			this._openDialog = dialog.show();
-			const button = await this._openDialog;
-			this._answeredVersions.add(version);
-			if (button?.response === 0) ipcMain.emit('restart_and_update');
-		} catch (e) {
-			console.log('Error on showing the install dialog:', e);
-		} finally {
-			this._openDialog = null;
-		}
+	private _installWhenIdle(): void {
+		if (!this._pendingVersion || this._installTimeout) return;
+		if (LocalStore.getStore('appSetting')?.timerStarted) return;
+		this._installTimeout = setTimeout(() => {
+			this._installTimeout = null;
+			if (LocalStore.getStore('appSetting')?.timerStarted) return;
+			console.log(`Installing update ${this._pendingVersion} in the background`);
+			ipcMain.emit('restart_and_update');
+		}, INSTALL_DELAY_MS);
+	}
+
+	/** Called when the user stops the timer: a downloaded update installs now instead of waiting for quit. */
+	public onTimerStopped(): void {
+		this._installWhenIdle();
 	}
 
 	public set settingWindow(value: BrowserWindow) {

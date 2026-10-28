@@ -71,6 +71,10 @@ export class AppWindowManager {
 		this._updater = value;
 	}
 
+	get updater(): DesktopUpdater {
+		return this._updater;
+	}
+
 	set preloadPath(value: string) {
 		this._preloadPath = value;
 	}
