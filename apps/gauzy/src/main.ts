@@ -12,8 +12,17 @@ if (environment.production) {
 	enableAkitaProdMode();
 }
 
+// The date filter lives for the visit only: kept in storage it reopened the pages on the day last viewed instead of today
+const withoutSavedDates = (storeName: string, state: any) => {
+	if (storeName !== 'timesheet-filter' || !state) return state;
+	const { startDate, endDate, ...rest } = state;
+	return rest;
+};
+
 persistState({
-	key: '_gauzyStore'
+	key: '_gauzyStore',
+	preStorageUpdate: withoutSavedDates,
+	preStoreUpdate: withoutSavedDates
 });
 
 akitaConfig({

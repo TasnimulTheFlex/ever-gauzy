@@ -26,7 +26,7 @@ import { TranslationBaseComponent } from '@gauzy/ui-core/i18n';
 import { distinctUntilChange, isNotEmpty } from '@gauzy/ui-core/common';
 import { Arrow } from './arrow/context/arrow.class';
 import { Next, Previous } from './arrow/strategies';
-import { dayOfWeekAsString, selectUnitOfTime, shiftUTCtoLocal } from './date-picker.utils';
+import { dayOfWeekAsString, selectUnitOfTime } from './date-picker.utils';
 import { DateRangeClicked, DateRangeKeyEnum, DateRanges, TimePeriod } from './date-picker.interface';
 import { TimeZoneService } from '../../timesheet/gauzy-filters/timezone-filter';
 
@@ -536,7 +536,8 @@ export class DateRangePickerComponent extends TranslationBaseComponent implement
 			return;
 		}
 
-		const { startDate, endDate } = shiftUTCtoLocal(event);
+		// ngx-daterangepicker-material 22 already emits local dates; shifting them again moved east-of-UTC picks to the day before
+		const { startDate, endDate } = event;
 
 		// Return early if either date is missing
 		if (!startDate || !endDate) {

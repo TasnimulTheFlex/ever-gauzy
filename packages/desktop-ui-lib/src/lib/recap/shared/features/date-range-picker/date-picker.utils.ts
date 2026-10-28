@@ -1,7 +1,7 @@
 import { ISelectedDateRange, ITimeLogFilters, WeekDaysEnum } from '@gauzy/contracts';
 import * as momentDefault from 'moment';
 import { extendMoment } from 'moment-range';
-import { IDateRangePicker, TimePeriod } from './date-picker.interface';
+import { IDateRangePicker } from './date-picker.interface';
 
 export const moment = extendMoment(momentDefault);
 /**
@@ -31,24 +31,6 @@ export function getAdjustDateRangeFutureAllowed(request: ITimeLogFilters | IDate
 		startDate: moment(startDate).toDate(),
 		endDate: moment(endDate).toDate()
 	} as ISelectedDateRange;
-}
-
-/**
- * Shifts a given time range from UTC to the local time zone.
- *
- * @param range The time range to be shifted.
- * @returns The shifted time range in the local time zone.
- */
-export function shiftUTCtoLocal(range: TimePeriod): TimePeriod {
-	if (range && range.endDate && range.startDate) {
-		const offset = moment().utcOffset();
-		return {
-			startDate: moment(range.startDate.toDate()).subtract(offset, 'minute'),
-			endDate: moment(range.endDate.toDate()).subtract(offset, 'minute')
-		};
-	} else {
-		return range;
-	}
 }
 
 /**

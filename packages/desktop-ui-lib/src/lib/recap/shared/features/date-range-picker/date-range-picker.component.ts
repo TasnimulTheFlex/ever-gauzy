@@ -27,7 +27,7 @@ import { Store } from '../../../../services';
 import { Arrow } from './arrow/context/arrow.class';
 import { Next, Previous } from './arrow/strategies';
 import { DateRangeKeyEnum, DateRanges, IDateRangePicker, TimePeriod } from './date-picker.interface';
-import { dayOfWeekAsString, shiftUTCtoLocal } from './date-picker.utils';
+import { dayOfWeekAsString } from './date-picker.utils';
 import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 
@@ -351,7 +351,8 @@ export class DateRangePickerComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const { startDate, endDate } = shiftUTCtoLocal(event);
+		// ngx-daterangepicker-material 22 already emits local dates; shifting them again moved east-of-UTC picks to the day before
+		const { startDate, endDate } = event;
 		if (startDate && endDate) {
 			const range = {} as IDateRangePicker;
 			const start = this.isLockDatePicker ? moment(startDate).startOf(this.unitOfTime) : startDate;

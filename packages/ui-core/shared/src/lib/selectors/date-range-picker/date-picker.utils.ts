@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { IDateRangePicker, ISelectedDateRange, ITimeLogFilters, WeekDaysEnum } from '@gauzy/contracts';
-import { TimePeriod } from './date-picker.interface';
 
 /**
  * We are having issue, when organization not allowed future date
@@ -29,24 +28,6 @@ export function getAdjustDateRangeFutureAllowed(request: ITimeLogFilters | IDate
 		startDate: moment(startDate).toDate(),
 		endDate: moment(endDate).toDate()
 	} as ISelectedDateRange;
-}
-
-/**
- * Shifts a given time range from UTC to the local time zone.
- *
- * @param range The time range to be shifted.
- * @returns The shifted time range in the local time zone.
- */
-export function shiftUTCtoLocal(range: TimePeriod): TimePeriod {
-	if (range && range.endDate && range.startDate) {
-		const offset = moment().utcOffset();
-		return {
-			startDate: moment(range.startDate.toDate()).subtract(offset, 'minute'),
-			endDate: moment(range.endDate.toDate()).subtract(offset, 'minute')
-		};
-	} else {
-		return range;
-	}
 }
 
 /**
