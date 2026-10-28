@@ -640,8 +640,12 @@ export class DateRangePickerComponent extends TranslationBaseComponent implement
 		this._timesheetFilterService.filter$
 			.pipe(take(1), untilDestroyed(this))
 			.subscribe((filters: ITimeLogFilters) => {
-				// Use the startDate from filters if available; otherwise, use the startDate from the range parameter
-				const startDate = filters.startDate || range.startDate;
+				// A range carried over from another page (e.g. the dashboard's week) that holds today lands on today, not on its first day
+				const holdsToday =
+					!!filters.startDate &&
+					!!filters.endDate &&
+					moment().isBetween(filters.startDate, filters.endDate, 'day', '[]');
+				const startDate = holdsToday ? new Date() : filters.startDate || range.startDate;
 
 				// Determine if future dates are allowed
 				const hasFutureStrategy = this.hasFutureStrategy();
