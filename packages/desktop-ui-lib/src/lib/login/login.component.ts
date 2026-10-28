@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NavigationExtras, Router, RouterLink } from '@angular/router';
+import { type NavigationExtras, Router } from '@angular/router';
 import { HttpStatus, IUserSigninWorkspaceResponse } from '@gauzy/contracts';
 import { NB_AUTH_OPTIONS, NbAuthService, NbLoginComponent } from '@nebular/auth';
 import {
@@ -22,7 +22,6 @@ import { LanguageElectronService } from '../language/language-electron.service';
 import { ErrorHandlerService } from '../services';
 import { SwitchThemeComponent } from '../theme-selector/switch-theme/switch-theme.component';
 import { LogoComponent } from './shared/ui/logo/logo.component';
-import { SocialLinksComponent } from './shared/ui/social-links/social-links.component';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -41,8 +40,6 @@ import { SocialLinksComponent } from './shared/ui/social-links/social-links.comp
 		NbIconModule,
 		NbCheckboxModule,
 		SpinnerButtonDirective,
-		RouterLink,
-		SocialLinksComponent,
 		TranslatePipe
 	]
 })
@@ -140,22 +137,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit, OnDes
 				untilDestroyed(this)
 			)
 			.subscribe();
-	}
-
-	public forgot(): void {
-		this.electronService.shell.openExternal(this.forgotPasswordUrl);
-	}
-
-	public register(): void {
-		this.electronService.shell.openExternal(this.registerUrl);
-	}
-
-	get forgotPasswordUrl(): string {
-		return this.environment.FORGOT_PASSWORD_URL || 'https://time.base360.ai/#/auth/request-password';
-	}
-
-	get registerUrl(): string {
-		return this.environment.REGISTER_URL || 'https://time.base360.ai/#/auth/register';
 	}
 
 	get isAgent(): boolean {
