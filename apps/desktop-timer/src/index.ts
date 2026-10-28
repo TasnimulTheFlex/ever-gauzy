@@ -82,7 +82,6 @@ import {
 	TranslateService,
 	TrayIconFactory,
 	UIError,
-	handleDesktopStartup,
 	DesktopOfflineModeHandler
 } from '@gauzy/desktop-lib';
 import {
@@ -352,6 +351,7 @@ async function startServer(setupConfig: DesktopSetupConfig, restart = false) {
 					pathWindow.preloadPath,
 					false
 				);
+				syncDockWithWindow(timeTrackerWindow);
 			}
 			await setLaunchPathAndLoad(timeTrackerWindow, pathWindow.timeTrackerUi, '/time-tracker');
 			notificationWindow = new ScreenCaptureNotification(pathWindow.timeTrackerUi);
@@ -542,6 +542,13 @@ function ejectInstallerVolumes(): void {
 	});
 }
 
+// Like Hubstaff: closing the timer leaves only the menu-bar icon, and the Dock icon comes back with the window
+function syncDockWithWindow(window: BrowserWindow): void {
+	if (process.platform !== 'darwin') return;
+	window.on('hide', () => app.dock?.hide());
+	window.on('show', () => void app.dock?.show());
+}
+
 app.on('ready', async () => {
 	initializeAppManager();
 
@@ -574,15 +581,7 @@ app.on('ready', async () => {
 	new DesktopThemeListener();
 	// default global
 	setGlobalVariable(configs || {});
-	// buttonResponse:
-	// 0: User clicked "Remove Database"
-	// 1: User clicked "Keep It"
-	// undefined: No popup was shown (e.g. fresh install or no version change)
-	const buttonResponse = await handleDesktopStartup();
-	if (buttonResponse === 0) {
-		await restartApp();
-		return;
-	}
+	// No "wipe the local database?" prompt after an update: setupDatabase migrates it, and with auto-updates it would ask after every release
 	await launchSplashScreen();
 	requestMacPermissions();
 	ejectInstallerVolumes();
@@ -597,6 +596,7 @@ app.on('ready', async () => {
 			pathWindow.preloadPath,
 			false
 		);
+		syncDockWithWindow(timeTrackerWindow);
 
 		await launchWidget(settings);
 		if (configs && configs.isSetup) {
@@ -705,10 +705,13 @@ ipcMain.on('open_browser', async (event, arg) => {
 ipcMain.on('restart_and_update', () => {
 	setImmediate(() => {
 		app.removeAllListeners('window-all-closed');
+		// Windows hide instead of closing; the install waits for every window to close, so let them close this once
+		BrowserWindow.getAllWindows().forEach((window) => window.removeAllListeners('close'));
 		autoUpdater.quitAndInstall(false);
 		if (serverDesktop) serverDesktop.kill();
 		if (serverGauzy) serverGauzy.kill();
-		app.exit(0);
+		// On macOS quitAndInstall waits for Squirrel to stage the update, then quits and relaunches; exiting now would drop the update
+		if (process.platform !== 'darwin') app.exit(0);
 	});
 });
 
@@ -743,10 +746,10 @@ ipcMain.on('minimize_on_startup', (event, arg) => {
 
 app.on('activate', () => {
 	const configs = LocalStore.getStore('configs');
-	if (gauzyWindow) {
-		if (configs?.gauzyWindow) {
-			gauzyWindow.show();
-		}
+	if (gauzyWindow && !gauzyWindow.isDestroyed()) {
+		// A Dock click brings the timer back (it only hides on close); this used to need the gauzyPlatform setup flag, off for the timer
+		gauzyWindow.show();
+		gauzyWindow.focus();
 	} else if (!onWaitingServer && configs && configs.isSetup && configs.serverConfigConnected && timeTrackerWindow) {
 		// On macOS, it's common to re-create a window in the app when the
 		// dock icon is clicked and there are no other windows open.
