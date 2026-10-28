@@ -102,9 +102,9 @@
   padding-top: 0;
 }
 
+// No drag region here: the title bar drags the window, and on macOS a drag region swallows every click under it
 ::ng-deep body {
   overflow: hidden !important;
-  -webkit-app-region: drag;
 }
 
 .top-space {
@@ -294,10 +294,13 @@ nb-card-body {
   background-color: var(--gauzy-sidebar-background-3) !important;
   border-radius: var(--border-radius);
   cursor: pointer;
-  @include nb-rtl(left, -14px);
-  @include nb-ltr(right, -14px);
-  @include nb-rtl(padding-right, 0px !important);
-  @include nb-ltr(padding-left, 0px !important);
+  // Inside the window (it used to hang 14px off the edge, half hidden and hard to hit)
+  @include nb-rtl(left, 0);
+  @include nb-ltr(right, 0);
+  min-width: 0;
+  width: 18px;
+  padding: 0 !important;
+  justify-content: center;
 
   nb-icon {
     @include nb-rtl(rotate, 180deg);

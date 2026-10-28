@@ -136,6 +136,11 @@ window.addEventListener('DOMContentLoaded', async () => {
             text-decoration: none;
         }
 
+        /* The titlebar reserves 296px for menus we don't show, which cut the title to "Bas..." in the narrow timer window */
+        .cet-title {
+            max-width: none !important;
+        }
+
         .cet-menubar .cet-menubar-menu-button {
             box-sizing: border-box;
             padding: 0px 5px;
