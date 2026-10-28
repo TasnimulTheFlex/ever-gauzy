@@ -12,7 +12,9 @@ export class GauzyStorageService {
 	}
 
 	public async setItem(key: string, value: any): Promise<void> {
-		await this.electronService.invoke('akita::storage::setItem', { key, value });
+		// Saved as JSON anyway; a JSON copy drops class instances IPC cannot clone, which failed each save with "An object could not be cloned"
+		const plain = value === undefined ? value : JSON.parse(JSON.stringify(value));
+		await this.electronService.invoke('akita::storage::setItem', { key, value: plain });
 	}
 
 	public async removeItem(key: string): Promise<void> {

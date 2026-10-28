@@ -93,7 +93,8 @@ import {
 	setLaunchPathAndLoad,
 	SplashScreen
 } from '@gauzy/desktop-window';
-import { fork } from 'child_process';
+import { execFile, fork } from 'child_process';
+import * as fs from 'node:fs';
 import { autoUpdater } from 'electron-updater';
 import { Knex } from 'knex';
 
@@ -525,6 +526,22 @@ function requestMacPermissions(): void {
 	systemPreferences.isTrustedAccessibilityClient(true);
 }
 
+// After the drag-to-Applications install, close the installer: eject any mounted Base360 DMG (a volume holding our app)
+function ejectInstallerVolumes(): void {
+	const exe = app.getPath('exe');
+	if (process.platform !== 'darwin' || !exe.startsWith('/Applications/')) return;
+	const bundle = path.basename(path.resolve(exe, '../../..')); // base360-timer.app
+	fs.readdir('/Volumes', (readError, volumes) => {
+		if (readError) return;
+		volumes
+			.map((name) => path.join('/Volumes', name))
+			.filter((volume) => fs.existsSync(path.join(volume, bundle)))
+			.forEach((volume) =>
+				execFile('hdiutil', ['detach', volume], (error) => error && log.warn(`Could not eject ${volume}`, error.message))
+			);
+	});
+}
+
 app.on('ready', async () => {
 	initializeAppManager();
 
@@ -568,6 +585,7 @@ app.on('ready', async () => {
 	}
 	await launchSplashScreen();
 	requestMacPermissions();
+	ejectInstallerVolumes();
 	await setupDatabase();
 	setAppVersion(configs);
 	initialAppMenu();
