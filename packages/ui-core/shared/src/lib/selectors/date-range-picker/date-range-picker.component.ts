@@ -536,8 +536,10 @@ export class DateRangePickerComponent extends TranslationBaseComponent implement
 			return;
 		}
 
-		// ngx-daterangepicker-material 22 already emits local dates; shifting them again moved east-of-UTC picks to the day before
-		const { startDate, endDate } = event;
+		// ngx-daterangepicker-material 22 emits local dayjs dates: shifting them by the UTC offset moved east-of-UTC picks to the
+		// day before, and moment() cannot read a dayjs object (it silently becomes now), so hand moment a plain Date
+		const startDate = event?.startDate?.toDate();
+		const endDate = event?.endDate?.toDate();
 
 		// Return early if either date is missing
 		if (!startDate || !endDate) {
