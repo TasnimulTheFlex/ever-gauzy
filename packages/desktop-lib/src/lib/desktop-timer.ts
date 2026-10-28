@@ -182,6 +182,8 @@ export default class TimerHandler {
 			);
 		}
 
+		// A second start without a stop would orphan the old interval, which then kept counting time and taking screenshots after Stop
+		clearInterval(this.intervalTimer);
 		this.intervalTimer = setInterval(async () => {
 			try {
 				const appSetting = LocalStore.getStore('appSetting');
@@ -278,6 +280,7 @@ export default class TimerHandler {
 			`[startTimerIntervalPeriod] Local timer (id: ${this.lastTimer ? this.lastTimer.id : null}) time-slot start anchored — periodic screenshot/activity interval starting every ${updatePeriod} min`
 		);
 
+		clearInterval(this.intervalUpdateTime);
 		this.intervalUpdateTime = setInterval(
 			async () => {
 				try {

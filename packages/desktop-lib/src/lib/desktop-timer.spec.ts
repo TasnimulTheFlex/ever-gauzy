@@ -859,5 +859,26 @@ describe('TimerHandler', () => {
 				expect.objectContaining({ id: 7, synced: true, isStoppedOffline: false, stopSyncState: 'PENDING' })
 			]);
 		});
+
+		it('stops counting and taking screenshots when the timer was started twice before stopping', async () => {
+			jest.useFakeTimers();
+			appSetting = { timer: { updatePeriod: 1 } };
+			const handler = newHandler();
+			handler.lastTimer = { id: 7 };
+			const queued = jest.spyOn(handler, 'processWithQueue').mockResolvedValue(undefined);
+			jest.spyOn(handler, 'getAllActivities').mockResolvedValue([]);
+
+			for (let start = 0; start < 2; start++) {
+				await handler.collectActivities(null, knex, window);
+				await handler.startTimerIntervalPeriod(null, knex, window);
+			}
+			await handler.stopTimerIntervalPeriod();
+			queued.mockClear();
+			window.webContents.send.mockClear();
+			await jest.advanceTimersByTimeAsync(2 * 60_000);
+
+			expect(queued).not.toHaveBeenCalled();
+			expect(window.webContents.send).not.toHaveBeenCalled();
+		});
 	});
 });

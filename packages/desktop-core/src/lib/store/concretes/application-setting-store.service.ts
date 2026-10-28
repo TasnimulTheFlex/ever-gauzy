@@ -42,7 +42,7 @@ export class ApplicationSettingStoreService extends StoreService implements ISto
 			prerelease: false,
 			preferredLanguage: 'en',
 			zone: 'local',
-			alwaysOn: true,
+			alwaysOn: false, // Base360: the floating widget is opt-in (Settings → Timer → Widget)
 			enforced: false,
 			theme: nativeTheme.shouldUseDarkColors ? 'dark' : 'light',
 			asyncTimerDataSync: false
