@@ -1,7 +1,7 @@
 {
     "name": "gauzy-desktop-timer",
     "productName": "Base360 Timer",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "Base360 Timer",
     "license": "AGPL-3.0",
     "homepage": "https://base360.ai",
@@ -112,6 +112,9 @@
             "synopsis": "Desktop",
             "category": "Development",
             "mimeTypes": [
+                "x-scheme-handler/base360-timer",
+                "x-scheme-handler/base360-timer",
+                "x-scheme-handler/base360-timer",
                 "x-scheme-handler/base360-timer",
                 "x-scheme-handler/base360-timer",
                 "x-scheme-handler/base360-timer",

@@ -703,6 +703,12 @@ ipcMain.on('open_browser', async (event, arg) => {
 });
 
 ipcMain.on('restart_and_update', () => {
+	// Never restart into an update mid-session: closing the windows would leave the running timer unable to stop.
+	// A prompt clicked after the timer was started again lands here; the update then installs at the next quit or stop.
+	if (LocalStore.getStore('appSetting')?.timerStarted) {
+		log.info('Update restart skipped: the timer is running');
+		return;
+	}
 	setImmediate(() => {
 		app.removeAllListeners('window-all-closed');
 		// Windows hide instead of closing; the install waits for every window to close, so let them close this once
@@ -796,6 +802,11 @@ app.on('before-quit', async (e) => {
 
 		if (button.response === 0) {
 			willQuit = true;
+			// The window stops the timer and then quits; if it is already gone there is nothing to ask, so just quit
+			if (!timeTrackerWindow || timeTrackerWindow.isDestroyed()) {
+				app.exit(0);
+				return;
+			}
 			timeTrackerWindow.webContents.send('stop_from_tray', {
 				quitApp: true
 			});

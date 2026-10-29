@@ -197,7 +197,7 @@ import TimerHandler from './desktop-timer';
 import { ASYNC_TIMER_SYNC_QUEUE_FILE, AsyncTimerSyncQueue } from './queues/async-timer-sync-queue';
 
 const knex = { name: 'knex' } as any;
-const window = { webContents: { send: jest.fn() } } as any;
+const window = { isDestroyed: () => false, webContents: { send: jest.fn() } } as any;
 const duration = (id: number, ms: number) => ({ type: 'update-duration-timer', data: { id, duration: ms } });
 const windowEvents = (timerId: number, ...eventIds: number[]) => ({
 	type: 'window_events',

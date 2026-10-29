@@ -214,6 +214,8 @@ export default class TimerHandler {
 
 				this.calculateTimeRecord();
 
+				// The window can be gone while the app quits; the interval is cleared right after
+				if (timeTrackerWindow.isDestroyed()) return;
 				timeTrackerWindow.webContents.send('timer_push', {
 					second: this.timeRecordSecond,
 					minute: this.timeRecordMinute,
