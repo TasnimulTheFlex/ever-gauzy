@@ -10,30 +10,7 @@
 	<body>
 		<gauzy-root></gauzy-root>
 		<style>
-			@-webkit-keyframes spin {
-				0% {
-					transform: rotate(0);
-				}
-				100% {
-					transform: rotate(360deg);
-				}
-			}
-			@-moz-keyframes spin {
-				0% {
-					-moz-transform: rotate(0);
-				}
-				100% {
-					-moz-transform: rotate(360deg);
-				}
-			}
-			@keyframes spin {
-				0% {
-					transform: rotate(0);
-				}
-				100% {
-					transform: rotate(360deg);
-				}
-			}
+			/* Base360 startup loader: the logo breathes over a sliding bar in the logo's blues */
 			.spinner {
 				position: fixed;
 				top: 0;
@@ -43,43 +20,59 @@
 				z-index: 1003;
 				background: #ffffff;
 				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 28px;
 			}
-			.spinner div:first-child {
-				display: block;
+			.spinner .b360-logo {
+				width: 168px;
+				animation: b360-breathe 1.8s ease-in-out infinite;
+			}
+			.spinner .b360-bar {
 				position: relative;
-				left: 50%;
-				top: 50%;
-				width: 150px;
-				height: 150px;
-				margin: -75px 0 0 -75px;
-				border-radius: 50%;
-				box-shadow: 0 3px 3px 0 rgba(27, 2, 94);
-				transform: translate3d(0, 0, 0);
-				animation: spin 2s linear infinite;
+				width: 120px;
+				height: 3px;
+				border-radius: 3px;
+				background: #e8ecff;
+				overflow: hidden;
 			}
-
-			.spinner div:first-child:after,
-			.spinner div:first-child:before {
+			.spinner .b360-bar::after {
 				content: '';
 				position: absolute;
-				border-radius: 50%;
+				top: 0;
+				left: -40%;
+				width: 40%;
+				height: 100%;
+				border-radius: 3px;
+				background: linear-gradient(90deg, #9aacfc, #3459fe);
+				animation: b360-slide 1.2s ease-in-out infinite;
 			}
-			.spinner div:first-child:before {
-				top: 5px;
-				left: 5px;
-				right: 5px;
-				bottom: 5px;
-				box-shadow: 0 3px 3px 0 rgb(187, 187, 187);
-				-webkit-animation: spin 3s linear infinite;
-				animation: spin 3s linear infinite;
+			@keyframes b360-breathe {
+				0%,
+				100% {
+					opacity: 0.55;
+					transform: scale(0.97);
+				}
+				50% {
+					opacity: 1;
+					transform: scale(1);
+				}
 			}
-			.spinner div:first-child:after {
-				top: 15px;
-				left: 15px;
-				right: 15px;
-				bottom: 15px;
-				box-shadow: 0 3px 3px 0 rgba(196, 0, 41);
-				animation: spin 1.5s linear infinite;
+			@keyframes b360-slide {
+				0% {
+					left: -40%;
+				}
+				100% {
+					left: 100%;
+				}
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.spinner .b360-logo,
+				.spinner .b360-bar::after {
+					animation: none;
+				}
 			}
 		</style>
 		<style>
@@ -105,13 +98,9 @@
 				}
 			}
 		</style>
-		<div id="nb-global-spinner" class="spinner">
-			<div class="blob blob-0"></div>
-			<div class="blob blob-1"></div>
-			<div class="blob blob-2"></div>
-			<div class="blob blob-3"></div>
-			<div class="blob blob-4"></div>
-			<div class="blob blob-5"></div>
+		<div id="nb-global-spinner" class="spinner" role="progressbar" aria-label="Loading Base360 Timer">
+			<img class="b360-logo" src="assets/images/logos/logo_Base360.svg" alt="Base360" />
+			<div class="b360-bar"></div>
 		</div>
 	</body>
 </html>
