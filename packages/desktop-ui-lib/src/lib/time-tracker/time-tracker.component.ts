@@ -1028,7 +1028,11 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.prepareWindow();
-		setTimeout(() => this.fitWindowHeight(), 500);
+		// The main process sizes the window to full height when it shows it, so fit the card again whenever it appears
+		setTimeout(() => this.fitWindowHeight(), 1500);
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'visible') setTimeout(() => this.fitWindowHeight(), 300);
+		});
 
 		this.electronService.ipcRenderer.on('timer_push', (event, arg) =>
 			this._ngZone.run(async () => {
