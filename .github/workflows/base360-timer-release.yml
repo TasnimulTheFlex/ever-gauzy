@@ -1,144 +1,94 @@
 name: Base360 Timer Release
 
+# Bumping "version" in apps/desktop-timer/src/package.json on main releases the Mac Timer: a signed build is published to
+# time.base360.ai/downloads (DMGs for new installs) and downloads/updates (what running apps install by themselves).
 on:
   push:
-    tags: ['v*.*.*']
+    branches: [main]
+    paths: ['apps/desktop-timer/src/package.json']
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Existing release tag, for example v1.2.3'
-        required: true
-        type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: base360-timer-${{ inputs.tag || github.ref_name }}
+  group: base360-timer-release
   cancel-in-progress: false
 
 jobs:
-  build:
+  mac:
     if: github.repository == 'TasnimulTheFlex/base360-time-tracker'
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: macos-15
-            arch: arm64
-            platform: mac
-            targets: dmg zip
-          - os: macos-15-intel
-            arch: x64
-            platform: mac
-            targets: dmg zip
-          - os: windows-latest
-            arch: x64
-            platform: win
-            targets: nsis
-          - os: ubuntu-24.04
-            arch: x64
-            platform: linux
-            targets: AppImage deb tar.gz
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 360
-    defaults:
-      run:
-        shell: bash
+    runs-on: macos-15
+    timeout-minutes: 120
     env:
       NX_DAEMON: 'false'
       NX_NO_CLOUD: 'true'
-      NX_ISOLATE_PLUGINS: 'false'
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      USE_HARD_LINKS: 'false'
-      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
-      API_BASE_URL: https://time-api.base360.ai
-      PROJECT_REPO: https://github.com/TasnimulTheFlex/base360-time-tracker.git
-      DESKTOP_TIMER_APP_NAME: base360-timer
-      DESKTOP_TIMER_APP_DESCRIPTION: Base360 Timer
-      DESKTOP_TIMER_APP_ID: com.base360.timetracker
-      DESKTOP_TIMER_APP_PROTOCOL: base360-timer
-      DESKTOP_TIMER_APP_REPO_OWNER: TasnimulTheFlex
-      DESKTOP_TIMER_APP_REPO_NAME: base360-time-tracker
-      COMPANY_NAME: Base360
-      COMPANY_SITE_LINK: https://base360.ai
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ inputs.tag || github.ref }}
           persist-credentials: false
+
+      - name: Skip a version that is already published
+        id: version
+        run: |
+          version=$(node -p "require('./apps/desktop-timer/src/package.json').version")
+          live=$(curl -fsS https://time.base360.ai/downloads/updates/latest-mac.yml | sed -n 's/^version: //p' || true)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [ "$version" = "$live" ]; then echo "publish=false" >> "$GITHUB_OUTPUT"; echo "$version is already live"; else echo "publish=true" >> "$GITHUB_OUTPUT"; fi
+
       - uses: actions/setup-node@v6
+        if: steps.version.outputs.publish == 'true'
         with:
           node-version-file: .nvmrc
-          architecture: ${{ matrix.arch }}
-      - name: Validate release and stamp Timer version
-        run: |
-          node <<'NODE'
-          const assert = require('node:assert/strict');
-          const fs = require('node:fs');
-          assert.match(process.env.RELEASE_TAG, /^v\d+\.\d+\.\d+$/);
-          assert.equal(process.env.GITHUB_REPOSITORY, 'TasnimulTheFlex/base360-time-tracker');
-          const file = 'apps/desktop-timer/src/package.json';
-          const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
-          pkg.version = process.env.RELEASE_TAG.slice(1);
-          assert.equal(pkg.build.appId, 'com.base360.timetracker');
-          assert.equal(pkg.build.publish[0].owner, 'TasnimulTheFlex');
-          assert.equal(pkg.build.publish[0].repo, 'base360-time-tracker');
-          fs.writeFileSync(file, JSON.stringify(pkg, null, '\t') + '\n');
-          NODE
-      - name: Enable Yarn Classic
+
+      - name: Install dependencies
+        if: steps.version.outputs.publish == 'true'
         run: |
           npm install --global yarn@1.22.22 --force
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
-      - name: Apply repository postinstall
-        run: yarn postinstall.manual
-      - name: Build Timer through the repository Nx pipeline
-        run: yarn build:desktop-timer
-      - name: Check Base360 desktop branding
-        run: node --test .scripts/base360-desktop-branding.test.cjs
-      - name: Package unsigned Timer
-        run: >-
-          yarn electron-builder -c.electronVersion=44.7.0
-          --project dist/apps/desktop-timer
-          --${{ matrix.platform }} ${{ matrix.targets }} --${{ matrix.arch }}
-          --publish never
-      - name: Keep installers
-        uses: actions/upload-artifact@v4
-        with:
-          name: base360-timer-${{ matrix.platform }}-${{ matrix.arch }}
-          if-no-files-found: error
-          path: |
-            dist/apps/desktop-timer-packages/base360-timer-*.dmg
-            dist/apps/desktop-timer-packages/base360-timer-*.zip
-            dist/apps/desktop-timer-packages/base360-timer-*.exe
-            dist/apps/desktop-timer-packages/base360-timer-*.AppImage
-            dist/apps/desktop-timer-packages/base360-timer-*.deb
-            dist/apps/desktop-timer-packages/base360-timer-*.tar.gz
+          yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
+          yarn postinstall.manual
 
-  release:
-    needs: build
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    env:
-      GH_TOKEN: ${{ github.token }}
-      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.tag || github.ref }}
-          persist-credentials: false
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: base360-timer-*
-          path: release-assets
-          merge-multiple: true
-      - name: Publish installers to this fork
-        shell: bash
+      - name: Import the signing certificate into a temporary keychain
+        if: steps.version.outputs.publish == 'true'
+        env:
+          MAC_CERT_P12_BASE64: ${{ secrets.MAC_CERT_P12_BASE64 }}
+          MAC_CERT_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
         run: |
-          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 ||
-            gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
-              --title "Base360 Timer $RELEASE_TAG" \
-              --notes 'Base360 Timer for macOS (Apple Silicon and Intel), Windows and Linux. These installers are unsigned. Automatic updates are disabled; install updates from this release page.'
-          gh release upload "$RELEASE_TAG" release-assets/* --repo "$GITHUB_REPOSITORY" --clobber
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          keychain_password=$(openssl rand -base64 24)
+          echo "$MAC_CERT_P12_BASE64" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          security import "$RUNNER_TEMP/cert.p12" -k "$keychain" -P "$MAC_CERT_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -k "$keychain_password" "$keychain" >/dev/null
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          rm "$RUNNER_TEMP/cert.p12"
+          security find-identity -v -p codesigning "$keychain"
+
+      - name: Build and sign
+        if: steps.version.outputs.publish == 'true'
+        run: yarn build:desktop-timer:mac
+
+      - name: Verify the signature
+        if: steps.version.outputs.publish == 'true'
+        run: |
+          for app in dist/apps/desktop-timer-packages/mac*/base360-timer.app; do codesign --verify --deep --strict "$app"; done
+
+      - name: Publish to time.base360.ai
+        if: steps.version.outputs.publish == 'true'
+        env:
+          DOWNLOADS_SSH_KEY: ${{ secrets.DOWNLOADS_SSH_KEY }}
+          DOWNLOADS_KNOWN_HOSTS: ${{ secrets.DOWNLOADS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DOWNLOADS_SSH_KEY" > ~/.ssh/base360_downloads && chmod 600 ~/.ssh/base360_downloads
+          printf '%s\n' "$DOWNLOADS_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          BASE360_DOWNLOADS_KEY=~/.ssh/base360_downloads .scripts/base360-publish-mac.sh
+
+      - name: Remove the keychain and key
+        if: always()
+        run: |
+          security delete-keychain "$RUNNER_TEMP/signing.keychain-db" 2>/dev/null || true
+          rm -f ~/.ssh/base360_downloads

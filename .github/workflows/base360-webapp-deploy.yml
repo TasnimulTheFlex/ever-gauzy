@@ -1,0 +1,60 @@
+name: Base360 Web App Deploy
+
+# Every push to main that touches the web app builds it and deploys it to time.base360.ai (see .scripts/base360-deploy-webapp.sh).
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/gauzy/**'
+      - 'packages/ui-*/**'
+      - 'packages/plugins/*-ui/**'
+      - 'packages/contracts/**'
+      - 'packages/common/**'
+      - '.deploy/webapp/**'
+      - '.scripts/base360-deploy-webapp.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: base360-webapp-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'TasnimulTheFlex/base360-time-tracker'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      NX_DAEMON: 'false'
+      NX_NO_CLOUD: 'true'
+      WEBAPP_BUILD_MEMORY_MB: '6144'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: |
+          npm install --global yarn@1.22.22 --force
+          yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
+          yarn postinstall.manual
+
+      - name: Build and deploy
+        env:
+          DOWNLOADS_SSH_KEY: ${{ secrets.DOWNLOADS_SSH_KEY }}
+          DOWNLOADS_KNOWN_HOSTS: ${{ secrets.DOWNLOADS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DOWNLOADS_SSH_KEY" > ~/.ssh/base360_downloads && chmod 600 ~/.ssh/base360_downloads
+          printf '%s\n' "$DOWNLOADS_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          BASE360_DOWNLOADS_KEY=~/.ssh/base360_downloads .scripts/base360-deploy-webapp.sh
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/base360_downloads
