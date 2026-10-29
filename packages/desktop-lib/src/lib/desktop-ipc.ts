@@ -787,7 +787,7 @@ export function ipcTimer(
 			windows.unshift(getAppWindowManager().alwaysOnWindow.browserWindow);
 		}
 		for (const window of windows) {
-			getWindowManager().webContents(window)?.send?.('offline-handler', true);
+			if (window && !window.isDestroyed()) getWindowManager().webContents(window)?.send?.('offline-handler', true);
 		}
 		await getAuditLogHandler().logAudit('warn', 'timer', 'Connectivity lost, Offline mode activated');
 	});
@@ -800,7 +800,7 @@ export function ipcTimer(
 				windows.unshift(getAppWindowManager().alwaysOnWindow.browserWindow);
 			}
 			for (const window of windows) {
-				getWindowManager().webContents(window)?.send?.('offline-handler', false);
+				if (window && !window.isDestroyed()) getWindowManager().webContents(window)?.send?.('offline-handler', false);
 			}
 			await sequentialSyncQueue(timeTrackerWindow, knex);
 			await screenshotErrorSync(timeTrackerWindow);
