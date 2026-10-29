@@ -9,7 +9,8 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	ChangeDetectionStrategy
+	ChangeDetectionStrategy,
+	inject
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -98,7 +99,9 @@ import {
 import { PendingInstallationActions } from '../settings/plugins/component/+state/pending-installation.action';
 import { ClientSelectorService } from '../shared/features/client-selector/+state/client-selector.service';
 import { NoteService } from '../shared/features/note/+state/note.service';
+import { ProjectSelectorQuery } from '../shared/features/project-selector/+state/project-selector.query';
 import { ProjectSelectorService } from '../shared/features/project-selector/+state/project-selector.service';
+import { TaskSelectorQuery } from '../shared/features/task-selector/+state/task-selector.query';
 import { TaskSelectorService } from '../shared/features/task-selector/+state/task-selector.service';
 import { TeamSelectorService } from '../shared/features/team-selector/+state/team-selector.service';
 import { TimeTrackerFormComponent } from '../shared/features/time-tracker-form/time-tracker-form.component';
@@ -160,6 +163,10 @@ type IScreenshotResult = ICapturedImage;
 	]
 })
 export class TimeTrackerComponent implements OnInit, AfterViewInit {
+	/** Compact Hubstaff-style card by default; the edit button opens the client/project/task form and the last capture */
+	public showDetails = false;
+	public readonly selectedProject$ = inject(ProjectSelectorQuery).selected$;
+	public readonly selectedTask$ = inject(TaskSelectorQuery).selected$;
 	private _lastTotalWorkedToday$: BehaviorSubject<number> = new BehaviorSubject(0);
 	private _lastTotalWorkedWeek$: BehaviorSubject<number> = new BehaviorSubject(0);
 	private _permissions$: Subject<any> = new Subject();
@@ -1021,6 +1028,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.prepareWindow();
+		setTimeout(() => this.fitWindowHeight(), 500);
 
 		this.electronService.ipcRenderer.on('timer_push', (event, arg) =>
 			this._ngZone.run(async () => {
@@ -2337,6 +2345,26 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 	public expand(): void {
 		this.isCollapse$.next(this.isExpand);
 		this.electronService.ipcRenderer.send('expand', !this.isExpand);
+		// Back from the wide view, shrink to the compact card again once the narrow size has been applied
+		if (this.isExpand) setTimeout(() => this.fitWindowHeight(), 400);
+	}
+
+	public toggleDetails(): void {
+		this.showDetails = !this.showDetails;
+		this.fitWindowHeight();
+	}
+
+	/** The window hugs the compact card like Hubstaff's; it is full height while the details or the wide view are open. */
+	private fitWindowHeight(): void {
+		setTimeout(() => {
+			const card = document.querySelector('.compact-timer');
+			const footer = document.querySelector('nb-layout-footer');
+			if (!card || this.isExpand) return;
+			const height = this.showDetails
+				? null
+				: Math.ceil(card.getBoundingClientRect().bottom + (footer?.getBoundingClientRect().height ?? 0) + 16);
+			this.electronService.ipcRenderer.send('fit_timer_height', height);
+		});
 	}
 
 	public async getScreenshot(arg: IScreenshotRequest, isThumb: boolean | null = false): Promise<IScreenshotResult[]> {

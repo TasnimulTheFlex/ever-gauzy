@@ -776,3 +776,129 @@ animation: pulseBorder var(--pulse-duration) infinite;
 --pulse-color-rgb: 255, 0, 0;  /* Red */
 --pulse-duration: 1s;
 }
+
+// Compact Hubstaff-style card: time pill, project/task line, big round play button, week/today totals
+.compact-timer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 16px;
+
+  .time-pill {
+    min-width: 72%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #2b2f36;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gauzy-text-color-1);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--gauzy-background-transparent-1);
+    }
+  }
+
+  .work-summary-project {
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .work-summary-task {
+    font-size: 13px;
+    color: var(--gauzy-text-color-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &::before {
+      content: '·';
+      margin: 0 6px 0 2px;
+    }
+  }
+
+  .work-summary-icon {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: var(--gauzy-text-color-2);
+  }
+
+  .play-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gauzy-border-default-color, rgba(0, 0, 0, 0.12));
+    }
+
+    [nbButton] {
+      width: 64px;
+      height: 64px;
+      margin: 0 12px;
+      padding: 0;
+      border-radius: 50%;
+      justify-content: center;
+    }
+
+    nb-icon.start-button {
+      font-size: 24px !important;
+      @include nb-ltr(margin-left, 3px);
+    }
+  }
+
+  .totals {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 8px;
+
+    .work-duration-container {
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 0;
+    }
+
+    .work-weekly-duration small {
+      position: static;
+      translate: none;
+    }
+
+    .work-weekly-duration {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+  }
+}
+
+.timer-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

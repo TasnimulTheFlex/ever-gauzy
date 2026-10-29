@@ -1295,6 +1295,24 @@ export function ipcTimer(
 		}
 	});
 
+	// The compact timer card asks for a window that fits it; null restores the full height for the details form
+	ipcMain.on('fit_timer_height', (_, contentHeight: number | null) => {
+		try {
+			if (!timeTrackerWindow || timeTrackerWindow.isDestroyed()) return;
+			const { height } = screen.getPrimaryDisplay().workAreaSize;
+			const maxHeight = height <= 768 ? height - 20 : 768;
+			const [width, outerHeight] = timeTrackerWindow.getSize();
+			const frameHeight = outerHeight - timeTrackerWindow.getContentSize()[1];
+			const target = contentHeight ? Math.min(contentHeight + frameHeight, maxHeight) : maxHeight;
+			// The window is created with its full height as the minimum, which would block the compact size
+			const [minWidth] = timeTrackerWindow.getMinimumSize();
+			timeTrackerWindow.setMinimumSize(minWidth, 320);
+			timeTrackerWindow.setSize(width, Math.max(target, 320), true);
+		} catch (error) {
+			log.error('error on fitting the timer window height', error);
+		}
+	});
+
 	ipcMain.handle(
 		'UPDATE_SYNC_STATE',
 		async (
