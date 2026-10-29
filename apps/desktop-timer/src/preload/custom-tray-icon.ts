@@ -63,7 +63,7 @@ const TEXT_VERTICAL_OFFSET = 0.8 * SCALE_FACTOR;
 /**
  * Visual Style Constants
  */
-const ICON_BACKGROUND_COLOR = '#808080'; // Gray color for icon area
+const ICON_BACKGROUND_COLOR = '#FFFFFF'; // White so the blue logo keeps its contrast in the menu bar
 const BORDER_RADIUS = 0; // Square corners (no rounding)
 const DEFAULT_TIME_DISPLAY = '--:--:--'; // Shown when timer is stopped
 const TIMER_FONT = `400 ${12 * SCALE_FACTOR}px -apple-system, SF Mono, monospace`;

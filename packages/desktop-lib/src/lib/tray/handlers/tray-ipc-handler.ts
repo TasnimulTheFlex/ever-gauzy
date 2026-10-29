@@ -22,7 +22,7 @@ export class TrayIPCHandler {
 	private setupTimerHandlers(): void {
 		ipcMain.on('update_tray_start', () => {
 			this.menuManager.updateMenuItem('1', { enabled: false });
-			this.menuManager.updateMenuItem('0', { visible: true });
+			this.menuManager.updateMenuItem('0', { visible: process.platform !== 'darwin' }); // the Mac menu bar already shows the running time
 			this.menuManager.updateMenuItem('2', { enabled: true });
 			const timeTrackerWindow = this.windowService.getOne(RegisteredWindow.TIMER);
 			if (timeTrackerWindow && process.platform === 'darwin') {
