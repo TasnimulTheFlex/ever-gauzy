@@ -1,4 +1,5 @@
 import { logger } from '@gauzy/desktop-core';
+import { isBase360App } from './base360-update';
 import { createAboutWindow } from '@gauzy/desktop-window';
 import { BrowserWindow, ipcMain, Menu, MenuItemConstructorOptions, shell } from 'electron';
 import { AppWindowManager } from './app-window-manager';
@@ -271,7 +272,8 @@ export class AppMenu {
 		// Retrieve submenu items from the plugin manager
 		const pluginSubmenu = this.pluginManager.getMenuPlugins();
 		const { employeeId = null, isLogout = false } = LocalStore.getStore('auth') || {};
-		const visible = !!employeeId && !isLogout;
+		// Base360 apps ship no plugins, so the menu is hidden there
+		const visible = !!employeeId && !isLogout && !isBase360App();
 
 		// Return the plugin menu structure
 		return {

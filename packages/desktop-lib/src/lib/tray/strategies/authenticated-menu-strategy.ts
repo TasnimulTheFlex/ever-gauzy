@@ -1,4 +1,5 @@
 import { MenuItemConstructorOptions } from 'electron';
+import { isBase360App } from '../../base360-update';
 import { MenuItemBuilder } from '../builders/menu-item-builder';
 import {
 	CheckUpdateCommand,
@@ -76,15 +77,17 @@ export class AuthenticatedMenuStrategy implements IMenuStrategy {
 			menu.push(new MenuItemBuilder().asSeparator().build());
 		}
 
-		// Plugins
-		menu.push(
-			new MenuItemBuilder()
-				.withId('6-0')
-				.withLabel(this.translationService.instant('TIMER_TRACKER.SETTINGS.PLUGINS'))
-				.withAccelerator('CmdOrCtrl+P')
-				.withCommand(new OpenPluginsCommand(this.windowPath))
-				.build()
-		);
+		// Plugins (Base360 apps ship none, so the item only opened an empty window)
+		if (!isBase360App()) {
+			menu.push(
+				new MenuItemBuilder()
+					.withId('6-0')
+					.withLabel(this.translationService.instant('TIMER_TRACKER.SETTINGS.PLUGINS'))
+					.withAccelerator('CmdOrCtrl+P')
+					.withCommand(new OpenPluginsCommand(this.windowPath))
+					.build()
+			);
+		}
 
 		// Check update
 		menu.push(
@@ -117,8 +120,8 @@ export class AuthenticatedMenuStrategy implements IMenuStrategy {
 			);
 		}
 
-		// Log history window
-		if (appConfig.timeTrackerWindow) {
+		// Log history window (not useful to Base360 users)
+		if (appConfig.timeTrackerWindow && !isBase360App()) {
 			menu.push(
 				new MenuItemBuilder()
 					.withId('9')
