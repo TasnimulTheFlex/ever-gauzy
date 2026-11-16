@@ -24,7 +24,7 @@ describe('AuthRefreshInterceptor — the redirect when a session cannot be refre
 
 	beforeEach(() => {
 		router = {
-			url: '/pages/dashboard',
+			url: '/pages/employees',
 			navigate: jest.fn().mockResolvedValue(true),
 			getCurrentNavigation: jest.fn().mockReturnValue(null),
 			serializeUrl: (tree: any) => String(tree)
@@ -61,7 +61,7 @@ describe('AuthRefreshInterceptor — the redirect when a session cannot be refre
 		await failWithStaleSession();
 
 		expect(router.navigate).toHaveBeenCalledWith(['/auth/login'], {
-			queryParams: { returnUrl: '/pages/dashboard' }
+			queryParams: { returnUrl: '/pages/employees' }
 		});
 	});
 

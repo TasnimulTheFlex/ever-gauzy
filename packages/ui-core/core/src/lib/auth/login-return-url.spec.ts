@@ -6,18 +6,18 @@ import { isAuthUrl, loginReturnUrl } from './login-return-url';
  */
 describe('loginReturnUrl', () => {
 	it('keeps an ordinary page, with its query string', () => {
-		expect(loginReturnUrl('/pages/dashboard')).toBe('/pages/dashboard');
+		expect(loginReturnUrl('/pages/employees')).toBe('/pages/employees');
 		expect(loginReturnUrl('/pages/tasks?projectId=1&view=board')).toBe('/pages/tasks?projectId=1&view=board');
 	});
 
 	it('unwraps a sign-in URL to the page it carries, however deep', () => {
-		const once = `/auth/login?returnUrl=${encodeURIComponent('/pages/dashboard')}`;
+		const once = `/auth/login?returnUrl=${encodeURIComponent('/pages/employees')}`;
 		const twice = `/auth/login?returnUrl=${encodeURIComponent(once)}`;
 		const thrice = `/auth/login?returnUrl=${encodeURIComponent(twice)}`;
 
-		expect(loginReturnUrl(once)).toBe('/pages/dashboard');
-		expect(loginReturnUrl(twice)).toBe('/pages/dashboard');
-		expect(loginReturnUrl(thrice)).toBe('/pages/dashboard');
+		expect(loginReturnUrl(once)).toBe('/pages/employees');
+		expect(loginReturnUrl(twice)).toBe('/pages/employees');
+		expect(loginReturnUrl(thrice)).toBe('/pages/employees');
 	});
 
 	it('answers nothing for an authentication page that carries no return URL, and for the root', () => {
@@ -26,6 +26,13 @@ describe('loginReturnUrl', () => {
 		expect(loginReturnUrl('/')).toBeUndefined();
 		expect(loginReturnUrl('')).toBeUndefined();
 		expect(loginReturnUrl(null)).toBeUndefined();
+	});
+
+	it('answers nothing for the landing page a sign-in reaches anyway', () => {
+		expect(loginReturnUrl('/pages/dashboard')).toBeUndefined();
+		expect(loginReturnUrl('/pages')).toBeUndefined();
+		expect(loginReturnUrl(`/auth/login?returnUrl=${encodeURIComponent('/pages/dashboard')}`)).toBeUndefined();
+		expect(loginReturnUrl('/pages/dashboard/teams')).toBe('/pages/dashboard/teams');
 	});
 
 	it('never returns a URL outside this application', () => {

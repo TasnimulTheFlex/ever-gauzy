@@ -96,23 +96,24 @@
     }
   }
 }
-.back-link {
-  // Was the CSS named colour `lightgray` (#d3d3d3): a ring bright enough to be
-  // the loudest thing in the auth header on the dark themes, and a dead-flat
-  // hairline that ignores the theme on the light ones.
-  border: 1px solid nb-theme(border-basic-color-3);
-  border-radius: 50%;
-  padding: 10px;
+.download-link {
   display: inline-flex;
-  transition: all 0.3s ease;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid nb-theme(border-basic-color-3);
+  border-radius: 999px;
+  color: nb-theme(text-basic-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: box-shadow 0.3s ease;
   & nb-icon {
     width: 18px;
     height: 18px;
   }
   &:hover {
-    -webkit-box-shadow: 5px 5px 30px -10px rgba(0, 0, 0, 0.3);
     box-shadow: 5px 5px 30px -10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    text-decoration: none;
   }
 }
 .message-us-wrapper {
@@ -147,10 +148,6 @@
 
 .body.register {
   background: $register-background-light-color;
-}
-
-.hide-go-back {
-  visibility: hidden;
 }
 
 ::ng-deep ngx-register {

@@ -48,10 +48,18 @@ describe('AuthGuard — a session that is not, or no longer, signed in', () => {
 	it('answers a check that fails as "not signed in" and sends the user to the sign-in page', async () => {
 		const { guard: subject, router } = guard(() => Promise.reject(new Error('401, refresh failed')));
 
-		await expect(subject.canActivate(route() as never, { url: '/pages/dashboard' } as never)).resolves.toBe(false);
+		await expect(subject.canActivate(route() as never, { url: '/pages/employees' } as never)).resolves.toBe(false);
 		expect(router.navigate).toHaveBeenCalledWith(['/auth/login'], {
-			queryParams: { returnUrl: '/pages/dashboard' }
+			queryParams: { returnUrl: '/pages/employees' }
 		});
+	});
+
+	it('sends a signed-out visit to the landing page to a plain sign-in URL', async () => {
+		const { guard: subject, router } = guard(async () => false);
+
+		await subject.canActivate(route() as never, { url: '/pages/dashboard' } as never);
+
+		expect(router.navigate).toHaveBeenCalledWith(['/auth/login'], {});
 	});
 
 	it('never names a sign-in page as the page to come back to', async () => {

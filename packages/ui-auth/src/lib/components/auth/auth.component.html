@@ -2,11 +2,10 @@
 	<nb-layout-column class="wrapper">
 		<nb-card class="card">
 			<nb-card-header class="header" [class.register]="isRegister" [class.login]="isLogin">
-				<nav [class.hide-go-back]="!(queryParams$ | async)?.returnUrl" class="navigation">
-					<a (click)="goBack()" class="link back-link" aria-label="Back">
-						<nb-icon icon="arrow-back"></nb-icon>
-					</a>
-				</nav>
+				<a class="download-link" href="/downloads/" target="_blank" rel="noopener">
+					<nb-icon icon="download-outline"></nb-icon>
+					<span>{{ 'USER_MENU.DOWNLOAD_APPS' | translate }}</span>
+				</a>
 				<gauzy-switch-theme class="theme-switch" [hasText]="false"></gauzy-switch-theme>
 			</nb-card-header>
 			<nb-card-body class="body" [class.register]="isRegister" [class.login]="isLogin">

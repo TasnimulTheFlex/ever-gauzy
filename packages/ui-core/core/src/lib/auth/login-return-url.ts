@@ -1,6 +1,9 @@
 /** The sign-in page every "your session ended" redirect leads to. */
 export const LOGIN_URL = '/auth/login';
 
+/** Where a sign-in lands with no `returnUrl` (`/` routes to the dashboard), so returning there needs no parameter. */
+const LANDING_PATHS: ReadonlySet<string> = new Set(['/', '/pages', '/pages/dashboard']);
+
 /** How deep a nested `returnUrl` chain is followed before it is given up on. */
 const MAX_DEPTH = 10;
 
@@ -35,7 +38,7 @@ export function loginReturnUrl(url: string | null | undefined): string | undefin
 	let current = String(url ?? '').trim();
 
 	for (let depth = 0; depth < MAX_DEPTH; depth += 1) {
-		if (!isInAppPath(current) || current === '/') {
+		if (!isInAppPath(current) || LANDING_PATHS.has(current)) {
 			return undefined;
 		}
 
