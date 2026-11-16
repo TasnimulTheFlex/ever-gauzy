@@ -6,6 +6,7 @@ import {
 	ElementRef,
 	Inject,
 	NgZone,
+	OnDestroy,
 	OnInit,
 	TemplateRef,
 	ViewChild,
@@ -162,7 +163,7 @@ type IScreenshotResult = ICapturedImage;
 		HumanizePipe
 	]
 })
-export class TimeTrackerComponent implements OnInit, AfterViewInit {
+export class TimeTrackerComponent implements OnInit, AfterViewInit, OnDestroy {
 	/** Compact Hubstaff-style card by default; the edit button opens the client/project/task form and the last capture */
 	public showDetails = false;
 	public readonly selectedProject$ = inject(ProjectSelectorQuery).selected$;
@@ -174,6 +175,8 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 	private _isLockSyncProcess = false;
 	private _isLockSyncScreenshotProcess = false;
 	private _startMode = TimerStartMode.STOP;
+	/** IPC listeners this instance registered, removed on destroy so a torn-down tracker never reacts (e.g. a second stop on quit) */
+	private readonly _ipcListeners: Array<[string, (...args: any[]) => void]> = [];
 	private _isSpecialLogout = false;
 	private _isRestartAndUpdate = false;
 	private _isOpenDialog = false;
@@ -1026,6 +1029,18 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 		}, 500);
 	}
 
+	ngOnDestroy(): void {
+		for (const [channel, handler] of this._ipcListeners) {
+			this.electronService.ipcRenderer.removeListener(channel, handler);
+		}
+		this._ipcListeners.length = 0;
+	}
+
+	private _onIpc(channel: string, handler: (...args: any[]) => void): void {
+		this.electronService.ipcRenderer.on(channel, handler);
+		this._ipcListeners.push([channel, handler]);
+	}
+
 	ngAfterViewInit(): void {
 		this.prepareWindow();
 		// The main process sizes the window to full height when it shows it, so fit the card again whenever it appears
@@ -1034,13 +1049,13 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			if (document.visibilityState === 'visible') setTimeout(() => this.fitWindowHeight(), 300);
 		});
 
-		this.electronService.ipcRenderer.on('timer_push', (event, arg) =>
+		this._onIpc('timer_push', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.setTime(arg);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('timer_tracker_show', (event, arg) =>
+		this._onIpc('timer_tracker_show', (event, arg) =>
 			this._ngZone.run(async () => {
 				if (!this._store.user?.employee) return;
 				this._isOffline$.next(typeof arg.isOffline !== 'undefined' ? arg.isOffline : this._isOffline);
@@ -1080,7 +1095,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('start_from_tray', async (event, arg) =>
+		this._onIpc('start_from_tray', async (event, arg) =>
 			this._ngZone.run(async () => {
 				this._activityWatchViewService.aw$.next(!!arg.aw?.isAw);
 				await this.setTimerDetails();
@@ -1089,14 +1104,14 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('start_timer_anyway', async (_, arg) => {
+		this._onIpc('start_timer_anyway', async (_, arg) => {
 			this._ngZone.run(async () => {
 				await this.setTimerDetails();
 				await this.toggleStart(true, true, true);
 			})
 		});
 
-		this.electronService.ipcRenderer.on('stop_from_tray', (event, arg) =>
+		this._onIpc('stop_from_tray', (event, arg) =>
 			this._ngZone.run(async () => {
 				// Check if arg is defined and has the quitApp property set to true
 				if (arg?.quitApp) {
@@ -1123,13 +1138,13 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('set_project_task_reply', (event, arg) =>
+		this._onIpc('set_project_task_reply', (event, arg) =>
 			this._ngZone.run(async () => {
 				this._activityWatchViewService.aw$.next(arg.aw && arg.aw.isAw ? arg.aw.isAw : false);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('take_screenshot', (event, arg) =>
+		this._onIpc('take_screenshot', (event, arg) =>
 			this._ngZone.run(async () => {
 				try {
 					this._loggerService.info(`Take Screenshot::`, arg);
@@ -1170,19 +1185,19 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('refresh_time_log', (event, arg) =>
+		this._onIpc('refresh_time_log', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.getTodayTime();
 			})
 		);
 
-		this.electronService.ipcRenderer.on('show_last_capture', (event, arg) =>
+		this._onIpc('show_last_capture', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.getLastTimeSlotImage(arg);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('last_capture_local', (event, arg) =>
+		this._onIpc('last_capture_local', (event, arg) =>
 			this._ngZone.run(() => {
 				console.log('Last Capture Screenshot:');
 				this._captureGeneration++;
@@ -1197,7 +1212,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('get_user_detail', (event, arg) =>
+		this._onIpc('get_user_detail', (event, arg) =>
 			this._ngZone.run(async () => {
 				try {
 					const res = await this.timeTrackerService.getUserDetail();
@@ -1210,13 +1225,13 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('update_setting_value', (event, arg) =>
+		this._onIpc('update_setting_value', (event, arg) =>
 			this._ngZone.run(() => {
 				this.appSetting$.next(arg);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('device_sleep', () =>
+		this._onIpc('device_sleep', () =>
 			this._ngZone.run(async () => {
 				if (this.start) {
 					this._auditLogService.timerAuditLogInfo(`Stop timer with conditions device sleep`);
@@ -1225,7 +1240,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('activity-proof-request', () => {
+		this._onIpc('activity-proof-request', () => {
 			this._ngZone.run(() => {
 				if (this.start) {
 					this._dialog?.close();
@@ -1234,7 +1249,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('stop_from_inactivity_handler', () => {
+		this._onIpc('stop_from_inactivity_handler', () => {
 			this._ngZone.run(async () => {
 				if (this.start) {
 					this._auditLogService.timerAuditLogInfo(`Stop timer with from active inactive conditions`);
@@ -1243,14 +1258,14 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('start_from_inactivity_handler', () => {
+		this._onIpc('start_from_inactivity_handler', () => {
 			this._ngZone.run(async () => {
 				this._auditLogService.timerAuditLogInfo(`Start timer with from active inactive conditions`);
 				await this.toggleStart(true);
 			});
 		});
 
-		this.electronService.ipcRenderer.on('device_wake_up', () =>
+		this._onIpc('device_wake_up', () =>
 			this._ngZone.run(() => {
 				if (!this._isOpenDialog) {
 					const elBtn: HTMLElement = this.btnDialogOpen.nativeElement;
@@ -1260,19 +1275,19 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('timer_status', (event, arg) =>
+		this._onIpc('timer_status', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.getTimerStatus(arg);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('timer_already_stop', (event, arg) =>
+		this._onIpc('timer_already_stop', (event, arg) =>
 			this._ngZone.run(() => {
 				this.loading = false;
 			})
 		);
 
-		this.electronService.ipcRenderer.on('logout', (event, arg) =>
+		this._onIpc('logout', (event, arg) =>
 			this._ngZone.run(async () => {
 				this._isRestartAndUpdate = arg;
 				if (this.isExpand) this.expand();
@@ -1287,13 +1302,13 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('prepare_activities_screenshot', (event, arg) =>
+		this._onIpc('prepare_activities_screenshot', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.takeCaptureAndSendActivities(arg);
 			})
 		);
 
-		this.electronService.ipcRenderer.on('play_sound', (event, arg) =>
+		this._onIpc('play_sound', (event, arg) =>
 			this._ngZone.run(() => {
 				try {
 					if (!this.sound && arg.soundFile) {
@@ -1308,7 +1323,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('show_toast_message', (event, arg) =>
+		this._onIpc('show_toast_message', (event, arg) =>
 			this._ngZone.run(() => {
 				this.showToastMessage({
 					type: arg.type,
@@ -1317,20 +1332,20 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('expand', (event, arg) =>
+		this._onIpc('expand', (event, arg) =>
 			this._ngZone.run(() => {
 				this.isExpand$.next(arg);
 				this.expandIcon = arg ? 'arrow-left' : 'arrow-right';
 			})
 		);
 
-		this.electronService.ipcRenderer.on('refresh_today_worked_time', (event, arg) =>
+		this._onIpc('refresh_today_worked_time', (event, arg) =>
 			this._ngZone.run(async () => {
 				await this.getTodayTime();
 			})
 		);
 
-		this.electronService.ipcRenderer.on('offline-handler', (event, isOffline) => {
+		this._onIpc('offline-handler', (event, isOffline) => {
 			this._ngZone.run(() => {
 				this._isOffline$.next(isOffline);
 				this._loggerService.info('You switched to ' + (isOffline ? 'offline' : 'online') + ' mode now');
@@ -1340,13 +1355,13 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('count-synced', (event, arg) => {
+		this._onIpc('count-synced', (event, arg) => {
 			this._ngZone.run(() => {
 				this._inQueue$.next(arg);
 			});
 		});
 
-		this.electronService.ipcRenderer.on('latest_screenshots', (event, args) => {
+		this._onIpc('latest_screenshots', (event, args) => {
 			this._ngZone.run(async () => {
 				if (this._isOffline) {
 					await this._mappingScreenshots(args);
@@ -1354,7 +1369,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('backup-timers-no-synced', (event, args: ISequence[]) => {
+		this._onIpc('backup-timers-no-synced', (event, args: ISequence[]) => {
 			this._ngZone.run(async () => {
 				if (this._isLockSyncProcess || this.isRemoteTimer) {
 					this._inQueue$.next({
@@ -1406,7 +1421,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			this.electronService.ipcRenderer.send('time_tracker_ready');
 		}
 
-		this.electronService.ipcRenderer.on('remove_idle_time', (event, arg) => {
+		this._onIpc('remove_idle_time', (event, arg) => {
 			this._ngZone.run(async () => {
 				try {
 					const { tenantId, organizationId } = this._store;
@@ -1541,7 +1556,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('update_view', (event, arg) => {
+		this._onIpc('update_view', (event, arg) => {
 			this._ngZone.run(async () => {
 				const idle = arg?.idleDuration ?? 0;
 				this._lastTotalWorkedToday$.next(this._lastTotalWorkedToday - idle);
@@ -1558,7 +1573,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('auth_success_tray_init', (event, arg) => {
+		this._onIpc('auth_success_tray_init', (event, arg) => {
 			this._ngZone.run(() => {
 				if (!this._isReady) {
 					this.electronService.ipcRenderer.send('time_tracker_ready');
@@ -1566,7 +1581,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('emergency_stop', (event, arg) => {
+		this._onIpc('emergency_stop', (event, arg) => {
 			this._ngZone.run(async () => {
 				console.log('Emergency stop');
 
@@ -1577,7 +1592,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('clear_store', (event, arg) => {
+		this._onIpc('clear_store', (event, arg) => {
 			this._ngZone.run(async () => {
 				await this.getTimerStatus(this.argFromMain);
 				this._store.clear();
@@ -1586,7 +1601,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('interrupted-sequences', (event, args: ISequence[]) =>
+		this._onIpc('interrupted-sequences', (event, args: ISequence[]) =>
 			this._ngZone.run(async () => {
 				if (this._isLockSyncProcess || this.isRemoteTimer) {
 					this._inQueue$.next({
@@ -1635,7 +1650,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			})
 		);
 
-		this.electronService.ipcRenderer.on('sync-screenshot-error', (_, arg: IScreenshotQueue[]) => {
+		this._onIpc('sync-screenshot-error', (_, arg: IScreenshotQueue[]) => {
 			this._ngZone.run(async () => {
 				if (this._isLockSyncScreenshotProcess) {
 					this._inScreenshotQueue$.next({
@@ -1679,7 +1694,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 
 		this._languageElectronService.initialize();
 
-		this.electronService.ipcRenderer.on('sleep_remote_lock', (event, state: boolean) => {
+		this._onIpc('sleep_remote_lock', (event, state: boolean) => {
 			this._ngZone.run(async () => {
 				of(state)
 					.pipe(
@@ -1696,7 +1711,7 @@ export class TimeTrackerComponent implements OnInit, AfterViewInit {
 			});
 		});
 
-		this.electronService.ipcRenderer.on('ready_to_show_renderer', (event, arg) => {
+		this._onIpc('ready_to_show_renderer', (event, arg) => {
 			this._ngZone.run(() => {
 				if (!this._isReady) {
 					this.electronService.ipcRenderer.send('time_tracker_ready');

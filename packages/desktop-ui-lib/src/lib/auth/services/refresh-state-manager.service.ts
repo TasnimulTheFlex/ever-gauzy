@@ -4,6 +4,9 @@ import { map, take } from 'rxjs/operators';
 
 type RefreshResult = { token?: string; error?: Error };
 
+/** Message of the error queued requests get when logout cancels a pending refresh; expected, never shown to the user */
+export const TOKEN_REFRESH_CANCELLED = 'Token refresh cancelled';
+
 /**
  * Manages the state of token refresh operations.
  * Single Responsibility: Track refresh state and coordinate concurrent requests.
@@ -89,7 +92,7 @@ export class RefreshStateManager implements OnDestroy {
 	 */
 	reset(): void {
 		if (this.refreshResult$) {
-			this.refreshResult$.next({ error: new Error('Token refresh cancelled') });
+			this.refreshResult$.next({ error: new Error(TOKEN_REFRESH_CANCELLED) });
 			this.refreshResult$.complete();
 			this.refreshResult$ = undefined;
 		}

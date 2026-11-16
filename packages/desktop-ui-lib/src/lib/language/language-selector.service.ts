@@ -24,13 +24,14 @@ export class LanguageSelectorService {
 		preferredLanguage: LanguagesEnum,
 		translateService: TranslateService
 	): void {
-		if (
-			preferredLanguage === LanguagesEnum.HEBREW ||
-			preferredLanguage === LanguagesEnum.ARABIC
-		) {
-			this._directionService.setDirection(NbLayoutDirection.RTL);
-		} else {
-			this._directionService.setDirection(NbLayoutDirection.LTR);
+		const direction =
+			preferredLanguage === LanguagesEnum.HEBREW || preferredLanguage === LanguagesEnum.ARABIC
+				? NbLayoutDirection.RTL
+				: NbLayoutDirection.LTR;
+		// Nebular re-applies a direction change to every overlay it ever created, including closed ones
+		// (null host → "Cannot read properties of null (reading 'setAttribute')"), so only emit a real change
+		if (this._directionService.getDirection() !== direction) {
+			this._directionService.setDirection(direction);
 		}
 		translateService.use(preferredLanguage || this._osLanguage);
 	}

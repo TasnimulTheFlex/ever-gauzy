@@ -5,6 +5,7 @@ import { ErrorClientService } from './error-client.service';
 import { ErrorServerService } from './error-server.service';
 import { LoggerService } from '../electron/services';
 import { ErrorMapping } from './error-mapping.service';
+import { TOKEN_REFRESH_CANCELLED } from '../auth/services/refresh-state-manager.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -22,6 +23,11 @@ export class ErrorHandlerService implements ErrorHandler {
 	}
 
 	public handleError(error: Error | HttpErrorResponse): void {
+		// Logout cancelling a pending token refresh is part of the normal session-expired flow
+		if (!(error instanceof HttpErrorResponse) && error?.message === TOKEN_REFRESH_CANCELLED) {
+			this._loggerService.log.debug(TOKEN_REFRESH_CANCELLED);
+			return;
+		}
 		let message: string;
 		if (error instanceof HttpErrorResponse) {
 			message = this._errorMapping.mapErrorMessage(error);

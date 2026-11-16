@@ -11,6 +11,7 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { Store } from '../services';
 import { ElectronService } from '../electron/services';
+import { SIGN_IN_ENDPOINTS } from '../constants';
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
@@ -33,11 +34,19 @@ export class ServerErrorInterceptor implements HttpInterceptor {
 							this._store.serverConnection = 0;
 							this._electronService.ipcRenderer.send('server-down');
 						}
-						this._errorHandlerService.handleError(error);
+						// A 401 outside sign-in is a stale session: RefreshTokenInterceptor refreshes it or sends the user to login, so no red toast
+						if (error.status !== HttpStatusCode.Unauthorized || this.isSignInRequest(request.url)) {
+							this._errorHandlerService.handleError(error);
+						}
 					}
 					return error;
 				})
 			)
 		);
+	}
+
+	/** Sign-in calls keep their 401 toast so a wrong password is still reported */
+	private isSignInRequest(url: string): boolean {
+		return SIGN_IN_ENDPOINTS.some((endpoint) => url.includes(endpoint));
 	}
 }

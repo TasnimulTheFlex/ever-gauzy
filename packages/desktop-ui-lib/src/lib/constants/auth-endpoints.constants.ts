@@ -21,3 +21,11 @@ export const AUTH_ENDPOINTS = [
 	'/auth/signin.workspace',
 	'/auth/email/verify'
 ];
+
+/** Endpoints where a 401 means wrong credentials (shown to the user), not an expired session */
+export const SIGN_IN_ENDPOINTS = [
+	'/auth/login',
+	'/auth/signin.email.password',
+	'/auth/signin.email/confirm',
+	'/auth/signin.workspace'
+];
