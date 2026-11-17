@@ -704,6 +704,59 @@ describe('OrganizationPermissionGuard', () => {
 			});
 		});
 
+		// A bulk delete names its records in the query string; the exemption read only the route param and refused
+		// every SUPER_ADMIN delete of their own tenant's screenshots and time logs as "not in the caller tenant".
+		describe('on a bulk delete that addresses records through the query string', () => {
+			const target = { entity: TimeLogStub, param: 'ids', source: 'query' as const };
+
+			let previous: unknown;
+			beforeEach(() => {
+				previous = (env as any).allowSuperAdminRole;
+				asCaller({ role: RolesEnum.SUPER_ADMIN, employeeId: null, isSuperAdmin: true });
+				(env as any).allowSuperAdminRole = true;
+			});
+			afterEach(() => {
+				(env as any).allowSuperAdminRole = previous;
+			});
+
+			it('allows deleting records of its own tenant, even in an organization whose policy is off', async () => {
+				const { guard, createQueryBuilder } = createGuard();
+
+				const context = createContext(
+					[PermissionsEnum.ALLOW_DELETE_TIME],
+					{ query: { organizationId: 'org-deny', ids: ['log-in-deny', 'log-in-allow'] } },
+					target
+				);
+
+				await expect(guard.canActivate(context)).resolves.toBe(true);
+				expect(createQueryBuilder).not.toHaveBeenCalled();
+			});
+
+			it('denies when none of the ids is a record of its tenant', async () => {
+				const { guard } = createGuard();
+
+				const context = createContext(
+					[PermissionsEnum.ALLOW_DELETE_TIME],
+					{ query: { organizationId: 'org-allow', ids: ['log-foreign'] } },
+					target
+				);
+
+				await expect(guard.canActivate(context)).resolves.toBe(false);
+			});
+
+			it('denies a delete that names no id', async () => {
+				const { guard } = createGuard();
+
+				const context = createContext(
+					[PermissionsEnum.ALLOW_DELETE_TIME],
+					{ query: { organizationId: 'org-allow' } },
+					target
+				);
+
+				await expect(guard.canActivate(context)).resolves.toBe(false);
+			});
+		});
+
 		it('enforces the policy for SUPER_ADMIN when allowSuperAdminRole is off', async () => {
 			const previous = (env as any).allowSuperAdminRole;
 			const { guard } = createGuard();

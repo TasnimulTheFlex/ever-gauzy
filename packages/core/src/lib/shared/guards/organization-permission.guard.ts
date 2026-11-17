@@ -207,16 +207,10 @@ export class OrganizationPermissionGuard implements CanActivate {
 			return true;
 		}
 
-		if (target.source === 'args') {
-			const organizationIds = await this.findTargetOrganizationIds(context, tenantId, target);
-			if (!organizationIds || organizationIds.length === 0) {
-				console.log('OrganizationPermissionGuard: the target record is not in the caller tenant, access denied');
-				return false;
-			}
-			return true;
-		}
-
-		if (!(await this.findTargetOrganizationId(context, tenantId, target))) {
+		// Every target source (route param, query-string ids, GraphQL args): reading only the route param refused
+		// the bulk deletes, whose ids come in the query string (`DELETE /timesheet/time-slot?ids=…`)
+		const organizationIds = await this.findTargetOrganizationIds(context, tenantId, target);
+		if (!organizationIds || organizationIds.length === 0) {
 			console.log('OrganizationPermissionGuard: the target record is not in the caller tenant, access denied');
 			return false;
 		}
