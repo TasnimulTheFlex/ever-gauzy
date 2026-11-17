@@ -1,7 +1,8 @@
 name: Base360 Timer Release
 
-# Bumping "version" in apps/desktop-timer/src/package.json on main releases the Mac Timer: a signed build is published to
-# time.base360.ai/downloads (DMGs for new installs) and downloads/updates (what running apps install by themselves).
+# Bumping "version" in apps/desktop-timer/src/package.json on main releases the Timer for macOS, Windows and Linux: each
+# build is published to time.base360.ai/downloads (installers for new installs) and downloads/updates (what running apps
+# install by themselves). Each platform is skipped when its feed already serves that version.
 on:
   push:
     branches: [main]
@@ -92,3 +93,111 @@ jobs:
         run: |
           security delete-keychain "$RUNNER_TEMP/signing.keychain-db" 2>/dev/null || true
           rm -f ~/.ssh/base360_downloads
+
+  # Windows and Linux build on their own runners (native modules cannot be cross-built), then one Linux job publishes
+  # both over SSH, as Windows runners have no rsync.
+  desktop:
+    if: github.repository == 'TasnimulTheFlex/base360-time-tracker'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows
+            runner: windows-2022
+            feed: latest.yml
+            builder: --windows nsis --x64
+            files: |
+              dist/apps/desktop-timer-packages/latest.yml
+              dist/apps/desktop-timer-packages/base360-timer-x64-*.exe
+              dist/apps/desktop-timer-packages/base360-timer-x64-*.exe.blockmap
+          - platform: linux
+            runner: ubuntu-22.04
+            feed: latest-linux.yml
+            builder: --linux AppImage deb --x64
+            files: |
+              dist/apps/desktop-timer-packages/latest-linux.yml
+              dist/apps/desktop-timer-packages/base360-timer-x86_64-*.AppImage
+              dist/apps/desktop-timer-packages/base360-timer-amd64-*.deb
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    env:
+      NX_DAEMON: 'false'
+      NX_NO_CLOUD: 'true'
+      NODE_OPTIONS: --max-old-space-size=12288
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Skip a version that is already published
+        id: version
+        run: |
+          version=$(node -p "require('./apps/desktop-timer/src/package.json').version")
+          live=$(curl -fsS https://time.base360.ai/downloads/updates/${{ matrix.feed }} | sed -n 's/^version: //p' || true)
+          if [ "$version" = "$live" ]; then echo "publish=false" >> "$GITHUB_OUTPUT"; echo "$version is already live"; else echo "publish=true" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/setup-node@v6
+        if: steps.version.outputs.publish == 'true'
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        if: steps.version.outputs.publish == 'true'
+        run: |
+          npm install --global yarn@1.22.22 --force
+          yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
+          yarn postinstall.manual
+
+      - name: Build
+        if: steps.version.outputs.publish == 'true'
+        run: |
+          yarn build:desktop-timer
+          npm config set cache .cache
+          yarn electron-builder -c.electronVersion=44.7.0 -c.extraMetadata.author.name=Base360 build ${{ matrix.builder }} --publish=never --project dist/apps/desktop-timer
+
+      - uses: actions/upload-artifact@v4
+        if: steps.version.outputs.publish == 'true'
+        with:
+          name: base360-timer-${{ matrix.platform }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+          retention-days: 7
+
+  publish-desktop:
+    needs: desktop
+    # Still publish the platform that built when the other one failed
+    if: ${{ !cancelled() && github.repository == 'TasnimulTheFlex/base360-time-tracker' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        # No artifact at all when both platforms were already live
+        continue-on-error: true
+        with:
+          pattern: base360-timer-*
+          path: ${{ runner.temp }}/packages
+
+      - name: Publish to time.base360.ai
+        env:
+          DOWNLOADS_SSH_KEY: ${{ secrets.DOWNLOADS_SSH_KEY }}
+          DOWNLOADS_KNOWN_HOSTS: ${{ secrets.DOWNLOADS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DOWNLOADS_SSH_KEY" > ~/.ssh/base360_downloads && chmod 600 ~/.ssh/base360_downloads
+          printf '%s\n' "$DOWNLOADS_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          for platform in windows linux; do
+            dir="$RUNNER_TEMP/packages/base360-timer-$platform"
+            if [ ! -d "$dir" ]; then echo "$platform: nothing new to publish"; continue; fi
+            BASE360_DOWNLOADS_KEY=~/.ssh/base360_downloads BASE360_PACKAGES="$dir" .scripts/base360-publish-desktop.sh "$platform"
+          done
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/base360_downloads
